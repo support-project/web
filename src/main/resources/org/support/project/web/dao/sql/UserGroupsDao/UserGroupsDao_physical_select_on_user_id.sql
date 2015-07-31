@@ -1,0 +1,5 @@
+SELECT * FROM USER_GROUPS
+ WHERE 
+USER_ID = ?
+;
+;
