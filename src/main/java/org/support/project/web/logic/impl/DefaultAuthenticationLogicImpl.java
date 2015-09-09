@@ -45,11 +45,10 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
 		LdapConfigsEntity entity = dao.selectOnKey(AppConfig.get().getSystemName());
 		if (entity != null && entity.getAuthType() != null) {
 			try {
-				if (entity.getAuthType().intValue() == LdapConfigsEntity.AUTH_TYPE_LDAP
-						|| entity.getAuthType().intValue() == LdapConfigsEntity.AUTH_TYPE_BOTH) {
+				if (entity.isLdapLoginAble()) {
 					LdapLogic ldapLogic = LdapLogic.get();
 					LdapInfo ldapInfo = ldapLogic.auth(entity, userId, password);
-					if (ldapInfo == null && entity.getAuthType().intValue() == LdapConfigsEntity.AUTH_TYPE_LDAP) {
+					if (ldapInfo == null && entity.isLdapLoginOnly()) {
 						// 認証タイプがLdapのみの場合、Ldap認証に失敗したら処理終了
 						return false;
 					}

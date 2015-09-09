@@ -127,6 +127,16 @@ public class JspUtil {
 		}
 	}
 	
+	/**
+	 * LoginedUserの情報取得（ログインしていないとNull）
+	 * @return
+	 */
+	public LoginedUser user() {
+		HttpSession session = request.getSession();
+		LoginedUser loginedUser = (LoginedUser) session.getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
+		return loginedUser;
+	}
+	
 	
 	/**
 	 * ログインしているユーザの名称を取得
@@ -134,8 +144,7 @@ public class JspUtil {
 	 * @return
 	 */
 	public String name() {
-		HttpSession session = request.getSession();
-		LoginedUser loginedUser = (LoginedUser) session.getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
+		LoginedUser loginedUser = user();
 		if (loginedUser != null) {
 			return HtmlUtils.escapeHTML(loginedUser.getLoginUser().getUserName());
 		}
@@ -147,13 +156,14 @@ public class JspUtil {
 	 * @return
 	 */
 	public String id() {
-		HttpSession session = request.getSession();
-		LoginedUser loginedUser = (LoginedUser) session.getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
+		LoginedUser loginedUser = user();
 		if (loginedUser != null) {
 			return String.valueOf(loginedUser.getUserId());
 		}
 		return "";
 	}
+	
+	
 	
 	/**
 	 * ログインしているか
@@ -162,6 +172,19 @@ public class JspUtil {
 	public boolean logined() {
 		return StringUtils.isNotEmpty(id());
 	}
+	
+	/**
+	 * 管理者かどうか
+	 * @return
+	 */
+	public boolean isAdmin() {
+		LoginedUser loginedUser = user();
+		if (loginedUser != null) {
+			return loginedUser.isAdmin();
+		}
+		return false;
+	}
+	
 	
 	
 	/**
@@ -329,7 +352,41 @@ public class JspUtil {
 			}
 			if (length > 0) {
 				String s = str.toString();
-				return StringUtils.abbreviate(s, length);
+				if (escape == ESCAPE_CLEAR) {
+					if (s.length() > 4) {
+						// タグの途中で省略すると表示が崩れるので、タグは文字数のカウントに入れないようにする
+						StringBuilder builder = new StringBuilder();
+						int count = 0;
+						boolean tagstart = false; // いったん一つの階層のタグのみ（タグのネストには対応しない）
+						boolean endtagstart = false;
+						for (int i = 0; i < s.length() - 1; i++) {
+							String c = s.substring(i, i+1);
+							if ("<".equals(c)) {
+								tagstart = true;
+							} else if (endtagstart && ">".equals(c)) {
+								tagstart = false;
+								endtagstart = false;
+							} else {
+								if (tagstart && "/".equals(c)) {
+									endtagstart = true;
+								}
+							}
+							if (!tagstart) {
+								count++;
+							}
+							builder.append(c);
+							if (count + 3 >= length) {
+								break;
+							}
+						}
+						if (count + 3 >= length) {
+							builder.append("...");
+						}
+						return builder.toString();
+					}
+				} else {
+					return StringUtils.abbreviate(s, length);
+				}
 			}
 			return str.toString();
 		} catch (Exception e) {
@@ -358,13 +415,16 @@ public class JspUtil {
 	 * @throws InstantiationException 
 	 */
 	public String date(String paramName, boolean convGMTtoLocal) throws InstantiationException, IllegalAccessException {
-		Date val = getValue(paramName, Timestamp.class, null);
-		if (val == null) {
-			val = getValue(paramName, Date.class, null);
+		Date v = getValue(paramName, Timestamp.class, null);
+		if (v == null) {
+			v = getValue(paramName, Date.class, null);
 		}
-		if (val == null) {
+		if (v == null) {
 			return "";
 		}
+		// 元のオブジェクトは操作せず、コピーオブジェクトで表示
+		Date val = new Date(v.getTime());
+		
 		// DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, request.getLocale());
 		// DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT, request.getLocale());
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, request.getLocale());
@@ -555,5 +615,7 @@ public class JspUtil {
 		builder.append(Resources.getInstance(locale).getResource("label.version"));
 		return builder.toString();
 	}
+	
+	
 	
 }
