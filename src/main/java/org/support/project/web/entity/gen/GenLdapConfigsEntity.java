@@ -534,12 +534,12 @@ public class GenLdapConfigsEntity implements Serializable {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(this.bindPassword, convLabelName("Bind Password"), 1048);
+		error = validator.validate(this.bindPassword, convLabelName("Bind Password"), 1024);
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(this.salt, convLabelName("Salt"), 1048);
+		error = validator.validate(this.salt, convLabelName("Salt"), 1024);
 		if (error != null) {
 			errors.add(error);
 		}
@@ -668,12 +668,12 @@ public class GenLdapConfigsEntity implements Serializable {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(values.get("bindPassword"), convLabelName("Bind Password"), 1048);
+		error = validator.validate(values.get("bindPassword"), convLabelName("Bind Password"), 1024);
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(values.get("salt"), convLabelName("Salt"), 1048);
+		error = validator.validate(values.get("salt"), convLabelName("Salt"), 1024);
 		if (error != null) {
 			errors.add(error);
 		}

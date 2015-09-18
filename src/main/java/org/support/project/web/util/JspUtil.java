@@ -359,7 +359,7 @@ public class JspUtil {
 						int count = 0;
 						boolean tagstart = false; // いったん一つの階層のタグのみ（タグのネストには対応しない）
 						boolean endtagstart = false;
-						for (int i = 0; i < s.length() - 1; i++) {
+						for (int i = 0; i < s.length(); i++) {
 							String c = s.substring(i, i+1);
 							if ("<".equals(c)) {
 								tagstart = true;
