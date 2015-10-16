@@ -17,6 +17,7 @@ import org.apache.directory.api.ldap.model.message.SearchScope;
 import org.apache.directory.ldap.client.api.LdapConnection;
 import org.apache.directory.ldap.client.api.LdapConnectionConfig;
 import org.apache.directory.ldap.client.api.LdapNetworkConnection;
+import org.apache.directory.ldap.client.api.exception.InvalidConnectionException;
 import org.support.project.common.config.INT_FLAG;
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
@@ -123,7 +124,13 @@ public class LdapLogic {
 			if (StringUtils.isNotEmpty(entity.getSalt())) {
 				pass = PasswordUtil.decrypt(pass, entity.getSalt());
 			}
-			conn.bind(entity.getBindDn(), pass); // Bind DN //Bind Password (接続確認用）
+			try {
+				conn.bind(entity.getBindDn(), pass); // Bind DN //Bind Password (接続確認用）
+			} catch(InvalidConnectionException e) {
+				LOG.error(e);
+				//認証失敗(LDAPに接続できない）
+				return null;
+			}
 			String base = entity.getBaseDn(); //Base DN
 			String filter = entity.getFilter(); // filter (user idから)
 			filter = filter.replace(":userid", id);
@@ -153,11 +160,11 @@ public class LdapLogic {
 			if (cursor != null) {
 				cursor.close();
 			}
-			if (conn != null) {
+			if (conn != null && conn.isConnected()) {
 				conn.unBind();
 				conn.close();
 			}
-			if (conn2 != null) {
+			if (conn2 != null && conn2.isConnected()) {
 				conn2.unBind();
 				conn2.close();
 			}
@@ -197,7 +204,13 @@ public class LdapLogic {
 			if (StringUtils.isNotEmpty(entity.getBaseDn())) {
 				bindDn.append(",").append(entity.getBaseDn());
 			}
-			conn.bind(bindDn.toString(), password);
+			try {
+				conn.bind(bindDn.toString(), password);
+			} catch(InvalidConnectionException e) {
+				LOG.error(e);
+				//認証失敗(LDAPに接続できない）
+				return null;
+			}
 			
 			String base = entity.getBaseDn(); //Base DN
 			StringBuilder filter = new StringBuilder();
@@ -217,7 +230,7 @@ public class LdapLogic {
 			if (cursor != null) {
 				cursor.close();
 			}
-			if (conn != null) {
+			if (conn != null && conn.isConnected()) {
 				conn.unBind();
 				conn.close();
 			}
