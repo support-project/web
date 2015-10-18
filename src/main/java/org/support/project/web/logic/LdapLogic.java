@@ -59,8 +59,13 @@ public class LdapLogic {
 	 * @return
 	 * @throws LdapException
 	 * @throws IOException
+	 * @throws BadPaddingException 
+	 * @throws IllegalBlockSizeException 
+	 * @throws NoSuchPaddingException 
+	 * @throws NoSuchAlgorithmException 
+	 * @throws InvalidKeyException 
 	 */
-	public boolean check(LdapConfigsEntity entity) throws LdapException, IOException {
+	public boolean check(LdapConfigsEntity entity) throws LdapException, IOException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
 		LdapConnectionConfig config =new LdapConnectionConfig();
 		config.setLdapHost(entity.getHost()); // LDAP Host
 		config.setLdapPort(entity.getPort()); // LDAP Port
@@ -72,8 +77,12 @@ public class LdapLogic {
 		LdapConnection conn = null;
 		Cursor<Entry> cursor = null;
 		try {
+			String pass = entity.getBindPassword();
+			if (StringUtils.isNotEmpty(entity.getSalt())) {
+				pass = PasswordUtil.decrypt(pass, entity.getSalt());
+			}
 			conn = new LdapNetworkConnection(config);
-			conn.bind(entity.getBindDn(), entity.getBindPassword()); // Bind DN //Bind Password (接続確認用）
+			conn.bind(entity.getBindDn(), pass); // Bind DN //Bind Password (接続確認用）
 			return true;
 		} catch (LdapException e) {
 			//認証失敗
