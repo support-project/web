@@ -310,5 +310,12 @@ public class GenUserRolesDao extends AbstractDao {
 		activation(entity.getRoleId(), entity.getUserId());
 
 	}
-
+	/**
+	 * データをtruncateする
+	 */
+	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
+	public void truncate() {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserRolesDao/UserRolesDao_truncate.sql");
+		executeUpdate(sql);
+	}
 }

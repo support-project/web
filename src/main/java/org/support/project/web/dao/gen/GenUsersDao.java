@@ -306,5 +306,12 @@ public class GenUsersDao extends AbstractDao {
 		activation(entity.getUserId());
 
 	}
-
+	/**
+	 * データをtruncateする
+	 */
+	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
+	public void truncate() {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UsersDao/UsersDao_truncate.sql");
+		executeUpdate(sql);
+	}
 }
