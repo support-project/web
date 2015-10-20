@@ -2,6 +2,7 @@ package org.support.project.web.dao;
 
 import java.util.List;
 
+import org.support.project.aop.Aspect;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
@@ -25,7 +26,6 @@ public class RolesDao extends GenRolesDao {
 	public static RolesDao get() {
 		return Container.getComp(RolesDao.class);
 	}
-
 
 	/**
 	 * ID 
@@ -58,5 +58,14 @@ public class RolesDao extends GenRolesDao {
 		return executeQueryList(sql, RolesEntity.class, userKey);
 	}
 
-
+	/**
+	 * データをtruncateする
+	 * 
+	 * @return void
+	 */
+	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
+	public void truncate() {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/RolesDao/RolesDao_truncate.sql");
+		executeUpdate(sql);
+	}
 }
