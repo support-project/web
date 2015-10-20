@@ -282,5 +282,4 @@ public class GenSystemsDao extends AbstractDao {
 		activation(entity.getSystemName());
 
 	}
-
 }

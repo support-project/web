@@ -1,8 +1,10 @@
 package org.support.project.web.dao;
 
+import org.support.project.aop.Aspect;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
+import org.support.project.ormapping.common.SQLManager;
 import org.support.project.web.dao.gen.GenUserRolesDao;
 
 /**
@@ -21,7 +23,7 @@ public class UserRolesDao extends GenUserRolesDao {
 	public static UserRolesDao get() {
 		return Container.getComp(UserRolesDao.class);
 	}
-	
+
 	/**
 	 * ユーザに紐づく権限を全て削除
 	 * （物理削除）
@@ -32,6 +34,14 @@ public class UserRolesDao extends GenUserRolesDao {
 		super.executeUpdate(sql, userId);
 	}
 
-
-
+	/**
+	 * データをtruncateする
+	 * 
+	 * @return void
+	 */
+	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
+	public void truncate() {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserRolesDao/UserRolesDao_truncate.sql");
+		executeUpdate(sql);
+	}
 }

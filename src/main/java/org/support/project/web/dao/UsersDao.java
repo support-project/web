@@ -4,6 +4,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.support.project.aop.Aspect;
 import org.support.project.common.config.ConfigLoader;
 import org.support.project.common.exception.SystemException;
 import org.support.project.common.util.PasswordUtil;
@@ -32,7 +33,6 @@ public class UsersDao extends GenUsersDao {
 	public static UsersDao get() {
 		return Container.getComp(UsersDao.class);
 	}
-
 
 	/**
 	 * ID 
@@ -68,7 +68,7 @@ public class UsersDao extends GenUsersDao {
 		passwordEncrypted(entity);
 		return super.physicalUpdate(entity);
 	}
-	
+
 	/**
 	 * DBに保存する直前に暗号化する
 	 * @param entity
@@ -85,10 +85,7 @@ public class UsersDao extends GenUsersDao {
 			throw new SystemException(e);
 		}
 	}
-	
-	
-	
-	
+
 	/**
 	 * ユーザのキーでユーザ情報を取得
 	 * @param userKey
@@ -99,7 +96,6 @@ public class UsersDao extends GenUsersDao {
 		return executeQuerySingle(sql, UsersEntity.class, userKey);
 	}
 
-
 	/**
 	 * ロールIDを指定してユーザ情報を取得
 	 * @param roleId
@@ -109,7 +105,7 @@ public class UsersDao extends GenUsersDao {
 		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UsersDao/UsersDao_selectOnRoleId.sql");
 		return executeQueryList(sql, UsersEntity.class, roleId);
 	}
-	
+
 	/**
 	 * ロール名を指定してユーザ情報を取得
 	 * @param roleKey
@@ -119,8 +115,7 @@ public class UsersDao extends GenUsersDao {
 		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UsersDao/UsersDao_selectOnRoleKey.sql");
 		return executeQueryList(sql, UsersEntity.class, roleKey);
 	}
-	
-	
+
 	/* (非 Javadoc)
 	 * @see org.support.project.transparent.base.dao.gen.GenUsersDao#selectOnKey(java.lang.Integer)
 	 */
@@ -167,6 +162,14 @@ public class UsersDao extends GenUsersDao {
 		return executeQueryList(builder.toString(), UsersEntity.class, userids.toArray(new Integer[0]));
 	}
 	
-	
-
+	/**
+	 * データをtruncateする
+	 * 
+	 * @return void
+	 */
+	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
+	public void truncate() {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UsersDao/UsersDao_truncate.sql");
+		executeUpdate(sql);
+	}
 }

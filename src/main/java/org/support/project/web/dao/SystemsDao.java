@@ -1,8 +1,10 @@
 package org.support.project.web.dao;
 
+import org.support.project.aop.Aspect;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
+import org.support.project.ormapping.common.SQLManager;
 import org.support.project.web.dao.gen.GenSystemsDao;
 
 /**
@@ -22,6 +24,14 @@ public class SystemsDao extends GenSystemsDao {
 		return Container.getComp(SystemsDao.class);
 	}
 
-
-
+	/**
+	 * データをtruncateする
+	 * 
+	 * @return void
+	 */
+	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
+	public void truncate() {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemsDao/SystemsDao_truncate.sql");
+		executeUpdate(sql);
+	}
 }

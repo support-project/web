@@ -2,6 +2,7 @@ package org.support.project.web.dao;
 
 import java.util.List;
 
+import org.support.project.aop.Aspect;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
@@ -27,7 +28,6 @@ public class GroupsDao extends GenGroupsDao {
 		return Container.getComp(GroupsDao.class);
 	}
 
-
 	/**
 	 * ID 
 	 */
@@ -48,8 +48,7 @@ public class GroupsDao extends GenGroupsDao {
 		currentId++;
 		return currentId;
 	}
-	
-	
+
 	/**
 	 * 全て取得
 	 * @param offset
@@ -60,8 +59,7 @@ public class GroupsDao extends GenGroupsDao {
 		String sql = "SELECT * FROM GROUPS ORDER BY GROUP_NAME LIMIT ? OFFSET ?";
 		return executeQueryList(sql, GroupsEntity.class, limit, offset);
 	}
-	
-	
+
 	/**
 	 * 自分が所属しているグループを取得
 	 * 
@@ -75,7 +73,6 @@ public class GroupsDao extends GenGroupsDao {
 		return executeQueryList(sql, GroupsEntity.class, loginedUser.getUserId(), limit, offset);
 	}
 
-	
 	/**
 	 * アクセスできるグループを取得
 	 * @param keyword
@@ -88,8 +85,7 @@ public class GroupsDao extends GenGroupsDao {
 		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectAccessAbleGroups.sql");
 		return executeQueryList(sql, GroupsEntity.class, loginedUser.getUserId(), limit, offset);
 	}
-	
-	
+
 	/**
 	 * キーワードでグループを取得
 	 * @param keyword
@@ -109,7 +105,6 @@ public class GroupsDao extends GenGroupsDao {
 	}
 	
 
-	
 	/**
 	 * アクセス可能なグループを取得
 	 * ※アクセス可能というのはUSER_GROUPSに登録されている、もしくは、「公開」か「保護」のもの
@@ -121,7 +116,6 @@ public class GroupsDao extends GenGroupsDao {
 		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectAccessAbleGroup.sql");
 		return executeQuerySingle(sql, GroupsEntity.class, groupId, loginedUser.getUserId());
 	}
-
 
 	/**
 	 * 編集可能なグループを取得
@@ -155,6 +149,23 @@ public class GroupsDao extends GenGroupsDao {
 		return executeQueryList(builder.toString(), GroupsEntity.class, groupids.toArray(new Integer[0]));
 	}
 
-
-
+	/**
+	 * データをtruncateする
+	 */
+	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
+	public void truncate() {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_truncate.sql");
+		executeUpdate(sql);
+	}
+	
+	/**
+	 * sequenceをリセットする
+	 * 
+	 * @return void
+	 */
+	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
+	public void resetSequence() {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_alter_sequence.sql");
+		executeUpdate(sql);
+	}
 }
