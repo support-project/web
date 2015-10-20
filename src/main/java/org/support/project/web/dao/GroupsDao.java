@@ -99,9 +99,15 @@ public class GroupsDao extends GenGroupsDao {
 	 * @return
 	 */
 	public List<GroupsEntity> selectOnKeyword(String keyword, LoginedUser loginedUser, int offset, int limit) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectOnKeyword.sql");
-		return executeQueryList(sql, GroupsEntity.class, keyword, loginedUser.getUserId(), limit, offset);
+		if (loginedUser != null && loginedUser.isAdmin()) {
+			String sql = "SELECT * FROM GROUPS WHERE DELETE_FLAG = 0 AND GROUP_NAME LIKE '%' || ? || '%' ORDER BY GROUP_NAME LIMIT ? OFFSET ?";
+			return executeQueryList(sql, GroupsEntity.class, keyword, limit, offset);
+		} else {
+			String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectOnKeyword.sql");
+			return executeQueryList(sql, GroupsEntity.class, keyword, loginedUser.getUserId(), limit, offset);
+		}
 	}
+	
 
 	
 	/**
