@@ -300,5 +300,4 @@ public class GenGroupsDao extends AbstractDao {
 		activation(entity.getGroupId());
 
 	}
-
 }

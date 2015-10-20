@@ -310,5 +310,4 @@ public class GenUserRolesDao extends AbstractDao {
 		activation(entity.getRoleId(), entity.getUserId());
 
 	}
-
 }

@@ -291,5 +291,4 @@ public class GenRolesDao extends AbstractDao {
 		activation(entity.getRoleId());
 
 	}
-
 }
