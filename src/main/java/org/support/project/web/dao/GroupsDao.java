@@ -56,7 +56,7 @@ public class GroupsDao extends GenGroupsDao {
 	 * @return
 	 */
 	public List<GroupsEntity> selectAll(int offset, int limit) {
-		String sql = "SELECT * FROM GROUPS WHERE DELETE_FLAG = 0 ORDER BY GROUP_NAME LIMIT ? OFFSET ?";
+		String sql = "SELECT * FROM GROUPS ORDER BY GROUP_NAME LIMIT ? OFFSET ?";
 		return executeQueryList(sql, GroupsEntity.class, limit, offset);
 	}
 
