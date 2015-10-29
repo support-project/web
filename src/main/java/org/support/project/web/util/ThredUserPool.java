@@ -38,7 +38,9 @@ public class ThredUserPool {
 			return;
 		}
 		synchronized (infoMap) {
-			LOG.info("set request infomation" + info.toString());
+			if (LOG.isTraceEnabled()) {
+				LOG.trace("set request infomation" + info.toString());
+			}
 			Thread t = Thread.currentThread();
 			if (!infoMap.containsKey(t)) {
 				infoMap.put(t, new HashMap<>());
@@ -58,7 +60,9 @@ public class ThredUserPool {
 	
 	public void clearInfo() {
 		synchronized (infoMap) {
-			LOG.info("clear request infomation");
+			if (LOG.isTraceEnabled()) {
+				LOG.trace("clear request infomation");
+			}
 			Thread t = Thread.currentThread();
 			if (infoMap.containsKey(t)) {
 				infoMap.remove(t);
