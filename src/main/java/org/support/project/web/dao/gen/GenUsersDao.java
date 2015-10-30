@@ -306,5 +306,4 @@ public class GenUsersDao extends AbstractDao {
 		activation(entity.getUserId());
 
 	}
-
 }

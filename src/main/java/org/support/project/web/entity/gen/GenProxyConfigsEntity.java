@@ -17,10 +17,10 @@ import org.support.project.di.DI;
 import org.support.project.di.Instance;
 
 /**
- * メール設定
+ * プロキシ設定
  */
 @DI(instance=Instance.Prototype)
-public class GenMailConfigsEntity implements Serializable {
+public class GenProxyConfigsEntity implements Serializable {
 
 	/** SerialVersion */
 	private static final long serialVersionUID = 1L;
@@ -30,14 +30,14 @@ public class GenMailConfigsEntity implements Serializable {
 	 * AOPに対応
 	 * @return インスタンス
 	 */
-	public static GenMailConfigsEntity get() {
-		return Container.getComp(GenMailConfigsEntity.class);
+	public static GenProxyConfigsEntity get() {
+		return Container.getComp(GenProxyConfigsEntity.class);
 	}
 
 	/**
 	 * コンストラクタ
 	 */
-	public GenMailConfigsEntity() {
+	public GenProxyConfigsEntity() {
 		super();
 	}
 
@@ -46,28 +46,32 @@ public class GenMailConfigsEntity implements Serializable {
 	 * @param systemName システム名
 	 */
 
-	public GenMailConfigsEntity(String systemName) {
+	public GenProxyConfigsEntity(String systemName) {
 		super();
 		this.systemName = systemName;
 	}
 	/** システム名 */
 	private String systemName;
-	/** SMTP_HOST */
-	private String host;
-	/** SMTP_PORT */
-	private Integer port;
-	/** AUTH_TYPE */
-	private Integer authType;
-	/** SMTP_ID */
-	private String smtpId;
-	/** SMTP_PASSWORD	 暗号化（可逆） */
-	private String smtpPassword;
-	/** SALT */
-	private String salt;
-	/** 送信元 */
-	private String fromAddress;
-	/** 送信元名 */
-	private String fromName;
+	/** [Proxy]ホスト名 */
+	private String proxyHostName;
+	/** [Proxy]ポート番号 */
+	private Integer proxyPortNo;
+	/** [Proxy-Auth]認証タイプ */
+	private Integer proxyAuthType;
+	/** [Proxy-Auth]認証ユーザID */
+	private String proxyAuthUserId;
+	/** [Proxy-Auth]認証パスワード */
+	private String proxyAuthPassword;
+	/** [Proxy-Auth]認証SALT */
+	private String proxyAuthSalt;
+	/** [Proxy-Auth-NTLM]認証PC名 */
+	private String proxyAuthPcName;
+	/** [Auth-NTLM]認証ドメイン */
+	private String proxyAuthDomain;
+	/** [Web]SSL証明書チェック */
+	private Integer thirdPartyCertificate;
+	/** [Web]接続確認用URL */
+	private String testUrl;
 	/** 行ID */
 	private String rowId;
 	/** 登録ユーザ */
@@ -91,128 +95,158 @@ public class GenMailConfigsEntity implements Serializable {
 	 * システム名 を設定する
 	 * @param systemName システム名
 	 */
-	public GenMailConfigsEntity setSystemName(String systemName) {
+	public GenProxyConfigsEntity setSystemName(String systemName) {
 		this.systemName = systemName;
 		return this;
 	}
 
 	/**
-	 * SMTP_HOST を取得する
+	 * [Proxy]ホスト名 を取得する
 	 */
-	public String getHost() {
-		return this.host;
+	public String getProxyHostName() {
+		return this.proxyHostName;
 	}
 	/**
-	 * SMTP_HOST を設定する
-	 * @param host SMTP_HOST
+	 * [Proxy]ホスト名 を設定する
+	 * @param proxyHostName [Proxy]ホスト名
 	 */
-	public GenMailConfigsEntity setHost(String host) {
-		this.host = host;
+	public GenProxyConfigsEntity setProxyHostName(String proxyHostName) {
+		this.proxyHostName = proxyHostName;
 		return this;
 	}
 
 	/**
-	 * SMTP_PORT を取得する
+	 * [Proxy]ポート番号 を取得する
 	 */
-	public Integer getPort() {
-		return this.port;
+	public Integer getProxyPortNo() {
+		return this.proxyPortNo;
 	}
 	/**
-	 * SMTP_PORT を設定する
-	 * @param port SMTP_PORT
+	 * [Proxy]ポート番号 を設定する
+	 * @param proxyPortNo [Proxy]ポート番号
 	 */
-	public GenMailConfigsEntity setPort(Integer port) {
-		this.port = port;
+	public GenProxyConfigsEntity setProxyPortNo(Integer proxyPortNo) {
+		this.proxyPortNo = proxyPortNo;
 		return this;
 	}
 
 	/**
-	 * AUTH_TYPE を取得する
+	 * [Proxy-Auth]認証タイプ を取得する
 	 */
-	public Integer getAuthType() {
-		return this.authType;
+	public Integer getProxyAuthType() {
+		return this.proxyAuthType;
 	}
 	/**
-	 * AUTH_TYPE を設定する
-	 * @param authType AUTH_TYPE
+	 * [Proxy-Auth]認証タイプ を設定する
+	 * @param proxyAuthType [Proxy-Auth]認証タイプ
 	 */
-	public GenMailConfigsEntity setAuthType(Integer authType) {
-		this.authType = authType;
+	public GenProxyConfigsEntity setProxyAuthType(Integer proxyAuthType) {
+		this.proxyAuthType = proxyAuthType;
 		return this;
 	}
 
 	/**
-	 * SMTP_ID を取得する
+	 * [Proxy-Auth]認証ユーザID を取得する
 	 */
-	public String getSmtpId() {
-		return this.smtpId;
+	public String getProxyAuthUserId() {
+		return this.proxyAuthUserId;
 	}
 	/**
-	 * SMTP_ID を設定する
-	 * @param smtpId SMTP_ID
+	 * [Proxy-Auth]認証ユーザID を設定する
+	 * @param proxyAuthUserId [Proxy-Auth]認証ユーザID
 	 */
-	public GenMailConfigsEntity setSmtpId(String smtpId) {
-		this.smtpId = smtpId;
+	public GenProxyConfigsEntity setProxyAuthUserId(String proxyAuthUserId) {
+		this.proxyAuthUserId = proxyAuthUserId;
 		return this;
 	}
 
 	/**
-	 * SMTP_PASSWORD	 暗号化（可逆） を取得する
+	 * [Proxy-Auth]認証パスワード を取得する
 	 */
-	public String getSmtpPassword() {
-		return this.smtpPassword;
+	public String getProxyAuthPassword() {
+		return this.proxyAuthPassword;
 	}
 	/**
-	 * SMTP_PASSWORD	 暗号化（可逆） を設定する
-	 * @param smtpPassword SMTP_PASSWORD	 暗号化（可逆）
+	 * [Proxy-Auth]認証パスワード を設定する
+	 * @param proxyAuthPassword [Proxy-Auth]認証パスワード
 	 */
-	public GenMailConfigsEntity setSmtpPassword(String smtpPassword) {
-		this.smtpPassword = smtpPassword;
+	public GenProxyConfigsEntity setProxyAuthPassword(String proxyAuthPassword) {
+		this.proxyAuthPassword = proxyAuthPassword;
 		return this;
 	}
 
 	/**
-	 * SALT を取得する
+	 * [Proxy-Auth]認証SALT を取得する
 	 */
-	public String getSalt() {
-		return this.salt;
+	public String getProxyAuthSalt() {
+		return this.proxyAuthSalt;
 	}
 	/**
-	 * SALT を設定する
-	 * @param salt SALT
+	 * [Proxy-Auth]認証SALT を設定する
+	 * @param proxyAuthSalt [Proxy-Auth]認証SALT
 	 */
-	public GenMailConfigsEntity setSalt(String salt) {
-		this.salt = salt;
+	public GenProxyConfigsEntity setProxyAuthSalt(String proxyAuthSalt) {
+		this.proxyAuthSalt = proxyAuthSalt;
 		return this;
 	}
 
 	/**
-	 * 送信元 を取得する
+	 * [Proxy-Auth-NTLM]認証PC名 を取得する
 	 */
-	public String getFromAddress() {
-		return this.fromAddress;
+	public String getProxyAuthPcName() {
+		return this.proxyAuthPcName;
 	}
 	/**
-	 * 送信元 を設定する
-	 * @param fromAddress 送信元
+	 * [Proxy-Auth-NTLM]認証PC名 を設定する
+	 * @param proxyAuthPcName [Proxy-Auth-NTLM]認証PC名
 	 */
-	public GenMailConfigsEntity setFromAddress(String fromAddress) {
-		this.fromAddress = fromAddress;
+	public GenProxyConfigsEntity setProxyAuthPcName(String proxyAuthPcName) {
+		this.proxyAuthPcName = proxyAuthPcName;
 		return this;
 	}
 
 	/**
-	 * 送信元名 を取得する
+	 * [Auth-NTLM]認証ドメイン を取得する
 	 */
-	public String getFromName() {
-		return this.fromName;
+	public String getProxyAuthDomain() {
+		return this.proxyAuthDomain;
 	}
 	/**
-	 * 送信元名 を設定する
-	 * @param fromName 送信元名
+	 * [Auth-NTLM]認証ドメイン を設定する
+	 * @param proxyAuthDomain [Auth-NTLM]認証ドメイン
 	 */
-	public GenMailConfigsEntity setFromName(String fromName) {
-		this.fromName = fromName;
+	public GenProxyConfigsEntity setProxyAuthDomain(String proxyAuthDomain) {
+		this.proxyAuthDomain = proxyAuthDomain;
+		return this;
+	}
+
+	/**
+	 * [Web]SSL証明書チェック を取得する
+	 */
+	public Integer getThirdPartyCertificate() {
+		return this.thirdPartyCertificate;
+	}
+	/**
+	 * [Web]SSL証明書チェック を設定する
+	 * @param thirdPartyCertificate [Web]SSL証明書チェック
+	 */
+	public GenProxyConfigsEntity setThirdPartyCertificate(Integer thirdPartyCertificate) {
+		this.thirdPartyCertificate = thirdPartyCertificate;
+		return this;
+	}
+
+	/**
+	 * [Web]接続確認用URL を取得する
+	 */
+	public String getTestUrl() {
+		return this.testUrl;
+	}
+	/**
+	 * [Web]接続確認用URL を設定する
+	 * @param testUrl [Web]接続確認用URL
+	 */
+	public GenProxyConfigsEntity setTestUrl(String testUrl) {
+		this.testUrl = testUrl;
 		return this;
 	}
 
@@ -226,7 +260,7 @@ public class GenMailConfigsEntity implements Serializable {
 	 * 行ID を設定する
 	 * @param rowId 行ID
 	 */
-	public GenMailConfigsEntity setRowId(String rowId) {
+	public GenProxyConfigsEntity setRowId(String rowId) {
 		this.rowId = rowId;
 		return this;
 	}
@@ -241,7 +275,7 @@ public class GenMailConfigsEntity implements Serializable {
 	 * 登録ユーザ を設定する
 	 * @param insertUser 登録ユーザ
 	 */
-	public GenMailConfigsEntity setInsertUser(Integer insertUser) {
+	public GenProxyConfigsEntity setInsertUser(Integer insertUser) {
 		this.insertUser = insertUser;
 		return this;
 	}
@@ -256,7 +290,7 @@ public class GenMailConfigsEntity implements Serializable {
 	 * 登録日時 を設定する
 	 * @param insertDatetime 登録日時
 	 */
-	public GenMailConfigsEntity setInsertDatetime(Timestamp insertDatetime) {
+	public GenProxyConfigsEntity setInsertDatetime(Timestamp insertDatetime) {
 		this.insertDatetime = insertDatetime;
 		return this;
 	}
@@ -271,7 +305,7 @@ public class GenMailConfigsEntity implements Serializable {
 	 * 更新ユーザ を設定する
 	 * @param updateUser 更新ユーザ
 	 */
-	public GenMailConfigsEntity setUpdateUser(Integer updateUser) {
+	public GenProxyConfigsEntity setUpdateUser(Integer updateUser) {
 		this.updateUser = updateUser;
 		return this;
 	}
@@ -286,7 +320,7 @@ public class GenMailConfigsEntity implements Serializable {
 	 * 更新日時 を設定する
 	 * @param updateDatetime 更新日時
 	 */
-	public GenMailConfigsEntity setUpdateDatetime(Timestamp updateDatetime) {
+	public GenProxyConfigsEntity setUpdateDatetime(Timestamp updateDatetime) {
 		this.updateDatetime = updateDatetime;
 		return this;
 	}
@@ -301,7 +335,7 @@ public class GenMailConfigsEntity implements Serializable {
 	 * 削除フラグ を設定する
 	 * @param deleteFlag 削除フラグ
 	 */
-	public GenMailConfigsEntity setDeleteFlag(Integer deleteFlag) {
+	public GenProxyConfigsEntity setDeleteFlag(Integer deleteFlag) {
 		this.deleteFlag = deleteFlag;
 		return this;
 	}
@@ -324,7 +358,7 @@ public class GenMailConfigsEntity implements Serializable {
 	/**
 	 * キーで比較 
 	 */
-	public boolean equalsOnKey(GenMailConfigsEntity entity) {
+	public boolean equalsOnKey(GenProxyConfigsEntity entity) {
 		Object[] keyValues1 = getKeyValues();
 		Object[] keyValues2 = entity.getKeyValues();
 		for (int i = 0; i < keyValues1.length; i++) {
@@ -351,14 +385,16 @@ public class GenMailConfigsEntity implements Serializable {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("systemName = ").append(systemName).append("\n");
-		builder.append("host = ").append(host).append("\n");
-		builder.append("port = ").append(port).append("\n");
-		builder.append("authType = ").append(authType).append("\n");
-		builder.append("smtpId = ").append(smtpId).append("\n");
-		builder.append("smtpPassword = ").append(smtpPassword).append("\n");
-		builder.append("salt = ").append(salt).append("\n");
-		builder.append("fromAddress = ").append(fromAddress).append("\n");
-		builder.append("fromName = ").append(fromName).append("\n");
+		builder.append("proxyHostName = ").append(proxyHostName).append("\n");
+		builder.append("proxyPortNo = ").append(proxyPortNo).append("\n");
+		builder.append("proxyAuthType = ").append(proxyAuthType).append("\n");
+		builder.append("proxyAuthUserId = ").append(proxyAuthUserId).append("\n");
+		builder.append("proxyAuthPassword = ").append(proxyAuthPassword).append("\n");
+		builder.append("proxyAuthSalt = ").append(proxyAuthSalt).append("\n");
+		builder.append("proxyAuthPcName = ").append(proxyAuthPcName).append("\n");
+		builder.append("proxyAuthDomain = ").append(proxyAuthDomain).append("\n");
+		builder.append("thirdPartyCertificate = ").append(thirdPartyCertificate).append("\n");
+		builder.append("testUrl = ").append(testUrl).append("\n");
 		builder.append("rowId = ").append(rowId).append("\n");
 		builder.append("insertUser = ").append(insertUser).append("\n");
 		builder.append("insertDatetime = ").append(insertDatetime).append("\n");
@@ -391,57 +427,67 @@ public class GenMailConfigsEntity implements Serializable {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-		error = validator.validate(this.host, convLabelName("Host"));
+		error = validator.validate(this.proxyHostName, convLabelName("Proxy Host Name"));
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(this.host, convLabelName("Host"), 256);
+		error = validator.validate(this.proxyHostName, convLabelName("Proxy Host Name"), 256);
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-		error = validator.validate(this.port, convLabelName("Port"));
+		error = validator.validate(this.proxyPortNo, convLabelName("Proxy Port No"));
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.INTEGER);
-		error = validator.validate(this.port, convLabelName("Port"));
+		error = validator.validate(this.proxyPortNo, convLabelName("Proxy Port No"));
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-		error = validator.validate(this.authType, convLabelName("Auth Type"));
+		error = validator.validate(this.proxyAuthType, convLabelName("Proxy Auth Type"));
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.INTEGER);
-		error = validator.validate(this.authType, convLabelName("Auth Type"));
+		error = validator.validate(this.proxyAuthType, convLabelName("Proxy Auth Type"));
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(this.smtpId, convLabelName("Smtp Id"), 256);
+		error = validator.validate(this.proxyAuthUserId, convLabelName("Proxy Auth User Id"), 256);
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(this.smtpPassword, convLabelName("Smtp Password"), 1024);
+		error = validator.validate(this.proxyAuthPassword, convLabelName("Proxy Auth Password"), 1024);
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(this.salt, convLabelName("Salt"), 1024);
+		error = validator.validate(this.proxyAuthSalt, convLabelName("Proxy Auth Salt"), 1024);
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(this.fromAddress, convLabelName("From Address"), 256);
+		error = validator.validate(this.proxyAuthPcName, convLabelName("Proxy Auth Pc Name"), 256);
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(this.fromName, convLabelName("From Name"), 256);
+		error = validator.validate(this.proxyAuthDomain, convLabelName("Proxy Auth Domain"), 256);
+		if (error != null) {
+			errors.add(error);
+		}
+		validator = ValidatorFactory.getInstance(Validator.INTEGER);
+		error = validator.validate(this.thirdPartyCertificate, convLabelName("Third Party Certificate"));
+		if (error != null) {
+			errors.add(error);
+		}
+		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+		error = validator.validate(this.testUrl, convLabelName("Test Url"), 256);
 		if (error != null) {
 			errors.add(error);
 		}
@@ -485,57 +531,67 @@ public class GenMailConfigsEntity implements Serializable {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-		error = validator.validate(values.get("host"), convLabelName("Host"));
+		error = validator.validate(values.get("proxyHostName"), convLabelName("Proxy Host Name"));
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(values.get("host"), convLabelName("Host"), 256);
+		error = validator.validate(values.get("proxyHostName"), convLabelName("Proxy Host Name"), 256);
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-		error = validator.validate(values.get("port"), convLabelName("Port"));
+		error = validator.validate(values.get("proxyPortNo"), convLabelName("Proxy Port No"));
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.INTEGER);
-		error = validator.validate(values.get("port"), convLabelName("Port"));
+		error = validator.validate(values.get("proxyPortNo"), convLabelName("Proxy Port No"));
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-		error = validator.validate(values.get("authType"), convLabelName("Auth Type"));
+		error = validator.validate(values.get("proxyAuthType"), convLabelName("Proxy Auth Type"));
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.INTEGER);
-		error = validator.validate(values.get("authType"), convLabelName("Auth Type"));
+		error = validator.validate(values.get("proxyAuthType"), convLabelName("Proxy Auth Type"));
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(values.get("smtpId"), convLabelName("Smtp Id"), 256);
+		error = validator.validate(values.get("proxyAuthUserId"), convLabelName("Proxy Auth User Id"), 256);
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(values.get("smtpPassword"), convLabelName("Smtp Password"), 1024);
+		error = validator.validate(values.get("proxyAuthPassword"), convLabelName("Proxy Auth Password"), 1024);
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(values.get("salt"), convLabelName("Salt"), 1024);
+		error = validator.validate(values.get("proxyAuthSalt"), convLabelName("Proxy Auth Salt"), 1024);
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(values.get("fromAddress"), convLabelName("From Address"), 256);
+		error = validator.validate(values.get("proxyAuthPcName"), convLabelName("Proxy Auth Pc Name"), 256);
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(values.get("fromName"), convLabelName("From Name"), 256);
+		error = validator.validate(values.get("proxyAuthDomain"), convLabelName("Proxy Auth Domain"), 256);
+		if (error != null) {
+			errors.add(error);
+		}
+		validator = ValidatorFactory.getInstance(Validator.INTEGER);
+		error = validator.validate(values.get("thirdPartyCertificate"), convLabelName("Third Party Certificate"));
+		if (error != null) {
+			errors.add(error);
+		}
+		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+		error = validator.validate(values.get("testUrl"), convLabelName("Test Url"), 256);
 		if (error != null) {
 			errors.add(error);
 		}

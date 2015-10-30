@@ -39,6 +39,9 @@ public class JsonBoundary extends AbstractBoundary {
 	 * @param o
 	 */
 	private void escape(Object o) {
+		if (o == null) {
+			return;
+		}
 		if (o instanceof Collection) {
 			Collection collection = (Collection) o;
 			for (Iterator iterator = collection.iterator(); iterator.hasNext();) {

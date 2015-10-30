@@ -31,6 +31,7 @@ import org.support.project.web.bean.LoginedUser;
 import org.support.project.web.common.HttpStatus;
 import org.support.project.web.common.HttpUtil;
 import org.support.project.web.config.CommonWebParameter;
+import org.support.project.web.exception.AuthenticateException;
 import org.support.project.web.logic.AuthenticationLogic;
 import org.support.project.web.wrapper.HttpServletRequestWrapper;
 /**
@@ -172,12 +173,13 @@ public class AuthenticationFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest servletrequest, ServletResponse servletresponse, FilterChain filterchain) throws IOException,
 			ServletException {
+		HttpServletRequest req_origin = (HttpServletRequest) servletrequest;
+		HttpServletRequestWrapper req = 
+				new HttpServletRequestWrapper((HttpServletRequest) req_origin, authenticationLogic);
+		
+		HttpServletResponse res = (HttpServletResponse) servletresponse;
+		
 		try {
-			HttpServletRequest req_origin = (HttpServletRequest) servletrequest;
-			HttpServletRequestWrapper req = 
-					new HttpServletRequestWrapper((HttpServletRequest) req_origin, authenticationLogic);
-			
-			HttpServletResponse res = (HttpServletResponse) servletresponse;
 			
 			StringBuilder pathBuilder = new StringBuilder();
 			pathBuilder.append(req.getServletPath());
@@ -306,6 +308,11 @@ public class AuthenticationFilter implements Filter {
 			}
 			
 			filterchain.doFilter(req, res);
+		} catch (AuthenticateException e) {
+			// 認可エラー画面を表示
+			//res.setStatus(HttpStatus.SC_500_INTERNAL_SERVER_ERROR);
+			//HttpUtil.forward(res, req, authorizerErrorPage);
+			res.sendError(500);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}

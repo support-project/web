@@ -18,12 +18,17 @@ public class GroupsEntity extends GenGroupsEntity {
 	 * 編集可能かどうか
 	 */
 	private boolean editAble = false;
-	
+
 	/**
 	 * 所属状態
 	 */
 	private int status = 0;
-	
+
+	/**
+	 * グループのナレッジ数
+	 */
+	private int groupKnowledgeCount = 0;
+
 	/**
 	 * インスタンス取得
 	 * AOPに対応
@@ -44,7 +49,6 @@ public class GroupsEntity extends GenGroupsEntity {
 	 * コンストラクタ
 	 * @param groupId グループID	 CHARACTER SET latin1
 	 */
-
 	public GroupsEntity(Integer groupId) {
 		super( groupId);
 	}
@@ -77,4 +81,17 @@ public class GroupsEntity extends GenGroupsEntity {
 		this.status = status;
 	}
 
+	/**
+	 * @return the groupKnowledgeCount
+	 */
+	public int getGroupKnowledgeCount() {
+		return this.groupKnowledgeCount;
+	}
+
+	/**
+	 * @param groupKnowledgeCount the groupKnowledgeCount to set
+	 */
+	public void setGroupKnowledgeCount(int groupKnowledgeCount) {
+		this.groupKnowledgeCount = groupKnowledgeCount;
+	}
 }

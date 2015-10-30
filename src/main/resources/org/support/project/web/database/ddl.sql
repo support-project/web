@@ -1,3 +1,27 @@
+-- プロキシ設定
+drop table if exists PROXY_CONFIGS cascade;
+
+create table PROXY_CONFIGS (
+  SYSTEM_NAME character varying(64) not null
+  , PROXY_HOST_NAME character varying(256) not null
+  , PROXY_PORT_NO integer not null
+  , PROXY_AUTH_TYPE integer not null
+  , PROXY_AUTH_USER_ID character varying(256)
+  , PROXY_AUTH_PASSWORD character varying(1024)
+  , PROXY_AUTH_SALT character varying(1024)
+  , PROXY_AUTH_PC_NAME character varying(256)
+  , PROXY_AUTH_DOMAIN character varying(256)
+  , THIRD_PARTY_CERTIFICATE integer
+  , TEST_URL character varying(256)
+  , ROW_ID character varying(64)
+  , INSERT_USER integer
+  , INSERT_DATETIME timestamp
+  , UPDATE_USER integer
+  , UPDATE_DATETIME timestamp
+  , DELETE_FLAG integer
+  , constraint PROXY_CONFIGS_PKC primary key (SYSTEM_NAME)
+) ;
+
 -- LDAP認証設定
 drop table if exists LDAP_CONFIGS cascade;
 
@@ -8,8 +32,8 @@ create table LDAP_CONFIGS (
   , USE_SSL integer
   , USE_TLS integer
   , BIND_DN character varying(256)
-  , BIND_PASSWORD character varying(1048)
-  , SALT character varying(1048)
+  , BIND_PASSWORD character varying(1024)
+  , SALT character varying(1024)
   , BASE_DN character varying(256) not null
   , FILTER character varying(256)
   , ID_ATTR character varying(256) not null
@@ -119,8 +143,8 @@ create table MAIL_CONFIGS (
   , PORT integer not null
   , AUTH_TYPE integer not null
   , SMTP_ID character varying(256)
-  , SMTP_PASSWORD character varying(1048)
-  , SALT character varying(1048)
+  , SMTP_PASSWORD character varying(1024)
+  , SALT character varying(1024)
   , FROM_ADDRESS character varying(256)
   , FROM_NAME character varying(256)
   , ROW_ID character varying(64)
@@ -341,6 +365,25 @@ create table ROLE_FUNCTIONS (
   , DELETE_FLAG integer
   , constraint ROLE_FUNCTIONS_PKC primary key (ROLE_ID,FUNCTION_KEY)
 ) ;
+
+comment on table PROXY_CONFIGS is 'プロキシ設定';
+comment on column PROXY_CONFIGS.SYSTEM_NAME is 'システム名';
+comment on column PROXY_CONFIGS.PROXY_HOST_NAME is '[Proxy]ホスト名';
+comment on column PROXY_CONFIGS.PROXY_PORT_NO is '[Proxy]ポート番号';
+comment on column PROXY_CONFIGS.PROXY_AUTH_TYPE is '[Proxy-Auth]認証タイプ';
+comment on column PROXY_CONFIGS.PROXY_AUTH_USER_ID is '[Proxy-Auth]認証ユーザID';
+comment on column PROXY_CONFIGS.PROXY_AUTH_PASSWORD is '[Proxy-Auth]認証パスワード';
+comment on column PROXY_CONFIGS.PROXY_AUTH_SALT is '[Proxy-Auth]認証SALT';
+comment on column PROXY_CONFIGS.PROXY_AUTH_PC_NAME is '[Proxy-Auth-NTLM]認証PC名';
+comment on column PROXY_CONFIGS.PROXY_AUTH_DOMAIN is '[Auth-NTLM]認証ドメイン';
+comment on column PROXY_CONFIGS.THIRD_PARTY_CERTIFICATE is '[Web]SSL証明書チェック';
+comment on column PROXY_CONFIGS.TEST_URL is '[Web]接続確認用URL';
+comment on column PROXY_CONFIGS.ROW_ID is '行ID';
+comment on column PROXY_CONFIGS.INSERT_USER is '登録ユーザ';
+comment on column PROXY_CONFIGS.INSERT_DATETIME is '登録日時';
+comment on column PROXY_CONFIGS.UPDATE_USER is '更新ユーザ';
+comment on column PROXY_CONFIGS.UPDATE_DATETIME is '更新日時';
+comment on column PROXY_CONFIGS.DELETE_FLAG is '削除フラグ';
 
 comment on table LDAP_CONFIGS is 'LDAP認証設定';
 comment on column LDAP_CONFIGS.SYSTEM_NAME is 'システム名';

@@ -7,6 +7,7 @@ import java.util.List;
 import org.support.project.common.exception.ArgumentException;
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
+import org.support.project.common.util.StringUtils;
 
 public class ValueConverter {
 	/** ログ */
@@ -153,16 +154,34 @@ public class ValueConverter {
 		if (String.class.isAssignableFrom(type)) {
 			return (T) v;
 		} else if (Integer.class.isAssignableFrom(type)) {
+			if (StringUtils.isEmpty(v)) {
+				return null;
+			}
 			return (T) new Integer(v);
 		} else if (Double.class.isAssignableFrom(type)) {
+			if (StringUtils.isEmpty(v)) {
+				return null;
+			}
 			return (T) new Double(v);
 		} else if (Short.class.isAssignableFrom(type)) {
+			if (StringUtils.isEmpty(v)) {
+				return null;
+			}
 			return (T) new Short(v);
 		} else if (Long.class.isAssignableFrom(type)) {
+			if (StringUtils.isEmpty(v)) {
+				return null;
+			}
 			return (T) new Long(v);
 		} else if (Float.class.isAssignableFrom(type)) {
+			if (StringUtils.isEmpty(v)) {
+				return null;
+			}
 			return (T) new Float(v);
 		} else if (Boolean.class.isAssignableFrom(type)) {
+			if (StringUtils.isEmpty(v)) {
+				return null;
+			}
 			return (T) new Boolean(v);
 		}
 		return null;
