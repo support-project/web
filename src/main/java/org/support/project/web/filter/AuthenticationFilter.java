@@ -360,23 +360,23 @@ public class AuthenticationFilter implements Filter {
 	 * @throws Exception 
 	 */
 	protected boolean doLogin(HttpServletRequest req) throws Exception {
-		String username = req.getParameter("username");
+		String userkey = req.getParameter("username");
 		String password = req.getParameter("password");
 		
-		if (authenticationLogic.auth(username, password)) {
+		if (authenticationLogic.auth(userkey, password)) {
 			// セッションにログイン情報を格納
-			LOG.info(username + " is Login.");
+			LOG.info(userkey + " is Login.");
 			
 			// ActiveDirectoryでは、ログインIDは大文字・小文字を判定しないので、DBに格納されているIDを取得
-			UsersEntity usersEntity = UsersDao.get().selectOnLowerUserKey(username);
+			UsersEntity usersEntity = UsersDao.get().selectOnLowerUserKey(userkey);
 			if (usersEntity == null) {
 				// なぜかユーザ情報が無い
 				return false;
 			}
-			if (!username.equals(usersEntity.getUserKey())) {
-				username = usersEntity.getUserKey();
+			if (!userkey.equals(usersEntity.getUserKey())) {
+				userkey = usersEntity.getUserKey();
 			}
-			authenticationLogic.setSession(username, req);
+			authenticationLogic.setSession(userkey, req);
 			return true;
 		}
 		return false;
