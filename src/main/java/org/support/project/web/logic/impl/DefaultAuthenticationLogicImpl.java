@@ -55,7 +55,7 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
 					if (ldapInfo != null) {
 						// Ldap認証成功
 						UsersDao usersDao = UsersDao.get();
-						UsersEntity usersEntity = usersDao.selectOnUserKey(userId);
+						UsersEntity usersEntity = usersDao.selectOnLowerUserKey(userId);
 						if (usersEntity == null) {
 							addUser(userId, password, ldapInfo);
 						} else {
