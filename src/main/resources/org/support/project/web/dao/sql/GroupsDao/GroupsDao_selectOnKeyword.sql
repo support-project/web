@@ -1,10 +1,15 @@
 SELECT
-        *
+        GROUPS.*,
+        COUNT(KNOWLEDGE_GROUPS.GROUP_ID) AS GROUP_KNOWLEDGE_COUNT
     FROM
         GROUPS
+    LEFT JOIN
+      KNOWLEDGE_GROUPS
+    ON
+      GROUPS.GROUP_ID = KNOWLEDGE_GROUPS.GROUP_ID
     WHERE
-        DELETE_FLAG = 0
-        AND GROUP_NAME LIKE '%' || ? || '%'
+        GROUPS.DELETE_FLAG = 0
+        AND GROUPS.GROUP_NAME LIKE '%' || ? || '%'
         AND (
             EXISTS (
                 SELECT
@@ -28,6 +33,9 @@ SELECT
                         )
             )
         )
+    GROUP BY
+        GROUPS.GROUP_ID
     ORDER BY
-        GROUP_NAME LIMIT ? OFFSET ?;
+        GROUP_KNOWLEDGE_COUNT DESC
+    LIMIT ? OFFSET ?;
 
