@@ -50,17 +50,6 @@ public class GroupsDao extends GenGroupsDao {
 	}
 
 	/**
-	 * 全て取得
-	 * @param offset
-	 * @param limit
-	 * @return
-	 */
-	public List<GroupsEntity> selectAll(int offset, int limit) {
-		String sql = "SELECT * FROM GROUPS WHERE DELETE_FLAG = 0 ORDER BY GROUP_NAME LIMIT ? OFFSET ?";
-		return executeQueryList(sql, GroupsEntity.class, limit, offset);
-	}
-
-	/**
 	 * 自分が所属しているグループを取得
 	 * 
 	 * @param loginedUser
@@ -96,14 +85,26 @@ public class GroupsDao extends GenGroupsDao {
 	 */
 	public List<GroupsEntity> selectOnKeyword(String keyword, LoginedUser loginedUser, int offset, int limit) {
 		if (loginedUser != null && loginedUser.isAdmin()) {
-			String sql = "SELECT * FROM GROUPS WHERE DELETE_FLAG = 0 AND GROUP_NAME LIKE '%' || ? || '%' ORDER BY GROUP_NAME LIMIT ? OFFSET ?";
+			String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectAdminOnKeyword.sql");
 			return executeQueryList(sql, GroupsEntity.class, keyword, limit, offset);
 		} else {
 			String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectOnKeyword.sql");
 			return executeQueryList(sql, GroupsEntity.class, keyword, loginedUser.getUserId(), limit, offset);
 		}
 	}
-	
+
+	/**
+	 * キーワードで所属グループを取得
+	 * @param keyword
+	 * @param loginedUser
+	 * @param offset
+	 * @param limit
+	 * @return
+	 */
+	public List<GroupsEntity> selectMyGroupOnKeyword(String keyword, LoginedUser loginedUser, int offset, int limit) {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectMyGroupOnKeyword.sql");
+		return executeQueryList(sql, GroupsEntity.class, keyword, loginedUser.getUserId(), limit, offset);
+	}
 
 	/**
 	 * アクセス可能なグループを取得
@@ -147,6 +148,29 @@ public class GroupsDao extends GenGroupsDao {
 		}
 		builder.append(") ORDER BY GROUP_ID");
 		return executeQueryList(builder.toString(), GroupsEntity.class, groupids.toArray(new Integer[0]));
+	}
+
+	/**
+	 * グループ名からグループを取得
+	 * @param groupName
+	 * @return
+	 */
+	public GroupsEntity selectOnGroupName(String groupName) {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectOnGroupName.sql");
+		return executeQuerySingle(sql, GroupsEntity.class, groupName);
+	}
+
+	/**
+	 * グループの一覧を取得
+	 * 同時にグループの記事数を取得
+	 * アクセス権を考慮していない
+	 * @param offset
+	 * @param limit
+	 * @return
+	 */
+	public List<GroupsEntity> selectGroupsWithCount(int offset, int limit) {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectGroupsWithCount.sql");
+		return executeQueryList(sql, GroupsEntity.class, limit, offset);
 	}
 
 	/**

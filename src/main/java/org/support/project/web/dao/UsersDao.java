@@ -95,6 +95,19 @@ public class UsersDao extends GenUsersDao {
 		String sql = "SELECT * FROM USERS WHERE USER_KEY = ?;";
 		return executeQuerySingle(sql, UsersEntity.class, userKey);
 	}
+	/**
+	 * ユーザのキーでユーザ情報を取得
+	 * キーは小文字にして取得する（ActiveDirectoryでは、IDは大文字・小文字を判別しない）
+	 * @param userKey
+	 * @return
+	 */
+	public UsersEntity selectOnLowerUserKey(String userKey) {
+		if (StringUtils.isEmpty(userKey)) {
+			return null;
+		}
+		String sql = "SELECT * FROM USERS WHERE LOWER(USER_KEY) = ?;";
+		return executeQuerySingle(sql, UsersEntity.class, userKey.toLowerCase());
+	}
 
 	/**
 	 * ロールIDを指定してユーザ情報を取得

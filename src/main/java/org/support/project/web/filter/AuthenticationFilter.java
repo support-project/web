@@ -31,6 +31,8 @@ import org.support.project.web.bean.LoginedUser;
 import org.support.project.web.common.HttpStatus;
 import org.support.project.web.common.HttpUtil;
 import org.support.project.web.config.CommonWebParameter;
+import org.support.project.web.dao.UsersDao;
+import org.support.project.web.entity.UsersEntity;
 import org.support.project.web.exception.AuthenticateException;
 import org.support.project.web.logic.AuthenticationLogic;
 import org.support.project.web.wrapper.HttpServletRequestWrapper;
@@ -358,13 +360,23 @@ public class AuthenticationFilter implements Filter {
 	 * @throws Exception 
 	 */
 	protected boolean doLogin(HttpServletRequest req) throws Exception {
-		String username = req.getParameter("username");
+		String userkey = req.getParameter("username");
 		String password = req.getParameter("password");
 		
-		if (authenticationLogic.auth(username, password)) {
+		if (authenticationLogic.auth(userkey, password)) {
 			// セッションにログイン情報を格納
-			LOG.info(username + " is Login.");
-			authenticationLogic.setSession(username, req);
+			LOG.info(userkey + " is Login.");
+			
+			// ActiveDirectoryでは、ログインIDは大文字・小文字を判定しないので、DBに格納されているIDを取得
+			UsersEntity usersEntity = UsersDao.get().selectOnLowerUserKey(userkey);
+			if (usersEntity == null) {
+				// なぜかユーザ情報が無い
+				return false;
+			}
+			if (!userkey.equals(usersEntity.getUserKey())) {
+				userkey = usersEntity.getUserKey();
+			}
+			authenticationLogic.setSession(userkey, req);
 			return true;
 		}
 		return false;

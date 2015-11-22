@@ -31,6 +31,7 @@ import org.support.project.web.entity.RolesEntity;
 import org.support.project.web.entity.UsersEntity;
 import org.support.project.web.exception.AuthenticateException;
 import org.support.project.web.logic.AuthenticationLogic;
+import org.support.project.web.util.ThredUserPool;
 
 
 @DI(instance=Instance.Singleton)
@@ -107,10 +108,10 @@ public abstract class AbstractAuthenticationLogic<T extends LoginedUser> impleme
 	public boolean isLogined(HttpServletRequest request)
 			throws AuthenticateException {
 		if (getSession(request) != null) {
-			setDBUser(request);
+			setUserInfo(request);
 			return true;
 		} else {
-			DBUserPool.get().clearUser();
+			clearUserInfo();
 		}
 		return false;
 	}
@@ -143,7 +144,7 @@ public abstract class AbstractAuthenticationLogic<T extends LoginedUser> impleme
 			
 			session.setAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY, loginedUser);
 			
-			setDBUser(request);
+			setUserInfo(request);
 		} catch (Exception e) {
 			throw new AuthenticateException(e);
 		}
@@ -215,14 +216,23 @@ public abstract class AbstractAuthenticationLogic<T extends LoginedUser> impleme
 	}
 
 	/**
-	 * このリクエストを処理する間のユーザIDをセットしておく
+	 * このリクエストを処理する間のユーザ情報をセットしておく
 	 * @param request
 	 */
-	protected void setDBUser(HttpServletRequest request) {
+	protected void setUserInfo(HttpServletRequest request) {
 		LoginedUser loginedUser = getSession(request);
 		DBUserPool.get().setUser(loginedUser.getLoginUser().getUserId());
+		ThredUserPool.get().setInfo(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY, loginedUser);
 	}
 	
+	/**
+	 * このリクエスト(Thread)にセットされているユーザ情報をクリアする
+	 * @param request
+	 */
+	protected void clearUserInfo() {
+		DBUserPool.get().clearUser();
+		ThredUserPool.get().clearInfo();
+	}
 	
 	
 }

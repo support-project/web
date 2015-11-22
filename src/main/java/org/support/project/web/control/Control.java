@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.arnx.jsonic.JSON;
 import net.arnx.jsonic.JSONException;
 
+import org.support.project.common.bean.ValidateError;
 import org.support.project.common.config.CommonBaseParameter;
 import org.support.project.common.config.Resources;
 import org.support.project.common.exception.SystemException;
@@ -248,6 +249,50 @@ public abstract class Control {
 		boundary.setSendEscapeHtml(sendEscapeHtml);
 		return boundary;
 	}
+	
+	/**
+	 * メッセージ送信
+	 * @param httpstatus
+	 * @param messageKey
+	 * @param params
+	 * @return
+	 */
+	protected JsonBoundary sendMsg(MessageStatus messageStatus, int httpStatus, String result, String messageKey, String... params) {
+		Resources resources = Resources.getInstance(HttpUtil.getLocale(getRequest()));
+		String msg = resources.getResource(messageKey, params);
+		MessageResult messageResult = new MessageResult();
+		messageResult.setMessage(msg);
+		messageResult.setStatus(messageStatus.getValue());
+		messageResult.setCode(httpStatus);
+		messageResult.setResult(result);
+		return send(messageResult);
+	}
+	
+	/**
+	 * エラーを送信
+	 * @param errors
+	 * @return
+	 */
+	protected JsonBoundary sendValidateError(List<ValidateError> errors) {
+		MessageResult messageResult = new MessageResult();
+		messageResult.setMessage("Bad Request");
+		messageResult.setResult("Bad Request");
+		messageResult.setCode(HttpStatus.SC_400_BAD_REQUEST);
+		
+		int status = MessageStatus.Warning.getValue();
+		for (ValidateError validateError : errors) {
+			String msg = validateError.getMsg(HttpUtil.getLocale(getRequest()));
+			if (validateError.getLevel() == MessageStatus.Error.getValue()) {
+				status = MessageStatus.Error.getValue();
+			}
+			MessageResult child = new MessageResult();
+			child.setMessage(msg);
+			messageResult.getChildren().add(child);
+		}
+		messageResult.setStatus(status);
+		return send(messageResult);
+	}
+
 	
 	/**
 	 * エラーを送信

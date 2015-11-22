@@ -4,7 +4,7 @@
 	<groupId>org.support-project</groupId>
 	<artifactId>web</artifactId>
 	<packaging>jar</packaging>
-	<version>0.6.0</version>
+	<version>0.7.0-SNAPSHOT</version>
 
 	<name>web</name>
 	<url>https://support-project.org/</url>
@@ -17,7 +17,7 @@
 		<dependency>
 			<groupId>org.support-project</groupId>
 			<artifactId>common</artifactId>
-			<version>0.6.0</version>
+			<version>0.7.0-SNAPSHOT</version>
 		</dependency>
 		
 		<dependency>
@@ -61,9 +61,8 @@
 		<dependency>
 			<groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
 			<artifactId>owasp-java-html-sanitizer</artifactId>
-			<version>20150501.1</version>
+			<version>1.1</version>
 		</dependency>
-
 
 	</dependencies>
 
