@@ -30,6 +30,11 @@ public class GroupsEntity extends GenGroupsEntity {
 	private int groupKnowledgeCount = 0;
 
 	/**
+	 * ナレッジID
+	 */
+	private Long knowledgeId = 0L;
+
+	/**
 	 * インスタンス取得
 	 * AOPに対応
 	 * @return インスタンス
@@ -93,5 +98,19 @@ public class GroupsEntity extends GenGroupsEntity {
 	 */
 	public void setGroupKnowledgeCount(int groupKnowledgeCount) {
 		this.groupKnowledgeCount = groupKnowledgeCount;
+	}
+
+	/**
+	 * @return the knowledgeId
+	 */
+	public Long getKnowledgeId() {
+		return this.knowledgeId;
+	}
+
+	/**
+	 * @param knowledgeId the knowledgeId to set
+	 */
+	public void setKnowledgeId(Long knowledgeId) {
+		this.knowledgeId = knowledgeId;
 	}
 }
