@@ -22,8 +22,11 @@ public class UsersEntity extends GenUsersEntity {
 	/** 管理者かどうか */
 	private Boolean admin = Boolean.FALSE;
 	
-	
-	
+	/**
+	 * ナレッジID
+	 */
+	private Long knowledgeId = 0L;
+
 	@Override
 	protected String convLabelName(String label) {
 		if ("User Key".equals(label)) {
@@ -89,4 +92,17 @@ public class UsersEntity extends GenUsersEntity {
 		this.admin = admin;
 	}
 
+	/**
+	 * @return the knowledgeId
+	 */
+	public Long getKnowledgeId() {
+		return this.knowledgeId;
+	}
+
+	/**
+	 * @param knowledgeId the knowledgeId to set
+	 */
+	public void setKnowledgeId(Long knowledgeId) {
+		this.knowledgeId = knowledgeId;
+	}
 }
