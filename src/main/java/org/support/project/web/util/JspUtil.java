@@ -598,6 +598,39 @@ public class JspUtil {
 	}
 	
 	/**
+	 * ロケールの国名を表示
+	 * @return
+	 */
+	public Locale locale() {
+		return HttpUtil.getLocale(request);
+	}
+	/**
+	 * ロケールの国名を表示
+	 * @return
+	 */
+	public Locale locale(String localeKey) {
+		String language = "";
+		String country = "";
+		String variant = "";
+		
+		if (localeKey.indexOf("_") == -1) {
+			language = localeKey;
+		} else {
+			String[] params = localeKey.split("_");
+			if (params.length > 0) {
+				language = params[1];
+			}
+			if (params.length > 1) {
+				country = params[2];
+			}
+			if (params.length > 2) {
+				variant = params[3];
+			}
+		}
+		return new Locale(language, country, variant);
+	}
+	
+	/**
 	 * JSやCSSはモバイルブラウザがキャッシュする
 	 * このため、更新してもキャッシュが使われてしまい動作できない事がある
 	 * 
