@@ -649,6 +649,20 @@ public class JspUtil {
 		return builder.toString();
 	}
 	
-	
-	
+	/**
+	 * Cookieの値を取得
+	 * @param key
+	 * @return
+	 */
+	public String cookie(String key, String defaultValue) {
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals(key)) {
+					return cookie.getValue();
+				}
+			}
+		}
+		return defaultValue;
+	}
 }

@@ -1,4 +1,4 @@
-﻿# A5:ER FORMAT:09
+﻿# A5:ER FORMAT:10
 # A5:ER ENCODING:UTF8
 # A5:ER Mk-1 Copyright (C)2007 m.matsubara
 # A5:SQL Mk-2 Copyright (C)1997 m.matsubara
@@ -48,6 +48,65 @@ ShowTag=1
 ShowCommonAttributes=0
 
 [Relation]
+Entity1=USERS
+Entity2=USER_CONFIGS
+RelationType1=1
+RelationType2=3
+Fields1=USER_ID
+Fields2=USER_ID
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",1,8178,5000,1019,R,R
+Dependence=1
+Caption=
+PName=
+ModifiedDateTime=20151209232715
+LineMode=1
+Bar1=818
+Bar2=500
+Bar3=102
+TermPos1=R
+TermPos2=R
+
+[Relation]
+Entity1=SYSTEMS
+Entity2=USER_CONFIGS
+RelationType1=1
+RelationType2=3
+Fields1=SYSTEM_NAME
+Fields2=SYSTEM_NAME
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,7429,2571,5252,R,R
+Dependence=1
+Caption=
+PName=
+LineMode=0
+Bar1=743
+Bar2=257
+Bar3=525
+TermPos1=R
+TermPos2=R
+
+[Entity]
+PName=USER_CONFIGS
+LName=ユーザ設定
+Comment=
+TableOption=
+Page=MAIN
+Left=1140
+Top=740
+Field="システム名","SYSTEM_NAME","@VARCHAR(64)","NOT NULL",0,"","",$FFFFFFFF,""
+Field="ユーザID","USER_ID","INTEGER","NOT NULL",1,"","",$FFFFFFFF,""
+Field="コンフィグ名","CONFIG_NAME","@VARCHAR(256)","NOT NULL",2,"","",$FFFFFFFF,""
+Field="コンフィグ値","CONFIG_VALUE","@VARCHAR(1024)",,,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20151209232837
+Position="MAIN",1140,740
+
+[Relation]
 Entity1=SYSTEMS
 Entity2=PROXY_CONFIGS
 RelationType1=1
@@ -56,14 +115,14 @@ Fields1=SYSTEM_NAME
 Fields2=SYSTEM_NAME
 Cardinarity1=
 Cardinarity2=
-Position="MAIN",0,2399,1440,5654,R,R
+Position="MAIN",0,2399,1440,8635,R,R
 Dependence=1
 Caption=
 PName=
 LineMode=0
 Bar1=240
 Bar2=144
-Bar3=565
+Bar3=864
 TermPos1=R
 TermPos2=R
 
@@ -188,14 +247,14 @@ Fields1=USER_ID
 Fields2=USER_ID
 Cardinarity1=
 Cardinarity2=
-Position="MAIN",0,6063,5528,3551,R,R
+Position="MAIN",4,4794,1763,3551,R,R
 Dependence=0
 Caption=
 PName=
-ModifiedDateTime=20150331110849
-LineMode=0
-Bar1=606
-Bar2=553
+ModifiedDateTime=20151209232655
+LineMode=4
+Bar1=479
+Bar2=176
 Bar3=355
 TermPos1=R
 TermPos2=R
@@ -206,8 +265,8 @@ LName=メールアドレス変更確認
 Comment=
 TableOption=
 Page=MAIN
-Left=1350
-Top=620
+Left=1860
+Top=420
 Field="リセット用ID","ID","@VARCHAR(256)","NOT NULL",0,"","",$FFFFFFFF,""
 Field="ユーザID","USER_ID","@INT","NOT NULL",,"","",$FFFFFFFF,""
 Field="メールアドレス","MAIL_ADDRESS","@VARCHAR(256)","NOT NULL",,"","",$FFFFFFFF,""
@@ -215,7 +274,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20150331110946
-Position="MAIN",1350,620
+Position="MAIN",1860,420
 
 [Relation]
 Entity1=LOCALES
@@ -226,7 +285,7 @@ Fields1=KEY
 Fields2=LOCALE_KEY
 Cardinarity1=
 Cardinarity2=
-Position="MAIN",1,4594,6535,3095,R,R
+Position="MAIN",1,4594,6535,3088,R,R
 Dependence=0
 Caption=
 PName=
@@ -234,7 +293,7 @@ ModifiedDateTime=20150331110144
 LineMode=1
 Bar1=459
 Bar2=654
-Bar3=310
+Bar3=309
 TermPos1=R
 TermPos2=R
 
@@ -495,9 +554,9 @@ LineColor=$000000
 BkColor=$99FFFF
 Page=Main
 Left=930
-Top=310
-Width=527
-Height=110
+Top=280
+Width=429
+Height=115
 
 [Relation]
 Entity1=GROUPS
@@ -548,7 +607,7 @@ Comment=
 TableOption=
 Page=MAIN
 Left=1370
-Top=460
+Top=430
 Field="ユーザID","USER_ID","@INT","NOT NULL",0,"","",$FFFFFFFF,""
 Field="グループID","GROUP_ID","@INT","NOT NULL",1,"","CHARACTER SET latin1",$FFFFFFFF,""
 Field="グループの権限","GROUP_ROLE","@INT",,,"","",$FFFFFFFF,""
@@ -556,7 +615,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20140429060619
-Position="MAIN",1370,460
+Position="MAIN",1370,430
 
 [Entity]
 PName=GROUPS
@@ -663,7 +722,7 @@ Fields1=ROLE_ID
 Fields2=ROLE_ID
 Cardinarity1=
 Cardinarity2=
-Position="MAIN",0,5000,5000,6158,R,R
+Position="MAIN",0,5000,5000,6161,R,R
 Dependence=1
 Caption=
 PName=
@@ -755,7 +814,7 @@ Fields1=ROLE_ID
 Fields2=ROLE_ID
 Cardinarity1=
 Cardinarity2=
-Position="MAIN",0,5182,5000,4396,R,R
+Position="MAIN",0,5182,5000,4395,R,R
 Dependence=1
 Caption=
 PName=
@@ -775,13 +834,13 @@ Fields1=FUNCTION_KEY
 Fields2=FUNCTION_KEY
 Cardinarity1=
 Cardinarity2=
-Position="MAIN",0,5000,5000,4710,R,R
+Position="MAIN",0,5000,5000,4719,R,R
 Dependence=1
 Caption=
 PName=
 LineMode=0
 Bar1=500
 Bar2=500
-Bar3=471
+Bar3=472
 TermPos1=R
 TermPos2=R
