@@ -12,6 +12,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -86,58 +87,13 @@ public class LoggingFilter implements Filter {
 				StringBuilder builder = new StringBuilder();
 				
 				if (LOG.isInfoEnabled()) {
-					StringBuilder path = new StringBuilder();
-					
-					path.append(req.getMethod());
-					path.append("\t");
-					
-					String contextUrl = HttpUtil.getContextUrl(req);
-					path.append(contextUrl);
-					
-					if (StringUtils.isNotEmpty(req.getServletPath())) {
-						path.append(req.getServletPath());
-					}
-					if (StringUtils.isNotEmpty(req.getPathInfo())) {
-						path.append(req.getPathInfo());
-					}
-					if (StringUtils.isNotEmpty(req.getQueryString())) {
-						path.append("?");
-						path.append(req.getQueryString());
-					}
-					
-					
-					path.append("\t").append(res.getStatus());
-					String ip = HttpUtil.getRemoteAddr(req);
-					path.append("\t").append(ip);
-					
-					long time = end.getTime() - start.getTime();
-					path.append("\t").append(time).append("[ms]");
-					
-					builder.append(path.toString());
+					builder.append(getDefaultRequestInfo(start, end, req, res));
 				}
-				
 				if (LOG.isDebugEnabled()) {
 					builder.append("\n");
-					//リクエストパラメータデバッグ
-					Enumeration<String> params = req.getParameterNames();
-					while (params.hasMoreElements()) {
-						String string = (String) params.nextElement();
-						String[] values = req.getParameterValues(string);
-						builder.append("[param]").append(string).append(":");
-						if (values == null) {
-							builder.append("");
-						} else {
-							int count = 0;
-							for (String val : values) {
-								if (count > 0) {
-									builder.append(",");
-								}
-								builder.append(val);
-								count++;
-							}
-						}
-						builder.append("\n");
-					}
+					builder.append(getParamInfo(req));
+					builder.append("\n");
+					builder.append(getCookieInfo(req));
 				}
 				
 				if (builder.length() > 0) {
@@ -149,8 +105,74 @@ public class LoggingFilter implements Filter {
 				}
 			}
 		}
+	}
+	private String getCookieInfo(HttpServletRequest req) {
+		StringBuilder infos = new StringBuilder();
+		Cookie[] cookies = req.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				infos.append("\n[cookies] ").append(cookie.getName()).append("=").append(cookie.getValue());
+			}
+		} else {
+			infos.append(" none.");
+		}
+		
+		return infos.toString();
+	}
+	
+	private String getParamInfo(HttpServletRequest req) {
+		StringBuilder paramInfos = new StringBuilder();
+		//リクエストパラメータデバッグ
+		Enumeration<String> params = req.getParameterNames();
+		while (params.hasMoreElements()) {
+			String string = (String) params.nextElement();
+			String[] values = req.getParameterValues(string);
+			paramInfos.append("[param]").append(string).append(":");
+			if (values == null) {
+				paramInfos.append("");
+			} else {
+				int count = 0;
+				for (String val : values) {
+					if (count > 0) {
+						paramInfos.append(",");
+					}
+					paramInfos.append(val);
+					count++;
+				}
+			}
+			paramInfos.append("\n");
+		}
+		return paramInfos.toString();
+	}
+	
+	private String getDefaultRequestInfo(Date start, Date end, HttpServletRequest req, HttpServletResponse res) {
+		StringBuilder path = new StringBuilder();
+		
+		path.append(req.getMethod());
+		path.append("\t");
+		
+		String contextUrl = HttpUtil.getContextUrl(req);
+		path.append(contextUrl);
+		
+		if (StringUtils.isNotEmpty(req.getServletPath())) {
+			path.append(req.getServletPath());
+		}
+		if (StringUtils.isNotEmpty(req.getPathInfo())) {
+			path.append(req.getPathInfo());
+		}
+		if (StringUtils.isNotEmpty(req.getQueryString())) {
+			path.append("?");
+			path.append(req.getQueryString());
+		}
 		
 		
+		path.append("\t").append(res.getStatus());
+		String ip = HttpUtil.getRemoteAddr(req);
+		path.append("\t").append(ip);
+		
+		long time = end.getTime() - start.getTime();
+		path.append("\t").append(time).append("[ms]");
+		return path.toString();
 	}
 
 
