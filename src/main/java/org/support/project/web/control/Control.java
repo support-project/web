@@ -637,5 +637,22 @@ public abstract class Control {
 			throws InstantiationException, IllegalAccessException, JSONException, IOException, InvalidParamException {
 		return HttpUtil.parseRequest(request, type);
 	}
+	
+	/**
+	 * 指定のキーのCookie値を取得
+	 * @param key
+	 * @return
+	 */
+	protected String getCookie(String key) {
+		return HttpUtil.getCookie(getRequest(), key);
+	}
+	/**
+	 * 指定のCookieをセット
+	 * @param key
+	 * @param value
+	 */
+	protected void setCookie(String key, String value) {
+		HttpUtil.setCookie(getRequest(), getResponse(), key, value);
+	}
 
 }

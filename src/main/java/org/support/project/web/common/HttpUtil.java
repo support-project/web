@@ -1,6 +1,9 @@
 package org.support.project.web.common;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
@@ -22,6 +25,7 @@ import org.support.project.common.util.PropertyUtil;
 import org.support.project.common.util.StringUtils;
 import org.support.project.web.bean.LoginedUser;
 import org.support.project.web.bean.MessageResult;
+import org.support.project.web.config.AppConfig;
 import org.support.project.web.config.CommonWebParameter;
 import org.support.project.web.dao.LocalesDao;
 import org.support.project.web.dao.UsersDao;
@@ -40,6 +44,8 @@ public class HttpUtil {
 	/** ログ */
 	private static Log log = LogFactory.getLog(HttpUtil.class);
 
+	public static final int COOKIE_AGE = 60 * 60 * 24 * 31;
+	
 	/*
 	 * Windowsに入れたデフォルトのTomcat(自分の場合Tomcat7.0) ではどうやら内部処理がISO-8859-1らしい。
 	 * このためJSP(Java)側を
@@ -483,27 +489,7 @@ public class HttpUtil {
 		return isNetscape(getUserAgent(request));
 	}
 	
-	/**
-	 * 指定のキーのcookieを取得
-	 * （存在しなければNullを返すので注意）
-	 * @param request
-	 * @param string
-	 * @return
-	 */
-	public static Cookie getCookie(HttpServletRequest request, String string) {
-		Cookie[] cookies = request.getCookies();
-		Cookie c = null;
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				log.trace(cookie.getName() + ": " + cookie.getValue());
-				if (cookie.getName().equals(string)) {
-					c = cookie;
-					break;
-				}
-			}
-		}
-		return c;
-	}
+
 
 	
 	/**
@@ -623,5 +609,68 @@ public class HttpUtil {
 		}
 		return locale;
 	}
+	
+	
+	
+	
+	/**
+	 * 指定のキーのCookie値を取得
+	 * 稼働しているシステムで一意にするために、システム名称にラベルを付けてキーとする
+	 * @param key
+	 * @return
+	 */
+	public static String getCookie(HttpServletRequest request, String key) {
+		return getCookie(request, key, "");
+	}
+	/**
+	 * 指定のキーのCookie値を取得
+	 * 稼働しているシステムで一意にするために、システム名称にラベルを付けてキーとする
+	 * @param key
+	 * @return
+	 */
+	public static String getCookie(HttpServletRequest request, String key, String defaultValue) {
+		StringBuilder name = new StringBuilder();
+		name.append(AppConfig.get().getSystemName()).append("_").append(key);
+		try {
+			Cookie[] cookies = request.getCookies();
+			if (cookies != null) {
+				for (Cookie cookie : cookies) {
+					if (!cookie.getName().equals(name.toString())) {
+						continue;
+					}
+					
+					String value = cookie.getValue();
+					value = URLDecoder.decode(value, "UTF-8");
+					return value;
+				}
+			}
+			return defaultValue;
+		} catch (UnsupportedEncodingException e) {
+			log.error("Get cokkie value error. [name]:" + name.toString(), e);
+			return defaultValue;
+		}
+	}
+	/**
+	 * 指定のキーのCookieをセット
+	 * 稼働しているシステムで一意にするために、システム名称にラベルを付けてキーとする
+	 * @param key
+	 * @return
+	 */
+	public static void setCookie(HttpServletRequest request, HttpServletResponse response, String key, String value) {
+		StringBuilder name = new StringBuilder();
+		name.append(AppConfig.get().getSystemName()).append("_").append(key);
+		try {
+			String cookieValue = URLEncoder.encode(value, "UTF-8");
+			Cookie cookie = new  Cookie(name.toString(), cookieValue);
+			cookie.setPath(request.getContextPath() + "/");
+			cookie.setMaxAge(COOKIE_AGE);
+			response.addCookie(cookie);
+		} catch (UnsupportedEncodingException e) {
+			log.error("Set cokkie value error. [name]:" + name.toString(), e);
+		}
+	}
+	
+	
+	
 	
 }
