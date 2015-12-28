@@ -340,6 +340,21 @@ public abstract class Control {
 	}
 	
 	/**
+	 * リクエストのAttributeを取得(Stringで)
+	 * @param name
+	 * @return
+	 */
+	protected String getParameter(String name) {
+		Object val = request.getAttribute(name);
+		if (val == null) {
+			return "";
+		}
+		if (val instanceof String) {
+			return (String) val;
+		}
+		return val.toString();
+	}
+	/**
 	 * リクエストのAttributeにセット
 	 * @param key
 	 * @param value
