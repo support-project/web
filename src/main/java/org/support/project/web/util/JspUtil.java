@@ -433,12 +433,11 @@ public class JspUtil {
 			//TimeZone zone = dateFormat.getTimeZone();
 			TimeZone zone = null;
 			// ブラウザからoffsetを取得して補正をかける(dateFormat.getTimeZone()を実行したら、GMTだった。。。）
-			Cookie cookie = HttpUtil.getCookie(request, TIME_ZONE_OFFSET);
-			if (cookie == null) {
+			String offset = HttpUtil.getCookie(request, TIME_ZONE_OFFSET);
+			if (StringUtils.isEmpty(offset)) {
 				AppConfig appConfig = ConfigLoader.load(AppConfig.APP_CONFIG, AppConfig.class);
 				zone = TimeZone.getTimeZone(appConfig.getTime_zone());
 			} else {
-				String offset = cookie.getValue();
 				if (StringUtils.isInteger(offset)) {
 					int off = Integer.parseInt(offset);
 					off = off / 60;
@@ -598,6 +597,39 @@ public class JspUtil {
 	}
 	
 	/**
+	 * ロケールの国名を表示
+	 * @return
+	 */
+	public Locale locale() {
+		return HttpUtil.getLocale(request);
+	}
+	/**
+	 * ロケールの国名を表示
+	 * @return
+	 */
+	public Locale locale(String localeKey) {
+		String language = "";
+		String country = "";
+		String variant = "";
+		
+		if (localeKey.indexOf("_") == -1) {
+			language = localeKey;
+		} else {
+			String[] params = localeKey.split("_");
+			if (params.length > 0) {
+				language = params[1];
+			}
+			if (params.length > 1) {
+				country = params[2];
+			}
+			if (params.length > 2) {
+				variant = params[3];
+			}
+		}
+		return new Locale(language, country, variant);
+	}
+	
+	/**
 	 * JSやCSSはモバイルブラウザがキャッシュする
 	 * このため、更新してもキャッシュが使われてしまい動作できない事がある
 	 * 
@@ -616,6 +648,12 @@ public class JspUtil {
 		return builder.toString();
 	}
 	
-	
-	
+	/**
+	 * Cookieの値を取得
+	 * @param key
+	 * @return
+	 */
+	public String cookie(String key, String defaultValue) {
+		return HttpUtil.getCookie(request, key, defaultValue);
+	}
 }

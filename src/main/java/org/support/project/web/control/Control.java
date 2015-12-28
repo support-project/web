@@ -340,6 +340,21 @@ public abstract class Control {
 	}
 	
 	/**
+	 * リクエストのAttributeを取得(Stringで)
+	 * @param name
+	 * @return
+	 */
+	protected String getParameter(String name) {
+		Object val = request.getAttribute(name);
+		if (val == null) {
+			return "";
+		}
+		if (val instanceof String) {
+			return (String) val;
+		}
+		return val.toString();
+	}
+	/**
 	 * リクエストのAttributeにセット
 	 * @param key
 	 * @param value
@@ -636,6 +651,23 @@ public abstract class Control {
 	public <T> T getParamOnProperty(final Class<? extends T> type) 
 			throws InstantiationException, IllegalAccessException, JSONException, IOException, InvalidParamException {
 		return HttpUtil.parseRequest(request, type);
+	}
+	
+	/**
+	 * 指定のキーのCookie値を取得
+	 * @param key
+	 * @return
+	 */
+	protected String getCookie(String key) {
+		return HttpUtil.getCookie(getRequest(), key);
+	}
+	/**
+	 * 指定のCookieをセット
+	 * @param key
+	 * @param value
+	 */
+	protected void setCookie(String key, String value) {
+		HttpUtil.setCookie(getRequest(), getResponse(), key, value);
 	}
 
 }
