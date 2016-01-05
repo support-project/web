@@ -427,7 +427,7 @@ public class JspUtil {
 		
 		// DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, request.getLocale());
 		// DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT, request.getLocale());
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.DEFAULT, request.getLocale());
+		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT, request.getLocale());
 		StringBuilder builder = new StringBuilder();
 		if (convGMTtoLocal) {
 			//TimeZone zone = dateFormat.getTimeZone();
