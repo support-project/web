@@ -415,7 +415,7 @@ public class AuthenticationFilter implements Filter {
 						json = PasswordUtil.encrypt(json, cookieEncryptKey);
 						
 						cookie = new  Cookie(CommonWebParameter.LOGIN_USER_KEY, json);
-						cookie.setPath(req.getContextPath());
+						cookie.setPath(req.getContextPath() + "/");
 						cookie.setMaxAge(cookieMaxAge); 
 						cookie.setSecure(cookieSecure);
 						res.addCookie(cookie);
@@ -452,7 +452,7 @@ public class AuthenticationFilter implements Filter {
 			json = PasswordUtil.encrypt(json, cookieEncryptKey);
 			
 			Cookie cookie = new  Cookie(CommonWebParameter.LOGIN_USER_KEY, json);
-			cookie.setPath(req.getContextPath());
+			cookie.setPath(req.getContextPath() + "/");
 			cookie.setMaxAge(cookieMaxAge); 
 			cookie.setSecure(cookieSecure);
 			res.addCookie(cookie);
@@ -469,7 +469,7 @@ public class AuthenticationFilter implements Filter {
 		Cookie[] cookies = req.getCookies();
 		if (cookies != null) {
 			Cookie cookie = new  Cookie(CommonWebParameter.LOGIN_USER_KEY, "");
-			cookie.setPath(req.getContextPath());
+			cookie.setPath(req.getContextPath() + "/");
 			cookie.setMaxAge(0); 
 			res.addCookie(cookie);
 		}
