@@ -495,20 +495,18 @@ public class JspUtil {
 	 */
 	public boolean is(Object val, String paramName) throws InstantiationException, IllegalAccessException {
 		Object check = getValue(paramName, Object.class, "");
-		if (val != null) {
-			if (val instanceof String) {
-				if (check == null) {
-					return false;
-				}
-				return val.equals(check.toString());
-			}
-			return val.equals(check);
-		} else {
-			if (check == null) {
-				return true;
-			}
+		if (check != null && check instanceof String) {
+//			String str = (String) check;
+//			Policy policy = Policy.getInstance(JspUtil.class.getResourceAsStream(PATH_ANTISAMY_POLICY));
+//			AntiSamy as = new AntiSamy();
+//			CleanResults cr = as.scan(str, policy);
+//			check = cr.getCleanHTML();
 		}
-		return false;
+		if (val instanceof String) {
+			return val.equals(check.toString());
+		}
+		// 画面から送られるリクエストは、すべて文字列型になるので、文字列にして比較ss
+		return String.valueOf(val).equals(check.toString());
 	}
 	
 	
@@ -516,16 +514,16 @@ public class JspUtil {
 	 * 指定した値が等しい場合、labelを出力
 	 * @param val
 	 * @param paramName
-	 * @param text
+	 * @param label
 	 * @return
 	 * @throws PolicyException
 	 * @throws ScanException
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
 	 */
-	public String is(Object val, String paramName, String text) throws InstantiationException, IllegalAccessException {
+	public String is(Object val, String paramName, String label) throws InstantiationException, IllegalAccessException {
 		if (is(val, paramName)) {
-			return text;
+			return label;
 		}
 		return "";
 	}
