@@ -161,19 +161,6 @@ public class GroupsDao extends GenGroupsDao {
 	}
 
 	/**
-	 * グループの一覧を取得
-	 * 同時にグループの記事数を取得
-	 * アクセス権を考慮していない
-	 * @param offset
-	 * @param limit
-	 * @return
-	 */
-	public List<GroupsEntity> selectGroupsWithCount(int offset, int limit) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectGroupsWithCount.sql");
-		return executeQueryList(sql, GroupsEntity.class, limit, offset);
-	}
-
-	/**
 	 * データをtruncateする
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
