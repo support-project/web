@@ -184,6 +184,18 @@ public class JspUtil {
 		return false;
 	}
 	
+	/**
+	 * 指定のロールを持っているかどうか
+	 * @return
+	 */
+	public boolean haveRole(String... roles) {
+		LoginedUser loginedUser = user();
+		if (loginedUser != null) {
+			return loginedUser.haveRole(roles);
+		}
+		return false;
+	}
+
 	
 	
 	/**
