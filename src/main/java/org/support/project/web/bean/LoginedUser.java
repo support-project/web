@@ -56,6 +56,25 @@ public class LoginedUser implements Serializable {
 		}
 		return false;
 	}
+	/**
+	 * 指定のロールを持っているかチェック
+	 * @param roleArray
+	 * @return
+	 */
+	public boolean haveRole(String... roleArray) {
+		if (roles != null) {
+			for (RolesEntity roleId : roles) {
+				for (String role : roleArray) {
+					if (roleId.getRoleKey().equals(role)) {
+						return true;
+					}
+				}
+	 		}
+		}
+		return false;
+	}
+	
+	
 	
 	/**
 	 * @return loginUser

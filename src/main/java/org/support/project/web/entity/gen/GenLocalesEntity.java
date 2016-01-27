@@ -58,6 +58,10 @@ public class GenLocalesEntity implements Serializable {
 	private String country;
 	/** バリアント */
 	private String variant;
+	/** 表示名 */
+	private String dispName;
+	/** 国旗のアイコン */
+	private String flagIcon;
 	/** 行ID */
 	private String rowId;
 	/** 登録ユーザ */
@@ -128,6 +132,36 @@ public class GenLocalesEntity implements Serializable {
 	 */
 	public GenLocalesEntity setVariant(String variant) {
 		this.variant = variant;
+		return this;
+	}
+
+	/**
+	 * 表示名 を取得する
+	 */
+	public String getDispName() {
+		return this.dispName;
+	}
+	/**
+	 * 表示名 を設定する
+	 * @param dispName 表示名
+	 */
+	public GenLocalesEntity setDispName(String dispName) {
+		this.dispName = dispName;
+		return this;
+	}
+
+	/**
+	 * 国旗のアイコン を取得する
+	 */
+	public String getFlagIcon() {
+		return this.flagIcon;
+	}
+	/**
+	 * 国旗のアイコン を設定する
+	 * @param flagIcon 国旗のアイコン
+	 */
+	public GenLocalesEntity setFlagIcon(String flagIcon) {
+		this.flagIcon = flagIcon;
 		return this;
 	}
 
@@ -269,6 +303,8 @@ public class GenLocalesEntity implements Serializable {
 		builder.append("language = ").append(language).append("\n");
 		builder.append("country = ").append(country).append("\n");
 		builder.append("variant = ").append(variant).append("\n");
+		builder.append("dispName = ").append(dispName).append("\n");
+		builder.append("flagIcon = ").append(flagIcon).append("\n");
 		builder.append("rowId = ").append(rowId).append("\n");
 		builder.append("insertUser = ").append(insertUser).append("\n");
 		builder.append("insertDatetime = ").append(insertDatetime).append("\n");
@@ -300,6 +336,11 @@ public class GenLocalesEntity implements Serializable {
 		if (error != null) {
 			errors.add(error);
 		}
+		validator = ValidatorFactory.getInstance(Validator.REQUIRED);
+		error = validator.validate(this.language, convLabelName("Language"));
+		if (error != null) {
+			errors.add(error);
+		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
 		error = validator.validate(this.language, convLabelName("Language"), 4);
 		if (error != null) {
@@ -312,6 +353,16 @@ public class GenLocalesEntity implements Serializable {
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
 		error = validator.validate(this.variant, convLabelName("Variant"), 4);
+		if (error != null) {
+			errors.add(error);
+		}
+		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+		error = validator.validate(this.dispName, convLabelName("Disp Name"), 128);
+		if (error != null) {
+			errors.add(error);
+		}
+		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+		error = validator.validate(this.flagIcon, convLabelName("Flag Icon"), 24);
 		if (error != null) {
 			errors.add(error);
 		}
@@ -354,6 +405,11 @@ public class GenLocalesEntity implements Serializable {
 		if (error != null) {
 			errors.add(error);
 		}
+		validator = ValidatorFactory.getInstance(Validator.REQUIRED);
+		error = validator.validate(values.get("language"), convLabelName("Language"));
+		if (error != null) {
+			errors.add(error);
+		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
 		error = validator.validate(values.get("language"), convLabelName("Language"), 4);
 		if (error != null) {
@@ -366,6 +422,16 @@ public class GenLocalesEntity implements Serializable {
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
 		error = validator.validate(values.get("variant"), convLabelName("Variant"), 4);
+		if (error != null) {
+			errors.add(error);
+		}
+		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+		error = validator.validate(values.get("dispName"), convLabelName("Disp Name"), 128);
+		if (error != null) {
+			errors.add(error);
+		}
+		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+		error = validator.validate(values.get("flagIcon"), convLabelName("Flag Icon"), 24);
 		if (error != null) {
 			errors.add(error);
 		}
