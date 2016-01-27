@@ -4,6 +4,8 @@ KEY
  , LANGUAGE
  , COUNTRY
  , VARIANT
+ , DISP_NAME
+ , FLAG_ICON
  , ROW_ID
  , INSERT_USER
  , INSERT_DATETIME
@@ -12,6 +14,8 @@ KEY
  , DELETE_FLAG
 ) VALUES (
 ?
+ , ?
+ , ?
  , ?
  , ?
  , ?

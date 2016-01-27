@@ -104,9 +104,11 @@ drop table if exists LOCALES cascade;
 
 create table LOCALES (
   KEY character varying(12) not null
-  , LANGUAGE character varying(4)
+  , LANGUAGE character varying(4) not null
   , COUNTRY character varying(4)
-  , Variant character varying(4)
+  , VARIANT character varying(4)
+  , DISP_NAME character varying(128)
+  , FLAG_ICON character varying(24)
   , ROW_ID character varying(64)
   , INSERT_USER integer
   , INSERT_DATETIME timestamp
@@ -479,7 +481,9 @@ comment on table LOCALES is 'ロケール';
 comment on column LOCALES.KEY is 'キー';
 comment on column LOCALES.LANGUAGE is '言語';
 comment on column LOCALES.COUNTRY is '国';
-comment on column LOCALES.Variant is 'バリアント';
+comment on column LOCALES.VARIANT is 'バリアント';
+comment on column LOCALES.DISP_NAME is '表示名';
+comment on column LOCALES.FLAG_ICON is '国旗のアイコン';
 comment on column LOCALES.ROW_ID is '行ID';
 comment on column LOCALES.INSERT_USER is '登録ユーザ';
 comment on column LOCALES.INSERT_DATETIME is '登録日時';

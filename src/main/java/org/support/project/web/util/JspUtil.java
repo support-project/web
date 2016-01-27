@@ -10,7 +10,6 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.PageContext;
@@ -599,7 +598,7 @@ public class JspUtil {
 	}
 	
 	/**
-	 * ロケールの国名を表示
+	 * ロケールを取得
 	 * @return
 	 */
 	public Locale locale() {
