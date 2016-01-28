@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -669,5 +670,12 @@ public abstract class Control {
 	protected void setCookie(String key, String value) {
 		HttpUtil.setCookie(getRequest(), getResponse(), key, value);
 	}
-
+	/**
+	 * Localeを取得
+	 * @return
+	 */
+	protected Locale getLocale() {
+		return HttpUtil.getLocale(request);
+	}
+	
 }
