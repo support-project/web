@@ -1,4 +1,5 @@
-## web
+## web [![Build Status](https://travis-ci.org/support-project/web.svg?branch=master)](https://travis-ci.org/support-project/web)
+
 
 ===============
 
