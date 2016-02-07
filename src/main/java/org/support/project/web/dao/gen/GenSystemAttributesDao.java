@@ -5,7 +5,7 @@ import java.util.List;
 import java.sql.Timestamp;
 
 
-import org.support.project.web.entity.LocalesEntity;
+import org.support.project.web.entity.SystemAttributesEntity;
 import org.support.project.ormapping.dao.AbstractDao;
 import org.support.project.ormapping.exception.ORMappingException;
 import org.support.project.ormapping.common.SQLManager;
@@ -21,10 +21,10 @@ import org.support.project.di.Instance;
 import org.support.project.aop.Aspect;
 
 /**
- * ロケール
+ * システム付加情報
  */
 @DI(instance=Instance.Singleton)
-public class GenLocalesDao extends AbstractDao {
+public class GenSystemAttributesDao extends AbstractDao {
 
 	/** SerialVersion */
 	private static final long serialVersionUID = 1L;
@@ -34,57 +34,82 @@ public class GenLocalesDao extends AbstractDao {
 	 * AOPに対応
 	 * @return インスタンス
 	 */
-	public static GenLocalesDao get() {
-		return Container.getComp(GenLocalesDao.class);
+	public static GenSystemAttributesDao get() {
+		return Container.getComp(GenSystemAttributesDao.class);
 	}
 
 	/**
 	 * 全て取得(削除フラグを無視して取得) 
 	 */
-	public List<LocalesEntity> physicalSelectAll() { 
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LocalesDao/LocalesDao_physical_select_all.sql");
-		return executeQueryList(sql, LocalesEntity.class);
+	public List<SystemAttributesEntity> physicalSelectAll() { 
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemAttributesDao/SystemAttributesDao_physical_select_all.sql");
+		return executeQueryList(sql, SystemAttributesEntity.class);
 	}
 	/**
 	 * キーで1件取得(削除フラグを無視して取得) 
 	 */
-	public LocalesEntity physicalSelectOnKey(String key) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LocalesDao/LocalesDao_physical_select_on_key.sql");
-		return executeQuerySingle(sql, LocalesEntity.class, key);
+	public SystemAttributesEntity physicalSelectOnKey(String configName, String systemName) {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemAttributesDao/SystemAttributesDao_physical_select_on_key.sql");
+		return executeQuerySingle(sql, SystemAttributesEntity.class, configName, systemName);
 	}
 	/**
 	 * 全て取得 
 	 */
-	public List<LocalesEntity> selectAll() { 
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LocalesDao/LocalesDao_select_all.sql");
-		return executeQueryList(sql, LocalesEntity.class);
+	public List<SystemAttributesEntity> selectAll() { 
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemAttributesDao/SystemAttributesDao_select_all.sql");
+		return executeQueryList(sql, SystemAttributesEntity.class);
 	}
 	/**
 	 * キーで1件取得 
 	 */
-	public LocalesEntity selectOnKey(String key) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LocalesDao/LocalesDao_select_on_key.sql");
-		return executeQuerySingle(sql, LocalesEntity.class, key);
+	public SystemAttributesEntity selectOnKey(String configName, String systemName) {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemAttributesDao/SystemAttributesDao_select_on_key.sql");
+		return executeQuerySingle(sql, SystemAttributesEntity.class, configName, systemName);
+	}
+	/**
+	 * CONFIG_NAME でリストを取得
+	 */
+	public List<SystemAttributesEntity> selectOnConfigName(String configName) {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemAttributesDao/SystemAttributesDao_select_on_config_name.sql");
+		return executeQueryList(sql, SystemAttributesEntity.class, configName);
+	}
+	/**
+	 * SYSTEM_NAME でリストを取得
+	 */
+	public List<SystemAttributesEntity> selectOnSystemName(String systemName) {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemAttributesDao/SystemAttributesDao_select_on_system_name.sql");
+		return executeQueryList(sql, SystemAttributesEntity.class, systemName);
+	}
+	/**
+	 * CONFIG_NAME でリストを取得
+	 */
+	public List<SystemAttributesEntity> physicalSelectOnConfigName(String configName) {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemAttributesDao/SystemAttributesDao_physical_select_on_config_name.sql");
+		return executeQueryList(sql, SystemAttributesEntity.class, configName);
+	}
+	/**
+	 * SYSTEM_NAME でリストを取得
+	 */
+	public List<SystemAttributesEntity> physicalSelectOnSystemName(String systemName) {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemAttributesDao/SystemAttributesDao_physical_select_on_system_name.sql");
+		return executeQueryList(sql, SystemAttributesEntity.class, systemName);
 	}
 	/**
 	 * 行を一意に特定するIDを生成
 	 */
 	protected String createRowId() {
-		return IDGen.get().gen("LOCALES");
+		return IDGen.get().gen("SYSTEM_ATTRIBUTES");
 	}
 	/**
 	 * 登録(データを生で操作/DBの採番機能のカラムも自分でセット) 
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public LocalesEntity rawPhysicalInsert(LocalesEntity entity) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LocalesDao/LocalesDao_raw_insert.sql");
+	public SystemAttributesEntity rawPhysicalInsert(SystemAttributesEntity entity) {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemAttributesDao/SystemAttributesDao_raw_insert.sql");
 		executeUpdate(sql, 
-			entity.getKey()
-			, entity.getLanguage()
-			, entity.getCountry()
-			, entity.getVariant()
-			, entity.getDispName()
-			, entity.getFlagIcon()
+			entity.getConfigName()
+			, entity.getSystemName()
+			, entity.getConfigValue()
 			, entity.getRowId()
 			, entity.getInsertUser()
 			, entity.getInsertDatetime()
@@ -98,15 +123,12 @@ public class GenLocalesDao extends AbstractDao {
 	 * 登録(データを生で操作) 
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public LocalesEntity physicalInsert(LocalesEntity entity) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LocalesDao/LocalesDao_insert.sql");
+	public SystemAttributesEntity physicalInsert(SystemAttributesEntity entity) {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemAttributesDao/SystemAttributesDao_insert.sql");
 		executeUpdate(sql, 
-			entity.getKey()
-			, entity.getLanguage()
-			, entity.getCountry()
-			, entity.getVariant()
-			, entity.getDispName()
-			, entity.getFlagIcon()
+			entity.getConfigName()
+			, entity.getSystemName()
+			, entity.getConfigValue()
 			, entity.getRowId()
 			, entity.getInsertUser()
 			, entity.getInsertDatetime()
@@ -120,7 +142,7 @@ public class GenLocalesDao extends AbstractDao {
 	 * 登録(登録ユーザを指定) 
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public LocalesEntity insert(Integer user, LocalesEntity entity) {
+	public SystemAttributesEntity insert(Integer user, SystemAttributesEntity entity) {
 		entity.setInsertUser(user);
 		entity.setInsertDatetime(new Timestamp(new java.util.Date().getTime()));
 		entity.setUpdateUser(user);
@@ -133,7 +155,7 @@ public class GenLocalesDao extends AbstractDao {
 	 * 登録
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public LocalesEntity insert(LocalesEntity entity) {
+	public SystemAttributesEntity insert(SystemAttributesEntity entity) {
 		DBUserPool pool = Container.getComp(DBUserPool.class);
 		Integer userId = (Integer) pool.getUser();
 		return insert(userId, entity);
@@ -142,21 +164,18 @@ public class GenLocalesDao extends AbstractDao {
 	 * 更新(データを生で操作) 
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public LocalesEntity physicalUpdate(LocalesEntity entity) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LocalesDao/LocalesDao_update.sql");
+	public SystemAttributesEntity physicalUpdate(SystemAttributesEntity entity) {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemAttributesDao/SystemAttributesDao_update.sql");
 		executeUpdate(sql, 
-			entity.getLanguage()
-			, entity.getCountry()
-			, entity.getVariant()
-			, entity.getDispName()
-			, entity.getFlagIcon()
+			entity.getConfigValue()
 			, entity.getRowId()
 			, entity.getInsertUser()
 			, entity.getInsertDatetime()
 			, entity.getUpdateUser()
 			, entity.getUpdateDatetime()
 			, entity.getDeleteFlag()
-			, entity.getKey()
+			, entity.getConfigName()
+			, entity.getSystemName()
 		);
 		return entity;
 	}
@@ -164,8 +183,8 @@ public class GenLocalesDao extends AbstractDao {
 	 * 更新(更新ユーザを指定) 
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public LocalesEntity update(Integer user, LocalesEntity entity) {
-		LocalesEntity db = selectOnKey(entity.getKey());
+	public SystemAttributesEntity update(Integer user, SystemAttributesEntity entity) {
+		SystemAttributesEntity db = selectOnKey(entity.getConfigName(), entity.getSystemName());
 		entity.setInsertUser(db.getInsertUser());
 		entity.setInsertDatetime(db.getInsertDatetime());
 		entity.setDeleteFlag(db.getDeleteFlag());
@@ -177,7 +196,7 @@ public class GenLocalesDao extends AbstractDao {
 	 * 更新
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public LocalesEntity update(LocalesEntity entity) {
+	public SystemAttributesEntity update(SystemAttributesEntity entity) {
 		DBUserPool pool = Container.getComp(DBUserPool.class);
 		Integer userId = (Integer) pool.getUser();
 		return update(userId, entity);
@@ -186,8 +205,8 @@ public class GenLocalesDao extends AbstractDao {
 	 * 保存(ユーザを指定) 
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public LocalesEntity save(Integer user, LocalesEntity entity) {
-		LocalesEntity db = selectOnKey(entity.getKey());
+	public SystemAttributesEntity save(Integer user, SystemAttributesEntity entity) {
+		SystemAttributesEntity db = selectOnKey(entity.getConfigName(), entity.getSystemName());
 		if (db == null) {
 			return insert(user, entity);
 		} else {
@@ -198,8 +217,8 @@ public class GenLocalesDao extends AbstractDao {
 	 * 保存(存在しなければ登録、存在すれば更新) 
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public LocalesEntity save(LocalesEntity entity) {
-		LocalesEntity db = selectOnKey(entity.getKey());
+	public SystemAttributesEntity save(SystemAttributesEntity entity) {
+		SystemAttributesEntity db = selectOnKey(entity.getConfigName(), entity.getSystemName());
 		if (db == null) {
 			return insert(entity);
 		} else {
@@ -210,24 +229,24 @@ public class GenLocalesDao extends AbstractDao {
 	 * 削除(データを生で操作/物理削除) 
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void physicalDelete(String key) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LocalesDao/LocalesDao_delete.sql");
-		executeUpdate(sql, key);
+	public void physicalDelete(String configName, String systemName) {
+		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemAttributesDao/SystemAttributesDao_delete.sql");
+		executeUpdate(sql, configName, systemName);
 	}
 	/**
 	 * 削除(データを生で操作/物理削除) 
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void physicalDelete(LocalesEntity entity) {
-		physicalDelete(entity.getKey());
+	public void physicalDelete(SystemAttributesEntity entity) {
+		physicalDelete(entity.getConfigName(), entity.getSystemName());
 
 	}
 	/**
 	 * 削除(削除ユーザを指定／論理削除があれば論理削除) 
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void delete(Integer user, String key) {
-		LocalesEntity db = selectOnKey(key);
+	public void delete(Integer user, String configName, String systemName) {
+		SystemAttributesEntity db = selectOnKey(configName, systemName);
 		db.setDeleteFlag(1);
 		db.setUpdateUser(user);
 		db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
@@ -237,33 +256,33 @@ public class GenLocalesDao extends AbstractDao {
 	 * 削除(論理削除があれば論理削除) 
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void delete(String key) {
+	public void delete(String configName, String systemName) {
 		DBUserPool pool = Container.getComp(DBUserPool.class);
 		Integer user = (Integer) pool.getUser();
-		delete(user, key);
+		delete(user, configName, systemName);
 	}
 	/**
 	 * 削除(削除ユーザを指定／論理削除があれば論理削除) 
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void delete(Integer user, LocalesEntity entity) {
-		delete(user, entity.getKey());
+	public void delete(Integer user, SystemAttributesEntity entity) {
+		delete(user, entity.getConfigName(), entity.getSystemName());
 
 	}
 	/**
 	 * 削除(論理削除があれば論理削除) 
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void delete(LocalesEntity entity) {
-		delete(entity.getKey());
+	public void delete(SystemAttributesEntity entity) {
+		delete(entity.getConfigName(), entity.getSystemName());
 
 	}
 	/**
 	 復元(論理削除されていたものを有効化) 
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void activation(Integer user, String key) {
-		LocalesEntity db = physicalSelectOnKey(key);
+	public void activation(Integer user, String configName, String systemName) {
+		SystemAttributesEntity db = physicalSelectOnKey(configName, systemName);
 		db.setDeleteFlag(0);
 		db.setUpdateUser(user);
 		db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
@@ -273,25 +292,25 @@ public class GenLocalesDao extends AbstractDao {
 	 * 復元(論理削除されていたものを有効化) 
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void activation(String key) {
+	public void activation(String configName, String systemName) {
 		DBUserPool pool = Container.getComp(DBUserPool.class);
 		Integer user = (Integer) pool.getUser();
-		activation(user, key);
+		activation(user, configName, systemName);
 	}
 	/**
 	 * 復元(論理削除されていたものを有効化) 
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void activation(Integer user, LocalesEntity entity) {
-		activation(user, entity.getKey());
+	public void activation(Integer user, SystemAttributesEntity entity) {
+		activation(user, entity.getConfigName(), entity.getSystemName());
 
 	}
 	/**
 	 * 復元(論理削除されていたものを有効化) 
 	 */
 	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void activation(LocalesEntity entity) {
-		activation(entity.getKey());
+	public void activation(SystemAttributesEntity entity) {
+		activation(entity.getConfigName(), entity.getSystemName());
 
 	}
 

@@ -17,10 +17,10 @@ import org.support.project.di.DI;
 import org.support.project.di.Instance;
 
 /**
- * ロケール
+ * システム付加情報
  */
 @DI(instance=Instance.Prototype)
-public class GenLocalesEntity implements Serializable {
+public class GenSystemAttributesEntity implements Serializable {
 
 	/** SerialVersion */
 	private static final long serialVersionUID = 1L;
@@ -30,38 +30,34 @@ public class GenLocalesEntity implements Serializable {
 	 * AOPに対応
 	 * @return インスタンス
 	 */
-	public static GenLocalesEntity get() {
-		return Container.getComp(GenLocalesEntity.class);
+	public static GenSystemAttributesEntity get() {
+		return Container.getComp(GenSystemAttributesEntity.class);
 	}
 
 	/**
 	 * コンストラクタ
 	 */
-	public GenLocalesEntity() {
+	public GenSystemAttributesEntity() {
 		super();
 	}
 
 	/**
 	 * コンストラクタ
-	 * @param key キー
+	 * @param configName コンフィグ名
+	 * @param systemName システム名
 	 */
 
-	public GenLocalesEntity(String key) {
+	public GenSystemAttributesEntity(String configName, String systemName) {
 		super();
-		this.key = key;
+		this.configName = configName;
+		this.systemName = systemName;
 	}
-	/** キー */
-	private String key;
-	/** 言語 */
-	private String language;
-	/** 国 */
-	private String country;
-	/** バリアント */
-	private String variant;
-	/** 表示名 */
-	private String dispName;
-	/** 国旗のアイコン */
-	private String flagIcon;
+	/** システム名 */
+	private String systemName;
+	/** コンフィグ名 */
+	private String configName;
+	/** コンフィグ値 */
+	private String configValue;
 	/** 行ID */
 	private String rowId;
 	/** 登録ユーザ */
@@ -76,92 +72,47 @@ public class GenLocalesEntity implements Serializable {
 	private Integer deleteFlag;
 
 	/**
-	 * キー を取得する
+	 * システム名 を取得する
 	 */
-	public String getKey() {
-		return this.key;
+	public String getSystemName() {
+		return this.systemName;
 	}
 	/**
-	 * キー を設定する
-	 * @param key キー
+	 * システム名 を設定する
+	 * @param systemName システム名
 	 */
-	public GenLocalesEntity setKey(String key) {
-		this.key = key;
+	public GenSystemAttributesEntity setSystemName(String systemName) {
+		this.systemName = systemName;
 		return this;
 	}
 
 	/**
-	 * 言語 を取得する
+	 * コンフィグ名 を取得する
 	 */
-	public String getLanguage() {
-		return this.language;
+	public String getConfigName() {
+		return this.configName;
 	}
 	/**
-	 * 言語 を設定する
-	 * @param language 言語
+	 * コンフィグ名 を設定する
+	 * @param configName コンフィグ名
 	 */
-	public GenLocalesEntity setLanguage(String language) {
-		this.language = language;
+	public GenSystemAttributesEntity setConfigName(String configName) {
+		this.configName = configName;
 		return this;
 	}
 
 	/**
-	 * 国 を取得する
+	 * コンフィグ値 を取得する
 	 */
-	public String getCountry() {
-		return this.country;
+	public String getConfigValue() {
+		return this.configValue;
 	}
 	/**
-	 * 国 を設定する
-	 * @param country 国
+	 * コンフィグ値 を設定する
+	 * @param configValue コンフィグ値
 	 */
-	public GenLocalesEntity setCountry(String country) {
-		this.country = country;
-		return this;
-	}
-
-	/**
-	 * バリアント を取得する
-	 */
-	public String getVariant() {
-		return this.variant;
-	}
-	/**
-	 * バリアント を設定する
-	 * @param variant バリアント
-	 */
-	public GenLocalesEntity setVariant(String variant) {
-		this.variant = variant;
-		return this;
-	}
-
-	/**
-	 * 表示名 を取得する
-	 */
-	public String getDispName() {
-		return this.dispName;
-	}
-	/**
-	 * 表示名 を設定する
-	 * @param dispName 表示名
-	 */
-	public GenLocalesEntity setDispName(String dispName) {
-		this.dispName = dispName;
-		return this;
-	}
-
-	/**
-	 * 国旗のアイコン を取得する
-	 */
-	public String getFlagIcon() {
-		return this.flagIcon;
-	}
-	/**
-	 * 国旗のアイコン を設定する
-	 * @param flagIcon 国旗のアイコン
-	 */
-	public GenLocalesEntity setFlagIcon(String flagIcon) {
-		this.flagIcon = flagIcon;
+	public GenSystemAttributesEntity setConfigValue(String configValue) {
+		this.configValue = configValue;
 		return this;
 	}
 
@@ -175,7 +126,7 @@ public class GenLocalesEntity implements Serializable {
 	 * 行ID を設定する
 	 * @param rowId 行ID
 	 */
-	public GenLocalesEntity setRowId(String rowId) {
+	public GenSystemAttributesEntity setRowId(String rowId) {
 		this.rowId = rowId;
 		return this;
 	}
@@ -190,7 +141,7 @@ public class GenLocalesEntity implements Serializable {
 	 * 登録ユーザ を設定する
 	 * @param insertUser 登録ユーザ
 	 */
-	public GenLocalesEntity setInsertUser(Integer insertUser) {
+	public GenSystemAttributesEntity setInsertUser(Integer insertUser) {
 		this.insertUser = insertUser;
 		return this;
 	}
@@ -205,7 +156,7 @@ public class GenLocalesEntity implements Serializable {
 	 * 登録日時 を設定する
 	 * @param insertDatetime 登録日時
 	 */
-	public GenLocalesEntity setInsertDatetime(Timestamp insertDatetime) {
+	public GenSystemAttributesEntity setInsertDatetime(Timestamp insertDatetime) {
 		this.insertDatetime = insertDatetime;
 		return this;
 	}
@@ -220,7 +171,7 @@ public class GenLocalesEntity implements Serializable {
 	 * 更新ユーザ を設定する
 	 * @param updateUser 更新ユーザ
 	 */
-	public GenLocalesEntity setUpdateUser(Integer updateUser) {
+	public GenSystemAttributesEntity setUpdateUser(Integer updateUser) {
 		this.updateUser = updateUser;
 		return this;
 	}
@@ -235,7 +186,7 @@ public class GenLocalesEntity implements Serializable {
 	 * 更新日時 を設定する
 	 * @param updateDatetime 更新日時
 	 */
-	public GenLocalesEntity setUpdateDatetime(Timestamp updateDatetime) {
+	public GenSystemAttributesEntity setUpdateDatetime(Timestamp updateDatetime) {
 		this.updateDatetime = updateDatetime;
 		return this;
 	}
@@ -250,7 +201,7 @@ public class GenLocalesEntity implements Serializable {
 	 * 削除フラグ を設定する
 	 * @param deleteFlag 削除フラグ
 	 */
-	public GenLocalesEntity setDeleteFlag(Integer deleteFlag) {
+	public GenSystemAttributesEntity setDeleteFlag(Integer deleteFlag) {
 		this.deleteFlag = deleteFlag;
 		return this;
 	}
@@ -259,21 +210,24 @@ public class GenLocalesEntity implements Serializable {
 	 * キーの値を取得 
 	 */
 	public Object[] getKeyValues() {
-		Object[] keyValues = new Object[1];
-		keyValues[0] = this.key;
+		Object[] keyValues = new Object[2];
+		keyValues[0] = this.configName;
+		keyValues[1] = this.systemName;
 		return keyValues;
 	}
 	/**
 	 * キーの値を設定 
-	 * @param key キー
+	 * @param configName コンフィグ名
+	 * @param systemName システム名
 	 */
-	public void setKeyValues(String key) {
-		this.key = key;
+	public void setKeyValues(String configName, String systemName) {
+		this.configName = configName;
+		this.systemName = systemName;
 	}
 	/**
 	 * キーで比較 
 	 */
-	public boolean equalsOnKey(GenLocalesEntity entity) {
+	public boolean equalsOnKey(GenSystemAttributesEntity entity) {
 		Object[] keyValues1 = getKeyValues();
 		Object[] keyValues2 = entity.getKeyValues();
 		for (int i = 0; i < keyValues1.length; i++) {
@@ -299,12 +253,9 @@ public class GenLocalesEntity implements Serializable {
 	 */
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("key = ").append(key).append("\n");
-		builder.append("language = ").append(language).append("\n");
-		builder.append("country = ").append(country).append("\n");
-		builder.append("variant = ").append(variant).append("\n");
-		builder.append("dispName = ").append(dispName).append("\n");
-		builder.append("flagIcon = ").append(flagIcon).append("\n");
+		builder.append("configName = ").append(configName).append("\n");
+		builder.append("systemName = ").append(systemName).append("\n");
+		builder.append("configValue = ").append(configValue).append("\n");
 		builder.append("rowId = ").append(rowId).append("\n");
 		builder.append("insertUser = ").append(insertUser).append("\n");
 		builder.append("insertDatetime = ").append(insertDatetime).append("\n");
@@ -327,42 +278,22 @@ public class GenLocalesEntity implements Serializable {
 		Validator validator;
 		ValidateError error;
 		validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-		error = validator.validate(this.key, convLabelName("Key"));
+		error = validator.validate(this.systemName, convLabelName("System Name"));
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(this.key, convLabelName("Key"), 12);
+		error = validator.validate(this.systemName, convLabelName("System Name"), 64);
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-		error = validator.validate(this.language, convLabelName("Language"));
+		error = validator.validate(this.configName, convLabelName("Config Name"));
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(this.language, convLabelName("Language"), 4);
-		if (error != null) {
-			errors.add(error);
-		}
-		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(this.country, convLabelName("Country"), 4);
-		if (error != null) {
-			errors.add(error);
-		}
-		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(this.variant, convLabelName("Variant"), 4);
-		if (error != null) {
-			errors.add(error);
-		}
-		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(this.dispName, convLabelName("Disp Name"), 128);
-		if (error != null) {
-			errors.add(error);
-		}
-		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(this.flagIcon, convLabelName("Flag Icon"), 24);
+		error = validator.validate(this.configName, convLabelName("Config Name"), 256);
 		if (error != null) {
 			errors.add(error);
 		}
@@ -396,42 +327,22 @@ public class GenLocalesEntity implements Serializable {
 		Validator validator;
 		ValidateError error;
 		validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-		error = validator.validate(values.get("key"), convLabelName("Key"));
+		error = validator.validate(values.get("systemName"), convLabelName("System Name"));
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(values.get("key"), convLabelName("Key"), 12);
+		error = validator.validate(values.get("systemName"), convLabelName("System Name"), 64);
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-		error = validator.validate(values.get("language"), convLabelName("Language"));
+		error = validator.validate(values.get("configName"), convLabelName("Config Name"));
 		if (error != null) {
 			errors.add(error);
 		}
 		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(values.get("language"), convLabelName("Language"), 4);
-		if (error != null) {
-			errors.add(error);
-		}
-		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(values.get("country"), convLabelName("Country"), 4);
-		if (error != null) {
-			errors.add(error);
-		}
-		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(values.get("variant"), convLabelName("Variant"), 4);
-		if (error != null) {
-			errors.add(error);
-		}
-		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(values.get("dispName"), convLabelName("Disp Name"), 128);
-		if (error != null) {
-			errors.add(error);
-		}
-		validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-		error = validator.validate(values.get("flagIcon"), convLabelName("Flag Icon"), 24);
+		error = validator.validate(values.get("configName"), convLabelName("Config Name"), 256);
 		if (error != null) {
 			errors.add(error);
 		}
