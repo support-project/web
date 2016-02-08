@@ -22,6 +22,8 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
 	private int uploadMaxMBSize;
 	private boolean convTmpPath = false;
 	
+	private String migratePackage;
+	
 	/** HASH_ITERATIONS */
 	private Integer hashIterations = DEFAULT_HASH_ITERATIONS;
 	/** HASH_SIZE_BITS */
@@ -108,6 +110,20 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
 	 */
 	public void setLanguages(List<LabelValue> languages) {
 		this.languages = languages;
+	}
+
+	/**
+	 * @return the migratePackage
+	 */
+	public String getMigratePackage() {
+		return migratePackage;
+	}
+
+	/**
+	 * @param migratePackage the migratePackage to set
+	 */
+	public void setMigratePackage(String migratePackage) {
+		this.migratePackage = migratePackage;
 	}
 	
 }
