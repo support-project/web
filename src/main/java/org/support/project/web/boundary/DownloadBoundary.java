@@ -79,7 +79,7 @@ public class DownloadBoundary extends AbstractBoundary {
 				try {
 					os.close();
 				} catch (IOException e) {
-					new SystemException(e);
+					throw new SystemException(e);
 				} finally {
 					os = null;
 				}

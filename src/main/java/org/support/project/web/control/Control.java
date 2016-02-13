@@ -44,7 +44,11 @@ import org.support.project.web.config.MessageStatus;
 import org.support.project.web.control.service.Get;
 import org.support.project.web.exception.InvalidParamException;
 
-@DI(instance=Instance.Prototype)
+/**
+ * Controlの基底クラス
+ * @author Koda
+ */
+@DI(instance = Instance.Prototype)
 public abstract class Control {
 	/** ログ */
 	private static Log log = LogFactory.getLog(Control.class);
@@ -153,7 +157,7 @@ public abstract class Control {
 			String subPackageName = invokeTarget.getSubPackageName();
 			if (StringUtils.isNotEmpty(subPackageName)) {
 				if (subPackageName.indexOf("\\.") != -1) {
-					String[] packages = subPackageName.split(".");
+					String[] packages = StringUtils.split(subPackageName, ".");
 					for (int i = packages.length -1; i <= 0; i--) {
 						String string = packages[i];
 						builder.append(string).append("/");
