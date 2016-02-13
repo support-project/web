@@ -506,17 +506,17 @@ public class JspUtil {
 	 */
 	public boolean is(Object val, String paramName) throws InstantiationException, IllegalAccessException {
 		Object check = getValue(paramName, Object.class, "");
-		if (check != null && check instanceof String) {
-//			String str = (String) check;
-//			Policy policy = Policy.getInstance(JspUtil.class.getResourceAsStream(PATH_ANTISAMY_POLICY));
-//			AntiSamy as = new AntiSamy();
-//			CleanResults cr = as.scan(str, policy);
-//			check = cr.getCleanHTML();
+		if (check == null) {
+			if (val == null) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 		if (val instanceof String) {
 			return val.equals(check.toString());
 		}
-		// 画面から送られるリクエストは、すべて文字列型になるので、文字列にして比較ss
+		// 画面から送られるリクエストは、すべて文字列型になるので、文字列にして比較
 		return String.valueOf(val).equals(check.toString());
 	}
 	

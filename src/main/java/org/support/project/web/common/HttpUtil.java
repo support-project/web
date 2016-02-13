@@ -209,7 +209,7 @@ public class HttpUtil {
 					}
 				}
 
-				if (paramNames.contains(param.toString())) {
+				if (param != null && paramNames.contains(param.toString())) {
 					Class<?> type = PropertyUtil.getPropertyType(paramtypes, param.toString());
 //					String[] values = req.getParameterValues(string);
 //					if (values != null && values.length == 1) {

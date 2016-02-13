@@ -25,7 +25,7 @@ public class PartialsServlet extends HttpServlet {
 		if (extention == null) {
 			path = path.concat(".jsp");
 		} else if (extention.equals(".html")) {
-			path.replaceAll(".html", ".jsp");
+			path = path.replaceAll(".html", ".jsp");
 		}
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("path : " + path);

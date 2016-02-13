@@ -3,6 +3,7 @@ package org.support.project.web.logic.impl;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.Security;
 import java.util.Iterator;
@@ -55,7 +56,7 @@ public class DBAuthenticationInitSetting {
 		
 		InputStreamReader in = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(in);
-		String str = br.readLine();
+		String str = readLine(br);
 //		br.close();
 		
 		if (!StringUtils.isInteger(str)) {
@@ -107,11 +108,11 @@ public class DBAuthenticationInitSetting {
 		
 		InputStreamReader in = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(in);
-		String userId = br.readLine();
+		String userId = readLine(br);
 		
 		System.out.println("please input performer.");
 		System.out.print("> ");
-		String performer = br.readLine();
+		String performer = readLine(br);
 		
 		DBAuthenticationLogic logic = Container.getComp(DBAuthenticationLogic.class);
 		logic.deleteUser(userId, performer);
@@ -130,23 +131,23 @@ public class DBAuthenticationInitSetting {
 		
 		InputStreamReader in = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(in);
-		String userId = br.readLine();
+		String userId = readLine(br);
 		
 		System.out.println("please input password.");
 		System.out.print("> ");
-		String password = br.readLine();
+		String password = readLine(br);
 		
 		System.out.println("please input user name.");
 		System.out.print("> ");
-		String userName = br.readLine();
+		String userName = readLine(br);
 		
 		System.out.println("please input roleId.");
 		System.out.print("> ");
-		String roleId = br.readLine();
+		String roleId = readLine(br);
 		
 		System.out.println("please input performer.");
 		System.out.print("> ");
-		String performer = br.readLine();
+		String performer = readLine(br);
 		
 		DBAuthenticationLogic logic = Container.getComp(DBAuthenticationLogic.class);
 		if (roleId.indexOf(",") != -1) {
@@ -171,11 +172,11 @@ public class DBAuthenticationInitSetting {
 		
 		InputStreamReader in = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(in);
-		String userId = br.readLine();
+		String userId = readLine(br);
 		
 		System.out.println("please input password.");
 		System.out.print("> ");
-		String password = br.readLine();
+		String password = readLine(br);
 		
 		DBAuthenticationLogic logic = Container.getComp(DBAuthenticationLogic.class);
 		boolean result = logic.auth(userId, password);
@@ -233,23 +234,23 @@ public class DBAuthenticationInitSetting {
 		
 		InputStreamReader in = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(in);
-		String userId = br.readLine();
+		String userId = readLine(br);
 		
 		System.out.println("please input password.");
 		System.out.print("> ");
-		String password = br.readLine();
+		String password = readLine(br);
 		
 		System.out.println("please input user name.");
 		System.out.print("> ");
-		String userName = br.readLine();
+		String userName = readLine(br);
 		
 		System.out.println("please input roleId.");
 		System.out.print("> ");
-		String roleId = br.readLine();
+		String roleId = readLine(br);
 		
 		System.out.println("please input performer.");
 		System.out.print("> ");
-		String performer = br.readLine();
+		String performer = readLine(br);
 		
 		DBAuthenticationLogic logic = Container.getComp(DBAuthenticationLogic.class);
 		if (roleId.indexOf(",") != -1) {
@@ -266,6 +267,20 @@ public class DBAuthenticationInitSetting {
 		System.out.println("select menu.");
 		menuselect();
 	}
+	
+	/**
+	 * 標準入力から値を読み込む
+	 * @param br BufferedReader
+	 * @return 読み込んだ値
+	 * @throws IOException
+	 */
+	private String readLine(BufferedReader br) throws IOException {
+		String read = br.readLine();
+		if (StringUtils.isEmpty(read)) {
+			return "";
+		}
+		return read;
+	}
 
 	private void generateXmlTemplate() throws Exception {
 		System.out.println("please input output dir path.");
@@ -273,7 +288,7 @@ public class DBAuthenticationInitSetting {
 		
 		InputStreamReader in = new InputStreamReader(System.in);
 		BufferedReader br = new BufferedReader(in);
-		String str = br.readLine();
+		String str = readLine(br);
 		
 		File file = new File(str);
 		if (!file.exists()) {

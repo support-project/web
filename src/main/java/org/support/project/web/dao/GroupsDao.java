@@ -89,7 +89,11 @@ public class GroupsDao extends GenGroupsDao {
 			return executeQueryList(sql, GroupsEntity.class, keyword, limit, offset);
 		} else {
 			String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectOnKeyword.sql");
-			return executeQueryList(sql, GroupsEntity.class, keyword, loginedUser.getUserId(), limit, offset);
+			int userId = -1;
+			if (loginedUser != null) {
+				userId = loginedUser.getUserId();
+			}
+			return executeQueryList(sql, GroupsEntity.class, keyword, userId, limit, offset);
 		}
 	}
 

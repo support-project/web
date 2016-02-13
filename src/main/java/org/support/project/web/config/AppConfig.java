@@ -94,7 +94,7 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
 	/**
 	 * @param webRealPath the webRealPath to set
 	 */
-	public void setWebRealPath(String webRealPath) {
+	public static void setWebRealPath(String webRealPath) {
 		AppConfig.webRealPath = webRealPath;
 	}
 	
