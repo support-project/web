@@ -443,6 +443,17 @@ public abstract class Control {
 	public LoginedUser getLoginedUser() {
 		return (LoginedUser) request.getSession().getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
 	}
+	/**
+	 * ログインユーザ情報を最新の情報で更新
+	 */
+	public void updateLoginInfo() {
+		DefaultAuthenticationLogicImpl authenticationLogic = Container.getComp(DefaultAuthenticationLogicImpl.class);
+		LoginedUser loginedUser = getLoginedUser();
+		if (loginedUser != null) {
+			authenticationLogic.clearSession(request);
+			authenticationLogic.setSession(loginedUser.getLoginUser().getUserKey(), request);
+		}
+	}
 	
 	/**
 	 * ログインユーザのIDを取得
