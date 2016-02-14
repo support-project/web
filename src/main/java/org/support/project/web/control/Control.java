@@ -12,9 +12,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.arnx.jsonic.JSON;
-import net.arnx.jsonic.JSONException;
-
 import org.support.project.common.bean.ValidateError;
 import org.support.project.common.config.CommonBaseParameter;
 import org.support.project.common.config.Resources;
@@ -43,6 +40,10 @@ import org.support.project.web.config.HttpMethod;
 import org.support.project.web.config.MessageStatus;
 import org.support.project.web.control.service.Get;
 import org.support.project.web.exception.InvalidParamException;
+import org.support.project.web.logic.impl.DefaultAuthenticationLogicImpl;
+
+import net.arnx.jsonic.JSON;
+import net.arnx.jsonic.JSONException;
 
 /**
  * Controlの基底クラス
@@ -69,9 +70,9 @@ public abstract class Control {
 	
 	/** リソース */
 	protected Resources resources = Resources.getInstance(CommonBaseParameter.APP_RESOURCE);
-	
+	/** Viewのベースパス */
 	public static final String BASE_PATH = "/WEB-INF/views";
-	
+	/** HTMLエスケープして送信するかのフラグ */
 	private boolean sendEscapeHtml = true;
 	
 	/**
@@ -158,7 +159,7 @@ public abstract class Control {
 			if (StringUtils.isNotEmpty(subPackageName)) {
 				if (subPackageName.indexOf("\\.") != -1) {
 					String[] packages = StringUtils.split(subPackageName, ".");
-					for (int i = packages.length -1; i <= 0; i--) {
+					for (int i = packages.length - 1; i <= 0; i--) {
 						String string = packages[i];
 						builder.append(string).append("/");
 					}
@@ -467,35 +468,73 @@ public abstract class Control {
 		return loginedUser.getLoginUser().getUserId();
 	}
 	
-	
+	/**
+	 * request を取得
+	 * @return
+	 */
 	public HttpServletRequest getRequest() {
 		return request;
 	}
+	/**
+	 * request をセット
+	 * @return
+	 */
 	public void setRequest(HttpServletRequest request) {
 		this.request = request;
 	}
+	/**
+	 * response を取得
+	 * @return
+	 */
 	public HttpServletResponse getResponse() {
 		return response;
 	}
+	/**
+	 * response をセット
+	 * @return
+	 */
 	public void setResponse(HttpServletResponse response) {
 		this.response = response;
 	}
+	/**
+	 * invokeTarget を取得
+	 * @return
+	 */
 	public InvokeTarget getInvokeTarget() {
 		return invokeTarget;
 	}
-
+	/**
+	 * invokeTarget をセット
+	 * @return
+	 */
 	public void setInvokeTarget(InvokeTarget invokeTarget) {
 		this.invokeTarget = invokeTarget;
 	}
+	/**
+	 * path を取得
+	 * @return
+	 */
 	public String getPath() {
 		return path;
 	}
+	/**
+	 * path をセット
+	 * @return
+	 */
 	public void setPath(String path) {
 		this.path = path;
 	}
+	/**
+	 * pathInfo を取得
+	 * @return
+	 */
 	public String getPathInfo() {
 		return pathInfo;
 	}
+	/**
+	 * pathInfo をセット
+	 * @return
+	 */
 	public void setPathInfo(String pathInfo) {
 		this.pathInfo = pathInfo;
 	}
@@ -622,7 +661,12 @@ public abstract class Control {
 		}
 	}
 	
-	
+	/**
+	 * パラメータを取得
+	 * @param paramName
+	 * @param type
+	 * @return
+	 */
 	protected <T> T getParam(String paramName, Class<? extends T> type) {
 		try {
 			return HttpUtil.getParameter(request, paramName, type);
@@ -630,7 +674,11 @@ public abstract class Control {
 			throw new SystemException(e);
 		}
 	}
-	
+	/**
+	 * パラメータを取得
+	 * @param type
+	 * @return
+	 */
 	protected <T> T getParams(Class<? extends T> type) {
 		try {
 			return HttpUtil.parseRequest(request, type);
@@ -638,7 +686,10 @@ public abstract class Control {
 			throw new SystemException(e);
 		}
 	}
-	
+	/**
+	 * パラメータをマップで取得
+	 * @return
+	 */
 	protected Map<String, String> getParams() {
 		Map<String, String> map = new HashMap<>();
 		Enumeration<String> enumeration = request.getParameterNames();
@@ -664,6 +715,16 @@ public abstract class Control {
 		this.sendEscapeHtml = sendEscapeHtml;
 	}
 	
+	/**
+	 * パラメータをオブジェクトにセットして取得
+	 * @param type
+	 * @return
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws JSONException
+	 * @throws IOException
+	 * @throws InvalidParamException
+	 */
 	public <T> T getParamOnProperty(final Class<? extends T> type) 
 			throws InstantiationException, IllegalAccessException, JSONException, IOException, InvalidParamException {
 		return HttpUtil.parseRequest(request, type);
