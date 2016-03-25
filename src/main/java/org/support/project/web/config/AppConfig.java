@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.support.project.common.config.ConfigLoader;
-import org.support.project.common.log.Log;
-import org.support.project.common.log.LogFactory;
 import org.support.project.common.util.StringUtils;
 import org.support.project.web.bean.Batchinfo;
 import org.support.project.web.bean.LabelValue;
@@ -17,18 +15,15 @@ import org.support.project.web.bean.LabelValue;
  *
  */
 public class AppConfig extends org.support.project.common.config.AppConfig {
-    /** ログ */
-    private static final Log LOG = LogFactory.getLog(AppConfig.class);
+    /** インスタンス */
+    private static AppConfig appConfig = null;
     /** インスタンスを取得 */
     public static AppConfig get() {
         if (appConfig == null) {
-            LOG.info("Load App Congfig");
             appConfig = ConfigLoader.load(AppConfig.APP_CONFIG, AppConfig.class);
         }
         return appConfig;
     }
-    /** インスタンス */
-    private static AppConfig appConfig = null;
     
     /** パスワードのハッシュを生成する際おイテレーション回数 */
     private static final int DEFAULT_HASH_ITERATIONS = 100;

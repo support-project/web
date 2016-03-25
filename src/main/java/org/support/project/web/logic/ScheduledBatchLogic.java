@@ -37,9 +37,6 @@ public class ScheduledBatchLogic {
     /** スケジュール化されたバッチ処理 */
     private List<ScheduledFuture<?>> futures = new ArrayList<>();
     
-    /** Javaのバッチを呼び出す際に、テストクラスが格納されるディレクトリをクラスパスにセットするかどうか */
-    private boolean addTestClassDir = false;
-    
     /**
      * バッチをスケジュール登録
      * 
@@ -66,10 +63,21 @@ public class ScheduledBatchLogic {
      */
     private ScheduledFuture createJavaBatch(Batchinfo batchinfo) {
         String envValue = SystemUtils.getenv(AppConfig.getEnvKey());
-        String currentPath = AppConfig.get().getWebRealPath();
-        File currentDirectory = new File(currentPath);
-        
         int waitStart = (futures.size() * 2) + 1; // バッチの最初の起動は、Webアプリ起動の５分後で、かつバッチ毎に２分づつづらす
+        
+        TimeUnit timeUnit = TimeUnit.MINUTES;
+        if (StringUtils.isNotEmpty(batchinfo.getTimeUnit())) {
+            String unit = batchinfo.getTimeUnit().toUpperCase();
+            if (unit.equals("MILLISECONDS")) {
+                timeUnit = TimeUnit.MILLISECONDS;
+            } else if (unit.equals("SECONDS")) {
+                timeUnit = TimeUnit.SECONDS;
+            } else if (unit.equals("HOURS")) {
+                timeUnit = TimeUnit.HOURS;
+            } else if (unit.equals("DAYS")) {
+                timeUnit = TimeUnit.DAYS;
+            }
+        }
         
         ScheduledFuture future = service.scheduleAtFixedRate(new Runnable() {
             @Override
@@ -79,11 +87,20 @@ public class ScheduledBatchLogic {
                 }
                 // Java を別のVMで実行
                 JavaJob job = new JavaJob();
-                job.setCurrentDirectory(currentDirectory);
-                job.addjarDir(new File(AppConfig.get().getWebRealPath(), "lib"));
-                job.addClassPathDir(new File(AppConfig.get().getWebRealPath(), "classes"));
-                if (addTestClassDir) {
-                    job.addClassPathDir(new File(AppConfig.get().getWebRealPath(), "test-classes"));
+                File currentDir = new File(AppConfig.get().getBasePath());
+                if (!currentDir.exists()) {
+                    currentDir.mkdirs();
+                }
+                job.setCurrentDirectory(currentDir);
+                
+                String classPath = System.getProperty("java.class.path");
+                String[] classPaths = classPath.split(File.pathSeparator);
+                for (String path : classPaths) {
+                    job.addClassPathDir(new File(path));
+                }
+                if (StringUtils.isNotEmpty(AppConfig.get().getWebRealPath())) {
+                    job.addjarDir(new File(AppConfig.get().getWebRealPath(), "/WEB-INF/lib"));
+                    job.addClassPathDir(new File(AppConfig.get().getWebRealPath(), "/WEB-INF/classes"));
                 }
                 job.setMainClass(batchinfo.getCommand());
                 if (StringUtils.isNotEmpty(envValue)) {
@@ -101,7 +118,10 @@ public class ScheduledBatchLogic {
                     LOG.error("Faild batch [" + batchinfo.getName() + "]", e);
                 }
             }
-        }, waitStart, batchinfo.getTerm(), TimeUnit.MINUTES); // 1分後に実行、60分毎に実行
+        }, waitStart, batchinfo.getTerm(), timeUnit);
+        
+        LOG.info("Add batch program. [" + batchinfo.getName() + "] " + batchinfo.getCommand());
+        
         return future;
     }
     
@@ -125,12 +145,5 @@ public class ScheduledBatchLogic {
         }
     }
 
-    /**
-     * @param addTestClassDir the addTestClassDir to set
-     */
-    public void setAddTestClassDir(boolean addTestClassDir) {
-        this.addTestClassDir = addTestClassDir;
-    }
-    
 
 }

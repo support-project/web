@@ -16,7 +16,8 @@
             <name>BatchSample</name>
             <type>Java</type>
             <command>org.support.project.web.batch.TestBatch</command>
-            <term>1</term>
+            <term>5</term>
+            <timeUnit>SECONDS</timeUnit>
         </batch>
         <batch>
             <name>FileList</name>

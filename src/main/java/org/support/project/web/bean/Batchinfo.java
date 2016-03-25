@@ -26,9 +26,13 @@ public class Batchinfo implements Serializable {
      */
     private String command;
     /**
-     * 呼び出し間隔（分）
+     * 呼び出し間隔
      */
     private Integer term;
+    
+    /** 呼び出し間隔の単位(MILLISECONDS,SECONDS,MINUTES,HOURS,DAYS) */
+    private String timeUnit;
+    
     /**
      * @return the type
      */
@@ -76,6 +80,18 @@ public class Batchinfo implements Serializable {
      */
     public void setName(String name) {
         this.name = name;
+    }
+    /**
+     * @return the timeUnit
+     */
+    public String getTimeUnit() {
+        return timeUnit;
+    }
+    /**
+     * @param timeUnit the timeUnit to set
+     */
+    public void setTimeUnit(String timeUnit) {
+        this.timeUnit = timeUnit;
     }
     
     

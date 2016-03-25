@@ -2,25 +2,37 @@ package org.support.project.web.logic;
 
 import java.io.File;
 
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Logger;
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
 import org.support.project.web.config.AppConfig;
 
+/**
+ * バッチプログラムを定期的に呼び出すテスト実行クラス
+ * @author Koda
+ */
 public class ScheduledBatchLogicCall {
     /** ログ */
     private static final Log LOG = LogFactory.getLog(ScheduledBatchLogicCall.class);
-
+    /**
+     * テスト開始
+     * @param args
+     * @throws InterruptedException
+     */
     public static void main(String[] args) throws InterruptedException {
-        AppConfig appConfig = AppConfig.get();
-
-        String classpath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        File classDir = new File(classpath);
-        File base = classDir.getParentFile();
-        LOG.info("base : " + base.getAbsolutePath());
-        appConfig.setWebRealPath(base.getAbsolutePath());
+        String logsPath = AppConfig.get().getLogsPath();
+        File logDir = new File(logsPath);
+        if (!logDir.exists()) {
+            logDir.mkdirs();
+        }
+        Logger log = Logger.getRootLogger();
+        FileAppender appendar = (FileAppender) log.getAppender("APP_FILEOUT");
+        File logfile = new File(logDir, "/batch.log");
+        appendar.setFile(logfile.getAbsolutePath());
+        appendar.activateOptions(); //変更の反映
         
         ScheduledBatchLogic logic = ScheduledBatchLogic.get();
-        logic.setAddTestClassDir(true);
         logic.scheduleInitialize();
         
         int count = 0;

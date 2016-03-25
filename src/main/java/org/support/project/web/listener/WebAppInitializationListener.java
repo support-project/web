@@ -32,8 +32,11 @@ public class WebAppInitializationListener implements ServletContextListener {
         }
         Logger log = Logger.getRootLogger();
         FileAppender appendar = (FileAppender) log.getAppender("APP_FILEOUT");
-        appendar.setFile(logDir + "/app.log");
-        appendar.activateOptions(); //変更の反映
+        if (appendar != null) {
+            File logfile = new File(logDir, "app.log");
+            appendar.setFile(logfile.getAbsolutePath());
+            appendar.activateOptions(); //変更の反映
+        }
         
         // 添付ファイル格納ディレクトリ（テンポラリディレクトリ）が存在しなければ生成
         AppConfig appConfig = AppConfig.get();

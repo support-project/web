@@ -13,7 +13,7 @@
 
     <!-- FileAppender -->
     <appender name="APP_FILEOUT" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="File" value="applog.log" />
+        <param name="File" value="${user.dir}/app.log" />
         <param name="Append" value="true" />
         <param name="DatePattern" value="'.'yyyy-MM-dd" />
         <layout class="org.apache.log4j.PatternLayout">
@@ -59,13 +59,13 @@
         <level value="INFO" />
     </category>
 
-
-
     <!-- Root Logger: Other -->
     <root>
         <priority value="DEBUG" />
         <appender-ref ref="APP_STDOUT" />
+        <appender-ref ref="APP_FILEOUT" />
     </root>
+    
 
 </log4j:configuration>
 
