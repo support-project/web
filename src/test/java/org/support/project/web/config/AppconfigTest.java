@@ -21,7 +21,7 @@ public class AppconfigTest {
         assertEquals(2, batchs.size());
         
         assertEquals("Java", AppConfig.get().getBatchs().get(0).getType());
-        assertEquals("org.support.project.web.batch.MailSendBatch", AppConfig.get().getBatchs().get(0).getCommand());
+        assertEquals("org.support.project.web.batch.TestBatch", AppConfig.get().getBatchs().get(0).getCommand());
         assertEquals(5, AppConfig.get().getBatchs().get(0).getTerm().intValue());
         
         assertEquals("APP_HOME", AppConfig.getEnvKey());
