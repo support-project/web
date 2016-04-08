@@ -35,6 +35,7 @@ public class RolesDao extends GenRolesDao {
 
     /**
      * IDを採番 ※コミットしなくても次のIDを採番する為、保存しなければ欠番になる
+     * @return next id
      */
     public Integer getNextId() {
         String sql = "SELECT MAX(ROLE_ID) FROM ROLES;";
@@ -51,8 +52,8 @@ public class RolesDao extends GenRolesDao {
     /**
      * ユーザのキーでロールの一覧を取得
      * 
-     * @param userKey
-     * @return
+     * @param userKey userKey
+     * @return role list
      */
     public List<RolesEntity> selectOnUserKey(String userKey) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/RolesDao/RolesDao_select_on_userkey.sql");

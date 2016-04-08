@@ -100,11 +100,11 @@ public class GroupsDao extends GenGroupsDao {
     /**
      * キーワードで所属グループを取得
      * 
-     * @param keyword
-     * @param loginedUser
-     * @param offset
-     * @param limit
-     * @return
+     * @param keyword keyword
+     * @param loginedUser loginedUser
+     * @param offset offset
+     * @param limit limit
+     * @return group list
      */
     public List<GroupsEntity> selectMyGroupOnKeyword(String keyword, LoginedUser loginedUser, int offset, int limit) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectMyGroupOnKeyword.sql");
@@ -114,9 +114,9 @@ public class GroupsDao extends GenGroupsDao {
     /**
      * アクセス可能なグループを取得 ※アクセス可能というのはUSER_GROUPSに登録されている、もしくは、「公開」か「保護」のもの
      * 
-     * @param groupId
-     * @param loginedUser
-     * @return
+     * @param groupId groupid
+     * @param loginedUser loginedUser
+     * @return group
      */
     public GroupsEntity selectAccessAbleGroup(Integer groupId, LoginedUser loginedUser) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectAccessAbleGroup.sql");
@@ -126,9 +126,9 @@ public class GroupsDao extends GenGroupsDao {
     /**
      * 編集可能なグループを取得 ※編集可能というのはUSER_GROUPSに存在し、かつそのロールが「1:管理者」であるもの
      * 
-     * @param groupId
-     * @param loginedUser
-     * @return
+     * @param groupId groupId
+     * @param loginedUser loginedUser
+     * @return group
      */
     public GroupsEntity selectEditAbleGroup(Integer groupId, LoginedUser loginedUser) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectEditAbleGroup.sql");
@@ -138,8 +138,8 @@ public class GroupsDao extends GenGroupsDao {
     /**
      * 指定のグループを取得
      * 
-     * @param groupids
-     * @return
+     * @param groupids groupids
+     * @return group list
      */
     public List<GroupsEntity> selectOnGroupIds(List<Integer> groupids) {
         StringBuilder builder = new StringBuilder();
@@ -159,8 +159,8 @@ public class GroupsDao extends GenGroupsDao {
     /**
      * グループ名からグループを取得
      * 
-     * @param groupName
-     * @return
+     * @param groupName group name
+     * @return group
      */
     public GroupsEntity selectOnGroupName(String groupName) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectOnGroupName.sql");

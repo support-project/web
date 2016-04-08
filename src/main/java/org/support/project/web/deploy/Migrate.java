@@ -4,14 +4,14 @@ public interface Migrate {
 	
 	/**
 	 * マイグレーション実行
-	 * @return
-	 * @throws Exception
+	 * @return result
+	 * @throws Exception Exception
 	 */
 	boolean doMigrate() throws Exception;
 	
 	/**
-	 * バージョンを指定
-	 * @return
+	 * バージョンを取得
+	 * @return version
 	 */
 	Double getVersion();
 }

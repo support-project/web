@@ -41,6 +41,7 @@ public class UsersDao extends GenUsersDao {
 
     /**
      * IDを採番 ※コミットしなくても次のIDを採番する為、保存しなければ欠番になる
+     * @return next id
      */
     public Integer getNextId() {
         String sql = "SELECT MAX(USER_ID) FROM USERS;";
