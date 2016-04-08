@@ -25,21 +25,20 @@ public class GenFunctionsEntity implements Serializable {
 	/** SerialVersion */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static GenFunctionsEntity get() {
-		return Container.getComp(GenFunctionsEntity.class);
-	}
+    /**
+     * Get instance from DI container.
+     * @return instance
+     */
+    public static GenFunctionsEntity get() {
+        return Container.getComp(GenFunctionsEntity.class);
+    }
 
-	/**
-	 * コンストラクタ
-	 */
-	public GenFunctionsEntity() {
-		super();
-	}
+    /**
+     * Constructor.
+     */
+    public GenFunctionsEntity() {
+        super();
+    }
 
 	/**
 	 * コンストラクタ
@@ -67,125 +66,125 @@ public class GenFunctionsEntity implements Serializable {
 	/** 削除フラグ */
 	private Integer deleteFlag;
 
-	/**
-	 * 機能 を取得する
-	 */
-	public String getFunctionKey() {
-		return this.functionKey;
-	}
-	/**
-	 * 機能 を設定する
-	 * @param functionKey 機能
-	 */
-	public GenFunctionsEntity setFunctionKey(String functionKey) {
-		this.functionKey = functionKey;
-		return this;
-	}
+    /**
+     * Get 機能.
+     */
+    public String getFunctionKey() {
+        return this.functionKey;
+    }
+    /**
+     * Set 機能.
+     * @param functionKey 機能
+     */
+    public GenFunctionsEntity setFunctionKey(String functionKey) {
+        this.functionKey = functionKey;
+        return this;
+    }
 
-	/**
-	 * 機能の説明 を取得する
-	 */
-	public String getDescription() {
-		return this.description;
-	}
-	/**
-	 * 機能の説明 を設定する
-	 * @param description 機能の説明
-	 */
-	public GenFunctionsEntity setDescription(String description) {
-		this.description = description;
-		return this;
-	}
+    /**
+     * Get 機能の説明.
+     */
+    public String getDescription() {
+        return this.description;
+    }
+    /**
+     * Set 機能の説明.
+     * @param description 機能の説明
+     */
+    public GenFunctionsEntity setDescription(String description) {
+        this.description = description;
+        return this;
+    }
 
-	/**
-	 * 行ID を取得する
-	 */
-	public String getRowId() {
-		return this.rowId;
-	}
-	/**
-	 * 行ID を設定する
-	 * @param rowId 行ID
-	 */
-	public GenFunctionsEntity setRowId(String rowId) {
-		this.rowId = rowId;
-		return this;
-	}
+    /**
+     * Get 行ID.
+     */
+    public String getRowId() {
+        return this.rowId;
+    }
+    /**
+     * Set 行ID.
+     * @param rowId 行ID
+     */
+    public GenFunctionsEntity setRowId(String rowId) {
+        this.rowId = rowId;
+        return this;
+    }
 
-	/**
-	 * 登録ユーザ を取得する
-	 */
-	public Integer getInsertUser() {
-		return this.insertUser;
-	}
-	/**
-	 * 登録ユーザ を設定する
-	 * @param insertUser 登録ユーザ
-	 */
-	public GenFunctionsEntity setInsertUser(Integer insertUser) {
-		this.insertUser = insertUser;
-		return this;
-	}
+    /**
+     * Get 登録ユーザ.
+     */
+    public Integer getInsertUser() {
+        return this.insertUser;
+    }
+    /**
+     * Set 登録ユーザ.
+     * @param insertUser 登録ユーザ
+     */
+    public GenFunctionsEntity setInsertUser(Integer insertUser) {
+        this.insertUser = insertUser;
+        return this;
+    }
 
-	/**
-	 * 登録日時 を取得する
-	 */
-	public Timestamp getInsertDatetime() {
-		return this.insertDatetime;
-	}
-	/**
-	 * 登録日時 を設定する
-	 * @param insertDatetime 登録日時
-	 */
-	public GenFunctionsEntity setInsertDatetime(Timestamp insertDatetime) {
-		this.insertDatetime = insertDatetime;
-		return this;
-	}
+    /**
+     * Get 登録日時.
+     */
+    public Timestamp getInsertDatetime() {
+        return this.insertDatetime;
+    }
+    /**
+     * Set 登録日時.
+     * @param insertDatetime 登録日時
+     */
+    public GenFunctionsEntity setInsertDatetime(Timestamp insertDatetime) {
+        this.insertDatetime = insertDatetime;
+        return this;
+    }
 
-	/**
-	 * 更新ユーザ を取得する
-	 */
-	public Integer getUpdateUser() {
-		return this.updateUser;
-	}
-	/**
-	 * 更新ユーザ を設定する
-	 * @param updateUser 更新ユーザ
-	 */
-	public GenFunctionsEntity setUpdateUser(Integer updateUser) {
-		this.updateUser = updateUser;
-		return this;
-	}
+    /**
+     * Get 更新ユーザ.
+     */
+    public Integer getUpdateUser() {
+        return this.updateUser;
+    }
+    /**
+     * Set 更新ユーザ.
+     * @param updateUser 更新ユーザ
+     */
+    public GenFunctionsEntity setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
+        return this;
+    }
 
-	/**
-	 * 更新日時 を取得する
-	 */
-	public Timestamp getUpdateDatetime() {
-		return this.updateDatetime;
-	}
-	/**
-	 * 更新日時 を設定する
-	 * @param updateDatetime 更新日時
-	 */
-	public GenFunctionsEntity setUpdateDatetime(Timestamp updateDatetime) {
-		this.updateDatetime = updateDatetime;
-		return this;
-	}
+    /**
+     * Get 更新日時.
+     */
+    public Timestamp getUpdateDatetime() {
+        return this.updateDatetime;
+    }
+    /**
+     * Set 更新日時.
+     * @param updateDatetime 更新日時
+     */
+    public GenFunctionsEntity setUpdateDatetime(Timestamp updateDatetime) {
+        this.updateDatetime = updateDatetime;
+        return this;
+    }
 
-	/**
-	 * 削除フラグ を取得する
-	 */
-	public Integer getDeleteFlag() {
-		return this.deleteFlag;
-	}
-	/**
-	 * 削除フラグ を設定する
-	 * @param deleteFlag 削除フラグ
-	 */
-	public GenFunctionsEntity setDeleteFlag(Integer deleteFlag) {
-		this.deleteFlag = deleteFlag;
-		return this;
-	}
+    /**
+     * Get 削除フラグ.
+     */
+    public Integer getDeleteFlag() {
+        return this.deleteFlag;
+    }
+    /**
+     * Set 削除フラグ.
+     * @param deleteFlag 削除フラグ
+     */
+    public GenFunctionsEntity setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
+        return this;
+    }
 
 	/**
 	 * キーの値を取得 

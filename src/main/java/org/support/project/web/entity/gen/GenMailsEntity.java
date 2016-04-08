@@ -25,21 +25,20 @@ public class GenMailsEntity implements Serializable {
 	/** SerialVersion */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static GenMailsEntity get() {
-		return Container.getComp(GenMailsEntity.class);
-	}
+    /**
+     * Get instance from DI container.
+     * @return instance
+     */
+    public static GenMailsEntity get() {
+        return Container.getComp(GenMailsEntity.class);
+    }
 
-	/**
-	 * コンストラクタ
-	 */
-	public GenMailsEntity() {
-		super();
-	}
+    /**
+     * Constructor.
+     */
+    public GenMailsEntity() {
+        super();
+    }
 
 	/**
 	 * コンストラクタ
@@ -79,215 +78,215 @@ public class GenMailsEntity implements Serializable {
 	/** 削除フラグ */
 	private Integer deleteFlag;
 
-	/**
-	 * MAIL_ID を取得する
-	 */
-	public String getMailId() {
-		return this.mailId;
-	}
-	/**
-	 * MAIL_ID を設定する
-	 * @param mailId MAIL_ID
-	 */
-	public GenMailsEntity setMailId(String mailId) {
-		this.mailId = mailId;
-		return this;
-	}
+    /**
+     * Get MAIL_ID.
+     */
+    public String getMailId() {
+        return this.mailId;
+    }
+    /**
+     * Set MAIL_ID.
+     * @param mailId MAIL_ID
+     */
+    public GenMailsEntity setMailId(String mailId) {
+        this.mailId = mailId;
+        return this;
+    }
 
-	/**
-	 * ステータス を取得する
-	 */
-	public Integer getStatus() {
-		return this.status;
-	}
-	/**
-	 * ステータス を設定する
-	 * @param status ステータス
-	 */
-	public GenMailsEntity setStatus(Integer status) {
-		this.status = status;
-		return this;
-	}
+    /**
+     * Get ステータス.
+     */
+    public Integer getStatus() {
+        return this.status;
+    }
+    /**
+     * Set ステータス.
+     * @param status ステータス
+     */
+    public GenMailsEntity setStatus(Integer status) {
+        this.status = status;
+        return this;
+    }
 
-	/**
-	 * 送信先 を取得する
-	 */
-	public String getToAddress() {
-		return this.toAddress;
-	}
-	/**
-	 * 送信先 を設定する
-	 * @param toAddress 送信先
-	 */
-	public GenMailsEntity setToAddress(String toAddress) {
-		this.toAddress = toAddress;
-		return this;
-	}
+    /**
+     * Get 送信先.
+     */
+    public String getToAddress() {
+        return this.toAddress;
+    }
+    /**
+     * Set 送信先.
+     * @param toAddress 送信先
+     */
+    public GenMailsEntity setToAddress(String toAddress) {
+        this.toAddress = toAddress;
+        return this;
+    }
 
-	/**
-	 * 送信先名 を取得する
-	 */
-	public String getToName() {
-		return this.toName;
-	}
-	/**
-	 * 送信先名 を設定する
-	 * @param toName 送信先名
-	 */
-	public GenMailsEntity setToName(String toName) {
-		this.toName = toName;
-		return this;
-	}
+    /**
+     * Get 送信先名.
+     */
+    public String getToName() {
+        return this.toName;
+    }
+    /**
+     * Set 送信先名.
+     * @param toName 送信先名
+     */
+    public GenMailsEntity setToName(String toName) {
+        this.toName = toName;
+        return this;
+    }
 
-	/**
-	 * 送信元 を取得する
-	 */
-	public String getFromAddress() {
-		return this.fromAddress;
-	}
-	/**
-	 * 送信元 を設定する
-	 * @param fromAddress 送信元
-	 */
-	public GenMailsEntity setFromAddress(String fromAddress) {
-		this.fromAddress = fromAddress;
-		return this;
-	}
+    /**
+     * Get 送信元.
+     */
+    public String getFromAddress() {
+        return this.fromAddress;
+    }
+    /**
+     * Set 送信元.
+     * @param fromAddress 送信元
+     */
+    public GenMailsEntity setFromAddress(String fromAddress) {
+        this.fromAddress = fromAddress;
+        return this;
+    }
 
-	/**
-	 * 送信元名 を取得する
-	 */
-	public String getFromName() {
-		return this.fromName;
-	}
-	/**
-	 * 送信元名 を設定する
-	 * @param fromName 送信元名
-	 */
-	public GenMailsEntity setFromName(String fromName) {
-		this.fromName = fromName;
-		return this;
-	}
+    /**
+     * Get 送信元名.
+     */
+    public String getFromName() {
+        return this.fromName;
+    }
+    /**
+     * Set 送信元名.
+     * @param fromName 送信元名
+     */
+    public GenMailsEntity setFromName(String fromName) {
+        this.fromName = fromName;
+        return this;
+    }
 
-	/**
-	 * タイトル を取得する
-	 */
-	public String getTitle() {
-		return this.title;
-	}
-	/**
-	 * タイトル を設定する
-	 * @param title タイトル
-	 */
-	public GenMailsEntity setTitle(String title) {
-		this.title = title;
-		return this;
-	}
+    /**
+     * Get タイトル.
+     */
+    public String getTitle() {
+        return this.title;
+    }
+    /**
+     * Set タイトル.
+     * @param title タイトル
+     */
+    public GenMailsEntity setTitle(String title) {
+        this.title = title;
+        return this;
+    }
 
-	/**
-	 * メッセージ を取得する
-	 */
-	public String getContent() {
-		return this.content;
-	}
-	/**
-	 * メッセージ を設定する
-	 * @param content メッセージ
-	 */
-	public GenMailsEntity setContent(String content) {
-		this.content = content;
-		return this;
-	}
+    /**
+     * Get メッセージ.
+     */
+    public String getContent() {
+        return this.content;
+    }
+    /**
+     * Set メッセージ.
+     * @param content メッセージ
+     */
+    public GenMailsEntity setContent(String content) {
+        this.content = content;
+        return this;
+    }
 
-	/**
-	 * 行ID を取得する
-	 */
-	public String getRowId() {
-		return this.rowId;
-	}
-	/**
-	 * 行ID を設定する
-	 * @param rowId 行ID
-	 */
-	public GenMailsEntity setRowId(String rowId) {
-		this.rowId = rowId;
-		return this;
-	}
+    /**
+     * Get 行ID.
+     */
+    public String getRowId() {
+        return this.rowId;
+    }
+    /**
+     * Set 行ID.
+     * @param rowId 行ID
+     */
+    public GenMailsEntity setRowId(String rowId) {
+        this.rowId = rowId;
+        return this;
+    }
 
-	/**
-	 * 登録ユーザ を取得する
-	 */
-	public Integer getInsertUser() {
-		return this.insertUser;
-	}
-	/**
-	 * 登録ユーザ を設定する
-	 * @param insertUser 登録ユーザ
-	 */
-	public GenMailsEntity setInsertUser(Integer insertUser) {
-		this.insertUser = insertUser;
-		return this;
-	}
+    /**
+     * Get 登録ユーザ.
+     */
+    public Integer getInsertUser() {
+        return this.insertUser;
+    }
+    /**
+     * Set 登録ユーザ.
+     * @param insertUser 登録ユーザ
+     */
+    public GenMailsEntity setInsertUser(Integer insertUser) {
+        this.insertUser = insertUser;
+        return this;
+    }
 
-	/**
-	 * 登録日時 を取得する
-	 */
-	public Timestamp getInsertDatetime() {
-		return this.insertDatetime;
-	}
-	/**
-	 * 登録日時 を設定する
-	 * @param insertDatetime 登録日時
-	 */
-	public GenMailsEntity setInsertDatetime(Timestamp insertDatetime) {
-		this.insertDatetime = insertDatetime;
-		return this;
-	}
+    /**
+     * Get 登録日時.
+     */
+    public Timestamp getInsertDatetime() {
+        return this.insertDatetime;
+    }
+    /**
+     * Set 登録日時.
+     * @param insertDatetime 登録日時
+     */
+    public GenMailsEntity setInsertDatetime(Timestamp insertDatetime) {
+        this.insertDatetime = insertDatetime;
+        return this;
+    }
 
-	/**
-	 * 更新ユーザ を取得する
-	 */
-	public Integer getUpdateUser() {
-		return this.updateUser;
-	}
-	/**
-	 * 更新ユーザ を設定する
-	 * @param updateUser 更新ユーザ
-	 */
-	public GenMailsEntity setUpdateUser(Integer updateUser) {
-		this.updateUser = updateUser;
-		return this;
-	}
+    /**
+     * Get 更新ユーザ.
+     */
+    public Integer getUpdateUser() {
+        return this.updateUser;
+    }
+    /**
+     * Set 更新ユーザ.
+     * @param updateUser 更新ユーザ
+     */
+    public GenMailsEntity setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
+        return this;
+    }
 
-	/**
-	 * 更新日時 を取得する
-	 */
-	public Timestamp getUpdateDatetime() {
-		return this.updateDatetime;
-	}
-	/**
-	 * 更新日時 を設定する
-	 * @param updateDatetime 更新日時
-	 */
-	public GenMailsEntity setUpdateDatetime(Timestamp updateDatetime) {
-		this.updateDatetime = updateDatetime;
-		return this;
-	}
+    /**
+     * Get 更新日時.
+     */
+    public Timestamp getUpdateDatetime() {
+        return this.updateDatetime;
+    }
+    /**
+     * Set 更新日時.
+     * @param updateDatetime 更新日時
+     */
+    public GenMailsEntity setUpdateDatetime(Timestamp updateDatetime) {
+        this.updateDatetime = updateDatetime;
+        return this;
+    }
 
-	/**
-	 * 削除フラグ を取得する
-	 */
-	public Integer getDeleteFlag() {
-		return this.deleteFlag;
-	}
-	/**
-	 * 削除フラグ を設定する
-	 * @param deleteFlag 削除フラグ
-	 */
-	public GenMailsEntity setDeleteFlag(Integer deleteFlag) {
-		this.deleteFlag = deleteFlag;
-		return this;
-	}
+    /**
+     * Get 削除フラグ.
+     */
+    public Integer getDeleteFlag() {
+        return this.deleteFlag;
+    }
+    /**
+     * Set 削除フラグ.
+     * @param deleteFlag 削除フラグ
+     */
+    public GenMailsEntity setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
+        return this;
+    }
 
 	/**
 	 * キーの値を取得 

@@ -25,21 +25,20 @@ public class GenAccessLogsEntity implements Serializable {
 	/** SerialVersion */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static GenAccessLogsEntity get() {
-		return Container.getComp(GenAccessLogsEntity.class);
-	}
+    /**
+     * Get instance from DI container.
+     * @return instance
+     */
+    public static GenAccessLogsEntity get() {
+        return Container.getComp(GenAccessLogsEntity.class);
+    }
 
-	/**
-	 * コンストラクタ
-	 */
-	public GenAccessLogsEntity() {
-		super();
-	}
+    /**
+     * Constructor.
+     */
+    public GenAccessLogsEntity() {
+        super();
+    }
 
 	/**
 	 * コンストラクタ
@@ -71,155 +70,155 @@ public class GenAccessLogsEntity implements Serializable {
 	/** 削除フラグ */
 	private Integer deleteFlag;
 
-	/**
-	 * NO を取得する
-	 */
-	public Long getNo() {
-		return this.no;
-	}
-	/**
-	 * NO を設定する
-	 * @param no NO
-	 */
-	public GenAccessLogsEntity setNo(Long no) {
-		this.no = no;
-		return this;
-	}
+    /**
+     * Get NO.
+     */
+    public Long getNo() {
+        return this.no;
+    }
+    /**
+     * Set NO.
+     * @param no NO
+     */
+    public GenAccessLogsEntity setNo(Long no) {
+        this.no = no;
+        return this;
+    }
 
-	/**
-	 * PATH を取得する
-	 */
-	public String getPath() {
-		return this.path;
-	}
-	/**
-	 * PATH を設定する
-	 * @param path PATH
-	 */
-	public GenAccessLogsEntity setPath(String path) {
-		this.path = path;
-		return this;
-	}
+    /**
+     * Get PATH.
+     */
+    public String getPath() {
+        return this.path;
+    }
+    /**
+     * Set PATH.
+     * @param path PATH
+     */
+    public GenAccessLogsEntity setPath(String path) {
+        this.path = path;
+        return this;
+    }
 
-	/**
-	 * IP_ADDRESS を取得する
-	 */
-	public String getIpAddress() {
-		return this.ipAddress;
-	}
-	/**
-	 * IP_ADDRESS を設定する
-	 * @param ipAddress IP_ADDRESS
-	 */
-	public GenAccessLogsEntity setIpAddress(String ipAddress) {
-		this.ipAddress = ipAddress;
-		return this;
-	}
+    /**
+     * Get IP_ADDRESS.
+     */
+    public String getIpAddress() {
+        return this.ipAddress;
+    }
+    /**
+     * Set IP_ADDRESS.
+     * @param ipAddress IP_ADDRESS
+     */
+    public GenAccessLogsEntity setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+        return this;
+    }
 
-	/**
-	 * USER_AGENT を取得する
-	 */
-	public String getUserAgent() {
-		return this.userAgent;
-	}
-	/**
-	 * USER_AGENT を設定する
-	 * @param userAgent USER_AGENT
-	 */
-	public GenAccessLogsEntity setUserAgent(String userAgent) {
-		this.userAgent = userAgent;
-		return this;
-	}
+    /**
+     * Get USER_AGENT.
+     */
+    public String getUserAgent() {
+        return this.userAgent;
+    }
+    /**
+     * Set USER_AGENT.
+     * @param userAgent USER_AGENT
+     */
+    public GenAccessLogsEntity setUserAgent(String userAgent) {
+        this.userAgent = userAgent;
+        return this;
+    }
 
-	/**
-	 * 行ID を取得する
-	 */
-	public String getRowId() {
-		return this.rowId;
-	}
-	/**
-	 * 行ID を設定する
-	 * @param rowId 行ID
-	 */
-	public GenAccessLogsEntity setRowId(String rowId) {
-		this.rowId = rowId;
-		return this;
-	}
+    /**
+     * Get 行ID.
+     */
+    public String getRowId() {
+        return this.rowId;
+    }
+    /**
+     * Set 行ID.
+     * @param rowId 行ID
+     */
+    public GenAccessLogsEntity setRowId(String rowId) {
+        this.rowId = rowId;
+        return this;
+    }
 
-	/**
-	 * 登録ユーザ を取得する
-	 */
-	public Integer getInsertUser() {
-		return this.insertUser;
-	}
-	/**
-	 * 登録ユーザ を設定する
-	 * @param insertUser 登録ユーザ
-	 */
-	public GenAccessLogsEntity setInsertUser(Integer insertUser) {
-		this.insertUser = insertUser;
-		return this;
-	}
+    /**
+     * Get 登録ユーザ.
+     */
+    public Integer getInsertUser() {
+        return this.insertUser;
+    }
+    /**
+     * Set 登録ユーザ.
+     * @param insertUser 登録ユーザ
+     */
+    public GenAccessLogsEntity setInsertUser(Integer insertUser) {
+        this.insertUser = insertUser;
+        return this;
+    }
 
-	/**
-	 * 登録日時 を取得する
-	 */
-	public Timestamp getInsertDatetime() {
-		return this.insertDatetime;
-	}
-	/**
-	 * 登録日時 を設定する
-	 * @param insertDatetime 登録日時
-	 */
-	public GenAccessLogsEntity setInsertDatetime(Timestamp insertDatetime) {
-		this.insertDatetime = insertDatetime;
-		return this;
-	}
+    /**
+     * Get 登録日時.
+     */
+    public Timestamp getInsertDatetime() {
+        return this.insertDatetime;
+    }
+    /**
+     * Set 登録日時.
+     * @param insertDatetime 登録日時
+     */
+    public GenAccessLogsEntity setInsertDatetime(Timestamp insertDatetime) {
+        this.insertDatetime = insertDatetime;
+        return this;
+    }
 
-	/**
-	 * 更新ユーザ を取得する
-	 */
-	public Integer getUpdateUser() {
-		return this.updateUser;
-	}
-	/**
-	 * 更新ユーザ を設定する
-	 * @param updateUser 更新ユーザ
-	 */
-	public GenAccessLogsEntity setUpdateUser(Integer updateUser) {
-		this.updateUser = updateUser;
-		return this;
-	}
+    /**
+     * Get 更新ユーザ.
+     */
+    public Integer getUpdateUser() {
+        return this.updateUser;
+    }
+    /**
+     * Set 更新ユーザ.
+     * @param updateUser 更新ユーザ
+     */
+    public GenAccessLogsEntity setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
+        return this;
+    }
 
-	/**
-	 * 更新日時 を取得する
-	 */
-	public Timestamp getUpdateDatetime() {
-		return this.updateDatetime;
-	}
-	/**
-	 * 更新日時 を設定する
-	 * @param updateDatetime 更新日時
-	 */
-	public GenAccessLogsEntity setUpdateDatetime(Timestamp updateDatetime) {
-		this.updateDatetime = updateDatetime;
-		return this;
-	}
+    /**
+     * Get 更新日時.
+     */
+    public Timestamp getUpdateDatetime() {
+        return this.updateDatetime;
+    }
+    /**
+     * Set 更新日時.
+     * @param updateDatetime 更新日時
+     */
+    public GenAccessLogsEntity setUpdateDatetime(Timestamp updateDatetime) {
+        this.updateDatetime = updateDatetime;
+        return this;
+    }
 
-	/**
-	 * 削除フラグ を取得する
-	 */
-	public Integer getDeleteFlag() {
-		return this.deleteFlag;
-	}
-	/**
-	 * 削除フラグ を設定する
-	 * @param deleteFlag 削除フラグ
-	 */
-	public GenAccessLogsEntity setDeleteFlag(Integer deleteFlag) {
-		this.deleteFlag = deleteFlag;
-		return this;
-	}
+    /**
+     * Get 削除フラグ.
+     */
+    public Integer getDeleteFlag() {
+        return this.deleteFlag;
+    }
+    /**
+     * Set 削除フラグ.
+     * @param deleteFlag 削除フラグ
+     */
+    public GenAccessLogsEntity setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
+        return this;
+    }
 
 	/**
 	 * キーの値を取得 

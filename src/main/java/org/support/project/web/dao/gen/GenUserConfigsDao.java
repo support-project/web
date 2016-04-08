@@ -22,313 +22,421 @@ import org.support.project.aop.Aspect;
 
 /**
  * ユーザ設定
+ * this class is auto generate and not edit.
+ * if modify dao method, you can edit UserConfigsDao.
  */
-@DI(instance=Instance.Singleton)
+@DI(instance = Instance.Singleton)
 public class GenUserConfigsDao extends AbstractDao {
 
-	/** SerialVersion */
-	private static final long serialVersionUID = 1L;
+    /** SerialVersion */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static GenUserConfigsDao get() {
-		return Container.getComp(GenUserConfigsDao.class);
-	}
+    /**
+     * Get instance from DI container.
+     * @return instance
+     */
+    public static GenUserConfigsDao get() {
+        return Container.getComp(GenUserConfigsDao.class);
+    }
 
-	/**
-	 * 全て取得(削除フラグを無視して取得) 
-	 */
-	public List<UserConfigsEntity> physicalSelectAll() { 
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_physical_select_all.sql");
-		return executeQueryList(sql, UserConfigsEntity.class);
-	}
-	/**
-	 * キーで1件取得(削除フラグを無視して取得) 
-	 */
-	public UserConfigsEntity physicalSelectOnKey(String configName, String systemName, Integer userId) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_physical_select_on_key.sql");
-		return executeQuerySingle(sql, UserConfigsEntity.class, configName, systemName, userId);
-	}
-	/**
-	 * 全て取得 
-	 */
-	public List<UserConfigsEntity> selectAll() { 
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_select_all.sql");
-		return executeQueryList(sql, UserConfigsEntity.class);
-	}
-	/**
-	 * キーで1件取得 
-	 */
-	public UserConfigsEntity selectOnKey(String configName, String systemName, Integer userId) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_select_on_key.sql");
-		return executeQuerySingle(sql, UserConfigsEntity.class, configName, systemName, userId);
-	}
-	/**
-	 * CONFIG_NAME でリストを取得
-	 */
-	public List<UserConfigsEntity> selectOnConfigName(String configName) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_select_on_config_name.sql");
-		return executeQueryList(sql, UserConfigsEntity.class, configName);
-	}
-	/**
-	 * SYSTEM_NAME でリストを取得
-	 */
-	public List<UserConfigsEntity> selectOnSystemName(String systemName) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_select_on_system_name.sql");
-		return executeQueryList(sql, UserConfigsEntity.class, systemName);
-	}
-	/**
-	 * USER_ID でリストを取得
-	 */
-	public List<UserConfigsEntity> selectOnUserId(Integer userId) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_select_on_user_id.sql");
-		return executeQueryList(sql, UserConfigsEntity.class, userId);
-	}
-	/**
-	 * CONFIG_NAME でリストを取得
-	 */
-	public List<UserConfigsEntity> physicalSelectOnConfigName(String configName) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_physical_select_on_config_name.sql");
-		return executeQueryList(sql, UserConfigsEntity.class, configName);
-	}
-	/**
-	 * SYSTEM_NAME でリストを取得
-	 */
-	public List<UserConfigsEntity> physicalSelectOnSystemName(String systemName) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_physical_select_on_system_name.sql");
-		return executeQueryList(sql, UserConfigsEntity.class, systemName);
-	}
-	/**
-	 * USER_ID でリストを取得
-	 */
-	public List<UserConfigsEntity> physicalSelectOnUserId(Integer userId) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_physical_select_on_user_id.sql");
-		return executeQueryList(sql, UserConfigsEntity.class, userId);
-	}
-	/**
-	 * 行を一意に特定するIDを生成
-	 */
-	protected String createRowId() {
-		return IDGen.get().gen("USER_CONFIGS");
-	}
-	/**
-	 * 登録(データを生で操作/DBの採番機能のカラムも自分でセット) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public UserConfigsEntity rawPhysicalInsert(UserConfigsEntity entity) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_raw_insert.sql");
-		executeUpdate(sql, 
-			entity.getConfigName()
-			, entity.getSystemName()
-			, entity.getUserId()
-			, entity.getConfigValue()
-			, entity.getRowId()
-			, entity.getInsertUser()
-			, entity.getInsertDatetime()
-			, entity.getUpdateUser()
-			, entity.getUpdateDatetime()
-			, entity.getDeleteFlag()
-		);
-		return entity;
-	}
-	/**
-	 * 登録(データを生で操作) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public UserConfigsEntity physicalInsert(UserConfigsEntity entity) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_insert.sql");
-		executeUpdate(sql, 
-			entity.getConfigName()
-			, entity.getSystemName()
-			, entity.getUserId()
-			, entity.getConfigValue()
-			, entity.getRowId()
-			, entity.getInsertUser()
-			, entity.getInsertDatetime()
-			, entity.getUpdateUser()
-			, entity.getUpdateDatetime()
-			, entity.getDeleteFlag()
-		);
-		return entity;
-	}
-	/**
-	 * 登録(登録ユーザを指定) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public UserConfigsEntity insert(Integer user, UserConfigsEntity entity) {
-		entity.setInsertUser(user);
-		entity.setInsertDatetime(new Timestamp(new java.util.Date().getTime()));
-		entity.setUpdateUser(user);
-		entity.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
-		entity.setDeleteFlag(0);
-		entity.setRowId(createRowId());
-		return physicalInsert(entity);
-	}
-	/**
-	 * 登録
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public UserConfigsEntity insert(UserConfigsEntity entity) {
-		DBUserPool pool = Container.getComp(DBUserPool.class);
-		Integer userId = (Integer) pool.getUser();
-		return insert(userId, entity);
-	}
-	/**
-	 * 更新(データを生で操作) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public UserConfigsEntity physicalUpdate(UserConfigsEntity entity) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_update.sql");
-		executeUpdate(sql, 
-			entity.getConfigValue()
-			, entity.getRowId()
-			, entity.getInsertUser()
-			, entity.getInsertDatetime()
-			, entity.getUpdateUser()
-			, entity.getUpdateDatetime()
-			, entity.getDeleteFlag()
-			, entity.getConfigName()
-			, entity.getSystemName()
-			, entity.getUserId()
-		);
-		return entity;
-	}
-	/**
-	 * 更新(更新ユーザを指定) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public UserConfigsEntity update(Integer user, UserConfigsEntity entity) {
-		UserConfigsEntity db = selectOnKey(entity.getConfigName(), entity.getSystemName(), entity.getUserId());
-		entity.setInsertUser(db.getInsertUser());
-		entity.setInsertDatetime(db.getInsertDatetime());
-		entity.setDeleteFlag(db.getDeleteFlag());
-		entity.setUpdateUser(user);
-		entity.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
-		return physicalUpdate(entity);
-	}
-	/**
-	 * 更新
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public UserConfigsEntity update(UserConfigsEntity entity) {
-		DBUserPool pool = Container.getComp(DBUserPool.class);
-		Integer userId = (Integer) pool.getUser();
-		return update(userId, entity);
-	}
-	/**
-	 * 保存(ユーザを指定) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public UserConfigsEntity save(Integer user, UserConfigsEntity entity) {
-		UserConfigsEntity db = selectOnKey(entity.getConfigName(), entity.getSystemName(), entity.getUserId());
-		if (db == null) {
-			return insert(user, entity);
-		} else {
-			return update(user, entity);
-		}
-	}
-	/**
-	 * 保存(存在しなければ登録、存在すれば更新) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public UserConfigsEntity save(UserConfigsEntity entity) {
-		UserConfigsEntity db = selectOnKey(entity.getConfigName(), entity.getSystemName(), entity.getUserId());
-		if (db == null) {
-			return insert(entity);
-		} else {
-			return update(entity);
-		}
-	}
-	/**
-	 * 削除(データを生で操作/物理削除) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void physicalDelete(String configName, String systemName, Integer userId) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_delete.sql");
-		executeUpdate(sql, configName, systemName, userId);
-	}
-	/**
-	 * 削除(データを生で操作/物理削除) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void physicalDelete(UserConfigsEntity entity) {
-		physicalDelete(entity.getConfigName(), entity.getSystemName(), entity.getUserId());
+    /**
+     * Select all data.
+     * @return all data
+     */
+    public List<UserConfigsEntity> physicalSelectAll() { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_physical_select_all.sql");
+        return executeQueryList(sql, UserConfigsEntity.class);
+    }
+    /**
+     * Select all data with pager.
+     * @param limit limit
+     * @param offset offset
+     * @return all data on limit and offset
+     */
+    public List<UserConfigsEntity> physicalSelectAllWithPager(int limit, int offset) { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_physical_select_all_with_pager.sql");
+        return executeQueryList(sql, UserConfigsEntity.class, limit, offset);
+    }
+    /**
+     * Select data on key.
+     * @param  configName configName
+     * @param  systemName systemName
+     * @param  userId userId
+     * @return data
+     */
+    public UserConfigsEntity physicalSelectOnKey(String configName, String systemName, Integer userId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_physical_select_on_key.sql");
+        return executeQuerySingle(sql, UserConfigsEntity.class, configName, systemName, userId);
+    }
+    /**
+     * Select all data that not deleted.
+     * @return all data
+     */
+    public List<UserConfigsEntity> selectAll() { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_select_all.sql");
+        return executeQueryList(sql, UserConfigsEntity.class);
+    }
+    /**
+     * Select all data that not deleted with pager.
+     * @param limit limit
+     * @param offset offset
+     * @return all data
+     */
+    public List<UserConfigsEntity> selectAllWidthPager(int limit, int offset) { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_select_all_with_pager.sql");
+        return executeQueryList(sql, UserConfigsEntity.class, limit, offset);
+    }
+    /**
+     * Select data that not deleted on key.
+     * @param  configName configName
+     * @param  systemName systemName
+     * @param  userId userId
+     * @return data
+     */
+    public UserConfigsEntity selectOnKey(String configName, String systemName, Integer userId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_select_on_key.sql");
+        return executeQuerySingle(sql, UserConfigsEntity.class, configName, systemName, userId);
+    }
+    /**
+     * Select data that not deleted on CONFIG_NAME column.
+     * @param configName configName
+     * @return list
+     */
+    public List<UserConfigsEntity> selectOnConfigName(String configName) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_select_on_config_name.sql");
+        return executeQueryList(sql, UserConfigsEntity.class, configName);
+    }
+    /**
+     * Select data that not deleted on SYSTEM_NAME column.
+     * @param systemName systemName
+     * @return list
+     */
+    public List<UserConfigsEntity> selectOnSystemName(String systemName) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_select_on_system_name.sql");
+        return executeQueryList(sql, UserConfigsEntity.class, systemName);
+    }
+    /**
+     * Select data that not deleted on USER_ID column.
+     * @param userId userId
+     * @return list
+     */
+    public List<UserConfigsEntity> selectOnUserId(Integer userId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_select_on_user_id.sql");
+        return executeQueryList(sql, UserConfigsEntity.class, userId);
+    }
+    /**
+     * Select data on CONFIG_NAME column.
+     * @param configName configName
+     * @return list
+     */
+    public List<UserConfigsEntity> physicalSelectOnConfigName(String configName) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_physical_select_on_config_name.sql");
+        return executeQueryList(sql, UserConfigsEntity.class, configName);
+    }
+    /**
+     * Select data on SYSTEM_NAME column.
+     * @param systemName systemName
+     * @return list
+     */
+    public List<UserConfigsEntity> physicalSelectOnSystemName(String systemName) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_physical_select_on_system_name.sql");
+        return executeQueryList(sql, UserConfigsEntity.class, systemName);
+    }
+    /**
+     * Select data on USER_ID column.
+     * @param userId userId
+     * @return list
+     */
+    public List<UserConfigsEntity> physicalSelectOnUserId(Integer userId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_physical_select_on_user_id.sql");
+        return executeQueryList(sql, UserConfigsEntity.class, userId);
+    }
+    /**
+     * Create row id.
+     * @return row id
+     */
+    protected String createRowId() {
+        return IDGen.get().gen("USER_CONFIGS");
+    }
+    /**
+     * Physical Insert.
+     * it is not create key on database sequence.
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public UserConfigsEntity rawPhysicalInsert(UserConfigsEntity entity) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_raw_insert.sql");
+        executeUpdate(sql, 
+            entity.getConfigName(), 
+            entity.getSystemName(), 
+            entity.getUserId(), 
+            entity.getConfigValue(), 
+            entity.getRowId(), 
+            entity.getInsertUser(), 
+            entity.getInsertDatetime(), 
+            entity.getUpdateUser(), 
+            entity.getUpdateDatetime(), 
+            entity.getDeleteFlag());
+        return entity;
+    }
+    /**
+     * Physical Insert.
+     * if key column have sequence, key value create by database.
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public UserConfigsEntity physicalInsert(UserConfigsEntity entity) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_insert.sql");
+        executeUpdate(sql, 
+            entity.getConfigName(), 
+            entity.getSystemName(), 
+            entity.getUserId(), 
+            entity.getConfigValue(), 
+            entity.getRowId(), 
+            entity.getInsertUser(), 
+            entity.getInsertDatetime(), 
+            entity.getUpdateUser(), 
+            entity.getUpdateDatetime(), 
+            entity.getDeleteFlag());
+        return entity;
+    }
+    /**
+     * Insert.
+     * set saved user id.
+     * @param user saved userid
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public UserConfigsEntity insert(Integer user, UserConfigsEntity entity) {
+        entity.setInsertUser(user);
+        entity.setInsertDatetime(new Timestamp(new java.util.Date().getTime()));
+        entity.setUpdateUser(user);
+        entity.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        entity.setDeleteFlag(0);
+        entity.setRowId(createRowId());
+        return physicalInsert(entity);
+    }
+    /**
+     * Insert.
+     * saved user id is auto set.
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public UserConfigsEntity insert(UserConfigsEntity entity) {
+        DBUserPool pool = Container.getComp(DBUserPool.class);
+        Integer userId = (Integer) pool.getUser();
+        return insert(userId, entity);
+    }
+    /**
+     * Physical Update.
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public UserConfigsEntity physicalUpdate(UserConfigsEntity entity) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_update.sql");
+        executeUpdate(sql, 
+            entity.getConfigValue(), 
+            entity.getRowId(), 
+            entity.getInsertUser(), 
+            entity.getInsertDatetime(), 
+            entity.getUpdateUser(), 
+            entity.getUpdateDatetime(), 
+            entity.getDeleteFlag(), 
+            entity.getConfigName(), 
+            entity.getSystemName(), 
+            entity.getUserId());
+        return entity;
+    }
+    /**
+     * Update.
+     * set saved user id.
+     * @param user saved userid
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public UserConfigsEntity update(Integer user, UserConfigsEntity entity) {
+        UserConfigsEntity db = selectOnKey(entity.getConfigName(), entity.getSystemName(), entity.getUserId());
+        entity.setInsertUser(db.getInsertUser());
+        entity.setInsertDatetime(db.getInsertDatetime());
+        entity.setDeleteFlag(db.getDeleteFlag());
+        entity.setUpdateUser(user);
+        entity.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        return physicalUpdate(entity);
+    }
+    /**
+     * Update.
+     * saved user id is auto set.
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public UserConfigsEntity update(UserConfigsEntity entity) {
+        DBUserPool pool = Container.getComp(DBUserPool.class);
+        Integer userId = (Integer) pool.getUser();
+        return update(userId, entity);
+    }
+    /**
+     * Save. 
+     * if same key data is exists, the data is update. otherwise the data is insert.
+     * set saved user id.
+     * @param user saved userid
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public UserConfigsEntity save(Integer user, UserConfigsEntity entity) {
+        UserConfigsEntity db = selectOnKey(entity.getConfigName(), entity.getSystemName(), entity.getUserId());
+        if (db == null) {
+            return insert(user, entity);
+        } else {
+            return update(user, entity);
+        }
+    }
+    /**
+     * Save. 
+     * if same key data is exists, the data is update. otherwise the data is insert.
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public UserConfigsEntity save(UserConfigsEntity entity) {
+        UserConfigsEntity db = selectOnKey(entity.getConfigName(), entity.getSystemName(), entity.getUserId());
+        if (db == null) {
+            return insert(entity);
+        } else {
+            return update(entity);
+        }
+    }
+    /**
+     * Physical Delete.
+     * @param  configName configName
+     * @param  systemName systemName
+     * @param  userId userId
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void physicalDelete(String configName, String systemName, Integer userId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserConfigsDao/UserConfigsDao_delete.sql");
+        executeUpdate(sql, configName, systemName, userId);
+    }
+    /**
+     * Physical Delete.
+     * @param entity entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void physicalDelete(UserConfigsEntity entity) {
+        physicalDelete(entity.getConfigName(), entity.getSystemName(), entity.getUserId());
 
-	}
-	/**
-	 * 削除(削除ユーザを指定／論理削除があれば論理削除) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void delete(Integer user, String configName, String systemName, Integer userId) {
-		UserConfigsEntity db = selectOnKey(configName, systemName, userId);
-		db.setDeleteFlag(1);
-		db.setUpdateUser(user);
-		db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
-		physicalUpdate(db);
-	}
-	/**
-	 * 削除(論理削除があれば論理削除) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void delete(String configName, String systemName, Integer userId) {
-		DBUserPool pool = Container.getComp(DBUserPool.class);
-		Integer user = (Integer) pool.getUser();
-		delete(user, configName, systemName, userId);
-	}
-	/**
-	 * 削除(削除ユーザを指定／論理削除があれば論理削除) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void delete(Integer user, UserConfigsEntity entity) {
-		delete(user, entity.getConfigName(), entity.getSystemName(), entity.getUserId());
+    }
+    /**
+     * Delete.
+     * if delete flag is exists, the data is logical delete.
+     * set saved user id.
+     * @param user saved userid
+     * @param  configName configName
+     * @param  systemName systemName
+     * @param  userId userId
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void delete(Integer user, String configName, String systemName, Integer userId) {
+        UserConfigsEntity db = selectOnKey(configName, systemName, userId);
+        db.setDeleteFlag(1);
+        db.setUpdateUser(user);
+        db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        physicalUpdate(db);
+    }
+    /**
+     * Delete.
+     * if delete flag is exists, the data is logical delete.
+     * @param  configName configName
+     * @param  systemName systemName
+     * @param  userId userId
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void delete(String configName, String systemName, Integer userId) {
+        DBUserPool pool = Container.getComp(DBUserPool.class);
+        Integer user = (Integer) pool.getUser();
+        delete(user, configName, systemName, userId);
+    }
+    /**
+     * Delete.
+     * if delete flag is exists, the data is logical delete.
+     * set saved user id.
+     * @param user saved userid
+     * @param entity entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void delete(Integer user, UserConfigsEntity entity) {
+        delete(user, entity.getConfigName(), entity.getSystemName(), entity.getUserId());
 
-	}
-	/**
-	 * 削除(論理削除があれば論理削除) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void delete(UserConfigsEntity entity) {
-		delete(entity.getConfigName(), entity.getSystemName(), entity.getUserId());
+    }
+    /**
+     * Delete.
+     * if delete flag is exists, the data is logical delete.
+     * set saved user id.
+     * @param entity entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void delete(UserConfigsEntity entity) {
+        delete(entity.getConfigName(), entity.getSystemName(), entity.getUserId());
 
-	}
-	/**
-	 復元(論理削除されていたものを有効化) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void activation(Integer user, String configName, String systemName, Integer userId) {
-		UserConfigsEntity db = physicalSelectOnKey(configName, systemName, userId);
-		db.setDeleteFlag(0);
-		db.setUpdateUser(user);
-		db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
-		physicalUpdate(db);
-	}
-	/**
-	 * 復元(論理削除されていたものを有効化) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void activation(String configName, String systemName, Integer userId) {
-		DBUserPool pool = Container.getComp(DBUserPool.class);
-		Integer user = (Integer) pool.getUser();
-		activation(user, configName, systemName, userId);
-	}
-	/**
-	 * 復元(論理削除されていたものを有効化) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void activation(Integer user, UserConfigsEntity entity) {
-		activation(user, entity.getConfigName(), entity.getSystemName(), entity.getUserId());
+    }
+    /**
+     * Ativation.
+     * if delete flag is exists and delete flag is true, delete flug is false to activate.
+     * set saved user id.
+     * @param user saved userid
+     * @param  configName configName
+     * @param  systemName systemName
+     * @param  userId userId
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void activation(Integer user, String configName, String systemName, Integer userId) {
+        UserConfigsEntity db = physicalSelectOnKey(configName, systemName, userId);
+        db.setDeleteFlag(0);
+        db.setUpdateUser(user);
+        db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        physicalUpdate(db);
+    }
+    /**
+     * Ativation.
+     * if delete flag is exists and delete flag is true, delete flug is false to activate.
+     * @param  configName configName
+     * @param  systemName systemName
+     * @param  userId userId
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void activation(String configName, String systemName, Integer userId) {
+        DBUserPool pool = Container.getComp(DBUserPool.class);
+        Integer user = (Integer) pool.getUser();
+        activation(user, configName, systemName, userId);
+    }
+    /**
+     * Ativation.
+     * if delete flag is exists and delete flag is true, delete flug is false to activate.
+     * set saved user id.
+     * @param user saved userid
+     * @param entity entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void activation(Integer user, UserConfigsEntity entity) {
+        activation(user, entity.getConfigName(), entity.getSystemName(), entity.getUserId());
 
-	}
-	/**
-	 * 復元(論理削除されていたものを有効化) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void activation(UserConfigsEntity entity) {
-		activation(entity.getConfigName(), entity.getSystemName(), entity.getUserId());
+    }
+    /**
+     * Ativation.
+     * if delete flag is exists and delete flag is true, delete flug is false to activate.
+     * @param entity entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void activation(UserConfigsEntity entity) {
+        activation(entity.getConfigName(), entity.getSystemName(), entity.getUserId());
 
-	}
+    }
 
 }

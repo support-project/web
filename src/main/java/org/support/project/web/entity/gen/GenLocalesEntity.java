@@ -25,21 +25,20 @@ public class GenLocalesEntity implements Serializable {
 	/** SerialVersion */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static GenLocalesEntity get() {
-		return Container.getComp(GenLocalesEntity.class);
-	}
+    /**
+     * Get instance from DI container.
+     * @return instance
+     */
+    public static GenLocalesEntity get() {
+        return Container.getComp(GenLocalesEntity.class);
+    }
 
-	/**
-	 * コンストラクタ
-	 */
-	public GenLocalesEntity() {
-		super();
-	}
+    /**
+     * Constructor.
+     */
+    public GenLocalesEntity() {
+        super();
+    }
 
 	/**
 	 * コンストラクタ
@@ -75,185 +74,185 @@ public class GenLocalesEntity implements Serializable {
 	/** 削除フラグ */
 	private Integer deleteFlag;
 
-	/**
-	 * キー を取得する
-	 */
-	public String getKey() {
-		return this.key;
-	}
-	/**
-	 * キー を設定する
-	 * @param key キー
-	 */
-	public GenLocalesEntity setKey(String key) {
-		this.key = key;
-		return this;
-	}
+    /**
+     * Get キー.
+     */
+    public String getKey() {
+        return this.key;
+    }
+    /**
+     * Set キー.
+     * @param key キー
+     */
+    public GenLocalesEntity setKey(String key) {
+        this.key = key;
+        return this;
+    }
 
-	/**
-	 * 言語 を取得する
-	 */
-	public String getLanguage() {
-		return this.language;
-	}
-	/**
-	 * 言語 を設定する
-	 * @param language 言語
-	 */
-	public GenLocalesEntity setLanguage(String language) {
-		this.language = language;
-		return this;
-	}
+    /**
+     * Get 言語.
+     */
+    public String getLanguage() {
+        return this.language;
+    }
+    /**
+     * Set 言語.
+     * @param language 言語
+     */
+    public GenLocalesEntity setLanguage(String language) {
+        this.language = language;
+        return this;
+    }
 
-	/**
-	 * 国 を取得する
-	 */
-	public String getCountry() {
-		return this.country;
-	}
-	/**
-	 * 国 を設定する
-	 * @param country 国
-	 */
-	public GenLocalesEntity setCountry(String country) {
-		this.country = country;
-		return this;
-	}
+    /**
+     * Get 国.
+     */
+    public String getCountry() {
+        return this.country;
+    }
+    /**
+     * Set 国.
+     * @param country 国
+     */
+    public GenLocalesEntity setCountry(String country) {
+        this.country = country;
+        return this;
+    }
 
-	/**
-	 * バリアント を取得する
-	 */
-	public String getVariant() {
-		return this.variant;
-	}
-	/**
-	 * バリアント を設定する
-	 * @param variant バリアント
-	 */
-	public GenLocalesEntity setVariant(String variant) {
-		this.variant = variant;
-		return this;
-	}
+    /**
+     * Get バリアント.
+     */
+    public String getVariant() {
+        return this.variant;
+    }
+    /**
+     * Set バリアント.
+     * @param variant バリアント
+     */
+    public GenLocalesEntity setVariant(String variant) {
+        this.variant = variant;
+        return this;
+    }
 
-	/**
-	 * 表示名 を取得する
-	 */
-	public String getDispName() {
-		return this.dispName;
-	}
-	/**
-	 * 表示名 を設定する
-	 * @param dispName 表示名
-	 */
-	public GenLocalesEntity setDispName(String dispName) {
-		this.dispName = dispName;
-		return this;
-	}
+    /**
+     * Get 表示名.
+     */
+    public String getDispName() {
+        return this.dispName;
+    }
+    /**
+     * Set 表示名.
+     * @param dispName 表示名
+     */
+    public GenLocalesEntity setDispName(String dispName) {
+        this.dispName = dispName;
+        return this;
+    }
 
-	/**
-	 * 国旗のアイコン を取得する
-	 */
-	public String getFlagIcon() {
-		return this.flagIcon;
-	}
-	/**
-	 * 国旗のアイコン を設定する
-	 * @param flagIcon 国旗のアイコン
-	 */
-	public GenLocalesEntity setFlagIcon(String flagIcon) {
-		this.flagIcon = flagIcon;
-		return this;
-	}
+    /**
+     * Get 国旗のアイコン.
+     */
+    public String getFlagIcon() {
+        return this.flagIcon;
+    }
+    /**
+     * Set 国旗のアイコン.
+     * @param flagIcon 国旗のアイコン
+     */
+    public GenLocalesEntity setFlagIcon(String flagIcon) {
+        this.flagIcon = flagIcon;
+        return this;
+    }
 
-	/**
-	 * 行ID を取得する
-	 */
-	public String getRowId() {
-		return this.rowId;
-	}
-	/**
-	 * 行ID を設定する
-	 * @param rowId 行ID
-	 */
-	public GenLocalesEntity setRowId(String rowId) {
-		this.rowId = rowId;
-		return this;
-	}
+    /**
+     * Get 行ID.
+     */
+    public String getRowId() {
+        return this.rowId;
+    }
+    /**
+     * Set 行ID.
+     * @param rowId 行ID
+     */
+    public GenLocalesEntity setRowId(String rowId) {
+        this.rowId = rowId;
+        return this;
+    }
 
-	/**
-	 * 登録ユーザ を取得する
-	 */
-	public Integer getInsertUser() {
-		return this.insertUser;
-	}
-	/**
-	 * 登録ユーザ を設定する
-	 * @param insertUser 登録ユーザ
-	 */
-	public GenLocalesEntity setInsertUser(Integer insertUser) {
-		this.insertUser = insertUser;
-		return this;
-	}
+    /**
+     * Get 登録ユーザ.
+     */
+    public Integer getInsertUser() {
+        return this.insertUser;
+    }
+    /**
+     * Set 登録ユーザ.
+     * @param insertUser 登録ユーザ
+     */
+    public GenLocalesEntity setInsertUser(Integer insertUser) {
+        this.insertUser = insertUser;
+        return this;
+    }
 
-	/**
-	 * 登録日時 を取得する
-	 */
-	public Timestamp getInsertDatetime() {
-		return this.insertDatetime;
-	}
-	/**
-	 * 登録日時 を設定する
-	 * @param insertDatetime 登録日時
-	 */
-	public GenLocalesEntity setInsertDatetime(Timestamp insertDatetime) {
-		this.insertDatetime = insertDatetime;
-		return this;
-	}
+    /**
+     * Get 登録日時.
+     */
+    public Timestamp getInsertDatetime() {
+        return this.insertDatetime;
+    }
+    /**
+     * Set 登録日時.
+     * @param insertDatetime 登録日時
+     */
+    public GenLocalesEntity setInsertDatetime(Timestamp insertDatetime) {
+        this.insertDatetime = insertDatetime;
+        return this;
+    }
 
-	/**
-	 * 更新ユーザ を取得する
-	 */
-	public Integer getUpdateUser() {
-		return this.updateUser;
-	}
-	/**
-	 * 更新ユーザ を設定する
-	 * @param updateUser 更新ユーザ
-	 */
-	public GenLocalesEntity setUpdateUser(Integer updateUser) {
-		this.updateUser = updateUser;
-		return this;
-	}
+    /**
+     * Get 更新ユーザ.
+     */
+    public Integer getUpdateUser() {
+        return this.updateUser;
+    }
+    /**
+     * Set 更新ユーザ.
+     * @param updateUser 更新ユーザ
+     */
+    public GenLocalesEntity setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
+        return this;
+    }
 
-	/**
-	 * 更新日時 を取得する
-	 */
-	public Timestamp getUpdateDatetime() {
-		return this.updateDatetime;
-	}
-	/**
-	 * 更新日時 を設定する
-	 * @param updateDatetime 更新日時
-	 */
-	public GenLocalesEntity setUpdateDatetime(Timestamp updateDatetime) {
-		this.updateDatetime = updateDatetime;
-		return this;
-	}
+    /**
+     * Get 更新日時.
+     */
+    public Timestamp getUpdateDatetime() {
+        return this.updateDatetime;
+    }
+    /**
+     * Set 更新日時.
+     * @param updateDatetime 更新日時
+     */
+    public GenLocalesEntity setUpdateDatetime(Timestamp updateDatetime) {
+        this.updateDatetime = updateDatetime;
+        return this;
+    }
 
-	/**
-	 * 削除フラグ を取得する
-	 */
-	public Integer getDeleteFlag() {
-		return this.deleteFlag;
-	}
-	/**
-	 * 削除フラグ を設定する
-	 * @param deleteFlag 削除フラグ
-	 */
-	public GenLocalesEntity setDeleteFlag(Integer deleteFlag) {
-		this.deleteFlag = deleteFlag;
-		return this;
-	}
+    /**
+     * Get 削除フラグ.
+     */
+    public Integer getDeleteFlag() {
+        return this.deleteFlag;
+    }
+    /**
+     * Set 削除フラグ.
+     * @param deleteFlag 削除フラグ
+     */
+    public GenLocalesEntity setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
+        return this;
+    }
 
 	/**
 	 * キーの値を取得 

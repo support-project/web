@@ -25,21 +25,20 @@ public class GenProxyConfigsEntity implements Serializable {
 	/** SerialVersion */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static GenProxyConfigsEntity get() {
-		return Container.getComp(GenProxyConfigsEntity.class);
-	}
+    /**
+     * Get instance from DI container.
+     * @return instance
+     */
+    public static GenProxyConfigsEntity get() {
+        return Container.getComp(GenProxyConfigsEntity.class);
+    }
 
-	/**
-	 * コンストラクタ
-	 */
-	public GenProxyConfigsEntity() {
-		super();
-	}
+    /**
+     * Constructor.
+     */
+    public GenProxyConfigsEntity() {
+        super();
+    }
 
 	/**
 	 * コンストラクタ
@@ -85,260 +84,260 @@ public class GenProxyConfigsEntity implements Serializable {
 	/** 削除フラグ */
 	private Integer deleteFlag;
 
-	/**
-	 * システム名 を取得する
-	 */
-	public String getSystemName() {
-		return this.systemName;
-	}
-	/**
-	 * システム名 を設定する
-	 * @param systemName システム名
-	 */
-	public GenProxyConfigsEntity setSystemName(String systemName) {
-		this.systemName = systemName;
-		return this;
-	}
+    /**
+     * Get システム名.
+     */
+    public String getSystemName() {
+        return this.systemName;
+    }
+    /**
+     * Set システム名.
+     * @param systemName システム名
+     */
+    public GenProxyConfigsEntity setSystemName(String systemName) {
+        this.systemName = systemName;
+        return this;
+    }
 
-	/**
-	 * [Proxy]ホスト名 を取得する
-	 */
-	public String getProxyHostName() {
-		return this.proxyHostName;
-	}
-	/**
-	 * [Proxy]ホスト名 を設定する
-	 * @param proxyHostName [Proxy]ホスト名
-	 */
-	public GenProxyConfigsEntity setProxyHostName(String proxyHostName) {
-		this.proxyHostName = proxyHostName;
-		return this;
-	}
+    /**
+     * Get [Proxy]ホスト名.
+     */
+    public String getProxyHostName() {
+        return this.proxyHostName;
+    }
+    /**
+     * Set [Proxy]ホスト名.
+     * @param proxyHostName [Proxy]ホスト名
+     */
+    public GenProxyConfigsEntity setProxyHostName(String proxyHostName) {
+        this.proxyHostName = proxyHostName;
+        return this;
+    }
 
-	/**
-	 * [Proxy]ポート番号 を取得する
-	 */
-	public Integer getProxyPortNo() {
-		return this.proxyPortNo;
-	}
-	/**
-	 * [Proxy]ポート番号 を設定する
-	 * @param proxyPortNo [Proxy]ポート番号
-	 */
-	public GenProxyConfigsEntity setProxyPortNo(Integer proxyPortNo) {
-		this.proxyPortNo = proxyPortNo;
-		return this;
-	}
+    /**
+     * Get [Proxy]ポート番号.
+     */
+    public Integer getProxyPortNo() {
+        return this.proxyPortNo;
+    }
+    /**
+     * Set [Proxy]ポート番号.
+     * @param proxyPortNo [Proxy]ポート番号
+     */
+    public GenProxyConfigsEntity setProxyPortNo(Integer proxyPortNo) {
+        this.proxyPortNo = proxyPortNo;
+        return this;
+    }
 
-	/**
-	 * [Proxy-Auth]認証タイプ を取得する
-	 */
-	public Integer getProxyAuthType() {
-		return this.proxyAuthType;
-	}
-	/**
-	 * [Proxy-Auth]認証タイプ を設定する
-	 * @param proxyAuthType [Proxy-Auth]認証タイプ
-	 */
-	public GenProxyConfigsEntity setProxyAuthType(Integer proxyAuthType) {
-		this.proxyAuthType = proxyAuthType;
-		return this;
-	}
+    /**
+     * Get [Proxy-Auth]認証タイプ.
+     */
+    public Integer getProxyAuthType() {
+        return this.proxyAuthType;
+    }
+    /**
+     * Set [Proxy-Auth]認証タイプ.
+     * @param proxyAuthType [Proxy-Auth]認証タイプ
+     */
+    public GenProxyConfigsEntity setProxyAuthType(Integer proxyAuthType) {
+        this.proxyAuthType = proxyAuthType;
+        return this;
+    }
 
-	/**
-	 * [Proxy-Auth]認証ユーザID を取得する
-	 */
-	public String getProxyAuthUserId() {
-		return this.proxyAuthUserId;
-	}
-	/**
-	 * [Proxy-Auth]認証ユーザID を設定する
-	 * @param proxyAuthUserId [Proxy-Auth]認証ユーザID
-	 */
-	public GenProxyConfigsEntity setProxyAuthUserId(String proxyAuthUserId) {
-		this.proxyAuthUserId = proxyAuthUserId;
-		return this;
-	}
+    /**
+     * Get [Proxy-Auth]認証ユーザID.
+     */
+    public String getProxyAuthUserId() {
+        return this.proxyAuthUserId;
+    }
+    /**
+     * Set [Proxy-Auth]認証ユーザID.
+     * @param proxyAuthUserId [Proxy-Auth]認証ユーザID
+     */
+    public GenProxyConfigsEntity setProxyAuthUserId(String proxyAuthUserId) {
+        this.proxyAuthUserId = proxyAuthUserId;
+        return this;
+    }
 
-	/**
-	 * [Proxy-Auth]認証パスワード を取得する
-	 */
-	public String getProxyAuthPassword() {
-		return this.proxyAuthPassword;
-	}
-	/**
-	 * [Proxy-Auth]認証パスワード を設定する
-	 * @param proxyAuthPassword [Proxy-Auth]認証パスワード
-	 */
-	public GenProxyConfigsEntity setProxyAuthPassword(String proxyAuthPassword) {
-		this.proxyAuthPassword = proxyAuthPassword;
-		return this;
-	}
+    /**
+     * Get [Proxy-Auth]認証パスワード.
+     */
+    public String getProxyAuthPassword() {
+        return this.proxyAuthPassword;
+    }
+    /**
+     * Set [Proxy-Auth]認証パスワード.
+     * @param proxyAuthPassword [Proxy-Auth]認証パスワード
+     */
+    public GenProxyConfigsEntity setProxyAuthPassword(String proxyAuthPassword) {
+        this.proxyAuthPassword = proxyAuthPassword;
+        return this;
+    }
 
-	/**
-	 * [Proxy-Auth]認証SALT を取得する
-	 */
-	public String getProxyAuthSalt() {
-		return this.proxyAuthSalt;
-	}
-	/**
-	 * [Proxy-Auth]認証SALT を設定する
-	 * @param proxyAuthSalt [Proxy-Auth]認証SALT
-	 */
-	public GenProxyConfigsEntity setProxyAuthSalt(String proxyAuthSalt) {
-		this.proxyAuthSalt = proxyAuthSalt;
-		return this;
-	}
+    /**
+     * Get [Proxy-Auth]認証SALT.
+     */
+    public String getProxyAuthSalt() {
+        return this.proxyAuthSalt;
+    }
+    /**
+     * Set [Proxy-Auth]認証SALT.
+     * @param proxyAuthSalt [Proxy-Auth]認証SALT
+     */
+    public GenProxyConfigsEntity setProxyAuthSalt(String proxyAuthSalt) {
+        this.proxyAuthSalt = proxyAuthSalt;
+        return this;
+    }
 
-	/**
-	 * [Proxy-Auth-NTLM]認証PC名 を取得する
-	 */
-	public String getProxyAuthPcName() {
-		return this.proxyAuthPcName;
-	}
-	/**
-	 * [Proxy-Auth-NTLM]認証PC名 を設定する
-	 * @param proxyAuthPcName [Proxy-Auth-NTLM]認証PC名
-	 */
-	public GenProxyConfigsEntity setProxyAuthPcName(String proxyAuthPcName) {
-		this.proxyAuthPcName = proxyAuthPcName;
-		return this;
-	}
+    /**
+     * Get [Proxy-Auth-NTLM]認証PC名.
+     */
+    public String getProxyAuthPcName() {
+        return this.proxyAuthPcName;
+    }
+    /**
+     * Set [Proxy-Auth-NTLM]認証PC名.
+     * @param proxyAuthPcName [Proxy-Auth-NTLM]認証PC名
+     */
+    public GenProxyConfigsEntity setProxyAuthPcName(String proxyAuthPcName) {
+        this.proxyAuthPcName = proxyAuthPcName;
+        return this;
+    }
 
-	/**
-	 * [Auth-NTLM]認証ドメイン を取得する
-	 */
-	public String getProxyAuthDomain() {
-		return this.proxyAuthDomain;
-	}
-	/**
-	 * [Auth-NTLM]認証ドメイン を設定する
-	 * @param proxyAuthDomain [Auth-NTLM]認証ドメイン
-	 */
-	public GenProxyConfigsEntity setProxyAuthDomain(String proxyAuthDomain) {
-		this.proxyAuthDomain = proxyAuthDomain;
-		return this;
-	}
+    /**
+     * Get [Auth-NTLM]認証ドメイン.
+     */
+    public String getProxyAuthDomain() {
+        return this.proxyAuthDomain;
+    }
+    /**
+     * Set [Auth-NTLM]認証ドメイン.
+     * @param proxyAuthDomain [Auth-NTLM]認証ドメイン
+     */
+    public GenProxyConfigsEntity setProxyAuthDomain(String proxyAuthDomain) {
+        this.proxyAuthDomain = proxyAuthDomain;
+        return this;
+    }
 
-	/**
-	 * [Web]SSL証明書チェック を取得する
-	 */
-	public Integer getThirdPartyCertificate() {
-		return this.thirdPartyCertificate;
-	}
-	/**
-	 * [Web]SSL証明書チェック を設定する
-	 * @param thirdPartyCertificate [Web]SSL証明書チェック
-	 */
-	public GenProxyConfigsEntity setThirdPartyCertificate(Integer thirdPartyCertificate) {
-		this.thirdPartyCertificate = thirdPartyCertificate;
-		return this;
-	}
+    /**
+     * Get [Web]SSL証明書チェック.
+     */
+    public Integer getThirdPartyCertificate() {
+        return this.thirdPartyCertificate;
+    }
+    /**
+     * Set [Web]SSL証明書チェック.
+     * @param thirdPartyCertificate [Web]SSL証明書チェック
+     */
+    public GenProxyConfigsEntity setThirdPartyCertificate(Integer thirdPartyCertificate) {
+        this.thirdPartyCertificate = thirdPartyCertificate;
+        return this;
+    }
 
-	/**
-	 * [Web]接続確認用URL を取得する
-	 */
-	public String getTestUrl() {
-		return this.testUrl;
-	}
-	/**
-	 * [Web]接続確認用URL を設定する
-	 * @param testUrl [Web]接続確認用URL
-	 */
-	public GenProxyConfigsEntity setTestUrl(String testUrl) {
-		this.testUrl = testUrl;
-		return this;
-	}
+    /**
+     * Get [Web]接続確認用URL.
+     */
+    public String getTestUrl() {
+        return this.testUrl;
+    }
+    /**
+     * Set [Web]接続確認用URL.
+     * @param testUrl [Web]接続確認用URL
+     */
+    public GenProxyConfigsEntity setTestUrl(String testUrl) {
+        this.testUrl = testUrl;
+        return this;
+    }
 
-	/**
-	 * 行ID を取得する
-	 */
-	public String getRowId() {
-		return this.rowId;
-	}
-	/**
-	 * 行ID を設定する
-	 * @param rowId 行ID
-	 */
-	public GenProxyConfigsEntity setRowId(String rowId) {
-		this.rowId = rowId;
-		return this;
-	}
+    /**
+     * Get 行ID.
+     */
+    public String getRowId() {
+        return this.rowId;
+    }
+    /**
+     * Set 行ID.
+     * @param rowId 行ID
+     */
+    public GenProxyConfigsEntity setRowId(String rowId) {
+        this.rowId = rowId;
+        return this;
+    }
 
-	/**
-	 * 登録ユーザ を取得する
-	 */
-	public Integer getInsertUser() {
-		return this.insertUser;
-	}
-	/**
-	 * 登録ユーザ を設定する
-	 * @param insertUser 登録ユーザ
-	 */
-	public GenProxyConfigsEntity setInsertUser(Integer insertUser) {
-		this.insertUser = insertUser;
-		return this;
-	}
+    /**
+     * Get 登録ユーザ.
+     */
+    public Integer getInsertUser() {
+        return this.insertUser;
+    }
+    /**
+     * Set 登録ユーザ.
+     * @param insertUser 登録ユーザ
+     */
+    public GenProxyConfigsEntity setInsertUser(Integer insertUser) {
+        this.insertUser = insertUser;
+        return this;
+    }
 
-	/**
-	 * 登録日時 を取得する
-	 */
-	public Timestamp getInsertDatetime() {
-		return this.insertDatetime;
-	}
-	/**
-	 * 登録日時 を設定する
-	 * @param insertDatetime 登録日時
-	 */
-	public GenProxyConfigsEntity setInsertDatetime(Timestamp insertDatetime) {
-		this.insertDatetime = insertDatetime;
-		return this;
-	}
+    /**
+     * Get 登録日時.
+     */
+    public Timestamp getInsertDatetime() {
+        return this.insertDatetime;
+    }
+    /**
+     * Set 登録日時.
+     * @param insertDatetime 登録日時
+     */
+    public GenProxyConfigsEntity setInsertDatetime(Timestamp insertDatetime) {
+        this.insertDatetime = insertDatetime;
+        return this;
+    }
 
-	/**
-	 * 更新ユーザ を取得する
-	 */
-	public Integer getUpdateUser() {
-		return this.updateUser;
-	}
-	/**
-	 * 更新ユーザ を設定する
-	 * @param updateUser 更新ユーザ
-	 */
-	public GenProxyConfigsEntity setUpdateUser(Integer updateUser) {
-		this.updateUser = updateUser;
-		return this;
-	}
+    /**
+     * Get 更新ユーザ.
+     */
+    public Integer getUpdateUser() {
+        return this.updateUser;
+    }
+    /**
+     * Set 更新ユーザ.
+     * @param updateUser 更新ユーザ
+     */
+    public GenProxyConfigsEntity setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
+        return this;
+    }
 
-	/**
-	 * 更新日時 を取得する
-	 */
-	public Timestamp getUpdateDatetime() {
-		return this.updateDatetime;
-	}
-	/**
-	 * 更新日時 を設定する
-	 * @param updateDatetime 更新日時
-	 */
-	public GenProxyConfigsEntity setUpdateDatetime(Timestamp updateDatetime) {
-		this.updateDatetime = updateDatetime;
-		return this;
-	}
+    /**
+     * Get 更新日時.
+     */
+    public Timestamp getUpdateDatetime() {
+        return this.updateDatetime;
+    }
+    /**
+     * Set 更新日時.
+     * @param updateDatetime 更新日時
+     */
+    public GenProxyConfigsEntity setUpdateDatetime(Timestamp updateDatetime) {
+        this.updateDatetime = updateDatetime;
+        return this;
+    }
 
-	/**
-	 * 削除フラグ を取得する
-	 */
-	public Integer getDeleteFlag() {
-		return this.deleteFlag;
-	}
-	/**
-	 * 削除フラグ を設定する
-	 * @param deleteFlag 削除フラグ
-	 */
-	public GenProxyConfigsEntity setDeleteFlag(Integer deleteFlag) {
-		this.deleteFlag = deleteFlag;
-		return this;
-	}
+    /**
+     * Get 削除フラグ.
+     */
+    public Integer getDeleteFlag() {
+        return this.deleteFlag;
+    }
+    /**
+     * Set 削除フラグ.
+     * @param deleteFlag 削除フラグ
+     */
+    public GenProxyConfigsEntity setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
+        return this;
+    }
 
 	/**
 	 * キーの値を取得 

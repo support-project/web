@@ -25,21 +25,20 @@ public class GenMailConfigsEntity implements Serializable {
 	/** SerialVersion */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static GenMailConfigsEntity get() {
-		return Container.getComp(GenMailConfigsEntity.class);
-	}
+    /**
+     * Get instance from DI container.
+     * @return instance
+     */
+    public static GenMailConfigsEntity get() {
+        return Container.getComp(GenMailConfigsEntity.class);
+    }
 
-	/**
-	 * コンストラクタ
-	 */
-	public GenMailConfigsEntity() {
-		super();
-	}
+    /**
+     * Constructor.
+     */
+    public GenMailConfigsEntity() {
+        super();
+    }
 
 	/**
 	 * コンストラクタ
@@ -81,230 +80,230 @@ public class GenMailConfigsEntity implements Serializable {
 	/** 削除フラグ */
 	private Integer deleteFlag;
 
-	/**
-	 * システム名 を取得する
-	 */
-	public String getSystemName() {
-		return this.systemName;
-	}
-	/**
-	 * システム名 を設定する
-	 * @param systemName システム名
-	 */
-	public GenMailConfigsEntity setSystemName(String systemName) {
-		this.systemName = systemName;
-		return this;
-	}
+    /**
+     * Get システム名.
+     */
+    public String getSystemName() {
+        return this.systemName;
+    }
+    /**
+     * Set システム名.
+     * @param systemName システム名
+     */
+    public GenMailConfigsEntity setSystemName(String systemName) {
+        this.systemName = systemName;
+        return this;
+    }
 
-	/**
-	 * SMTP_HOST を取得する
-	 */
-	public String getHost() {
-		return this.host;
-	}
-	/**
-	 * SMTP_HOST を設定する
-	 * @param host SMTP_HOST
-	 */
-	public GenMailConfigsEntity setHost(String host) {
-		this.host = host;
-		return this;
-	}
+    /**
+     * Get SMTP_HOST.
+     */
+    public String getHost() {
+        return this.host;
+    }
+    /**
+     * Set SMTP_HOST.
+     * @param host SMTP_HOST
+     */
+    public GenMailConfigsEntity setHost(String host) {
+        this.host = host;
+        return this;
+    }
 
-	/**
-	 * SMTP_PORT を取得する
-	 */
-	public Integer getPort() {
-		return this.port;
-	}
-	/**
-	 * SMTP_PORT を設定する
-	 * @param port SMTP_PORT
-	 */
-	public GenMailConfigsEntity setPort(Integer port) {
-		this.port = port;
-		return this;
-	}
+    /**
+     * Get SMTP_PORT.
+     */
+    public Integer getPort() {
+        return this.port;
+    }
+    /**
+     * Set SMTP_PORT.
+     * @param port SMTP_PORT
+     */
+    public GenMailConfigsEntity setPort(Integer port) {
+        this.port = port;
+        return this;
+    }
 
-	/**
-	 * AUTH_TYPE を取得する
-	 */
-	public Integer getAuthType() {
-		return this.authType;
-	}
-	/**
-	 * AUTH_TYPE を設定する
-	 * @param authType AUTH_TYPE
-	 */
-	public GenMailConfigsEntity setAuthType(Integer authType) {
-		this.authType = authType;
-		return this;
-	}
+    /**
+     * Get AUTH_TYPE.
+     */
+    public Integer getAuthType() {
+        return this.authType;
+    }
+    /**
+     * Set AUTH_TYPE.
+     * @param authType AUTH_TYPE
+     */
+    public GenMailConfigsEntity setAuthType(Integer authType) {
+        this.authType = authType;
+        return this;
+    }
 
-	/**
-	 * SMTP_ID を取得する
-	 */
-	public String getSmtpId() {
-		return this.smtpId;
-	}
-	/**
-	 * SMTP_ID を設定する
-	 * @param smtpId SMTP_ID
-	 */
-	public GenMailConfigsEntity setSmtpId(String smtpId) {
-		this.smtpId = smtpId;
-		return this;
-	}
+    /**
+     * Get SMTP_ID.
+     */
+    public String getSmtpId() {
+        return this.smtpId;
+    }
+    /**
+     * Set SMTP_ID.
+     * @param smtpId SMTP_ID
+     */
+    public GenMailConfigsEntity setSmtpId(String smtpId) {
+        this.smtpId = smtpId;
+        return this;
+    }
 
-	/**
-	 * SMTP_PASSWORD	 暗号化（可逆） を取得する
-	 */
-	public String getSmtpPassword() {
-		return this.smtpPassword;
-	}
-	/**
-	 * SMTP_PASSWORD	 暗号化（可逆） を設定する
-	 * @param smtpPassword SMTP_PASSWORD	 暗号化（可逆）
-	 */
-	public GenMailConfigsEntity setSmtpPassword(String smtpPassword) {
-		this.smtpPassword = smtpPassword;
-		return this;
-	}
+    /**
+     * Get SMTP_PASSWORD	 暗号化（可逆）.
+     */
+    public String getSmtpPassword() {
+        return this.smtpPassword;
+    }
+    /**
+     * Set SMTP_PASSWORD	 暗号化（可逆）.
+     * @param smtpPassword SMTP_PASSWORD	 暗号化（可逆）
+     */
+    public GenMailConfigsEntity setSmtpPassword(String smtpPassword) {
+        this.smtpPassword = smtpPassword;
+        return this;
+    }
 
-	/**
-	 * SALT を取得する
-	 */
-	public String getSalt() {
-		return this.salt;
-	}
-	/**
-	 * SALT を設定する
-	 * @param salt SALT
-	 */
-	public GenMailConfigsEntity setSalt(String salt) {
-		this.salt = salt;
-		return this;
-	}
+    /**
+     * Get SALT.
+     */
+    public String getSalt() {
+        return this.salt;
+    }
+    /**
+     * Set SALT.
+     * @param salt SALT
+     */
+    public GenMailConfigsEntity setSalt(String salt) {
+        this.salt = salt;
+        return this;
+    }
 
-	/**
-	 * 送信元 を取得する
-	 */
-	public String getFromAddress() {
-		return this.fromAddress;
-	}
-	/**
-	 * 送信元 を設定する
-	 * @param fromAddress 送信元
-	 */
-	public GenMailConfigsEntity setFromAddress(String fromAddress) {
-		this.fromAddress = fromAddress;
-		return this;
-	}
+    /**
+     * Get 送信元.
+     */
+    public String getFromAddress() {
+        return this.fromAddress;
+    }
+    /**
+     * Set 送信元.
+     * @param fromAddress 送信元
+     */
+    public GenMailConfigsEntity setFromAddress(String fromAddress) {
+        this.fromAddress = fromAddress;
+        return this;
+    }
 
-	/**
-	 * 送信元名 を取得する
-	 */
-	public String getFromName() {
-		return this.fromName;
-	}
-	/**
-	 * 送信元名 を設定する
-	 * @param fromName 送信元名
-	 */
-	public GenMailConfigsEntity setFromName(String fromName) {
-		this.fromName = fromName;
-		return this;
-	}
+    /**
+     * Get 送信元名.
+     */
+    public String getFromName() {
+        return this.fromName;
+    }
+    /**
+     * Set 送信元名.
+     * @param fromName 送信元名
+     */
+    public GenMailConfigsEntity setFromName(String fromName) {
+        this.fromName = fromName;
+        return this;
+    }
 
-	/**
-	 * 行ID を取得する
-	 */
-	public String getRowId() {
-		return this.rowId;
-	}
-	/**
-	 * 行ID を設定する
-	 * @param rowId 行ID
-	 */
-	public GenMailConfigsEntity setRowId(String rowId) {
-		this.rowId = rowId;
-		return this;
-	}
+    /**
+     * Get 行ID.
+     */
+    public String getRowId() {
+        return this.rowId;
+    }
+    /**
+     * Set 行ID.
+     * @param rowId 行ID
+     */
+    public GenMailConfigsEntity setRowId(String rowId) {
+        this.rowId = rowId;
+        return this;
+    }
 
-	/**
-	 * 登録ユーザ を取得する
-	 */
-	public Integer getInsertUser() {
-		return this.insertUser;
-	}
-	/**
-	 * 登録ユーザ を設定する
-	 * @param insertUser 登録ユーザ
-	 */
-	public GenMailConfigsEntity setInsertUser(Integer insertUser) {
-		this.insertUser = insertUser;
-		return this;
-	}
+    /**
+     * Get 登録ユーザ.
+     */
+    public Integer getInsertUser() {
+        return this.insertUser;
+    }
+    /**
+     * Set 登録ユーザ.
+     * @param insertUser 登録ユーザ
+     */
+    public GenMailConfigsEntity setInsertUser(Integer insertUser) {
+        this.insertUser = insertUser;
+        return this;
+    }
 
-	/**
-	 * 登録日時 を取得する
-	 */
-	public Timestamp getInsertDatetime() {
-		return this.insertDatetime;
-	}
-	/**
-	 * 登録日時 を設定する
-	 * @param insertDatetime 登録日時
-	 */
-	public GenMailConfigsEntity setInsertDatetime(Timestamp insertDatetime) {
-		this.insertDatetime = insertDatetime;
-		return this;
-	}
+    /**
+     * Get 登録日時.
+     */
+    public Timestamp getInsertDatetime() {
+        return this.insertDatetime;
+    }
+    /**
+     * Set 登録日時.
+     * @param insertDatetime 登録日時
+     */
+    public GenMailConfigsEntity setInsertDatetime(Timestamp insertDatetime) {
+        this.insertDatetime = insertDatetime;
+        return this;
+    }
 
-	/**
-	 * 更新ユーザ を取得する
-	 */
-	public Integer getUpdateUser() {
-		return this.updateUser;
-	}
-	/**
-	 * 更新ユーザ を設定する
-	 * @param updateUser 更新ユーザ
-	 */
-	public GenMailConfigsEntity setUpdateUser(Integer updateUser) {
-		this.updateUser = updateUser;
-		return this;
-	}
+    /**
+     * Get 更新ユーザ.
+     */
+    public Integer getUpdateUser() {
+        return this.updateUser;
+    }
+    /**
+     * Set 更新ユーザ.
+     * @param updateUser 更新ユーザ
+     */
+    public GenMailConfigsEntity setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
+        return this;
+    }
 
-	/**
-	 * 更新日時 を取得する
-	 */
-	public Timestamp getUpdateDatetime() {
-		return this.updateDatetime;
-	}
-	/**
-	 * 更新日時 を設定する
-	 * @param updateDatetime 更新日時
-	 */
-	public GenMailConfigsEntity setUpdateDatetime(Timestamp updateDatetime) {
-		this.updateDatetime = updateDatetime;
-		return this;
-	}
+    /**
+     * Get 更新日時.
+     */
+    public Timestamp getUpdateDatetime() {
+        return this.updateDatetime;
+    }
+    /**
+     * Set 更新日時.
+     * @param updateDatetime 更新日時
+     */
+    public GenMailConfigsEntity setUpdateDatetime(Timestamp updateDatetime) {
+        this.updateDatetime = updateDatetime;
+        return this;
+    }
 
-	/**
-	 * 削除フラグ を取得する
-	 */
-	public Integer getDeleteFlag() {
-		return this.deleteFlag;
-	}
-	/**
-	 * 削除フラグ を設定する
-	 * @param deleteFlag 削除フラグ
-	 */
-	public GenMailConfigsEntity setDeleteFlag(Integer deleteFlag) {
-		this.deleteFlag = deleteFlag;
-		return this;
-	}
+    /**
+     * Get 削除フラグ.
+     */
+    public Integer getDeleteFlag() {
+        return this.deleteFlag;
+    }
+    /**
+     * Set 削除フラグ.
+     * @param deleteFlag 削除フラグ
+     */
+    public GenMailConfigsEntity setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
+        return this;
+    }
 
 	/**
 	 * キーの値を取得 

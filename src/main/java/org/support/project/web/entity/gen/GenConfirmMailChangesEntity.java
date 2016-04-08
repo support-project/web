@@ -25,21 +25,20 @@ public class GenConfirmMailChangesEntity implements Serializable {
 	/** SerialVersion */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static GenConfirmMailChangesEntity get() {
-		return Container.getComp(GenConfirmMailChangesEntity.class);
-	}
+    /**
+     * Get instance from DI container.
+     * @return instance
+     */
+    public static GenConfirmMailChangesEntity get() {
+        return Container.getComp(GenConfirmMailChangesEntity.class);
+    }
 
-	/**
-	 * コンストラクタ
-	 */
-	public GenConfirmMailChangesEntity() {
-		super();
-	}
+    /**
+     * Constructor.
+     */
+    public GenConfirmMailChangesEntity() {
+        super();
+    }
 
 	/**
 	 * コンストラクタ
@@ -69,140 +68,140 @@ public class GenConfirmMailChangesEntity implements Serializable {
 	/** 削除フラグ */
 	private Integer deleteFlag;
 
-	/**
-	 * リセット用ID を取得する
-	 */
-	public String getId() {
-		return this.id;
-	}
-	/**
-	 * リセット用ID を設定する
-	 * @param id リセット用ID
-	 */
-	public GenConfirmMailChangesEntity setId(String id) {
-		this.id = id;
-		return this;
-	}
+    /**
+     * Get リセット用ID.
+     */
+    public String getId() {
+        return this.id;
+    }
+    /**
+     * Set リセット用ID.
+     * @param id リセット用ID
+     */
+    public GenConfirmMailChangesEntity setId(String id) {
+        this.id = id;
+        return this;
+    }
 
-	/**
-	 * ユーザID を取得する
-	 */
-	public Integer getUserId() {
-		return this.userId;
-	}
-	/**
-	 * ユーザID を設定する
-	 * @param userId ユーザID
-	 */
-	public GenConfirmMailChangesEntity setUserId(Integer userId) {
-		this.userId = userId;
-		return this;
-	}
+    /**
+     * Get ユーザID.
+     */
+    public Integer getUserId() {
+        return this.userId;
+    }
+    /**
+     * Set ユーザID.
+     * @param userId ユーザID
+     */
+    public GenConfirmMailChangesEntity setUserId(Integer userId) {
+        this.userId = userId;
+        return this;
+    }
 
-	/**
-	 * メールアドレス を取得する
-	 */
-	public String getMailAddress() {
-		return this.mailAddress;
-	}
-	/**
-	 * メールアドレス を設定する
-	 * @param mailAddress メールアドレス
-	 */
-	public GenConfirmMailChangesEntity setMailAddress(String mailAddress) {
-		this.mailAddress = mailAddress;
-		return this;
-	}
+    /**
+     * Get メールアドレス.
+     */
+    public String getMailAddress() {
+        return this.mailAddress;
+    }
+    /**
+     * Set メールアドレス.
+     * @param mailAddress メールアドレス
+     */
+    public GenConfirmMailChangesEntity setMailAddress(String mailAddress) {
+        this.mailAddress = mailAddress;
+        return this;
+    }
 
-	/**
-	 * 行ID を取得する
-	 */
-	public String getRowId() {
-		return this.rowId;
-	}
-	/**
-	 * 行ID を設定する
-	 * @param rowId 行ID
-	 */
-	public GenConfirmMailChangesEntity setRowId(String rowId) {
-		this.rowId = rowId;
-		return this;
-	}
+    /**
+     * Get 行ID.
+     */
+    public String getRowId() {
+        return this.rowId;
+    }
+    /**
+     * Set 行ID.
+     * @param rowId 行ID
+     */
+    public GenConfirmMailChangesEntity setRowId(String rowId) {
+        this.rowId = rowId;
+        return this;
+    }
 
-	/**
-	 * 登録ユーザ を取得する
-	 */
-	public Integer getInsertUser() {
-		return this.insertUser;
-	}
-	/**
-	 * 登録ユーザ を設定する
-	 * @param insertUser 登録ユーザ
-	 */
-	public GenConfirmMailChangesEntity setInsertUser(Integer insertUser) {
-		this.insertUser = insertUser;
-		return this;
-	}
+    /**
+     * Get 登録ユーザ.
+     */
+    public Integer getInsertUser() {
+        return this.insertUser;
+    }
+    /**
+     * Set 登録ユーザ.
+     * @param insertUser 登録ユーザ
+     */
+    public GenConfirmMailChangesEntity setInsertUser(Integer insertUser) {
+        this.insertUser = insertUser;
+        return this;
+    }
 
-	/**
-	 * 登録日時 を取得する
-	 */
-	public Timestamp getInsertDatetime() {
-		return this.insertDatetime;
-	}
-	/**
-	 * 登録日時 を設定する
-	 * @param insertDatetime 登録日時
-	 */
-	public GenConfirmMailChangesEntity setInsertDatetime(Timestamp insertDatetime) {
-		this.insertDatetime = insertDatetime;
-		return this;
-	}
+    /**
+     * Get 登録日時.
+     */
+    public Timestamp getInsertDatetime() {
+        return this.insertDatetime;
+    }
+    /**
+     * Set 登録日時.
+     * @param insertDatetime 登録日時
+     */
+    public GenConfirmMailChangesEntity setInsertDatetime(Timestamp insertDatetime) {
+        this.insertDatetime = insertDatetime;
+        return this;
+    }
 
-	/**
-	 * 更新ユーザ を取得する
-	 */
-	public Integer getUpdateUser() {
-		return this.updateUser;
-	}
-	/**
-	 * 更新ユーザ を設定する
-	 * @param updateUser 更新ユーザ
-	 */
-	public GenConfirmMailChangesEntity setUpdateUser(Integer updateUser) {
-		this.updateUser = updateUser;
-		return this;
-	}
+    /**
+     * Get 更新ユーザ.
+     */
+    public Integer getUpdateUser() {
+        return this.updateUser;
+    }
+    /**
+     * Set 更新ユーザ.
+     * @param updateUser 更新ユーザ
+     */
+    public GenConfirmMailChangesEntity setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
+        return this;
+    }
 
-	/**
-	 * 更新日時 を取得する
-	 */
-	public Timestamp getUpdateDatetime() {
-		return this.updateDatetime;
-	}
-	/**
-	 * 更新日時 を設定する
-	 * @param updateDatetime 更新日時
-	 */
-	public GenConfirmMailChangesEntity setUpdateDatetime(Timestamp updateDatetime) {
-		this.updateDatetime = updateDatetime;
-		return this;
-	}
+    /**
+     * Get 更新日時.
+     */
+    public Timestamp getUpdateDatetime() {
+        return this.updateDatetime;
+    }
+    /**
+     * Set 更新日時.
+     * @param updateDatetime 更新日時
+     */
+    public GenConfirmMailChangesEntity setUpdateDatetime(Timestamp updateDatetime) {
+        this.updateDatetime = updateDatetime;
+        return this;
+    }
 
-	/**
-	 * 削除フラグ を取得する
-	 */
-	public Integer getDeleteFlag() {
-		return this.deleteFlag;
-	}
-	/**
-	 * 削除フラグ を設定する
-	 * @param deleteFlag 削除フラグ
-	 */
-	public GenConfirmMailChangesEntity setDeleteFlag(Integer deleteFlag) {
-		this.deleteFlag = deleteFlag;
-		return this;
-	}
+    /**
+     * Get 削除フラグ.
+     */
+    public Integer getDeleteFlag() {
+        return this.deleteFlag;
+    }
+    /**
+     * Set 削除フラグ.
+     * @param deleteFlag 削除フラグ
+     */
+    public GenConfirmMailChangesEntity setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
+        return this;
+    }
 
 	/**
 	 * キーの値を取得 

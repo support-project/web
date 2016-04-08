@@ -25,21 +25,20 @@ public class GenGroupsEntity implements Serializable {
 	/** SerialVersion */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static GenGroupsEntity get() {
-		return Container.getComp(GenGroupsEntity.class);
-	}
+    /**
+     * Get instance from DI container.
+     * @return instance
+     */
+    public static GenGroupsEntity get() {
+        return Container.getComp(GenGroupsEntity.class);
+    }
 
-	/**
-	 * コンストラクタ
-	 */
-	public GenGroupsEntity() {
-		super();
-	}
+    /**
+     * Constructor.
+     */
+    public GenGroupsEntity() {
+        super();
+    }
 
 	/**
 	 * コンストラクタ
@@ -75,185 +74,185 @@ public class GenGroupsEntity implements Serializable {
 	/** 削除フラグ */
 	private Integer deleteFlag;
 
-	/**
-	 * グループID を取得する
-	 */
-	public Integer getGroupId() {
-		return this.groupId;
-	}
-	/**
-	 * グループID を設定する
-	 * @param groupId グループID
-	 */
-	public GenGroupsEntity setGroupId(Integer groupId) {
-		this.groupId = groupId;
-		return this;
-	}
+    /**
+     * Get グループID.
+     */
+    public Integer getGroupId() {
+        return this.groupId;
+    }
+    /**
+     * Set グループID.
+     * @param groupId グループID
+     */
+    public GenGroupsEntity setGroupId(Integer groupId) {
+        this.groupId = groupId;
+        return this;
+    }
 
-	/**
-	 * グループKEY を取得する
-	 */
-	public String getGroupKey() {
-		return this.groupKey;
-	}
-	/**
-	 * グループKEY を設定する
-	 * @param groupKey グループKEY
-	 */
-	public GenGroupsEntity setGroupKey(String groupKey) {
-		this.groupKey = groupKey;
-		return this;
-	}
+    /**
+     * Get グループKEY.
+     */
+    public String getGroupKey() {
+        return this.groupKey;
+    }
+    /**
+     * Set グループKEY.
+     * @param groupKey グループKEY
+     */
+    public GenGroupsEntity setGroupKey(String groupKey) {
+        this.groupKey = groupKey;
+        return this;
+    }
 
-	/**
-	 * グループ名称 を取得する
-	 */
-	public String getGroupName() {
-		return this.groupName;
-	}
-	/**
-	 * グループ名称 を設定する
-	 * @param groupName グループ名称
-	 */
-	public GenGroupsEntity setGroupName(String groupName) {
-		this.groupName = groupName;
-		return this;
-	}
+    /**
+     * Get グループ名称.
+     */
+    public String getGroupName() {
+        return this.groupName;
+    }
+    /**
+     * Set グループ名称.
+     * @param groupName グループ名称
+     */
+    public GenGroupsEntity setGroupName(String groupName) {
+        this.groupName = groupName;
+        return this;
+    }
 
-	/**
-	 * 説明 を取得する
-	 */
-	public String getDescription() {
-		return this.description;
-	}
-	/**
-	 * 説明 を設定する
-	 * @param description 説明
-	 */
-	public GenGroupsEntity setDescription(String description) {
-		this.description = description;
-		return this;
-	}
+    /**
+     * Get 説明.
+     */
+    public String getDescription() {
+        return this.description;
+    }
+    /**
+     * Set 説明.
+     * @param description 説明
+     */
+    public GenGroupsEntity setDescription(String description) {
+        this.description = description;
+        return this;
+    }
 
-	/**
-	 * 親グループKKEY を取得する
-	 */
-	public String getParentGroupKey() {
-		return this.parentGroupKey;
-	}
-	/**
-	 * 親グループKKEY を設定する
-	 * @param parentGroupKey 親グループKKEY
-	 */
-	public GenGroupsEntity setParentGroupKey(String parentGroupKey) {
-		this.parentGroupKey = parentGroupKey;
-		return this;
-	}
+    /**
+     * Get 親グループKKEY.
+     */
+    public String getParentGroupKey() {
+        return this.parentGroupKey;
+    }
+    /**
+     * Set 親グループKKEY.
+     * @param parentGroupKey 親グループKKEY
+     */
+    public GenGroupsEntity setParentGroupKey(String parentGroupKey) {
+        this.parentGroupKey = parentGroupKey;
+        return this;
+    }
 
-	/**
-	 * グループの区分 を取得する
-	 */
-	public Integer getGroupClass() {
-		return this.groupClass;
-	}
-	/**
-	 * グループの区分 を設定する
-	 * @param groupClass グループの区分
-	 */
-	public GenGroupsEntity setGroupClass(Integer groupClass) {
-		this.groupClass = groupClass;
-		return this;
-	}
+    /**
+     * Get グループの区分.
+     */
+    public Integer getGroupClass() {
+        return this.groupClass;
+    }
+    /**
+     * Set グループの区分.
+     * @param groupClass グループの区分
+     */
+    public GenGroupsEntity setGroupClass(Integer groupClass) {
+        this.groupClass = groupClass;
+        return this;
+    }
 
-	/**
-	 * 行ID を取得する
-	 */
-	public String getRowId() {
-		return this.rowId;
-	}
-	/**
-	 * 行ID を設定する
-	 * @param rowId 行ID
-	 */
-	public GenGroupsEntity setRowId(String rowId) {
-		this.rowId = rowId;
-		return this;
-	}
+    /**
+     * Get 行ID.
+     */
+    public String getRowId() {
+        return this.rowId;
+    }
+    /**
+     * Set 行ID.
+     * @param rowId 行ID
+     */
+    public GenGroupsEntity setRowId(String rowId) {
+        this.rowId = rowId;
+        return this;
+    }
 
-	/**
-	 * 登録ユーザ を取得する
-	 */
-	public Integer getInsertUser() {
-		return this.insertUser;
-	}
-	/**
-	 * 登録ユーザ を設定する
-	 * @param insertUser 登録ユーザ
-	 */
-	public GenGroupsEntity setInsertUser(Integer insertUser) {
-		this.insertUser = insertUser;
-		return this;
-	}
+    /**
+     * Get 登録ユーザ.
+     */
+    public Integer getInsertUser() {
+        return this.insertUser;
+    }
+    /**
+     * Set 登録ユーザ.
+     * @param insertUser 登録ユーザ
+     */
+    public GenGroupsEntity setInsertUser(Integer insertUser) {
+        this.insertUser = insertUser;
+        return this;
+    }
 
-	/**
-	 * 登録日時 を取得する
-	 */
-	public Timestamp getInsertDatetime() {
-		return this.insertDatetime;
-	}
-	/**
-	 * 登録日時 を設定する
-	 * @param insertDatetime 登録日時
-	 */
-	public GenGroupsEntity setInsertDatetime(Timestamp insertDatetime) {
-		this.insertDatetime = insertDatetime;
-		return this;
-	}
+    /**
+     * Get 登録日時.
+     */
+    public Timestamp getInsertDatetime() {
+        return this.insertDatetime;
+    }
+    /**
+     * Set 登録日時.
+     * @param insertDatetime 登録日時
+     */
+    public GenGroupsEntity setInsertDatetime(Timestamp insertDatetime) {
+        this.insertDatetime = insertDatetime;
+        return this;
+    }
 
-	/**
-	 * 更新ユーザ を取得する
-	 */
-	public Integer getUpdateUser() {
-		return this.updateUser;
-	}
-	/**
-	 * 更新ユーザ を設定する
-	 * @param updateUser 更新ユーザ
-	 */
-	public GenGroupsEntity setUpdateUser(Integer updateUser) {
-		this.updateUser = updateUser;
-		return this;
-	}
+    /**
+     * Get 更新ユーザ.
+     */
+    public Integer getUpdateUser() {
+        return this.updateUser;
+    }
+    /**
+     * Set 更新ユーザ.
+     * @param updateUser 更新ユーザ
+     */
+    public GenGroupsEntity setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
+        return this;
+    }
 
-	/**
-	 * 更新日時 を取得する
-	 */
-	public Timestamp getUpdateDatetime() {
-		return this.updateDatetime;
-	}
-	/**
-	 * 更新日時 を設定する
-	 * @param updateDatetime 更新日時
-	 */
-	public GenGroupsEntity setUpdateDatetime(Timestamp updateDatetime) {
-		this.updateDatetime = updateDatetime;
-		return this;
-	}
+    /**
+     * Get 更新日時.
+     */
+    public Timestamp getUpdateDatetime() {
+        return this.updateDatetime;
+    }
+    /**
+     * Set 更新日時.
+     * @param updateDatetime 更新日時
+     */
+    public GenGroupsEntity setUpdateDatetime(Timestamp updateDatetime) {
+        this.updateDatetime = updateDatetime;
+        return this;
+    }
 
-	/**
-	 * 削除フラグ を取得する
-	 */
-	public Integer getDeleteFlag() {
-		return this.deleteFlag;
-	}
-	/**
-	 * 削除フラグ を設定する
-	 * @param deleteFlag 削除フラグ
-	 */
-	public GenGroupsEntity setDeleteFlag(Integer deleteFlag) {
-		this.deleteFlag = deleteFlag;
-		return this;
-	}
+    /**
+     * Get 削除フラグ.
+     */
+    public Integer getDeleteFlag() {
+        return this.deleteFlag;
+    }
+    /**
+     * Set 削除フラグ.
+     * @param deleteFlag 削除フラグ
+     */
+    public GenGroupsEntity setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
+        return this;
+    }
 
 	/**
 	 * キーの値を取得 

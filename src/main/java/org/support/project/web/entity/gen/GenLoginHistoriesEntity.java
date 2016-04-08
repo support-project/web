@@ -25,21 +25,20 @@ public class GenLoginHistoriesEntity implements Serializable {
 	/** SerialVersion */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static GenLoginHistoriesEntity get() {
-		return Container.getComp(GenLoginHistoriesEntity.class);
-	}
+    /**
+     * Get instance from DI container.
+     * @return instance
+     */
+    public static GenLoginHistoriesEntity get() {
+        return Container.getComp(GenLoginHistoriesEntity.class);
+    }
 
-	/**
-	 * コンストラクタ
-	 */
-	public GenLoginHistoriesEntity() {
-		super();
-	}
+    /**
+     * Constructor.
+     */
+    public GenLoginHistoriesEntity() {
+        super();
+    }
 
 	/**
 	 * コンストラクタ
@@ -75,170 +74,170 @@ public class GenLoginHistoriesEntity implements Serializable {
 	/** 削除フラグ */
 	private Integer deleteFlag;
 
-	/**
-	 * ユーザID を取得する
-	 */
-	public Integer getUserId() {
-		return this.userId;
-	}
-	/**
-	 * ユーザID を設定する
-	 * @param userId ユーザID
-	 */
-	public GenLoginHistoriesEntity setUserId(Integer userId) {
-		this.userId = userId;
-		return this;
-	}
+    /**
+     * Get ユーザID.
+     */
+    public Integer getUserId() {
+        return this.userId;
+    }
+    /**
+     * Set ユーザID.
+     * @param userId ユーザID
+     */
+    public GenLoginHistoriesEntity setUserId(Integer userId) {
+        this.userId = userId;
+        return this;
+    }
 
-	/**
-	 * ログイン番号 を取得する
-	 */
-	public Double getLoginCount() {
-		return this.loginCount;
-	}
-	/**
-	 * ログイン番号 を設定する
-	 * @param loginCount ログイン番号
-	 */
-	public GenLoginHistoriesEntity setLoginCount(Double loginCount) {
-		this.loginCount = loginCount;
-		return this;
-	}
+    /**
+     * Get ログイン番号.
+     */
+    public Double getLoginCount() {
+        return this.loginCount;
+    }
+    /**
+     * Set ログイン番号.
+     * @param loginCount ログイン番号
+     */
+    public GenLoginHistoriesEntity setLoginCount(Double loginCount) {
+        this.loginCount = loginCount;
+        return this;
+    }
 
-	/**
-	 * ログイン日時 を取得する
-	 */
-	public Timestamp getLodinDateTime() {
-		return this.lodinDateTime;
-	}
-	/**
-	 * ログイン日時 を設定する
-	 * @param lodinDateTime ログイン日時
-	 */
-	public GenLoginHistoriesEntity setLodinDateTime(Timestamp lodinDateTime) {
-		this.lodinDateTime = lodinDateTime;
-		return this;
-	}
+    /**
+     * Get ログイン日時.
+     */
+    public Timestamp getLodinDateTime() {
+        return this.lodinDateTime;
+    }
+    /**
+     * Set ログイン日時.
+     * @param lodinDateTime ログイン日時
+     */
+    public GenLoginHistoriesEntity setLodinDateTime(Timestamp lodinDateTime) {
+        this.lodinDateTime = lodinDateTime;
+        return this;
+    }
 
-	/**
-	 * IPアドレス を取得する
-	 */
-	public String getIpAddress() {
-		return this.ipAddress;
-	}
-	/**
-	 * IPアドレス を設定する
-	 * @param ipAddress IPアドレス
-	 */
-	public GenLoginHistoriesEntity setIpAddress(String ipAddress) {
-		this.ipAddress = ipAddress;
-		return this;
-	}
+    /**
+     * Get IPアドレス.
+     */
+    public String getIpAddress() {
+        return this.ipAddress;
+    }
+    /**
+     * Set IPアドレス.
+     * @param ipAddress IPアドレス
+     */
+    public GenLoginHistoriesEntity setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+        return this;
+    }
 
-	/**
-	 * エージェント を取得する
-	 */
-	public String getUserAgent() {
-		return this.userAgent;
-	}
-	/**
-	 * エージェント を設定する
-	 * @param userAgent エージェント
-	 */
-	public GenLoginHistoriesEntity setUserAgent(String userAgent) {
-		this.userAgent = userAgent;
-		return this;
-	}
+    /**
+     * Get エージェント.
+     */
+    public String getUserAgent() {
+        return this.userAgent;
+    }
+    /**
+     * Set エージェント.
+     * @param userAgent エージェント
+     */
+    public GenLoginHistoriesEntity setUserAgent(String userAgent) {
+        this.userAgent = userAgent;
+        return this;
+    }
 
-	/**
-	 * 行ID を取得する
-	 */
-	public String getRowId() {
-		return this.rowId;
-	}
-	/**
-	 * 行ID を設定する
-	 * @param rowId 行ID
-	 */
-	public GenLoginHistoriesEntity setRowId(String rowId) {
-		this.rowId = rowId;
-		return this;
-	}
+    /**
+     * Get 行ID.
+     */
+    public String getRowId() {
+        return this.rowId;
+    }
+    /**
+     * Set 行ID.
+     * @param rowId 行ID
+     */
+    public GenLoginHistoriesEntity setRowId(String rowId) {
+        this.rowId = rowId;
+        return this;
+    }
 
-	/**
-	 * 登録ユーザ を取得する
-	 */
-	public Integer getInsertUser() {
-		return this.insertUser;
-	}
-	/**
-	 * 登録ユーザ を設定する
-	 * @param insertUser 登録ユーザ
-	 */
-	public GenLoginHistoriesEntity setInsertUser(Integer insertUser) {
-		this.insertUser = insertUser;
-		return this;
-	}
+    /**
+     * Get 登録ユーザ.
+     */
+    public Integer getInsertUser() {
+        return this.insertUser;
+    }
+    /**
+     * Set 登録ユーザ.
+     * @param insertUser 登録ユーザ
+     */
+    public GenLoginHistoriesEntity setInsertUser(Integer insertUser) {
+        this.insertUser = insertUser;
+        return this;
+    }
 
-	/**
-	 * 登録日時 を取得する
-	 */
-	public Timestamp getInsertDatetime() {
-		return this.insertDatetime;
-	}
-	/**
-	 * 登録日時 を設定する
-	 * @param insertDatetime 登録日時
-	 */
-	public GenLoginHistoriesEntity setInsertDatetime(Timestamp insertDatetime) {
-		this.insertDatetime = insertDatetime;
-		return this;
-	}
+    /**
+     * Get 登録日時.
+     */
+    public Timestamp getInsertDatetime() {
+        return this.insertDatetime;
+    }
+    /**
+     * Set 登録日時.
+     * @param insertDatetime 登録日時
+     */
+    public GenLoginHistoriesEntity setInsertDatetime(Timestamp insertDatetime) {
+        this.insertDatetime = insertDatetime;
+        return this;
+    }
 
-	/**
-	 * 更新ユーザ を取得する
-	 */
-	public Integer getUpdateUser() {
-		return this.updateUser;
-	}
-	/**
-	 * 更新ユーザ を設定する
-	 * @param updateUser 更新ユーザ
-	 */
-	public GenLoginHistoriesEntity setUpdateUser(Integer updateUser) {
-		this.updateUser = updateUser;
-		return this;
-	}
+    /**
+     * Get 更新ユーザ.
+     */
+    public Integer getUpdateUser() {
+        return this.updateUser;
+    }
+    /**
+     * Set 更新ユーザ.
+     * @param updateUser 更新ユーザ
+     */
+    public GenLoginHistoriesEntity setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
+        return this;
+    }
 
-	/**
-	 * 更新日時 を取得する
-	 */
-	public Timestamp getUpdateDatetime() {
-		return this.updateDatetime;
-	}
-	/**
-	 * 更新日時 を設定する
-	 * @param updateDatetime 更新日時
-	 */
-	public GenLoginHistoriesEntity setUpdateDatetime(Timestamp updateDatetime) {
-		this.updateDatetime = updateDatetime;
-		return this;
-	}
+    /**
+     * Get 更新日時.
+     */
+    public Timestamp getUpdateDatetime() {
+        return this.updateDatetime;
+    }
+    /**
+     * Set 更新日時.
+     * @param updateDatetime 更新日時
+     */
+    public GenLoginHistoriesEntity setUpdateDatetime(Timestamp updateDatetime) {
+        this.updateDatetime = updateDatetime;
+        return this;
+    }
 
-	/**
-	 * 削除フラグ を取得する
-	 */
-	public Integer getDeleteFlag() {
-		return this.deleteFlag;
-	}
-	/**
-	 * 削除フラグ を設定する
-	 * @param deleteFlag 削除フラグ
-	 */
-	public GenLoginHistoriesEntity setDeleteFlag(Integer deleteFlag) {
-		this.deleteFlag = deleteFlag;
-		return this;
-	}
+    /**
+     * Get 削除フラグ.
+     */
+    public Integer getDeleteFlag() {
+        return this.deleteFlag;
+    }
+    /**
+     * Set 削除フラグ.
+     * @param deleteFlag 削除フラグ
+     */
+    public GenLoginHistoriesEntity setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
+        return this;
+    }
 
 	/**
 	 * キーの値を取得 

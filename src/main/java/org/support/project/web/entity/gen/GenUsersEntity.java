@@ -25,21 +25,20 @@ public class GenUsersEntity implements Serializable {
 	/** SerialVersion */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static GenUsersEntity get() {
-		return Container.getComp(GenUsersEntity.class);
-	}
+    /**
+     * Get instance from DI container.
+     * @return instance
+     */
+    public static GenUsersEntity get() {
+        return Container.getComp(GenUsersEntity.class);
+    }
 
-	/**
-	 * コンストラクタ
-	 */
-	public GenUsersEntity() {
-		super();
-	}
+    /**
+     * Constructor.
+     */
+    public GenUsersEntity() {
+        super();
+    }
 
 	/**
 	 * コンストラクタ
@@ -79,215 +78,215 @@ public class GenUsersEntity implements Serializable {
 	/** 削除フラグ */
 	private Integer deleteFlag;
 
-	/**
-	 * ユーザID を取得する
-	 */
-	public Integer getUserId() {
-		return this.userId;
-	}
-	/**
-	 * ユーザID を設定する
-	 * @param userId ユーザID
-	 */
-	public GenUsersEntity setUserId(Integer userId) {
-		this.userId = userId;
-		return this;
-	}
+    /**
+     * Get ユーザID.
+     */
+    public Integer getUserId() {
+        return this.userId;
+    }
+    /**
+     * Set ユーザID.
+     * @param userId ユーザID
+     */
+    public GenUsersEntity setUserId(Integer userId) {
+        this.userId = userId;
+        return this;
+    }
 
-	/**
-	 * ユーザKEY	 ユニーク を取得する
-	 */
-	public String getUserKey() {
-		return this.userKey;
-	}
-	/**
-	 * ユーザKEY	 ユニーク を設定する
-	 * @param userKey ユーザKEY	 ユニーク
-	 */
-	public GenUsersEntity setUserKey(String userKey) {
-		this.userKey = userKey;
-		return this;
-	}
+    /**
+     * Get ユーザKEY	 ユニーク.
+     */
+    public String getUserKey() {
+        return this.userKey;
+    }
+    /**
+     * Set ユーザKEY	 ユニーク.
+     * @param userKey ユーザKEY	 ユニーク
+     */
+    public GenUsersEntity setUserKey(String userKey) {
+        this.userKey = userKey;
+        return this;
+    }
 
-	/**
-	 * ユーザ名 を取得する
-	 */
-	public String getUserName() {
-		return this.userName;
-	}
-	/**
-	 * ユーザ名 を設定する
-	 * @param userName ユーザ名
-	 */
-	public GenUsersEntity setUserName(String userName) {
-		this.userName = userName;
-		return this;
-	}
+    /**
+     * Get ユーザ名.
+     */
+    public String getUserName() {
+        return this.userName;
+    }
+    /**
+     * Set ユーザ名.
+     * @param userName ユーザ名
+     */
+    public GenUsersEntity setUserName(String userName) {
+        this.userName = userName;
+        return this;
+    }
 
-	/**
-	 * パスワード	 ハッシュ(不可逆) を取得する
-	 */
-	public String getPassword() {
-		return this.password;
-	}
-	/**
-	 * パスワード	 ハッシュ(不可逆) を設定する
-	 * @param password パスワード	 ハッシュ(不可逆)
-	 */
-	public GenUsersEntity setPassword(String password) {
-		this.password = password;
-		return this;
-	}
+    /**
+     * Get パスワード	 ハッシュ(不可逆).
+     */
+    public String getPassword() {
+        return this.password;
+    }
+    /**
+     * Set パスワード	 ハッシュ(不可逆).
+     * @param password パスワード	 ハッシュ(不可逆)
+     */
+    public GenUsersEntity setPassword(String password) {
+        this.password = password;
+        return this;
+    }
 
-	/**
-	 * SALT を取得する
-	 */
-	public String getSalt() {
-		return this.salt;
-	}
-	/**
-	 * SALT を設定する
-	 * @param salt SALT
-	 */
-	public GenUsersEntity setSalt(String salt) {
-		this.salt = salt;
-		return this;
-	}
+    /**
+     * Get SALT.
+     */
+    public String getSalt() {
+        return this.salt;
+    }
+    /**
+     * Set SALT.
+     * @param salt SALT
+     */
+    public GenUsersEntity setSalt(String salt) {
+        this.salt = salt;
+        return this;
+    }
 
-	/**
-	 * ロケール を取得する
-	 */
-	public String getLocaleKey() {
-		return this.localeKey;
-	}
-	/**
-	 * ロケール を設定する
-	 * @param localeKey ロケール
-	 */
-	public GenUsersEntity setLocaleKey(String localeKey) {
-		this.localeKey = localeKey;
-		return this;
-	}
+    /**
+     * Get ロケール.
+     */
+    public String getLocaleKey() {
+        return this.localeKey;
+    }
+    /**
+     * Set ロケール.
+     * @param localeKey ロケール
+     */
+    public GenUsersEntity setLocaleKey(String localeKey) {
+        this.localeKey = localeKey;
+        return this;
+    }
 
-	/**
-	 * メールアドレス を取得する
-	 */
-	public String getMailAddress() {
-		return this.mailAddress;
-	}
-	/**
-	 * メールアドレス を設定する
-	 * @param mailAddress メールアドレス
-	 */
-	public GenUsersEntity setMailAddress(String mailAddress) {
-		this.mailAddress = mailAddress;
-		return this;
-	}
+    /**
+     * Get メールアドレス.
+     */
+    public String getMailAddress() {
+        return this.mailAddress;
+    }
+    /**
+     * Set メールアドレス.
+     * @param mailAddress メールアドレス
+     */
+    public GenUsersEntity setMailAddress(String mailAddress) {
+        this.mailAddress = mailAddress;
+        return this;
+    }
 
-	/**
-	 * LDAP認証ユーザかどうか を取得する
-	 */
-	public Integer getAuthLdap() {
-		return this.authLdap;
-	}
-	/**
-	 * LDAP認証ユーザかどうか を設定する
-	 * @param authLdap LDAP認証ユーザかどうか
-	 */
-	public GenUsersEntity setAuthLdap(Integer authLdap) {
-		this.authLdap = authLdap;
-		return this;
-	}
+    /**
+     * Get LDAP認証ユーザかどうか.
+     */
+    public Integer getAuthLdap() {
+        return this.authLdap;
+    }
+    /**
+     * Set LDAP認証ユーザかどうか.
+     * @param authLdap LDAP認証ユーザかどうか
+     */
+    public GenUsersEntity setAuthLdap(Integer authLdap) {
+        this.authLdap = authLdap;
+        return this;
+    }
 
-	/**
-	 * 行ID を取得する
-	 */
-	public String getRowId() {
-		return this.rowId;
-	}
-	/**
-	 * 行ID を設定する
-	 * @param rowId 行ID
-	 */
-	public GenUsersEntity setRowId(String rowId) {
-		this.rowId = rowId;
-		return this;
-	}
+    /**
+     * Get 行ID.
+     */
+    public String getRowId() {
+        return this.rowId;
+    }
+    /**
+     * Set 行ID.
+     * @param rowId 行ID
+     */
+    public GenUsersEntity setRowId(String rowId) {
+        this.rowId = rowId;
+        return this;
+    }
 
-	/**
-	 * 登録ユーザ を取得する
-	 */
-	public Integer getInsertUser() {
-		return this.insertUser;
-	}
-	/**
-	 * 登録ユーザ を設定する
-	 * @param insertUser 登録ユーザ
-	 */
-	public GenUsersEntity setInsertUser(Integer insertUser) {
-		this.insertUser = insertUser;
-		return this;
-	}
+    /**
+     * Get 登録ユーザ.
+     */
+    public Integer getInsertUser() {
+        return this.insertUser;
+    }
+    /**
+     * Set 登録ユーザ.
+     * @param insertUser 登録ユーザ
+     */
+    public GenUsersEntity setInsertUser(Integer insertUser) {
+        this.insertUser = insertUser;
+        return this;
+    }
 
-	/**
-	 * 登録日時 を取得する
-	 */
-	public Timestamp getInsertDatetime() {
-		return this.insertDatetime;
-	}
-	/**
-	 * 登録日時 を設定する
-	 * @param insertDatetime 登録日時
-	 */
-	public GenUsersEntity setInsertDatetime(Timestamp insertDatetime) {
-		this.insertDatetime = insertDatetime;
-		return this;
-	}
+    /**
+     * Get 登録日時.
+     */
+    public Timestamp getInsertDatetime() {
+        return this.insertDatetime;
+    }
+    /**
+     * Set 登録日時.
+     * @param insertDatetime 登録日時
+     */
+    public GenUsersEntity setInsertDatetime(Timestamp insertDatetime) {
+        this.insertDatetime = insertDatetime;
+        return this;
+    }
 
-	/**
-	 * 更新ユーザ を取得する
-	 */
-	public Integer getUpdateUser() {
-		return this.updateUser;
-	}
-	/**
-	 * 更新ユーザ を設定する
-	 * @param updateUser 更新ユーザ
-	 */
-	public GenUsersEntity setUpdateUser(Integer updateUser) {
-		this.updateUser = updateUser;
-		return this;
-	}
+    /**
+     * Get 更新ユーザ.
+     */
+    public Integer getUpdateUser() {
+        return this.updateUser;
+    }
+    /**
+     * Set 更新ユーザ.
+     * @param updateUser 更新ユーザ
+     */
+    public GenUsersEntity setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
+        return this;
+    }
 
-	/**
-	 * 更新日時 を取得する
-	 */
-	public Timestamp getUpdateDatetime() {
-		return this.updateDatetime;
-	}
-	/**
-	 * 更新日時 を設定する
-	 * @param updateDatetime 更新日時
-	 */
-	public GenUsersEntity setUpdateDatetime(Timestamp updateDatetime) {
-		this.updateDatetime = updateDatetime;
-		return this;
-	}
+    /**
+     * Get 更新日時.
+     */
+    public Timestamp getUpdateDatetime() {
+        return this.updateDatetime;
+    }
+    /**
+     * Set 更新日時.
+     * @param updateDatetime 更新日時
+     */
+    public GenUsersEntity setUpdateDatetime(Timestamp updateDatetime) {
+        this.updateDatetime = updateDatetime;
+        return this;
+    }
 
-	/**
-	 * 削除フラグ を取得する
-	 */
-	public Integer getDeleteFlag() {
-		return this.deleteFlag;
-	}
-	/**
-	 * 削除フラグ を設定する
-	 * @param deleteFlag 削除フラグ
-	 */
-	public GenUsersEntity setDeleteFlag(Integer deleteFlag) {
-		this.deleteFlag = deleteFlag;
-		return this;
-	}
+    /**
+     * Get 削除フラグ.
+     */
+    public Integer getDeleteFlag() {
+        return this.deleteFlag;
+    }
+    /**
+     * Set 削除フラグ.
+     * @param deleteFlag 削除フラグ
+     */
+    public GenUsersEntity setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
+        return this;
+    }
 
 	/**
 	 * キーの値を取得 

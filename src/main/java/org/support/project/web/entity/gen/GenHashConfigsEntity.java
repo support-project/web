@@ -25,21 +25,20 @@ public class GenHashConfigsEntity implements Serializable {
 	/** SerialVersion */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static GenHashConfigsEntity get() {
-		return Container.getComp(GenHashConfigsEntity.class);
-	}
+    /**
+     * Get instance from DI container.
+     * @return instance
+     */
+    public static GenHashConfigsEntity get() {
+        return Container.getComp(GenHashConfigsEntity.class);
+    }
 
-	/**
-	 * コンストラクタ
-	 */
-	public GenHashConfigsEntity() {
-		super();
-	}
+    /**
+     * Constructor.
+     */
+    public GenHashConfigsEntity() {
+        super();
+    }
 
 	/**
 	 * コンストラクタ
@@ -69,140 +68,140 @@ public class GenHashConfigsEntity implements Serializable {
 	/** 削除フラグ */
 	private Integer deleteFlag;
 
-	/**
-	 * システム名 を取得する
-	 */
-	public String getSystemName() {
-		return this.systemName;
-	}
-	/**
-	 * システム名 を設定する
-	 * @param systemName システム名
-	 */
-	public GenHashConfigsEntity setSystemName(String systemName) {
-		this.systemName = systemName;
-		return this;
-	}
+    /**
+     * Get システム名.
+     */
+    public String getSystemName() {
+        return this.systemName;
+    }
+    /**
+     * Set システム名.
+     * @param systemName システム名
+     */
+    public GenHashConfigsEntity setSystemName(String systemName) {
+        this.systemName = systemName;
+        return this;
+    }
 
-	/**
-	 * HASH_ITERATIONS を取得する
-	 */
-	public Integer getHashIterations() {
-		return this.hashIterations;
-	}
-	/**
-	 * HASH_ITERATIONS を設定する
-	 * @param hashIterations HASH_ITERATIONS
-	 */
-	public GenHashConfigsEntity setHashIterations(Integer hashIterations) {
-		this.hashIterations = hashIterations;
-		return this;
-	}
+    /**
+     * Get HASH_ITERATIONS.
+     */
+    public Integer getHashIterations() {
+        return this.hashIterations;
+    }
+    /**
+     * Set HASH_ITERATIONS.
+     * @param hashIterations HASH_ITERATIONS
+     */
+    public GenHashConfigsEntity setHashIterations(Integer hashIterations) {
+        this.hashIterations = hashIterations;
+        return this;
+    }
 
-	/**
-	 * HASH_SIZE_BITS を取得する
-	 */
-	public Integer getHashSizeBits() {
-		return this.hashSizeBits;
-	}
-	/**
-	 * HASH_SIZE_BITS を設定する
-	 * @param hashSizeBits HASH_SIZE_BITS
-	 */
-	public GenHashConfigsEntity setHashSizeBits(Integer hashSizeBits) {
-		this.hashSizeBits = hashSizeBits;
-		return this;
-	}
+    /**
+     * Get HASH_SIZE_BITS.
+     */
+    public Integer getHashSizeBits() {
+        return this.hashSizeBits;
+    }
+    /**
+     * Set HASH_SIZE_BITS.
+     * @param hashSizeBits HASH_SIZE_BITS
+     */
+    public GenHashConfigsEntity setHashSizeBits(Integer hashSizeBits) {
+        this.hashSizeBits = hashSizeBits;
+        return this;
+    }
 
-	/**
-	 * 行ID を取得する
-	 */
-	public String getRowId() {
-		return this.rowId;
-	}
-	/**
-	 * 行ID を設定する
-	 * @param rowId 行ID
-	 */
-	public GenHashConfigsEntity setRowId(String rowId) {
-		this.rowId = rowId;
-		return this;
-	}
+    /**
+     * Get 行ID.
+     */
+    public String getRowId() {
+        return this.rowId;
+    }
+    /**
+     * Set 行ID.
+     * @param rowId 行ID
+     */
+    public GenHashConfigsEntity setRowId(String rowId) {
+        this.rowId = rowId;
+        return this;
+    }
 
-	/**
-	 * 登録ユーザ を取得する
-	 */
-	public Integer getInsertUser() {
-		return this.insertUser;
-	}
-	/**
-	 * 登録ユーザ を設定する
-	 * @param insertUser 登録ユーザ
-	 */
-	public GenHashConfigsEntity setInsertUser(Integer insertUser) {
-		this.insertUser = insertUser;
-		return this;
-	}
+    /**
+     * Get 登録ユーザ.
+     */
+    public Integer getInsertUser() {
+        return this.insertUser;
+    }
+    /**
+     * Set 登録ユーザ.
+     * @param insertUser 登録ユーザ
+     */
+    public GenHashConfigsEntity setInsertUser(Integer insertUser) {
+        this.insertUser = insertUser;
+        return this;
+    }
 
-	/**
-	 * 登録日時 を取得する
-	 */
-	public Timestamp getInsertDatetime() {
-		return this.insertDatetime;
-	}
-	/**
-	 * 登録日時 を設定する
-	 * @param insertDatetime 登録日時
-	 */
-	public GenHashConfigsEntity setInsertDatetime(Timestamp insertDatetime) {
-		this.insertDatetime = insertDatetime;
-		return this;
-	}
+    /**
+     * Get 登録日時.
+     */
+    public Timestamp getInsertDatetime() {
+        return this.insertDatetime;
+    }
+    /**
+     * Set 登録日時.
+     * @param insertDatetime 登録日時
+     */
+    public GenHashConfigsEntity setInsertDatetime(Timestamp insertDatetime) {
+        this.insertDatetime = insertDatetime;
+        return this;
+    }
 
-	/**
-	 * 更新ユーザ を取得する
-	 */
-	public Integer getUpdateUser() {
-		return this.updateUser;
-	}
-	/**
-	 * 更新ユーザ を設定する
-	 * @param updateUser 更新ユーザ
-	 */
-	public GenHashConfigsEntity setUpdateUser(Integer updateUser) {
-		this.updateUser = updateUser;
-		return this;
-	}
+    /**
+     * Get 更新ユーザ.
+     */
+    public Integer getUpdateUser() {
+        return this.updateUser;
+    }
+    /**
+     * Set 更新ユーザ.
+     * @param updateUser 更新ユーザ
+     */
+    public GenHashConfigsEntity setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
+        return this;
+    }
 
-	/**
-	 * 更新日時 を取得する
-	 */
-	public Timestamp getUpdateDatetime() {
-		return this.updateDatetime;
-	}
-	/**
-	 * 更新日時 を設定する
-	 * @param updateDatetime 更新日時
-	 */
-	public GenHashConfigsEntity setUpdateDatetime(Timestamp updateDatetime) {
-		this.updateDatetime = updateDatetime;
-		return this;
-	}
+    /**
+     * Get 更新日時.
+     */
+    public Timestamp getUpdateDatetime() {
+        return this.updateDatetime;
+    }
+    /**
+     * Set 更新日時.
+     * @param updateDatetime 更新日時
+     */
+    public GenHashConfigsEntity setUpdateDatetime(Timestamp updateDatetime) {
+        this.updateDatetime = updateDatetime;
+        return this;
+    }
 
-	/**
-	 * 削除フラグ を取得する
-	 */
-	public Integer getDeleteFlag() {
-		return this.deleteFlag;
-	}
-	/**
-	 * 削除フラグ を設定する
-	 * @param deleteFlag 削除フラグ
-	 */
-	public GenHashConfigsEntity setDeleteFlag(Integer deleteFlag) {
-		this.deleteFlag = deleteFlag;
-		return this;
-	}
+    /**
+     * Get 削除フラグ.
+     */
+    public Integer getDeleteFlag() {
+        return this.deleteFlag;
+    }
+    /**
+     * Set 削除フラグ.
+     * @param deleteFlag 削除フラグ
+     */
+    public GenHashConfigsEntity setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
+        return this;
+    }
 
 	/**
 	 * キーの値を取得 

@@ -64,10 +64,10 @@ public class GroupsDao extends GenGroupsDao {
 
     /**
      * アクセスできるグループを取得
-     * @param loginedUser
-     * @param offset
-     * @param limit
-     * @return
+     * @param loginedUser loginedUser
+     * @param offset offset
+     * @param limit limit
+     * @return groups
      */
     public List<GroupsEntity> selectAccessAbleGroups(LoginedUser loginedUser, int offset, int limit) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectAccessAbleGroups.sql");
@@ -77,11 +77,11 @@ public class GroupsDao extends GenGroupsDao {
     /**
      * キーワードでグループを取得
      * 
-     * @param keyword
-     * @param loginedUser
-     * @param offset
-     * @param limit
-     * @return
+     * @param keyword keyword
+     * @param loginedUser loginedUser
+     * @param offset offset
+     * @param limit limit
+     * @return list
      */
     public List<GroupsEntity> selectOnKeyword(String keyword, LoginedUser loginedUser, int offset, int limit) {
         if (loginedUser != null && loginedUser.isAdmin()) {

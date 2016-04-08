@@ -25,21 +25,20 @@ public class GenLdapConfigsEntity implements Serializable {
 	/** SerialVersion */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static GenLdapConfigsEntity get() {
-		return Container.getComp(GenLdapConfigsEntity.class);
-	}
+    /**
+     * Get instance from DI container.
+     * @return instance
+     */
+    public static GenLdapConfigsEntity get() {
+        return Container.getComp(GenLdapConfigsEntity.class);
+    }
 
-	/**
-	 * コンストラクタ
-	 */
-	public GenLdapConfigsEntity() {
-		super();
-	}
+    /**
+     * Constructor.
+     */
+    public GenLdapConfigsEntity() {
+        super();
+    }
 
 	/**
 	 * コンストラクタ
@@ -93,320 +92,320 @@ public class GenLdapConfigsEntity implements Serializable {
 	/** 削除フラグ */
 	private Integer deleteFlag;
 
-	/**
-	 * システム名 を取得する
-	 */
-	public String getSystemName() {
-		return this.systemName;
-	}
-	/**
-	 * システム名 を設定する
-	 * @param systemName システム名
-	 */
-	public GenLdapConfigsEntity setSystemName(String systemName) {
-		this.systemName = systemName;
-		return this;
-	}
+    /**
+     * Get システム名.
+     */
+    public String getSystemName() {
+        return this.systemName;
+    }
+    /**
+     * Set システム名.
+     * @param systemName システム名
+     */
+    public GenLdapConfigsEntity setSystemName(String systemName) {
+        this.systemName = systemName;
+        return this;
+    }
 
-	/**
-	 * HOST を取得する
-	 */
-	public String getHost() {
-		return this.host;
-	}
-	/**
-	 * HOST を設定する
-	 * @param host HOST
-	 */
-	public GenLdapConfigsEntity setHost(String host) {
-		this.host = host;
-		return this;
-	}
+    /**
+     * Get HOST.
+     */
+    public String getHost() {
+        return this.host;
+    }
+    /**
+     * Set HOST.
+     * @param host HOST
+     */
+    public GenLdapConfigsEntity setHost(String host) {
+        this.host = host;
+        return this;
+    }
 
-	/**
-	 * PORT を取得する
-	 */
-	public Integer getPort() {
-		return this.port;
-	}
-	/**
-	 * PORT を設定する
-	 * @param port PORT
-	 */
-	public GenLdapConfigsEntity setPort(Integer port) {
-		this.port = port;
-		return this;
-	}
+    /**
+     * Get PORT.
+     */
+    public Integer getPort() {
+        return this.port;
+    }
+    /**
+     * Set PORT.
+     * @param port PORT
+     */
+    public GenLdapConfigsEntity setPort(Integer port) {
+        this.port = port;
+        return this;
+    }
 
-	/**
-	 * USE_SSL を取得する
-	 */
-	public Integer getUseSsl() {
-		return this.useSsl;
-	}
-	/**
-	 * USE_SSL を設定する
-	 * @param useSsl USE_SSL
-	 */
-	public GenLdapConfigsEntity setUseSsl(Integer useSsl) {
-		this.useSsl = useSsl;
-		return this;
-	}
+    /**
+     * Get USE_SSL.
+     */
+    public Integer getUseSsl() {
+        return this.useSsl;
+    }
+    /**
+     * Set USE_SSL.
+     * @param useSsl USE_SSL
+     */
+    public GenLdapConfigsEntity setUseSsl(Integer useSsl) {
+        this.useSsl = useSsl;
+        return this;
+    }
 
-	/**
-	 * USE_TLS を取得する
-	 */
-	public Integer getUseTls() {
-		return this.useTls;
-	}
-	/**
-	 * USE_TLS を設定する
-	 * @param useTls USE_TLS
-	 */
-	public GenLdapConfigsEntity setUseTls(Integer useTls) {
-		this.useTls = useTls;
-		return this;
-	}
+    /**
+     * Get USE_TLS.
+     */
+    public Integer getUseTls() {
+        return this.useTls;
+    }
+    /**
+     * Set USE_TLS.
+     * @param useTls USE_TLS
+     */
+    public GenLdapConfigsEntity setUseTls(Integer useTls) {
+        this.useTls = useTls;
+        return this;
+    }
 
-	/**
-	 * BIND_DN を取得する
-	 */
-	public String getBindDn() {
-		return this.bindDn;
-	}
-	/**
-	 * BIND_DN を設定する
-	 * @param bindDn BIND_DN
-	 */
-	public GenLdapConfigsEntity setBindDn(String bindDn) {
-		this.bindDn = bindDn;
-		return this;
-	}
+    /**
+     * Get BIND_DN.
+     */
+    public String getBindDn() {
+        return this.bindDn;
+    }
+    /**
+     * Set BIND_DN.
+     * @param bindDn BIND_DN
+     */
+    public GenLdapConfigsEntity setBindDn(String bindDn) {
+        this.bindDn = bindDn;
+        return this;
+    }
 
-	/**
-	 * BIND_PASSWORD を取得する
-	 */
-	public String getBindPassword() {
-		return this.bindPassword;
-	}
-	/**
-	 * BIND_PASSWORD を設定する
-	 * @param bindPassword BIND_PASSWORD
-	 */
-	public GenLdapConfigsEntity setBindPassword(String bindPassword) {
-		this.bindPassword = bindPassword;
-		return this;
-	}
+    /**
+     * Get BIND_PASSWORD.
+     */
+    public String getBindPassword() {
+        return this.bindPassword;
+    }
+    /**
+     * Set BIND_PASSWORD.
+     * @param bindPassword BIND_PASSWORD
+     */
+    public GenLdapConfigsEntity setBindPassword(String bindPassword) {
+        this.bindPassword = bindPassword;
+        return this;
+    }
 
-	/**
-	 * SALT を取得する
-	 */
-	public String getSalt() {
-		return this.salt;
-	}
-	/**
-	 * SALT を設定する
-	 * @param salt SALT
-	 */
-	public GenLdapConfigsEntity setSalt(String salt) {
-		this.salt = salt;
-		return this;
-	}
+    /**
+     * Get SALT.
+     */
+    public String getSalt() {
+        return this.salt;
+    }
+    /**
+     * Set SALT.
+     * @param salt SALT
+     */
+    public GenLdapConfigsEntity setSalt(String salt) {
+        this.salt = salt;
+        return this;
+    }
 
-	/**
-	 * BASE_DN を取得する
-	 */
-	public String getBaseDn() {
-		return this.baseDn;
-	}
-	/**
-	 * BASE_DN を設定する
-	 * @param baseDn BASE_DN
-	 */
-	public GenLdapConfigsEntity setBaseDn(String baseDn) {
-		this.baseDn = baseDn;
-		return this;
-	}
+    /**
+     * Get BASE_DN.
+     */
+    public String getBaseDn() {
+        return this.baseDn;
+    }
+    /**
+     * Set BASE_DN.
+     * @param baseDn BASE_DN
+     */
+    public GenLdapConfigsEntity setBaseDn(String baseDn) {
+        this.baseDn = baseDn;
+        return this;
+    }
 
-	/**
-	 * FILTER を取得する
-	 */
-	public String getFilter() {
-		return this.filter;
-	}
-	/**
-	 * FILTER を設定する
-	 * @param filter FILTER
-	 */
-	public GenLdapConfigsEntity setFilter(String filter) {
-		this.filter = filter;
-		return this;
-	}
+    /**
+     * Get FILTER.
+     */
+    public String getFilter() {
+        return this.filter;
+    }
+    /**
+     * Set FILTER.
+     * @param filter FILTER
+     */
+    public GenLdapConfigsEntity setFilter(String filter) {
+        this.filter = filter;
+        return this;
+    }
 
-	/**
-	 * ID_ATTR を取得する
-	 */
-	public String getIdAttr() {
-		return this.idAttr;
-	}
-	/**
-	 * ID_ATTR を設定する
-	 * @param idAttr ID_ATTR
-	 */
-	public GenLdapConfigsEntity setIdAttr(String idAttr) {
-		this.idAttr = idAttr;
-		return this;
-	}
+    /**
+     * Get ID_ATTR.
+     */
+    public String getIdAttr() {
+        return this.idAttr;
+    }
+    /**
+     * Set ID_ATTR.
+     * @param idAttr ID_ATTR
+     */
+    public GenLdapConfigsEntity setIdAttr(String idAttr) {
+        this.idAttr = idAttr;
+        return this;
+    }
 
-	/**
-	 * NAME_ATTR を取得する
-	 */
-	public String getNameAttr() {
-		return this.nameAttr;
-	}
-	/**
-	 * NAME_ATTR を設定する
-	 * @param nameAttr NAME_ATTR
-	 */
-	public GenLdapConfigsEntity setNameAttr(String nameAttr) {
-		this.nameAttr = nameAttr;
-		return this;
-	}
+    /**
+     * Get NAME_ATTR.
+     */
+    public String getNameAttr() {
+        return this.nameAttr;
+    }
+    /**
+     * Set NAME_ATTR.
+     * @param nameAttr NAME_ATTR
+     */
+    public GenLdapConfigsEntity setNameAttr(String nameAttr) {
+        this.nameAttr = nameAttr;
+        return this;
+    }
 
-	/**
-	 * MAIL_ATTR を取得する
-	 */
-	public String getMailAttr() {
-		return this.mailAttr;
-	}
-	/**
-	 * MAIL_ATTR を設定する
-	 * @param mailAttr MAIL_ATTR
-	 */
-	public GenLdapConfigsEntity setMailAttr(String mailAttr) {
-		this.mailAttr = mailAttr;
-		return this;
-	}
+    /**
+     * Get MAIL_ATTR.
+     */
+    public String getMailAttr() {
+        return this.mailAttr;
+    }
+    /**
+     * Set MAIL_ATTR.
+     * @param mailAttr MAIL_ATTR
+     */
+    public GenLdapConfigsEntity setMailAttr(String mailAttr) {
+        this.mailAttr = mailAttr;
+        return this;
+    }
 
-	/**
-	 * ADMIN_CHECK_FILTER を取得する
-	 */
-	public String getAdminCheckFilter() {
-		return this.adminCheckFilter;
-	}
-	/**
-	 * ADMIN_CHECK_FILTER を設定する
-	 * @param adminCheckFilter ADMIN_CHECK_FILTER
-	 */
-	public GenLdapConfigsEntity setAdminCheckFilter(String adminCheckFilter) {
-		this.adminCheckFilter = adminCheckFilter;
-		return this;
-	}
+    /**
+     * Get ADMIN_CHECK_FILTER.
+     */
+    public String getAdminCheckFilter() {
+        return this.adminCheckFilter;
+    }
+    /**
+     * Set ADMIN_CHECK_FILTER.
+     * @param adminCheckFilter ADMIN_CHECK_FILTER
+     */
+    public GenLdapConfigsEntity setAdminCheckFilter(String adminCheckFilter) {
+        this.adminCheckFilter = adminCheckFilter;
+        return this;
+    }
 
-	/**
-	 * AUTH_TYPE	 0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先) を取得する
-	 */
-	public Integer getAuthType() {
-		return this.authType;
-	}
-	/**
-	 * AUTH_TYPE	 0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先) を設定する
-	 * @param authType AUTH_TYPE	 0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先)
-	 */
-	public GenLdapConfigsEntity setAuthType(Integer authType) {
-		this.authType = authType;
-		return this;
-	}
+    /**
+     * Get AUTH_TYPE	 0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先).
+     */
+    public Integer getAuthType() {
+        return this.authType;
+    }
+    /**
+     * Set AUTH_TYPE	 0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先).
+     * @param authType AUTH_TYPE	 0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先)
+     */
+    public GenLdapConfigsEntity setAuthType(Integer authType) {
+        this.authType = authType;
+        return this;
+    }
 
-	/**
-	 * 行ID を取得する
-	 */
-	public String getRowId() {
-		return this.rowId;
-	}
-	/**
-	 * 行ID を設定する
-	 * @param rowId 行ID
-	 */
-	public GenLdapConfigsEntity setRowId(String rowId) {
-		this.rowId = rowId;
-		return this;
-	}
+    /**
+     * Get 行ID.
+     */
+    public String getRowId() {
+        return this.rowId;
+    }
+    /**
+     * Set 行ID.
+     * @param rowId 行ID
+     */
+    public GenLdapConfigsEntity setRowId(String rowId) {
+        this.rowId = rowId;
+        return this;
+    }
 
-	/**
-	 * 登録ユーザ を取得する
-	 */
-	public Integer getInsertUser() {
-		return this.insertUser;
-	}
-	/**
-	 * 登録ユーザ を設定する
-	 * @param insertUser 登録ユーザ
-	 */
-	public GenLdapConfigsEntity setInsertUser(Integer insertUser) {
-		this.insertUser = insertUser;
-		return this;
-	}
+    /**
+     * Get 登録ユーザ.
+     */
+    public Integer getInsertUser() {
+        return this.insertUser;
+    }
+    /**
+     * Set 登録ユーザ.
+     * @param insertUser 登録ユーザ
+     */
+    public GenLdapConfigsEntity setInsertUser(Integer insertUser) {
+        this.insertUser = insertUser;
+        return this;
+    }
 
-	/**
-	 * 登録日時 を取得する
-	 */
-	public Timestamp getInsertDatetime() {
-		return this.insertDatetime;
-	}
-	/**
-	 * 登録日時 を設定する
-	 * @param insertDatetime 登録日時
-	 */
-	public GenLdapConfigsEntity setInsertDatetime(Timestamp insertDatetime) {
-		this.insertDatetime = insertDatetime;
-		return this;
-	}
+    /**
+     * Get 登録日時.
+     */
+    public Timestamp getInsertDatetime() {
+        return this.insertDatetime;
+    }
+    /**
+     * Set 登録日時.
+     * @param insertDatetime 登録日時
+     */
+    public GenLdapConfigsEntity setInsertDatetime(Timestamp insertDatetime) {
+        this.insertDatetime = insertDatetime;
+        return this;
+    }
 
-	/**
-	 * 更新ユーザ を取得する
-	 */
-	public Integer getUpdateUser() {
-		return this.updateUser;
-	}
-	/**
-	 * 更新ユーザ を設定する
-	 * @param updateUser 更新ユーザ
-	 */
-	public GenLdapConfigsEntity setUpdateUser(Integer updateUser) {
-		this.updateUser = updateUser;
-		return this;
-	}
+    /**
+     * Get 更新ユーザ.
+     */
+    public Integer getUpdateUser() {
+        return this.updateUser;
+    }
+    /**
+     * Set 更新ユーザ.
+     * @param updateUser 更新ユーザ
+     */
+    public GenLdapConfigsEntity setUpdateUser(Integer updateUser) {
+        this.updateUser = updateUser;
+        return this;
+    }
 
-	/**
-	 * 更新日時 を取得する
-	 */
-	public Timestamp getUpdateDatetime() {
-		return this.updateDatetime;
-	}
-	/**
-	 * 更新日時 を設定する
-	 * @param updateDatetime 更新日時
-	 */
-	public GenLdapConfigsEntity setUpdateDatetime(Timestamp updateDatetime) {
-		this.updateDatetime = updateDatetime;
-		return this;
-	}
+    /**
+     * Get 更新日時.
+     */
+    public Timestamp getUpdateDatetime() {
+        return this.updateDatetime;
+    }
+    /**
+     * Set 更新日時.
+     * @param updateDatetime 更新日時
+     */
+    public GenLdapConfigsEntity setUpdateDatetime(Timestamp updateDatetime) {
+        this.updateDatetime = updateDatetime;
+        return this;
+    }
 
-	/**
-	 * 削除フラグ を取得する
-	 */
-	public Integer getDeleteFlag() {
-		return this.deleteFlag;
-	}
-	/**
-	 * 削除フラグ を設定する
-	 * @param deleteFlag 削除フラグ
-	 */
-	public GenLdapConfigsEntity setDeleteFlag(Integer deleteFlag) {
-		this.deleteFlag = deleteFlag;
-		return this;
-	}
+    /**
+     * Get 削除フラグ.
+     */
+    public Integer getDeleteFlag() {
+        return this.deleteFlag;
+    }
+    /**
+     * Set 削除フラグ.
+     * @param deleteFlag 削除フラグ
+     */
+    public GenLdapConfigsEntity setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
+        return this;
+    }
 
 	/**
 	 * キーの値を取得 
