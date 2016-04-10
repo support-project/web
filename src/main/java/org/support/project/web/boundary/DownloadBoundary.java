@@ -15,7 +15,7 @@ import org.support.project.web.common.HttpUtil;
 
 public class DownloadBoundary extends AbstractBoundary {
 	/** ログ */
-	private static Log LOG = LogFactory.getLog(DownloadBoundary.class);
+	private static final Log LOG = LogFactory.getLog(DownloadBoundary.class);
 	
 	private String fileName;
 	private InputStream inputStream;

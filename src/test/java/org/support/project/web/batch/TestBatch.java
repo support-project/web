@@ -6,7 +6,7 @@ import org.support.project.common.log.LogFactory;
 
 public class TestBatch extends AbstractBat {
     /** ログ */
-    private static Log LOG = LogFactory.getLog(TestBatch.class);
+    private static final Log LOG = LogFactory.getLog(TestBatch.class);
 
     public static void main(String[] args) {
         initLogName("TestBatch.log");

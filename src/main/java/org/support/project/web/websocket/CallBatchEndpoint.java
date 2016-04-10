@@ -20,7 +20,7 @@ import org.support.project.web.config.AppConfig;
 
 public abstract class CallBatchEndpoint extends AbstractEndpoint {
 	/** ログ */
-	private static Log LOG = LogFactory.getLog(CallBatchEndpoint.class);
+	private static final Log LOG = LogFactory.getLog(CallBatchEndpoint.class);
 
 	private Thread thread;
 	

@@ -12,13 +12,19 @@ import org.support.project.web.logic.DBConnenctionLogic;
 
 /**
  * 定期的に呼び出されるJavaのバッチプログラムの基盤クラス
+ * 
  * @author Koda
  */
 public abstract class AbstractBat {
     /** ログ */
     private static final Log LOG = LogFactory.getLog(AbstractBat.class);
-    
-    /** バッチが出力するログの名称をセットする */
+
+    /**
+     * バッチが出力するログの名称をセットする
+     * 
+     * @param logname log
+     * 
+     */
     public static void initLogName(String logname) {
         String logsPath = AppConfig.get().getLogsPath();
         File logDir = new File(logsPath);
@@ -30,13 +36,14 @@ public abstract class AbstractBat {
         if (appendar != null) {
             File logfile = new File(logDir, logname);
             appendar.setFile(logfile.getAbsolutePath());
-            appendar.activateOptions(); //変更の反映
+            appendar.activateOptions(); // 変更の反映
         }
     }
-    
+
     /**
      * 設定の読み込み（環境変数の反映)
-     * @param batName
+     * 
+     * @param batName batName
      */
     protected static void configInit(String batName) {
         AppConfig.get();
@@ -47,7 +54,7 @@ public abstract class AbstractBat {
             LOG.debug("Config :" + PropertyUtil.reflectionToString(AppConfig.get()));
         }
     }
-    
+
     /**
      * バッチ終了時に情報を出力（デバッグ用）
      */
@@ -59,12 +66,11 @@ public abstract class AbstractBat {
         LOG.info("Finished");
     }
 
-
     /**
      * コネクションの接続先がカスタマイズされていたら、バッチでもカスタマイズ先を参照する
      */
     public void dbInit() {
         DBConnenctionLogic.get().connectCustomConnection();
     }
-    
+
 }

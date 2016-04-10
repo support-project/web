@@ -1,41 +1,28 @@
 package org.support.project.web.tool;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.support.project.common.config.INT_FLAG;
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
 import org.support.project.di.Container;
 import org.support.project.ormapping.common.DBUserPool;
 import org.support.project.ormapping.tool.dao.InitializeDao;
-import org.support.project.web.config.GroupRoleType;
-import org.support.project.web.config.CommonWebParameter;
-import org.support.project.web.dao.GroupsDao;
 import org.support.project.web.dao.RolesDao;
-import org.support.project.web.dao.UserGroupsDao;
 import org.support.project.web.dao.UserRolesDao;
 import org.support.project.web.dao.UsersDao;
-import org.support.project.web.entity.GroupsEntity;
 import org.support.project.web.entity.RolesEntity;
-import org.support.project.web.entity.UserGroupsEntity;
 import org.support.project.web.entity.UserRolesEntity;
 import org.support.project.web.entity.UsersEntity;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class SampleDataAdd {
 
 	/** ログ */
-	private static Log LOG = LogFactory.getLog(SampleDataAdd.class);
+	private static final Log LOG = LogFactory.getLog(SampleDataAdd.class);
 
 	public static void main(String[] args) throws Exception {
 		DBUserPool.get().setUser(-99);

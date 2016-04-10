@@ -11,124 +11,145 @@ import org.support.project.web.entity.UsersEntity;
 
 /**
  * ログインしたユーザのセッションに保持する情報
+ * 
  * @author koda
  *
  */
 public class LoginedUser implements Serializable {
-	/** シリアルバージョン */
-	private static final long serialVersionUID = 1L;
+    /** シリアルバージョン */
+    private static final long serialVersionUID = 1L;
 
-	/** ログインしたユーザの情報 */
-	private UsersEntity loginUser;
-	
-	/** ログインしたユーザが持つ権限 */
-	private List<RolesEntity> roles;
-	
-	/** ログインしたユーザが所属するグループ */
-	private List<GroupsEntity> groups;
+    /** ログインしたユーザの情報 */
+    private UsersEntity loginUser;
 
-	/** ログインしたユーザが利用しているロケール */
-	private Locale locale;
-	
-	/**
-	 * ユーザIDを取得
-	 * @return
-	 */
-	public Integer getUserId() {
-		if (loginUser != null) {
-			return loginUser.getUserId();
-		}
-		return Integer.MIN_VALUE;
-	}
-	
-	
-	/**
-	 * 管理者かどうか
-	 * @return
-	 */
-	public boolean isAdmin() {
-		if (roles != null) {
-			for (RolesEntity roleId : roles) {
-				if (roleId.getRoleKey().equals(CommonWebParameter.ROLE_ADMIN)) {
-					return true;
-				}
-	 		}
-		}
-		return false;
-	}
-	/**
-	 * 指定のロールを持っているかチェック
-	 * @param roleArray
-	 * @return
-	 */
-	public boolean haveRole(String... roleArray) {
-		if (roles != null) {
-			for (RolesEntity roleId : roles) {
-				for (String role : roleArray) {
-					if (roleId.getRoleKey().equals(role)) {
-						return true;
-					}
-				}
-	 		}
-		}
-		return false;
-	}
-	
-	
-	
-	/**
-	 * @return loginUser
-	 */
-	public UsersEntity getLoginUser() {
-		loginUser.setPassword(""); //セッションに持つ場合、パスワードはクリアすること
-		return loginUser;
-	}
+    /** ログインしたユーザが持つ権限 */
+    private List<RolesEntity> roles;
 
-	/**
-	 * @param loginUser セットする loginUser
-	 */
-	public void setLoginUser(UsersEntity loginUser) {
-		loginUser.setPassword(""); //セッションに持つ場合、パスワードはクリアすること
-		this.loginUser = loginUser;
-	}
+    /** ログインしたユーザが所属するグループ */
+    private List<GroupsEntity> groups;
 
-	/**
-	 * @return roles
-	 */
-	public List<RolesEntity> getRoles() {
-		return roles;
-	}
+    /** ログインしたユーザが利用しているロケール */
+    private Locale locale;
 
-	/**
-	 * @param roles セットする roles
-	 */
-	public void setRoles(List<RolesEntity> roles) {
-		this.roles = roles;
-	}
+    /**
+     * ユーザIDを取得
+     * 
+     * @return user id
+     */
+    public Integer getUserId() {
+        if (loginUser != null) {
+            return loginUser.getUserId();
+        }
+        return Integer.MIN_VALUE;
+    }
 
-	/**
-	 * @return groups
-	 */
-	public List<GroupsEntity> getGroups() {
-		return groups;
-	}
+    /**
+     * 管理者かどうか
+     * 
+     * @return isadmin
+     */
+    public boolean isAdmin() {
+        if (roles != null) {
+            for (RolesEntity roleId : roles) {
+                if (roleId.getRoleKey().equals(CommonWebParameter.ROLE_ADMIN)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
-	/**
-	 * @param groups セットする groups
-	 */
-	public void setGroups(List<GroupsEntity> groups) {
-		this.groups = groups;
-	}
+    /**
+     * 指定のロールを持っているかチェック
+     * 
+     * @param roleArray roleArray
+     * @return result
+     */
+    public boolean haveRole(String... roleArray) {
+        if (roles != null) {
+            for (RolesEntity roleId : roles) {
+                for (String role : roleArray) {
+                    if (roleId.getRoleKey().equals(role)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
+    /**
+     * Get login user info
+     * 
+     * @return loginUser loginUser
+     */
+    public UsersEntity getLoginUser() {
+        loginUser.setPassword(""); // セッションに持つ場合、パスワードはクリアすること
+        return loginUser;
+    }
 
-	public Locale getLocale() {
-		return locale;
-	}
+    /**
+     * Set login user info
+     * 
+     * @param loginUser セットする loginUser
+     */
+    public void setLoginUser(UsersEntity loginUser) {
+        loginUser.setPassword(""); // セッションに持つ場合、パスワードはクリアすること
+        this.loginUser = loginUser;
+    }
 
+    /**
+     * Get roles
+     * 
+     * @return roles roles
+     */
+    public List<RolesEntity> getRoles() {
+        return roles;
+    }
 
-	public void setLocale(Locale locale) {
-		this.locale = locale;
-	}
-	
-	
+    /**
+     * Set roles
+     * 
+     * @param roles セットする roles
+     */
+    public void setRoles(List<RolesEntity> roles) {
+        this.roles = roles;
+    }
+
+    /**
+     * Get groups
+     * 
+     * @return groups
+     */
+    public List<GroupsEntity> getGroups() {
+        return groups;
+    }
+
+    /**
+     * Set Groups
+     * 
+     * @param groups セットする groups
+     */
+    public void setGroups(List<GroupsEntity> groups) {
+        this.groups = groups;
+    }
+
+    /**
+     * Get Locale
+     * 
+     * @return Locale
+     */
+    public Locale getLocale() {
+        return locale;
+    }
+
+    /**
+     * Set Locale
+     * 
+     * @param locale Locale
+     */
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+
 }

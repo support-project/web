@@ -1,8 +1,6 @@
 package org.support.project.web.common;
 
 import org.junit.Test;
-import org.support.project.web.common.InvokeSearch;
-import org.support.project.web.common.InvokeTarget;
 import org.support.project.web.config.HttpMethod;
 
 public class InvokeSearchTest {

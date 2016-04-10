@@ -22,283 +22,365 @@ import org.support.project.aop.Aspect;
 
 /**
  * メール
+ * this class is auto generate and not edit.
+ * if modify dao method, you can edit MailsDao.
  */
-@DI(instance=Instance.Singleton)
+@DI(instance = Instance.Singleton)
 public class GenMailsDao extends AbstractDao {
 
-	/** SerialVersion */
-	private static final long serialVersionUID = 1L;
+    /** SerialVersion */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static GenMailsDao get() {
-		return Container.getComp(GenMailsDao.class);
-	}
+    /**
+     * Get instance from DI container.
+     * @return instance
+     */
+    public static GenMailsDao get() {
+        return Container.getComp(GenMailsDao.class);
+    }
 
-	/**
-	 * 全て取得(削除フラグを無視して取得) 
-	 */
-	public List<MailsEntity> physicalSelectAll() { 
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_physical_select_all.sql");
-		return executeQueryList(sql, MailsEntity.class);
-	}
-	/**
-	 * キーで1件取得(削除フラグを無視して取得) 
-	 */
-	public MailsEntity physicalSelectOnKey(String mailId) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_physical_select_on_key.sql");
-		return executeQuerySingle(sql, MailsEntity.class, mailId);
-	}
-	/**
-	 * 全て取得 
-	 */
-	public List<MailsEntity> selectAll() { 
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_select_all.sql");
-		return executeQueryList(sql, MailsEntity.class);
-	}
-	/**
-	 * キーで1件取得 
-	 */
-	public MailsEntity selectOnKey(String mailId) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_select_on_key.sql");
-		return executeQuerySingle(sql, MailsEntity.class, mailId);
-	}
-	/**
-	 * 行を一意に特定するIDを生成
-	 */
-	protected String createRowId() {
-		return IDGen.get().gen("MAILS");
-	}
-	/**
-	 * 登録(データを生で操作/DBの採番機能のカラムも自分でセット) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public MailsEntity rawPhysicalInsert(MailsEntity entity) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_raw_insert.sql");
-		executeUpdate(sql, 
-			entity.getMailId()
-			, entity.getStatus()
-			, entity.getToAddress()
-			, entity.getToName()
-			, entity.getFromAddress()
-			, entity.getFromName()
-			, entity.getTitle()
-			, entity.getContent()
-			, entity.getRowId()
-			, entity.getInsertUser()
-			, entity.getInsertDatetime()
-			, entity.getUpdateUser()
-			, entity.getUpdateDatetime()
-			, entity.getDeleteFlag()
-		);
-		return entity;
-	}
-	/**
-	 * 登録(データを生で操作) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public MailsEntity physicalInsert(MailsEntity entity) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_insert.sql");
-		executeUpdate(sql, 
-			entity.getMailId()
-			, entity.getStatus()
-			, entity.getToAddress()
-			, entity.getToName()
-			, entity.getFromAddress()
-			, entity.getFromName()
-			, entity.getTitle()
-			, entity.getContent()
-			, entity.getRowId()
-			, entity.getInsertUser()
-			, entity.getInsertDatetime()
-			, entity.getUpdateUser()
-			, entity.getUpdateDatetime()
-			, entity.getDeleteFlag()
-		);
-		return entity;
-	}
-	/**
-	 * 登録(登録ユーザを指定) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public MailsEntity insert(Integer user, MailsEntity entity) {
-		entity.setInsertUser(user);
-		entity.setInsertDatetime(new Timestamp(new java.util.Date().getTime()));
-		entity.setUpdateUser(user);
-		entity.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
-		entity.setDeleteFlag(0);
-		entity.setRowId(createRowId());
-		return physicalInsert(entity);
-	}
-	/**
-	 * 登録
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public MailsEntity insert(MailsEntity entity) {
-		DBUserPool pool = Container.getComp(DBUserPool.class);
-		Integer userId = (Integer) pool.getUser();
-		return insert(userId, entity);
-	}
-	/**
-	 * 更新(データを生で操作) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public MailsEntity physicalUpdate(MailsEntity entity) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_update.sql");
-		executeUpdate(sql, 
-			entity.getStatus()
-			, entity.getToAddress()
-			, entity.getToName()
-			, entity.getFromAddress()
-			, entity.getFromName()
-			, entity.getTitle()
-			, entity.getContent()
-			, entity.getRowId()
-			, entity.getInsertUser()
-			, entity.getInsertDatetime()
-			, entity.getUpdateUser()
-			, entity.getUpdateDatetime()
-			, entity.getDeleteFlag()
-			, entity.getMailId()
-		);
-		return entity;
-	}
-	/**
-	 * 更新(更新ユーザを指定) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public MailsEntity update(Integer user, MailsEntity entity) {
-		MailsEntity db = selectOnKey(entity.getMailId());
-		entity.setInsertUser(db.getInsertUser());
-		entity.setInsertDatetime(db.getInsertDatetime());
-		entity.setDeleteFlag(db.getDeleteFlag());
-		entity.setUpdateUser(user);
-		entity.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
-		return physicalUpdate(entity);
-	}
-	/**
-	 * 更新
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public MailsEntity update(MailsEntity entity) {
-		DBUserPool pool = Container.getComp(DBUserPool.class);
-		Integer userId = (Integer) pool.getUser();
-		return update(userId, entity);
-	}
-	/**
-	 * 保存(ユーザを指定) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public MailsEntity save(Integer user, MailsEntity entity) {
-		MailsEntity db = selectOnKey(entity.getMailId());
-		if (db == null) {
-			return insert(user, entity);
-		} else {
-			return update(user, entity);
-		}
-	}
-	/**
-	 * 保存(存在しなければ登録、存在すれば更新) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public MailsEntity save(MailsEntity entity) {
-		MailsEntity db = selectOnKey(entity.getMailId());
-		if (db == null) {
-			return insert(entity);
-		} else {
-			return update(entity);
-		}
-	}
-	/**
-	 * 削除(データを生で操作/物理削除) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void physicalDelete(String mailId) {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_delete.sql");
-		executeUpdate(sql, mailId);
-	}
-	/**
-	 * 削除(データを生で操作/物理削除) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void physicalDelete(MailsEntity entity) {
-		physicalDelete(entity.getMailId());
+    /**
+     * Select all data.
+     * @return all data
+     */
+    public List<MailsEntity> physicalSelectAll() { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_physical_select_all.sql");
+        return executeQueryList(sql, MailsEntity.class);
+    }
+    /**
+     * Select all data with pager.
+     * @param limit limit
+     * @param offset offset
+     * @return all data on limit and offset
+     */
+    public List<MailsEntity> physicalSelectAllWithPager(int limit, int offset) { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_physical_select_all_with_pager.sql");
+        return executeQueryList(sql, MailsEntity.class, limit, offset);
+    }
+    /**
+     * Select data on key.
+     * @param  mailId mailId
+     * @return data
+     */
+    public MailsEntity physicalSelectOnKey(String mailId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_physical_select_on_key.sql");
+        return executeQuerySingle(sql, MailsEntity.class, mailId);
+    }
+    /**
+     * Select all data that not deleted.
+     * @return all data
+     */
+    public List<MailsEntity> selectAll() { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_select_all.sql");
+        return executeQueryList(sql, MailsEntity.class);
+    }
+    /**
+     * Select all data that not deleted with pager.
+     * @param limit limit
+     * @param offset offset
+     * @return all data
+     */
+    public List<MailsEntity> selectAllWidthPager(int limit, int offset) { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_select_all_with_pager.sql");
+        return executeQueryList(sql, MailsEntity.class, limit, offset);
+    }
+    /**
+     * Select data that not deleted on key.
+     * @param  mailId mailId
+     * @return data
+     */
+    public MailsEntity selectOnKey(String mailId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_select_on_key.sql");
+        return executeQuerySingle(sql, MailsEntity.class, mailId);
+    }
+    /**
+     * Create row id.
+     * @return row id
+     */
+    protected String createRowId() {
+        return IDGen.get().gen("MAILS");
+    }
+    /**
+     * Physical Insert.
+     * it is not create key on database sequence.
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public MailsEntity rawPhysicalInsert(MailsEntity entity) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_raw_insert.sql");
+        executeUpdate(sql, 
+            entity.getMailId(), 
+            entity.getStatus(), 
+            entity.getToAddress(), 
+            entity.getToName(), 
+            entity.getFromAddress(), 
+            entity.getFromName(), 
+            entity.getTitle(), 
+            entity.getContent(), 
+            entity.getRowId(), 
+            entity.getInsertUser(), 
+            entity.getInsertDatetime(), 
+            entity.getUpdateUser(), 
+            entity.getUpdateDatetime(), 
+            entity.getDeleteFlag());
+        return entity;
+    }
+    /**
+     * Physical Insert.
+     * if key column have sequence, key value create by database.
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public MailsEntity physicalInsert(MailsEntity entity) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_insert.sql");
+        executeUpdate(sql, 
+            entity.getMailId(), 
+            entity.getStatus(), 
+            entity.getToAddress(), 
+            entity.getToName(), 
+            entity.getFromAddress(), 
+            entity.getFromName(), 
+            entity.getTitle(), 
+            entity.getContent(), 
+            entity.getRowId(), 
+            entity.getInsertUser(), 
+            entity.getInsertDatetime(), 
+            entity.getUpdateUser(), 
+            entity.getUpdateDatetime(), 
+            entity.getDeleteFlag());
+        return entity;
+    }
+    /**
+     * Insert.
+     * set saved user id.
+     * @param user saved userid
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public MailsEntity insert(Integer user, MailsEntity entity) {
+        entity.setInsertUser(user);
+        entity.setInsertDatetime(new Timestamp(new java.util.Date().getTime()));
+        entity.setUpdateUser(user);
+        entity.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        entity.setDeleteFlag(0);
+        entity.setRowId(createRowId());
+        return physicalInsert(entity);
+    }
+    /**
+     * Insert.
+     * saved user id is auto set.
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public MailsEntity insert(MailsEntity entity) {
+        DBUserPool pool = Container.getComp(DBUserPool.class);
+        Integer userId = (Integer) pool.getUser();
+        return insert(userId, entity);
+    }
+    /**
+     * Physical Update.
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public MailsEntity physicalUpdate(MailsEntity entity) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_update.sql");
+        executeUpdate(sql, 
+            entity.getStatus(), 
+            entity.getToAddress(), 
+            entity.getToName(), 
+            entity.getFromAddress(), 
+            entity.getFromName(), 
+            entity.getTitle(), 
+            entity.getContent(), 
+            entity.getRowId(), 
+            entity.getInsertUser(), 
+            entity.getInsertDatetime(), 
+            entity.getUpdateUser(), 
+            entity.getUpdateDatetime(), 
+            entity.getDeleteFlag(), 
+            entity.getMailId());
+        return entity;
+    }
+    /**
+     * Update.
+     * set saved user id.
+     * @param user saved userid
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public MailsEntity update(Integer user, MailsEntity entity) {
+        MailsEntity db = selectOnKey(entity.getMailId());
+        entity.setInsertUser(db.getInsertUser());
+        entity.setInsertDatetime(db.getInsertDatetime());
+        entity.setDeleteFlag(db.getDeleteFlag());
+        entity.setUpdateUser(user);
+        entity.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        return physicalUpdate(entity);
+    }
+    /**
+     * Update.
+     * saved user id is auto set.
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public MailsEntity update(MailsEntity entity) {
+        DBUserPool pool = Container.getComp(DBUserPool.class);
+        Integer userId = (Integer) pool.getUser();
+        return update(userId, entity);
+    }
+    /**
+     * Save. 
+     * if same key data is exists, the data is update. otherwise the data is insert.
+     * set saved user id.
+     * @param user saved userid
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public MailsEntity save(Integer user, MailsEntity entity) {
+        MailsEntity db = selectOnKey(entity.getMailId());
+        if (db == null) {
+            return insert(user, entity);
+        } else {
+            return update(user, entity);
+        }
+    }
+    /**
+     * Save. 
+     * if same key data is exists, the data is update. otherwise the data is insert.
+     * @param entity entity
+     * @return saved entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public MailsEntity save(MailsEntity entity) {
+        MailsEntity db = selectOnKey(entity.getMailId());
+        if (db == null) {
+            return insert(entity);
+        } else {
+            return update(entity);
+        }
+    }
+    /**
+     * Physical Delete.
+     * @param  mailId mailId
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void physicalDelete(String mailId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_delete.sql");
+        executeUpdate(sql, mailId);
+    }
+    /**
+     * Physical Delete.
+     * @param entity entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void physicalDelete(MailsEntity entity) {
+        physicalDelete(entity.getMailId());
 
-	}
-	/**
-	 * 削除(削除ユーザを指定／論理削除があれば論理削除) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void delete(Integer user, String mailId) {
-		MailsEntity db = selectOnKey(mailId);
-		db.setDeleteFlag(1);
-		db.setUpdateUser(user);
-		db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
-		physicalUpdate(db);
-	}
-	/**
-	 * 削除(論理削除があれば論理削除) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void delete(String mailId) {
-		DBUserPool pool = Container.getComp(DBUserPool.class);
-		Integer user = (Integer) pool.getUser();
-		delete(user, mailId);
-	}
-	/**
-	 * 削除(削除ユーザを指定／論理削除があれば論理削除) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void delete(Integer user, MailsEntity entity) {
-		delete(user, entity.getMailId());
+    }
+    /**
+     * Delete.
+     * if delete flag is exists, the data is logical delete.
+     * set saved user id.
+     * @param user saved userid
+     * @param  mailId mailId
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void delete(Integer user, String mailId) {
+        MailsEntity db = selectOnKey(mailId);
+        db.setDeleteFlag(1);
+        db.setUpdateUser(user);
+        db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        physicalUpdate(db);
+    }
+    /**
+     * Delete.
+     * if delete flag is exists, the data is logical delete.
+     * @param  mailId mailId
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void delete(String mailId) {
+        DBUserPool pool = Container.getComp(DBUserPool.class);
+        Integer user = (Integer) pool.getUser();
+        delete(user, mailId);
+    }
+    /**
+     * Delete.
+     * if delete flag is exists, the data is logical delete.
+     * set saved user id.
+     * @param user saved userid
+     * @param entity entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void delete(Integer user, MailsEntity entity) {
+        delete(user, entity.getMailId());
 
-	}
-	/**
-	 * 削除(論理削除があれば論理削除) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void delete(MailsEntity entity) {
-		delete(entity.getMailId());
+    }
+    /**
+     * Delete.
+     * if delete flag is exists, the data is logical delete.
+     * set saved user id.
+     * @param entity entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void delete(MailsEntity entity) {
+        delete(entity.getMailId());
 
-	}
-	/**
-	 復元(論理削除されていたものを有効化) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void activation(Integer user, String mailId) {
-		MailsEntity db = physicalSelectOnKey(mailId);
-		db.setDeleteFlag(0);
-		db.setUpdateUser(user);
-		db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
-		physicalUpdate(db);
-	}
-	/**
-	 * 復元(論理削除されていたものを有効化) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void activation(String mailId) {
-		DBUserPool pool = Container.getComp(DBUserPool.class);
-		Integer user = (Integer) pool.getUser();
-		activation(user, mailId);
-	}
-	/**
-	 * 復元(論理削除されていたものを有効化) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void activation(Integer user, MailsEntity entity) {
-		activation(user, entity.getMailId());
+    }
+    /**
+     * Ativation.
+     * if delete flag is exists and delete flag is true, delete flug is false to activate.
+     * set saved user id.
+     * @param user saved userid
+     * @param  mailId mailId
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void activation(Integer user, String mailId) {
+        MailsEntity db = physicalSelectOnKey(mailId);
+        db.setDeleteFlag(0);
+        db.setUpdateUser(user);
+        db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        physicalUpdate(db);
+    }
+    /**
+     * Ativation.
+     * if delete flag is exists and delete flag is true, delete flug is false to activate.
+     * @param  mailId mailId
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void activation(String mailId) {
+        DBUserPool pool = Container.getComp(DBUserPool.class);
+        Integer user = (Integer) pool.getUser();
+        activation(user, mailId);
+    }
+    /**
+     * Ativation.
+     * if delete flag is exists and delete flag is true, delete flug is false to activate.
+     * set saved user id.
+     * @param user saved userid
+     * @param entity entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void activation(Integer user, MailsEntity entity) {
+        activation(user, entity.getMailId());
 
-	}
-	/**
-	 * 復元(論理削除されていたものを有効化) 
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void activation(MailsEntity entity) {
-		activation(entity.getMailId());
+    }
+    /**
+     * Ativation.
+     * if delete flag is exists and delete flag is true, delete flug is false to activate.
+     * @param entity entity
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void activation(MailsEntity entity) {
+        activation(entity.getMailId());
 
-	}
+    }
 
 }

@@ -21,26 +21,32 @@ import org.support.project.web.config.AppConfig;
 
 /**
  * 定期的にバッチ処理を実行するクラス
+ * 
  * @author Koda
  */
 @DI(instance = Instance.Singleton)
 public class ScheduledBatchLogic {
     /** ログ */
     private static final Log LOG = LogFactory.getLog(ScheduledBatchLogic.class);
-    /** インスタンス取得 */
+
+    /**
+     * インスタンス取得
+     * 
+     * @return instance
+     */
     public static ScheduledBatchLogic get() {
         return Container.getComp(ScheduledBatchLogic.class);
     }
-    
+
     /** スケジュールのプール */
     private ScheduledThreadPoolExecutor service;
     /** スケジュール化されたバッチ処理 */
     private List<ScheduledFuture<?>> futures = new ArrayList<>();
-    
+
     /**
      * バッチをスケジュール登録
      * 
-     * バッチはAppconfigに登録する
+     * バッチはAppconfigに設定する
      */
     public void scheduleInitialize() {
         service = new ScheduledThreadPoolExecutor(1);
@@ -55,16 +61,17 @@ public class ScheduledBatchLogic {
             }
         }
     }
-    
+
     /**
      * Javaのバッチプログラムを呼び出す
+     * 
      * @param batchinfo
      * @return
      */
     private ScheduledFuture createJavaBatch(Batchinfo batchinfo) {
         String envValue = SystemUtils.getenv(AppConfig.getEnvKey());
         int waitStart = (futures.size() * 2) + 1; // バッチの最初の起動は、Webアプリ起動の５分後で、かつバッチ毎に２分づつづらす
-        
+
         TimeUnit timeUnit = TimeUnit.MINUTES;
         if (StringUtils.isNotEmpty(batchinfo.getTimeUnit())) {
             String unit = batchinfo.getTimeUnit().toUpperCase();
@@ -78,7 +85,7 @@ public class ScheduledBatchLogic {
                 timeUnit = TimeUnit.DAYS;
             }
         }
-        
+
         ScheduledFuture future = service.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
@@ -92,7 +99,7 @@ public class ScheduledBatchLogic {
                     currentDir.mkdirs();
                 }
                 job.setCurrentDirectory(currentDir);
-                
+
                 String classPath = System.getProperty("java.class.path");
                 String[] classPaths = classPath.split(File.pathSeparator);
                 for (String path : classPaths) {
@@ -119,12 +126,12 @@ public class ScheduledBatchLogic {
                 }
             }
         }, waitStart, batchinfo.getTerm(), timeUnit);
-        
+
         LOG.info("Add batch program. [" + batchinfo.getName() + "] " + batchinfo.getCommand());
-        
+
         return future;
     }
-    
+
     /**
      * 定期的なバッチ処理を終了
      */
@@ -144,6 +151,5 @@ public class ScheduledBatchLogic {
             LOG.debug("An error has occurred in the end processing of the batch", e); // 基本は無視でOK
         }
     }
-
 
 }

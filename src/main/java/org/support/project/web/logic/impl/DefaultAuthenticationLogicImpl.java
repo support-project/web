@@ -30,7 +30,7 @@ import org.support.project.web.logic.UserLogic;
 @DI(instance = Instance.Singleton)
 public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<LoginedUser> {
 	/** ログ */
-	private static Log LOG = LogFactory.getLog(DefaultAuthenticationLogicImpl.class);
+	private static final Log LOG = LogFactory.getLog(DefaultAuthenticationLogicImpl.class);
 
 	/*
 	 * (non-Javadoc)

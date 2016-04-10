@@ -17,7 +17,7 @@ import org.support.project.web.entity.SystemsEntity;
 
 public class InitDB {
 	/** ログ */
-	private static Log LOG = LogFactory.getLog(InitDB.class);
+	private static final Log LOG = LogFactory.getLog(InitDB.class);
 	
 	private Map<Double, Migrate> migrateMap = new TreeMap<>();
 	

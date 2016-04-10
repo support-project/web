@@ -14,7 +14,7 @@ import org.support.project.di.Instance;
 @DI(instance = Instance.Singleton)
 public class AuthParamManager {
 	/** ログ */
-	private static Log LOG = LogFactory.getLog(AuthParamManager.class);
+	private static final Log LOG = LogFactory.getLog(AuthParamManager.class);
 
 	private String authConfig = "/auth.xml";
 

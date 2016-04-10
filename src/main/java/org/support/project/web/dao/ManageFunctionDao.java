@@ -16,7 +16,7 @@ import org.support.project.web.logic.impl.AuthParamManager;
 
 public class ManageFunctionDao extends AbstractDao {
 	/** ログ */
-	private static Log LOG = LogFactory.getLog(ManageFunctionDao.class);
+	private static final Log LOG = LogFactory.getLog(ManageFunctionDao.class);
 	
 	private String selectFunctionAccessRoleSQL = null;
 

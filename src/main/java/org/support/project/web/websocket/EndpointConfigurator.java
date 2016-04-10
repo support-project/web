@@ -15,39 +15,39 @@ import org.support.project.web.bean.LoginedUser;
 import org.support.project.web.config.CommonWebParameter;
 
 public class EndpointConfigurator extends Configurator {
-	/** ログ */
-	private static Log LOG = LogFactory.getLog(EndpointConfigurator.class);
+    /** ログ */
+    private static final Log LOG = LogFactory.getLog(EndpointConfigurator.class);
 
-	public static final String LOCALE_KEY = "LOCALE_KEY";
-	public static final String LOGIN_USER_KEY = "LOGIN_USER_KEY";
-	
-	@Override
-	public void modifyHandshake(ServerEndpointConfig config, HandshakeRequest request, HandshakeResponse response) {
-		try {
-			super.modifyHandshake(config, request, response);
-			
-			// ログインの情報をセットする
-			Map<String, Object> prop = config.getUserProperties();
-			if (prop == null) {
-				return;
-			}
-			
-			Locale locale = Locale.getDefault();
-			if (request.getHttpSession() instanceof HttpSession) {
-				HttpSession session = (HttpSession) request.getHttpSession();
-				if (session != null) {
-					locale = (Locale) session.getAttribute(CommonWebParameter.LOCALE_SESSION_KEY);
-					LoginedUser loginuser = (LoginedUser) session.getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
-					if (loginuser != null) {
-						prop.put(LOGIN_USER_KEY, loginuser);
-					}
-				}
-			}
-			prop.put(LOCALE_KEY, locale);
-		} catch(Exception e) {
-			// なぜかNullPointerExceptionが発生する事がある
-			LOG.info("Error", e);
-		}
-	}
+    public static final String LOCALE_KEY = "LOCALE_KEY";
+    public static final String LOGIN_USER_KEY = "LOGIN_USER_KEY";
+
+    @Override
+    public void modifyHandshake(ServerEndpointConfig config, HandshakeRequest request, HandshakeResponse response) {
+        try {
+            super.modifyHandshake(config, request, response);
+
+            // ログインの情報をセットする
+            Map<String, Object> prop = config.getUserProperties();
+            if (prop == null) {
+                return;
+            }
+
+            Locale locale = Locale.getDefault();
+            if (request.getHttpSession() instanceof HttpSession) {
+                HttpSession session = (HttpSession) request.getHttpSession();
+                if (session != null) {
+                    locale = (Locale) session.getAttribute(CommonWebParameter.LOCALE_SESSION_KEY);
+                    LoginedUser loginuser = (LoginedUser) session.getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
+                    if (loginuser != null) {
+                        prop.put(LOGIN_USER_KEY, loginuser);
+                    }
+                }
+            }
+            prop.put(LOCALE_KEY, locale);
+        } catch (Exception e) {
+            // なぜかNullPointerExceptionが発生する事がある
+            LOG.info("Error", e);
+        }
+    }
 
 }

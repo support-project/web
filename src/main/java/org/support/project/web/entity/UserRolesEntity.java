@@ -1,46 +1,44 @@
 package org.support.project.web.entity;
 
-import java.sql.Timestamp;
-
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
 import org.support.project.web.entity.gen.GenUserRolesEntity;
 
-
 /**
  * ユーザの権限
  */
-@DI(instance=Instance.Prototype)
+@DI(instance = Instance.Prototype)
 public class UserRolesEntity extends GenUserRolesEntity {
 
-	/** SerialVersion */
-	private static final long serialVersionUID = 1L;
+    /** SerialVersion */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static UserRolesEntity get() {
-		return Container.getComp(UserRolesEntity.class);
-	}
+    /**
+     * インスタンス取得 AOPに対応
+     * 
+     * @return インスタンス
+     */
+    public static UserRolesEntity get() {
+        return Container.getComp(UserRolesEntity.class);
+    }
 
-	/**
-	 * コンストラクタ
-	 */
-	public UserRolesEntity() {
-		super();
-	}
+    /**
+     * コンストラクタ
+     */
+    public UserRolesEntity() {
+        super();
+    }
 
-	/**
-	 * コンストラクタ
-	 * @param roleId 権限ID
-	 * @param userId ユーザID
-	 */
+    /**
+     * コンストラクタ
+     * 
+     * @param roleId 権限ID
+     * @param userId ユーザID
+     */
 
-	public UserRolesEntity(Integer roleId, Integer userId) {
-		super( roleId,  userId);
-	}
+    public UserRolesEntity(Integer roleId, Integer userId) {
+        super(roleId, userId);
+    }
 
 }
