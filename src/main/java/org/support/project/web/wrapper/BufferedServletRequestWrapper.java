@@ -17,38 +17,36 @@ import org.support.project.common.log.LogFactory;
 
 @Deprecated
 public class BufferedServletRequestWrapper extends HttpServletRequestWrapper {
-	/** ログ */
-	private static Log LOG = LogFactory.getLog(BufferedServletRequestWrapper.class);
+    /** ログ */
+    private static final Log LOG = LogFactory.getLog(BufferedServletRequestWrapper.class);
 
-	private byte[] buffer;
+    private byte[] buffer;
 
-	public BufferedServletRequestWrapper(HttpServletRequest request)
-			throws IOException {
-		super(request);
+    public BufferedServletRequestWrapper(HttpServletRequest request) throws IOException {
+        super(request);
 
-		InputStream is = request.getInputStream();
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		byte buff[] = new byte[1024];
-		int read;
-		while ((read = is.read(buff)) > 0) {
-			baos.write(buff, 0, read);
-		}
-		this.buffer = baos.toByteArray();
-		
-		if (LOG.isTraceEnabled()) {
-			BufferedReader br = new BufferedReader(
-					new InputStreamReader(new ByteArrayInputStream(this.buffer), Charset.forName("UTF-8")));
-			String line;
-			while ((line = br.readLine()) != null) {
-				LOG.trace(line);
-			}
-			br.close();
-		}
-	}
+        InputStream is = request.getInputStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buff = new byte[1024];
+        int read;
+        while ((read = is.read(buff)) > 0) {
+            baos.write(buff, 0, read);
+        }
+        this.buffer = baos.toByteArray();
 
-	@Override
-	public ServletInputStream getInputStream() throws IOException {
-		return new BufferedServletInputStream(this.buffer);
-	}
+        if (LOG.isTraceEnabled()) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(this.buffer), Charset.forName("UTF-8")));
+            String line;
+            while ((line = br.readLine()) != null) {
+                LOG.trace(line);
+            }
+            br.close();
+        }
+    }
+
+    @Override
+    public ServletInputStream getInputStream() throws IOException {
+        return new BufferedServletInputStream(this.buffer);
+    }
 
 }

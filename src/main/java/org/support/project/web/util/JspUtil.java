@@ -41,7 +41,7 @@ public class JspUtil {
     public static final int ESCAPE_NONE = -1;
     /** Escape flag: html tag escape */
     public static final int ESCAPE_HTML = 0;
-    /** Escape flag: clear(danger tag is only clean)  */
+    /** Escape flag: clear(danger tag is only clean) */
     public static final int ESCAPE_CLEAR = 1;
 
     /** ログ */
@@ -49,8 +49,10 @@ public class JspUtil {
 
     private HttpServletRequest request;
     private PageContext pageContext;
+
     /**
      * Constractor
+     * 
      * @param request request
      * @param pageContext pageContext
      */
@@ -143,6 +145,7 @@ public class JspUtil {
 
     /**
      * LoginedUserの情報取得（ログインしていないとNull）
+     * 
      * @return LoginedUser
      */
     public LoginedUser user() {
@@ -153,6 +156,7 @@ public class JspUtil {
 
     /**
      * get login user name
+     * 
      * @return user name
      */
     public String name() {
@@ -165,7 +169,8 @@ public class JspUtil {
 
     /**
      * get login user id
-     * @return  user id
+     * 
+     * @return user id
      */
     public String id() {
         LoginedUser loginedUser = user();
@@ -177,14 +182,16 @@ public class JspUtil {
 
     /**
      * check of user id logined.
+     * 
      * @return result
      */
     public boolean logined() {
         return StringUtils.isNotEmpty(id());
     }
-    
+
     /**
      * check of login user is admin.
+     * 
      * @return result
      */
     public boolean isAdmin() {
@@ -194,9 +201,10 @@ public class JspUtil {
         }
         return false;
     }
-    
+
     /**
      * check of login user have role.
+     * 
      * @param roles roles
      * @return result
      */
@@ -210,8 +218,10 @@ public class JspUtil {
 
     /**
      * 指定の値を取得
+     * 
      * @param param parameter name
-     * @param clazz  type
+     * @param clazz type
+     * @param <T> type
      * @return value
      * @throws InstantiationException InstantiationException
      * @throws IllegalAccessException IllegalAccessException
@@ -219,12 +229,14 @@ public class JspUtil {
     public <T> T getValue(final String param, Class<? extends T> clazz) throws InstantiationException, IllegalAccessException {
         return getValue(param, clazz, null);
     }
-    
+
     /**
      * 指定の値を取得
+     * 
      * @param param parameter name
-     * @param clazz  type
+     * @param clazz type
      * @param defaultValue default value
+     * @param <T> type
      * @return value
      * @throws InstantiationException InstantiationException
      * @throws IllegalAccessException IllegalAccessException
@@ -292,24 +304,20 @@ public class JspUtil {
             return (T) defaultValue;
         }
         if (StringUtils.isNotEmpty(propertyName)) {
-            if (obj == null) {
-                obj = "";
+            if (propertyName.indexOf("()") != -1) {
+                // メソッド直接指定
+                String methodName = propertyName.substring(0, propertyName.indexOf("()"));
+                try {
+                    Method method = obj.getClass().getMethod(methodName, null);
+                    obj = method.invoke(obj, null);
+                } catch (NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
+                    obj = "";
+                }
             } else {
-                if (propertyName.indexOf("()") != -1) {
-                    // メソッド直接指定
-                    String methodName = propertyName.substring(0, propertyName.indexOf("()"));
-                    try {
-                        Method method = obj.getClass().getMethod(methodName, null);
-                        obj = method.invoke(obj, null);
-                    } catch (NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
-                        obj = "";
-                    }
+                if (PropertyUtil.getPropertyNames(obj.getClass()).contains(propertyName)) {
+                    obj = PropertyUtil.getPropertyValue(obj, propertyName);
                 } else {
-                    if (PropertyUtil.getPropertyNames(obj.getClass()).contains(propertyName)) {
-                        obj = PropertyUtil.getPropertyValue(obj, propertyName);
-                    } else {
-                        obj = "";
-                    }
+                    obj = "";
                 }
             }
         }
@@ -338,13 +346,10 @@ public class JspUtil {
     /**
      * 値を出力
      * 
-     * @param paramName
-     *            parameter name
-     * @param escape
-     *            escape
+     * @param paramName parameter name
+     * @param escape escape
      * @return string
-     * @throws ParseException
-     *             ParseException
+     * @throws ParseException ParseException
      */
     public String out(String paramName, int escape) throws ParseException {
         return out(paramName, escape, -1);
@@ -353,15 +358,11 @@ public class JspUtil {
     /**
      * 値を出力
      * 
-     * @param paramName
-     *            parameter name
-     * @param escape
-     *            escape
-     * @param length
-     *            max length
+     * @param paramName parameter name
+     * @param escape escape
+     * @param length max length
      * @return string
-     * @throws ParseException
-     *             ParseException
+     * @throws ParseException ParseException
      */
     public String out(String paramName, int escape, int length) throws ParseException {
         try {
@@ -423,13 +424,10 @@ public class JspUtil {
     /**
      * 日付の値を表示
      * 
-     * @param paramName
-     *            parameter name
+     * @param paramName parameter name
      * @return string of date
-     * @throws IllegalAccessException
-     *             IllegalAccessException
-     * @throws InstantiationException
-     *             InstantiationException
+     * @throws IllegalAccessException IllegalAccessException
+     * @throws InstantiationException InstantiationException
      */
     public String date(String paramName) throws InstantiationException, IllegalAccessException {
         return date(paramName, true);
@@ -438,15 +436,11 @@ public class JspUtil {
     /**
      * 日付の値を表示
      * 
-     * @param paramName
-     *            parameter name
-     * @param convGMTtoLocal
-     *            保存されている値はGMTなので、ブラウザのロケールで変換をかけるかどうか
+     * @param paramName parameter name
+     * @param convGMTtoLocal 保存されている値はGMTなので、ブラウザのロケールで変換をかけるかどうか
      * @return string of date
-     * @throws IllegalAccessException
-     *             IllegalAccessException
-     * @throws InstantiationException
-     *             InstantiationException
+     * @throws IllegalAccessException IllegalAccessException
+     * @throws InstantiationException InstantiationException
      */
     public String date(String paramName, boolean convGMTtoLocal) throws InstantiationException, IllegalAccessException {
         Date v = getValue(paramName, Timestamp.class, null);
@@ -519,15 +513,11 @@ public class JspUtil {
     /**
      * 指定した値が等しいかチェック
      * 
-     * @param val
-     *            value
-     * @param paramName
-     *            parameter name
+     * @param val value
+     * @param paramName parameter name
      * @return result
-     * @throws InstantiationException
-     *             InstantiationException
-     * @throws IllegalAccessException
-     *             IllegalAccessException
+     * @throws InstantiationException InstantiationException
+     * @throws IllegalAccessException IllegalAccessException
      */
     public boolean is(Object val, String paramName) throws InstantiationException, IllegalAccessException {
         Object check = getValue(paramName, Object.class, "");
@@ -548,17 +538,12 @@ public class JspUtil {
     /**
      * 指定した値が等しい場合、labelを出力
      * 
-     * @param val
-     *            value
-     * @param paramName
-     *            parameter name
-     * @param label
-     *            label
+     * @param val value
+     * @param paramName parameter name
+     * @param label label
      * @return label or not
-     * @throws InstantiationException
-     *             InstantiationException
-     * @throws IllegalAccessException
-     *             IllegalAccessException
+     * @throws InstantiationException InstantiationException
+     * @throws IllegalAccessException IllegalAccessException
      */
     public String is(Object val, String paramName, String label) throws InstantiationException, IllegalAccessException {
         if (is(val, paramName)) {
@@ -570,17 +555,12 @@ public class JspUtil {
     /**
      * 指定した値が等しくない場合、labelを出力
      * 
-     * @param val
-     *            value
-     * @param paramName
-     *            parameter name
-     * @param label
-     *            label
+     * @param val value
+     * @param paramName parameter name
+     * @param label label
      * @return label or not
-     * @throws InstantiationException
-     *             InstantiationException
-     * @throws IllegalAccessException
-     *             IllegalAccessException
+     * @throws InstantiationException InstantiationException
+     * @throws IllegalAccessException IllegalAccessException
      */
     public String isnot(Object val, String paramName, String label) throws InstantiationException, IllegalAccessException {
         if (!is(val, paramName)) {
@@ -592,15 +572,11 @@ public class JspUtil {
     /**
      * CheckBoxやRadio用のcheckedを必要に応じて出力
      * 
-     * @param val
-     *            value
-     * @param paramName
-     *            param name
+     * @param val value
+     * @param paramName param name
      * @return string
-     * @throws InstantiationException
-     *             InstantiationException
-     * @throws IllegalAccessException
-     *             IllegalAccessException
+     * @throws InstantiationException InstantiationException
+     * @throws IllegalAccessException IllegalAccessException
      */
     public String checked(Object val, String paramName) throws InstantiationException, IllegalAccessException {
         return checked(val, paramName, false);
@@ -609,17 +585,12 @@ public class JspUtil {
     /**
      * CheckBoxやRadio用のcheckedを必要に応じて出力
      * 
-     * @param val
-     *            value
-     * @param paramName
-     *            param name
-     * @param defaultCheck
-     *            check as default
+     * @param val value
+     * @param paramName param name
+     * @param defaultCheck check as default
      * @return string
-     * @throws InstantiationException
-     *             InstantiationException
-     * @throws IllegalAccessException
-     *             IllegalAccessException
+     * @throws InstantiationException InstantiationException
+     * @throws IllegalAccessException IllegalAccessException
      */
     public String checked(Object val, String paramName, boolean defaultCheck) throws InstantiationException, IllegalAccessException {
         if (is(val, paramName)) {
@@ -640,10 +611,9 @@ public class JspUtil {
      * 自作したものを通しておく。（今のところ切り替えには対応していない） （切り替えた情報はセッションにいれておく）
      * </pre>
      * 
-     * @param key
-     * @param params
-     *            置換用のパラメータ
-     * @return
+     * @param key key
+     * @param params 置換用のパラメータ
+     * @return label
      */
     public String label(String key, String... params) {
         Locale locale = HttpUtil.getLocale(request);
@@ -662,6 +632,7 @@ public class JspUtil {
     /**
      * ロケールの国名を表示
      * 
+     * @param localeKey localeKey
      * @return country name
      */
     public Locale locale(String localeKey) {
@@ -691,6 +662,7 @@ public class JspUtil {
      * 
      * そこで、JSやCSSのファイルのサフィックスにシステムバージョンを付与しておき、 バージョンアップした際に必ず更新されるようにする
      * 
+     * @param filepath filepath
      * @return reload url
      */
     public String mustReloadFile(String filepath) {
@@ -706,8 +678,8 @@ public class JspUtil {
     /**
      * Cookieの値を取得
      * 
-     * @param key
-     *            key
+     * @param key key
+     * @param defaultValue defaultValue
      * @return value
      */
     public String cookie(String key, String defaultValue) {

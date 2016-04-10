@@ -65,7 +65,7 @@ public class ProvisionalRegistrationsDao extends GenProvisionalRegistrationsDao 
 
     /**
      * ユーザのキー(メールアドレス)を指定し、情報を削除
-     * @param userKey
+     * @param userKey userKey
      */
     public void deleteOnUserKey(String userKey) {
         List<ProvisionalRegistrationsEntity> list = selectOnUserKey(userKey);

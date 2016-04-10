@@ -8,7 +8,7 @@ import org.support.project.web.dao.gen.GenSystemConfigsDao;
 /**
  * コンフィグ
  */
-@DI(instance=Instance.Singleton)
+@DI(instance = Instance.Singleton)
 public class SystemConfigsDao extends GenSystemConfigsDao {
 
 	/** SerialVersion */

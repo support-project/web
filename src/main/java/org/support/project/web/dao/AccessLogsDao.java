@@ -8,25 +8,24 @@ import org.support.project.web.dao.gen.GenAccessLogsDao;
 /**
  * ACCESS_LOGS
  */
-@DI(instance=Instance.Singleton)
+@DI(instance = Instance.Singleton)
 public class AccessLogsDao extends GenAccessLogsDao {
 
-	/** SerialVersion */
-	private static final long serialVersionUID = 1L;
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static AccessLogsDao get() {
-		return Container.getComp(AccessLogsDao.class);
-	}
-	
-	public Long countOnPath(String path) {
-		String sql = "SELECT COUNT(*) FROM ACCESS_LOGS WHERE PATH = ?";
-		return executeQuerySingle(sql, Long.class, path);
-	}
+    /** SerialVersion */
+    private static final long serialVersionUID = 1L;
 
+    /**
+     * インスタンス取得 AOPに対応
+     * 
+     * @return インスタンス
+     */
+    public static AccessLogsDao get() {
+        return Container.getComp(AccessLogsDao.class);
+    }
 
+    public Long countOnPath(String path) {
+        String sql = "SELECT COUNT(*) FROM ACCESS_LOGS WHERE PATH = ?";
+        return executeQuerySingle(sql, Long.class, path);
+    }
 
 }

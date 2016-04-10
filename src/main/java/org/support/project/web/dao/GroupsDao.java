@@ -36,6 +36,7 @@ public class GroupsDao extends GenGroupsDao {
 
     /**
      * IDを採番 ※コミットしなくても次のIDを採番する為、保存しなければ欠番になる
+     * @return next id
      */
     public Integer getNextId() {
         String sql = "SELECT MAX(GROUP_ID) FROM GROUPS;";

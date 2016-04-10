@@ -79,7 +79,7 @@ public abstract class Control {
     /**
      * 初期アクセスメソッド
      * 
-     * @return
+     * @return Boundary
      */
     @Get
     public Boundary index() {
@@ -90,7 +90,7 @@ public abstract class Control {
     /**
      * 言語選択
      * 
-     * @return
+     * @return Boundary
      */
     @Get
     public Boundary lang() {
@@ -101,10 +101,8 @@ public abstract class Control {
     /**
      * コントローラーから、別のコントローラーを呼び出す（処理委譲）際に、 別の委譲するコントローラーを取得する
      * 
-     * @param method
-     *            method
-     * @param path
-     *            path
+     * @param method method
+     * @param path path
      * @return Boundary
      */
     protected Boundary devolution(HttpMethod method, String path) {
@@ -114,12 +112,9 @@ public abstract class Control {
     /**
      * コントローラーから、別のコントローラーを呼び出す（処理委譲）際に、 別の委譲するコントローラーを取得する
      * 
-     * @param method
-     *            method
-     * @param path
-     *            path
-     * @param pathinfo
-     *            pathinfo
+     * @param method method
+     * @param path path
+     * @param pathinfo pathinfo
      * @return Boundary
      */
     protected Boundary devolution(HttpMethod method, String path, String pathinfo) {
@@ -142,8 +137,7 @@ public abstract class Control {
     /**
      * 委譲するControlに自身の持っている情報をコピーする
      * 
-     * @param control
-     *            Control
+     * @param control Control
      */
     protected void copy(Control control) {
         control.setPathInfo(pathInfo);
@@ -197,8 +191,7 @@ public abstract class Control {
     /**
      * 指定のパスにフォワード
      * 
-     * @param path
-     *            path
+     * @param path path
      * @return ForwardBoundary
      */
     protected ForwardBoundary forward(String path) {
@@ -224,8 +217,7 @@ public abstract class Control {
     /**
      * 指定のパスにリダイレクト
      * 
-     * @param path
-     *            path
+     * @param path path
      * @return RedirectBoundary
      */
     protected RedirectBoundary redirect(String path) {
@@ -238,8 +230,7 @@ public abstract class Control {
     /**
      * JSONでオブジェクト送信
      * 
-     * @param json
-     *            send object to convert json
+     * @param json send object to convert json
      * @return JsonBoundary
      */
     protected JsonBoundary send(Object json) {
@@ -263,10 +254,8 @@ public abstract class Control {
     /**
      * JSONでオブジェクト送信
      * 
-     * @param json
-     *            json
-     * @param status
-     *            status
+     * @param json json
+     * @param status status
      * @return JsonBoundary
      */
     protected JsonBoundary send(int status, Object json) {
@@ -285,16 +274,11 @@ public abstract class Control {
     /**
      * メッセージ送信
      * 
-     * @param messageStatus
-     *            messageStatus
-     * @param httpStatus
-     *            httpstatus
-     * @param result
-     *            result
-     * @param messageKey
-     *            messageKey
-     * @param params
-     *            params
+     * @param messageStatus messageStatus
+     * @param httpStatus httpstatus
+     * @param result result
+     * @param messageKey messageKey
+     * @param params params
      * @return JsonBoundary
      */
     protected JsonBoundary sendMsg(MessageStatus messageStatus, int httpStatus, String result, String messageKey, String... params) {
@@ -311,8 +295,7 @@ public abstract class Control {
     /**
      * エラーを送信
      * 
-     * @param errors
-     *            errors
+     * @param errors errors
      * @return JsonBoundary
      */
     protected JsonBoundary sendValidateError(List<ValidateError> errors) {
@@ -338,10 +321,8 @@ public abstract class Control {
     /**
      * エラーを送信
      * 
-     * @param status
-     *            status code
-     * @param msg
-     *            msg
+     * @param status status code
+     * @param msg msg
      * @return SendMessageBoundary
      */
     protected SendMessageBoundary sendError(int status, String msg) {
@@ -357,12 +338,9 @@ public abstract class Control {
     /**
      * ダウンロード
      * 
-     * @param fileName
-     *            fileName
-     * @param inputStream
-     *            inputStream
-     * @param size
-     *            size
+     * @param fileName fileName
+     * @param inputStream inputStream
+     * @param size size
      * @return Boundary
      */
     protected Boundary download(String fileName, InputStream inputStream, long size) {
@@ -375,14 +353,10 @@ public abstract class Control {
     /**
      * ダウンロード
      * 
-     * @param fileName
-     *            fileName
-     * @param inputStream
-     *            inputStream
-     * @param size
-     *            size
-     * @param contentType
-     *            contentType
+     * @param fileName fileName
+     * @param inputStream inputStream
+     * @param size size
+     * @param contentType contentType
      * @return Boundary
      */
     protected Boundary download(String fileName, InputStream inputStream, long size, String contentType) {
@@ -395,8 +369,7 @@ public abstract class Control {
     /**
      * リクエストのAttributeを取得(Stringで)
      * 
-     * @param name
-     *            name
+     * @param name name
      * @return string
      */
     protected String getParameter(String name) {
@@ -413,10 +386,8 @@ public abstract class Control {
     /**
      * リクエストのAttributeにセット
      * 
-     * @param key
-     *            key
-     * @param value
-     *            value
+     * @param key key
+     * @param value value
      */
     protected void setAttribute(String key, Object value) {
         request.setAttribute(key, value);
@@ -425,8 +396,7 @@ public abstract class Control {
     /**
      * リクエストのAttributeを取得
      * 
-     * @param name
-     *            name
+     * @param name name
      * @return value
      */
     protected Object getAttribute(String name) {
@@ -436,10 +406,8 @@ public abstract class Control {
     /**
      * リクエストのAttributeを取得
      * 
-     * @param name
-     *            name
-     * @param defaultValue
-     *            defaultValue
+     * @param name name
+     * @param defaultValue defaultValue
      * @return value
      */
     protected String getAttribute(String name, String defaultValue) {
@@ -465,15 +433,11 @@ public abstract class Control {
     /**
      * リクエスト内のJSONデータをオブジェクトのパースする
      * 
-     * @param type
-     *            type
-     * @param <T>
-     *            type
+     * @param type type
+     * @param <T> type
      * @return value object
-     * @throws JSONException
-     *             JSONException
-     * @throws IOException
-     *             IOException
+     * @throws JSONException JSONException
+     * @throws IOException IOException
      */
     protected <T> T getJsonObject(Class<? extends T> type) throws JSONException, IOException {
         HttpServletRequest request = getRequest();
@@ -543,7 +507,7 @@ public abstract class Control {
     /**
      * request を取得
      * 
-     * @return
+     * @return request
      */
     public HttpServletRequest getRequest() {
         return request;
@@ -551,6 +515,7 @@ public abstract class Control {
 
     /**
      * request をセット
+     * @param request request
      */
     public void setRequest(HttpServletRequest request) {
         this.request = request;
@@ -559,7 +524,7 @@ public abstract class Control {
     /**
      * response を取得
      * 
-     * @return
+     * @return response
      */
     public HttpServletResponse getResponse() {
         return response;
@@ -567,6 +532,7 @@ public abstract class Control {
 
     /**
      * response をセット
+     * @param response response
      */
     public void setResponse(HttpServletResponse response) {
         this.response = response;
@@ -575,7 +541,7 @@ public abstract class Control {
     /**
      * invokeTarget を取得
      * 
-     * @return
+     * @return invokeTarget
      */
     public InvokeTarget getInvokeTarget() {
         return invokeTarget;
@@ -583,6 +549,7 @@ public abstract class Control {
 
     /**
      * invokeTarget をセット
+     * @param invokeTarget invokeTarget
      */
     public void setInvokeTarget(InvokeTarget invokeTarget) {
         this.invokeTarget = invokeTarget;
@@ -591,7 +558,7 @@ public abstract class Control {
     /**
      * path を取得
      * 
-     * @return
+     * @return path
      */
     public String getPath() {
         return path;
@@ -599,6 +566,7 @@ public abstract class Control {
 
     /**
      * path をセット
+     * @param path path
      */
     public void setPath(String path) {
         this.path = path;
@@ -607,7 +575,7 @@ public abstract class Control {
     /**
      * pathInfo を取得
      * 
-     * @return
+     * @return pathinfo
      */
     public String getPathInfo() {
         return pathInfo;
@@ -616,8 +584,7 @@ public abstract class Control {
     /**
      * pathInfo をセット
      * 
-     * @param pathInfo
-     *            pathInfo
+     * @param pathInfo pathInfo
      */
     public void setPathInfo(String pathInfo) {
         this.pathInfo = pathInfo;
@@ -627,8 +594,7 @@ public abstract class Control {
      * PathInfoに設定された文字列を取得する
      * 
      * @return string
-     * @throws InvalidParamException
-     *             InvalidParamException
+     * @throws InvalidParamException InvalidParamException
      */
     protected String getPathString() throws InvalidParamException {
         String[] pathInfos = getPathInfos();
@@ -645,11 +611,9 @@ public abstract class Control {
     /**
      * PathInfoに設定された文字列をInteger形式で取得する
      * 
-     * @param defaultNum
-     *            defaultNum
+     * @param defaultNum defaultNum
      * @return int value
-     * @throws InvalidParamException
-     *             InvalidParamException
+     * @throws InvalidParamException InvalidParamException
      */
     protected Integer getPathInteger(Integer defaultNum) throws InvalidParamException {
         String[] pathInfos = getPathInfos();
@@ -678,8 +642,7 @@ public abstract class Control {
      * PathInfoに設定された文字列をInteger形式で取得する
      * 
      * @return int value
-     * @throws InvalidParamException
-     *             InvalidParamException
+     * @throws InvalidParamException InvalidParamException
      */
     protected Integer getPathInteger() throws InvalidParamException {
         return getPathInteger(null);
@@ -688,11 +651,9 @@ public abstract class Control {
     /**
      * PathInfoに設定された文字列をLong形式で取得する
      * 
-     * @param defaultNum
-     *            defaultNum
+     * @param defaultNum defaultNum
      * @return long value
-     * @throws InvalidParamException
-     *             InvalidParamException
+     * @throws InvalidParamException InvalidParamException
      */
     protected Long getPathLong(Long defaultNum) throws InvalidParamException {
         String[] pathInfos = getPathInfos();
@@ -720,8 +681,8 @@ public abstract class Control {
     /**
      * PathInfoに設定された文字列をInteger形式で取得する
      * 
-     * @return
-     * @throws InvalidParamException
+     * @return value
+     * @throws InvalidParamException InvalidParamException
      */
     protected Long getPathLong() throws InvalidParamException {
         return getPathLong(null);
@@ -730,8 +691,8 @@ public abstract class Control {
     /**
      * パラメータ取得
      * 
-     * @param paramName
-     * @return
+     * @param paramName paramName
+     * @return value
      */
     protected String getParam(String paramName) {
         return getParamWithDefault(paramName, "");
@@ -740,9 +701,9 @@ public abstract class Control {
     /**
      * パラメータ取得 パラメータがなければデフォルト値を取得
      * 
-     * @param paramName
-     * @param defaultval
-     * @return
+     * @param paramName paramName
+     * @param defaultval defaultval
+     * @return value
      */
     protected String getParamWithDefault(String paramName, String defaultval) {
         try {
@@ -759,12 +720,9 @@ public abstract class Control {
     /**
      * パラメータを取得
      * 
-     * @param paramName
-     *            paramName
-     * @param type
-     *            type
-     * @param <T>
-     *            type
+     * @param paramName paramName
+     * @param type type
+     * @param <T> type
      * @return value
      */
     protected <T> T getParam(String paramName, Class<? extends T> type) {
@@ -778,10 +736,8 @@ public abstract class Control {
     /**
      * パラメータを取得
      * 
-     * @param type
-     *            type
-     * @param <T>
-     *            type
+     * @param type type
+     * @param <T> type
      * @return value
      */
     protected <T> T getParams(Class<? extends T> type) {
@@ -816,8 +772,7 @@ public abstract class Control {
     }
 
     /**
-     * @param sendEscapeHtml
-     *            the sendEscapeHtml to set
+     * @param sendEscapeHtml the sendEscapeHtml to set
      */
     public void setSendEscapeHtml(boolean sendEscapeHtml) {
         this.sendEscapeHtml = sendEscapeHtml;
@@ -826,21 +781,14 @@ public abstract class Control {
     /**
      * パラメータをオブジェクトにセットして取得
      * 
-     * @param type
-     *            type
-     * @param <T>
-     *            type
+     * @param type type
+     * @param <T> type
      * @return value
-     * @throws InstantiationException
-     *             InstantiationException
-     * @throws IllegalAccessException
-     *             IllegalAccessException
-     * @throws JSONException
-     *             JSONException
-     * @throws IOException
-     *             IOException
-     * @throws InvalidParamException
-     *             InvalidParamException
+     * @throws InstantiationException InstantiationException
+     * @throws IllegalAccessException IllegalAccessException
+     * @throws JSONException JSONException
+     * @throws IOException IOException
+     * @throws InvalidParamException InvalidParamException
      */
     public <T> T getParamOnProperty(final Class<? extends T> type)
             throws InstantiationException, IllegalAccessException, JSONException, IOException, InvalidParamException {
@@ -850,8 +798,7 @@ public abstract class Control {
     /**
      * 指定のキーのCookie値を取得
      * 
-     * @param key
-     *            key
+     * @param key key
      * @return value
      */
     protected String getCookie(String key) {
@@ -861,10 +808,8 @@ public abstract class Control {
     /**
      * 指定のCookieをセット
      * 
-     * @param key
-     *            key
-     * @param value
-     *            value
+     * @param key key
+     * @param value value
      */
     protected void setCookie(String key, String value) {
         HttpUtil.setCookie(getRequest(), getResponse(), key, value);
