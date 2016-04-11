@@ -85,6 +85,14 @@ public class GenMailsDao extends AbstractDao {
         return executeQueryList(sql, MailsEntity.class, limit, offset);
     }
     /**
+     * Select count that not deleted.
+     * @return count
+     */
+    public Integer selectCountAll() { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_select_count_all.sql");
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Select data that not deleted on key.
      * @param  mailId mailId
      * @return data

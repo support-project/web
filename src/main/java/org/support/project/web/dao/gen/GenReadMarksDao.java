@@ -86,6 +86,14 @@ public class GenReadMarksDao extends AbstractDao {
         return executeQueryList(sql, ReadMarksEntity.class, limit, offset);
     }
     /**
+     * Select count that not deleted.
+     * @return count
+     */
+    public Integer selectCountAll() { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ReadMarksDao/ReadMarksDao_select_count_all.sql");
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Select data that not deleted on key.
      * @param  no no
      * @param  userId userId

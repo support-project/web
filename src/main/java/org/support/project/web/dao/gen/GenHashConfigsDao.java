@@ -85,6 +85,14 @@ public class GenHashConfigsDao extends AbstractDao {
         return executeQueryList(sql, HashConfigsEntity.class, limit, offset);
     }
     /**
+     * Select count that not deleted.
+     * @return count
+     */
+    public Integer selectCountAll() { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/HashConfigsDao/HashConfigsDao_select_count_all.sql");
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Select data that not deleted on key.
      * @param  systemName systemName
      * @return data

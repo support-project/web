@@ -85,6 +85,14 @@ public class GenPasswordResetsDao extends AbstractDao {
         return executeQueryList(sql, PasswordResetsEntity.class, limit, offset);
     }
     /**
+     * Select count that not deleted.
+     * @return count
+     */
+    public Integer selectCountAll() { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/PasswordResetsDao/PasswordResetsDao_select_count_all.sql");
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Select data that not deleted on key.
      * @param  id id
      * @return data
