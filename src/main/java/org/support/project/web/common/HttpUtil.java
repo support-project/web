@@ -24,6 +24,7 @@ import org.support.project.web.bean.LoginedUser;
 import org.support.project.web.bean.MessageResult;
 import org.support.project.web.config.AppConfig;
 import org.support.project.web.config.CommonWebParameter;
+import org.support.project.web.config.MessageStatus;
 import org.support.project.web.dao.LocalesDao;
 import org.support.project.web.dao.UsersDao;
 import org.support.project.web.entity.LocalesEntity;
@@ -105,7 +106,29 @@ public class HttpUtil {
         path.append(page);
         res.sendRedirect(path.toString());
     }
-
+    
+    /**
+     * リクエストのJSONをオブジェクトにして返す
+     * @param req request
+     * @param paramtypes type
+     * @return value 
+     * @throws InvalidParamException InvalidParamException
+     */
+    public static <T> T parseJson(HttpServletRequest req, Class<? extends T> paramtypes) throws InvalidParamException {
+        String contentType = req.getHeader("content-type");
+        if (contentType != null && contentType.startsWith("application/json")) {
+            try {
+                T object = JSON.decode(req.getInputStream(), paramtypes);
+                return object;
+            } catch (JSONException | IOException e) {
+                log.warn("JSON parse error.", e);
+                throw new InvalidParamException(new MessageResult(MessageStatus.Error, HttpStatus.SC_400_BAD_REQUEST, "BAD_REQUEST", ""));
+            }
+        }
+        throw new InvalidParamException(new MessageResult(MessageStatus.Error, HttpStatus.SC_400_BAD_REQUEST, "BAD_REQUEST", ""));
+    }
+    
+    
     /**
      * リクエストのパラメータから、指定のクラスに値をセットしたオブジェクトを返す
      * 

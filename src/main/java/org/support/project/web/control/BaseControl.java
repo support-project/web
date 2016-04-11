@@ -130,24 +130,5 @@ public abstract class BaseControl extends Control {
             }
         }
     }
-    /**
-     * リソースから文字列を取得
-     * @param key key
-     * @return string
-     */
-    protected String getResource(String key) {
-        Resources resources = Resources.getInstance(HttpUtil.getLocale(getRequest()));
-        return resources.getResource(key);
-    }
-    /**
-     * リソースから文字列を取得
-     * @param key key
-     * @param params params
-     * @return string
-     */
-    protected String getResource(String key, String... params) {
-        Resources resources = Resources.getInstance(HttpUtil.getLocale(getRequest()));
-        return resources.getResource(key, params);
-    }
     
 }
