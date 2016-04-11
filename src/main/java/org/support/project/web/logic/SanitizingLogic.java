@@ -27,9 +27,12 @@ import org.support.project.common.exception.ParseException;
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
 import org.support.project.di.Container;
+import org.support.project.di.DI;
+import org.support.project.di.Instance;
 
 import com.google.common.base.Predicate;
 
+@DI(instance = Instance.Singleton)
 public class SanitizingLogic {
     /** ログ */
     private static final Log LOG = LogFactory.getLog(SanitizingLogic.class);

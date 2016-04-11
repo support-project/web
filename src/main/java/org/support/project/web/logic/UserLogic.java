@@ -13,6 +13,8 @@ import org.support.project.common.log.LogFactory;
 import org.support.project.common.util.RandomUtil;
 import org.support.project.common.util.StringUtils;
 import org.support.project.di.Container;
+import org.support.project.di.DI;
+import org.support.project.di.Instance;
 import org.support.project.web.bean.LoginedUser;
 import org.support.project.web.config.WebConfig;
 import org.support.project.web.dao.ProvisionalRegistrationsDao;
@@ -30,6 +32,7 @@ import org.support.project.web.entity.UsersEntity;
  * User logic
  * @author Koda
  */
+@DI(instance = Instance.Singleton)
 public class UserLogic {
     /** ログ */
     private static final Log LOG = LogFactory.getLog(UserLogic.class);

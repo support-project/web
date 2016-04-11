@@ -24,9 +24,12 @@ import org.support.project.common.log.LogFactory;
 import org.support.project.common.util.PasswordUtil;
 import org.support.project.common.util.StringUtils;
 import org.support.project.di.Container;
+import org.support.project.di.DI;
+import org.support.project.di.Instance;
 import org.support.project.web.bean.LdapInfo;
 import org.support.project.web.entity.LdapConfigsEntity;
 
+@DI(instance = Instance.Singleton)
 public class LdapLogic {
     /** ログ */
     private static final Log LOG = LogFactory.getLog(LdapLogic.class);
