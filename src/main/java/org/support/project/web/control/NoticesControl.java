@@ -1,12 +1,11 @@
 package org.support.project.web.control;
 
-import java.util.List;
-
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
 import org.support.project.common.util.StringUtils;
 import org.support.project.web.annotation.Auth;
 import org.support.project.web.bean.MessageResult;
+import org.support.project.web.bean.SendList;
 import org.support.project.web.boundary.Boundary;
 import org.support.project.web.common.HttpStatus;
 import org.support.project.web.common.HttpUtil;
@@ -40,8 +39,8 @@ public class NoticesControl extends Control {
             if (limit == null) {
                 limit = 20;
             }
-            List<NoticesEntity> list = NoticesLogic.get().selectAllNotices(limit, offset);
-            return send(list);
+            SendList sendlist = NoticesLogic.get().selectAllNotices(limit, offset);
+            return send(sendlist);
         } else {
             if (!StringUtils.isInteger(pathinfo)) {
                 return send(HttpStatus.SC_400_BAD_REQUEST);

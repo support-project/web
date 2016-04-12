@@ -86,17 +86,21 @@ public class JsonBoundary extends AbstractBoundary {
                 }
             }
         }
-        String json = "";
+        JSON json = new JSON();
+        // デフォルトの日時書式を指定
+        json.setDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        
+        String jsonString = "";
         if (obj instanceof String) {
             Msg msg = new Msg((String) obj);
-            json = JSON.encode(msg);
+            jsonString = json.format(msg);
         } else {
-            json = JSON.encode(obj);
+            jsonString = json.format(obj);
         }
         if (log.isDebugEnabled()) {
-            log.debug("send : " + json);
+            log.debug("send : " + jsonString);
         }
-        res.getWriter().write(json);
+        res.getWriter().write(jsonString);
         res.getWriter().close();
     }
 

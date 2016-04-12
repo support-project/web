@@ -1,12 +1,11 @@
 package org.support.project.web.logic;
 
-import java.util.List;
-
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
+import org.support.project.web.bean.SendList;
 import org.support.project.web.dao.NoticesDao;
 import org.support.project.web.entity.NoticesEntity;
 
@@ -22,8 +21,13 @@ public class NoticesLogic {
         return Container.getComp(NoticesLogic.class);
     }
     
-    public List<NoticesEntity> selectAllNotices(Integer limit, Integer offset) {
-        return NoticesDao.get().selectAllWidthPager(limit, offset);
+    public SendList selectAllNotices(Integer limit, Integer offset) {
+        SendList sendList = new SendList();
+        sendList.setLimit(limit);
+        sendList.setOffset(offset);
+        sendList.setItems(NoticesDao.get().selectAllWidthPager(limit, offset));
+        sendList.setTotal(NoticesDao.get().selectCountAll());
+        return sendList;
     }
     public NoticesEntity selectNotice(Integer no) {
         return NoticesDao.get().selectOnKey(no);
