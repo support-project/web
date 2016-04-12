@@ -28,7 +28,7 @@ public class NoticesControl extends Control {
     /** ログ */
     private static final Log LOG = LogFactory.getLog(NoticesControl.class);
     
-    @Get(path = "api/notices")
+    @Get(path = "admin.api/notices")
     @Auth(roles = "admin")
     public Boundary getNotices() {
         LOG.trace("getNotices");
@@ -54,7 +54,7 @@ public class NoticesControl extends Control {
         }
     }
     
-    @Post(path = "api/notices")
+    @Post(path = "admin.api/notices")
     @Auth(roles = "admin")
     public Boundary postNotice() throws InvalidParamException {
         LOG.trace("postNotice");
@@ -65,7 +65,7 @@ public class NoticesControl extends Control {
         return send(result);
     }
     
-    @Put(path = "api/notices")
+    @Put(path = "admin.api/notices")
     @Auth(roles = "admin")
     public Boundary putNotice() throws InvalidParamException {
         LOG.trace("putNotice");
@@ -81,7 +81,7 @@ public class NoticesControl extends Control {
         return send(result);
     }
     
-    @Delete(path = "api/notices")
+    @Delete(path = "admin.api/notices")
     @Auth(roles = "admin")
     public Boundary deleteNotice() throws InvalidParamException {
         LOG.trace("deleteNotice");
@@ -96,7 +96,7 @@ public class NoticesControl extends Control {
     }
     
     
-    @Get(path = "api/mynotices")
+    @Get(path = "open.api/mynotices")
     public Boundary getMyNotices() {
         LOG.trace("getMyNotices");
         List<NoticesEntity> sendlist = NoticesLogic.get().selectMyNotices(getLoginedUser());
