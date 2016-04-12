@@ -111,6 +111,7 @@ public class HttpUtil {
      * リクエストのJSONをオブジェクトにして返す
      * @param req request
      * @param paramtypes type
+     * @param <T> type
      * @return value 
      * @throws InvalidParamException InvalidParamException
      */

@@ -1,5 +1,7 @@
 package org.support.project.web.control;
 
+import java.util.List;
+
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
 import org.support.project.common.util.StringUtils;
@@ -92,5 +94,15 @@ public class NoticesControl extends Control {
                 MessageStatus.Success, HttpStatus.SC_200_OK, getResource("message.success.delete"), entity.getNo().toString());
         return send(result);
     }
+    
+    
+    @Get(path = "api/mynotices")
+    public Boundary getMyNotices() {
+        LOG.trace("getMyNotices");
+        List<NoticesEntity> sendlist = NoticesLogic.get().selectMyNotices(getLoginedUser());
+        return send(sendlist);
+    }
+
+    
     
 }
