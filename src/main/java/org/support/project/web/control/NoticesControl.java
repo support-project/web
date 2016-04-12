@@ -10,6 +10,7 @@ import org.support.project.web.boundary.Boundary;
 import org.support.project.web.common.HttpStatus;
 import org.support.project.web.common.HttpUtil;
 import org.support.project.web.config.MessageStatus;
+import org.support.project.web.control.service.Delete;
 import org.support.project.web.control.service.Get;
 import org.support.project.web.control.service.Post;
 import org.support.project.web.control.service.Put;
@@ -78,5 +79,18 @@ public class NoticesControl extends Control {
         return send(result);
     }
     
+    @Delete(path = "api/notices")
+    @Auth(roles = "admin")
+    public Boundary deleteNotice() throws InvalidParamException {
+        LOG.trace("deleteNotice");
+        Integer no = super.getPathInteger();
+        NoticesEntity entity = NoticesLogic.get().deleteNotice(no);
+        if (entity == null) {
+            return send(HttpStatus.SC_404_NOT_FOUND);
+        }
+        MessageResult result = new MessageResult(
+                MessageStatus.Success, HttpStatus.SC_200_OK, getResource("message.success.delete"), entity.getNo().toString());
+        return send(result);
+    }
     
 }

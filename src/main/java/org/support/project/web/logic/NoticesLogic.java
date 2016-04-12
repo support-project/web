@@ -46,4 +46,14 @@ public class NoticesLogic {
         return NoticesDao.get().update(entity);
     }
 
+    public NoticesEntity deleteNotice(Integer no) {
+        LOG.trace("deleteNotice");
+        NoticesEntity exists = NoticesDao.get().selectOnKey(no);
+        if (exists == null) {
+            return null;
+        }
+        NoticesDao.get().delete(no);
+        return exists;
+    }
+
 }
