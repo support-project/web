@@ -6,6 +6,7 @@ import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
 import org.support.project.common.util.StringUtils;
 import org.support.project.web.annotation.Auth;
+import org.support.project.web.bean.LoginedUser;
 import org.support.project.web.bean.MessageResult;
 import org.support.project.web.bean.SendList;
 import org.support.project.web.boundary.Boundary;
@@ -99,8 +100,27 @@ public class NoticesControl extends Control {
     @Get(path = "open.api/mynotices")
     public Boundary getMyNotices() {
         LOG.trace("getMyNotices");
-        List<NoticesEntity> sendlist = NoticesLogic.get().selectMyNotices(getLoginedUser());
+        String all = getParam("all");
+        List<NoticesEntity> sendlist;
+        if ("true".equals(all)) {
+            sendlist = NoticesLogic.get().selectMyNotices(null);
+        } else {
+            sendlist = NoticesLogic.get().selectMyNotices(getLoginedUser());
+        }
         return send(sendlist);
+    }
+    
+    @Put(path = "open.api/readmark")
+    public Boundary readMark() throws InvalidParamException {
+        LOG.trace("readMark");
+        LoginedUser loginedUser = getLoginedUser();
+        if (loginedUser == null) {
+            return send(HttpStatus.SC_403_FORBIDDEN);
+        }
+        Integer no = super.getPathInteger();
+        Integer showNextTime = super.getParam("showNextTime", Integer.class);
+        NoticesLogic.get().readMark(loginedUser.getUserId(), no, showNextTime);
+        return send(HttpStatus.SC_200_OK);
     }
 
     

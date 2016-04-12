@@ -10,7 +10,9 @@ import org.support.project.di.Instance;
 import org.support.project.web.bean.LoginedUser;
 import org.support.project.web.bean.SendList;
 import org.support.project.web.dao.NoticesDao;
+import org.support.project.web.dao.ReadMarksDao;
 import org.support.project.web.entity.NoticesEntity;
+import org.support.project.web.entity.ReadMarksEntity;
 
 @DI(instance = Instance.Singleton)
 public class NoticesLogic {
@@ -94,6 +96,18 @@ public class NoticesLogic {
             return NoticesDao.get().selectNowNotices();
         }
         return NoticesDao.get().selectMyNotices(loginedUser.getUserId());
+    }
+    
+    /**
+     * Set read mark
+     * @param userId user id
+     * @param no no
+     * @param showNextTime showNextTime
+     */
+    public void readMark(Integer userId, Integer no, Integer showNextTime) {
+        ReadMarksEntity entity = new ReadMarksEntity(no, userId);
+        entity.setShowNextTime(showNextTime);
+        ReadMarksDao.get().save(entity);
     }
 
 }

@@ -21,6 +21,8 @@ public class NoticesEntity extends GenNoticesEntity {
 
     /** SerialVersion */
     private static final long serialVersionUID = 1L;
+    /** 次回も表示する */
+    private Integer showNextTime;
 
     /**
      * Get instance from DI container.
@@ -44,6 +46,22 @@ public class NoticesEntity extends GenNoticesEntity {
 
     public NoticesEntity(Integer no) {
         super( no);
+    }
+
+    /**
+     * Get showNextTime
+     * @return the showNextTime
+     */
+    public Integer getShowNextTime() {
+        return showNextTime;
+    }
+
+    /**
+     * Set showNextTime
+     * @param showNextTime the showNextTime to set
+     */
+    public void setShowNextTime(Integer showNextTime) {
+        this.showNextTime = showNextTime;
     }
 
 }
