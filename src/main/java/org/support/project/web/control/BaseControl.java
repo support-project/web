@@ -9,12 +9,15 @@ import org.support.project.common.bean.ValidateError;
 import org.support.project.common.config.Resources;
 import org.support.project.common.log.LogLevel;
 import org.support.project.common.util.HtmlUtils;
+import org.support.project.di.DI;
+import org.support.project.di.Instance;
 import org.support.project.web.common.HttpUtil;
 
 /**
  * Controlにメッセージ処理などの基本処理を追加したクラス
  * @author Koda
  */
+@DI(instance = Instance.Prototype)
 public abstract class BaseControl extends Control {
     /** INFO レベルのメッセージをリクエストスコープにセットする際のキー */
     public static final String MSG_INFO = "NOTIFY_MSG_INFO";

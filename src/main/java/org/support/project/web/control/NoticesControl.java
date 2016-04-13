@@ -5,6 +5,8 @@ import java.util.List;
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
 import org.support.project.common.util.StringUtils;
+import org.support.project.di.DI;
+import org.support.project.di.Instance;
 import org.support.project.web.annotation.Auth;
 import org.support.project.web.bean.LoginedUser;
 import org.support.project.web.bean.MessageResult;
@@ -25,6 +27,7 @@ import org.support.project.web.logic.NoticesLogic;
  * Control for notices from admin.
  * @author Koda
  */
+@DI(instance = Instance.Prototype)
 public class NoticesControl extends Control {
     /** ログ */
     private static final Log LOG = LogFactory.getLog(NoticesControl.class);
