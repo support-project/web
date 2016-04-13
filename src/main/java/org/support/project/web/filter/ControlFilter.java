@@ -1,12 +1,11 @@
 package org.support.project.web.filter;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.support.project.common.exception.SystemException;
+import org.support.project.common.exception.ExceptionHandler;
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
 import org.support.project.common.util.PropertyUtil;
@@ -16,8 +15,8 @@ import org.support.project.web.boundary.Boundary;
 import org.support.project.web.boundary.JsonBoundary;
 import org.support.project.web.common.HttpStatus;
 import org.support.project.web.common.InvokeTarget;
-import org.support.project.web.config.MessageStatus;
 import org.support.project.web.config.CommonWebParameter;
+import org.support.project.web.config.MessageStatus;
 import org.support.project.web.entity.UsersEntity;
 import org.support.project.web.exception.InvalidParamException;
 
@@ -52,20 +51,12 @@ public class ControlFilter extends ControlManagerFilter {
                 boundary.navigate();
             }
         } catch (Exception e) {
-            if (e instanceof SystemException) {
-                SystemException systemException = (SystemException) e;
-                if (systemException.getCause() instanceof InvocationTargetException) {
-                    InvocationTargetException invocationTargetException = (InvocationTargetException) systemException.getCause();
-                    if (invocationTargetException.getCause() instanceof InvalidParamException) {
-                        InvalidParamException invalidParamException = (InvalidParamException) invocationTargetException.getCause();
-                        handleBadRequest(request, response, invalidParamException);
-                    }
-                }
-            } else if (e instanceof InvalidParamException) {
-                InvalidParamException exception = (InvalidParamException) e;
-                handleBadRequest(request, response, exception);
+            InvalidParamException ex = ExceptionHandler.exceptionSearch(e, InvalidParamException.class);
+            if (ex != null) {
+                handleBadRequest(request, response, ex);
+                return;
             }
-
+            
             if (JsonBoundary.class.isAssignableFrom(invokeTarget.getTargetMethod().getReturnType())) {
                 MessageResult messageResult = new MessageResult();
                 messageResult.setMessage("Internal server error");
@@ -81,6 +72,8 @@ public class ControlFilter extends ControlManagerFilter {
             }
         }
     }
+    
+
 
     protected void handleBadRequest(HttpServletRequest request, HttpServletResponse response, InvalidParamException exception) throws Exception {
         MessageResult messageResult = exception.getMessageResult();
