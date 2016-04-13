@@ -2,6 +2,8 @@ package org.support.project.web.control;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
 import org.support.project.common.util.StringUtils;
@@ -31,6 +33,8 @@ import org.support.project.web.logic.NoticesLogic;
 public class NoticesControl extends Control {
     /** ログ */
     private static final Log LOG = LogFactory.getLog(NoticesControl.class);
+    /** 既読情報をSessionに格納するキー */
+    public static final String READ_NOTICES = "READ_NOTICES";
     
     @Get(path = "admin.api/notices")
     @Auth(roles = "admin")
@@ -110,6 +114,9 @@ public class NoticesControl extends Control {
         } else {
             sendlist = NoticesLogic.get().selectMyNotices(getLoginedUser());
         }
+        HttpSession session = getRequest().getSession();
+        session.setAttribute(READ_NOTICES, Boolean.TRUE);
+        
         return send(sendlist);
     }
     
