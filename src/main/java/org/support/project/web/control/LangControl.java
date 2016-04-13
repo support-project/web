@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Locale;
 
 import org.support.project.common.util.StringUtils;
+import org.support.project.di.DI;
+import org.support.project.di.Instance;
 import org.support.project.web.bean.LabelValue;
 import org.support.project.web.bean.LoginedUser;
 import org.support.project.web.boundary.Boundary;
@@ -12,6 +14,7 @@ import org.support.project.web.config.AppConfig;
 import org.support.project.web.control.service.Get;
 import org.support.project.web.exception.InvalidParamException;
 
+@DI(instance = Instance.Prototype)
 public class LangControl extends Control {
 	
 	private void setLocale(LoginedUser loginedUser, Locale locale) {

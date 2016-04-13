@@ -86,6 +86,14 @@ public class GenUserGroupsDao extends AbstractDao {
         return executeQueryList(sql, UserGroupsEntity.class, limit, offset);
     }
     /**
+     * Select count that not deleted.
+     * @return count
+     */
+    public Integer selectCountAll() { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserGroupsDao/UserGroupsDao_select_count_all.sql");
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Select data that not deleted on key.
      * @param  groupId groupId
      * @param  userId userId

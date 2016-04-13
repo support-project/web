@@ -86,6 +86,14 @@ public class GenSystemConfigsDao extends AbstractDao {
         return executeQueryList(sql, SystemConfigsEntity.class, limit, offset);
     }
     /**
+     * Select count that not deleted.
+     * @return count
+     */
+    public Integer selectCountAll() { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemConfigsDao/SystemConfigsDao_select_count_all.sql");
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Select data that not deleted on key.
      * @param  configName configName
      * @param  systemName systemName

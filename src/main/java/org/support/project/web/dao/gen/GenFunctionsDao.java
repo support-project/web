@@ -85,6 +85,14 @@ public class GenFunctionsDao extends AbstractDao {
         return executeQueryList(sql, FunctionsEntity.class, limit, offset);
     }
     /**
+     * Select count that not deleted.
+     * @return count
+     */
+    public Integer selectCountAll() { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/FunctionsDao/FunctionsDao_select_count_all.sql");
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Select data that not deleted on key.
      * @param  functionKey functionKey
      * @return data

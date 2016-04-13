@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.support.project.common.exception.ExceptionHandler;
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
 import org.support.project.common.util.PropertyUtil;
@@ -14,8 +15,8 @@ import org.support.project.web.boundary.Boundary;
 import org.support.project.web.boundary.JsonBoundary;
 import org.support.project.web.common.HttpStatus;
 import org.support.project.web.common.InvokeTarget;
-import org.support.project.web.config.MessageStatus;
 import org.support.project.web.config.CommonWebParameter;
+import org.support.project.web.config.MessageStatus;
 import org.support.project.web.entity.UsersEntity;
 import org.support.project.web.exception.InvalidParamException;
 
@@ -50,36 +51,43 @@ public class ControlFilter extends ControlManagerFilter {
                 boundary.navigate();
             }
         } catch (Exception e) {
+            InvalidParamException ex = ExceptionHandler.exceptionSearch(e, InvalidParamException.class);
+            if (ex != null) {
+                handleBadRequest(request, response, ex);
+                return;
+            }
+            
             if (JsonBoundary.class.isAssignableFrom(invokeTarget.getTargetMethod().getReturnType())) {
-                if (e instanceof InvalidParamException) {
-                    InvalidParamException exception = (InvalidParamException) e;
-                    MessageResult messageResult = exception.getMessageResult();
-                    if (messageResult.getStatus() > MessageStatus.Success.getValue()) {
-                        if (messageResult.getCode() == null) {
-                            messageResult.setStatus(MessageStatus.Error.getValue());
-                            messageResult.setCode(HttpStatus.SC_400_BAD_REQUEST);
-                        }
-                    }
-                    JsonBoundary boundary = new JsonBoundary(messageResult);
-                    response.setStatus(exception.getMessageResult().getStatus());
-                    boundary.setRequest(request);
-                    boundary.setResponse(response);
-                    boundary.navigate();
-                } else {
-                    MessageResult messageResult = new MessageResult();
-                    messageResult.setMessage("Internal server error");
-                    messageResult.setStatus(MessageStatus.Error.getValue());
-                    messageResult.setCode(HttpStatus.SC_500_INTERNAL_SERVER_ERROR);
-                    JsonBoundary boundary = new JsonBoundary(messageResult);
-                    boundary.setRequest(request);
-                    boundary.setResponse(response);
-                    boundary.navigate();
-                    throw e;
-                }
+                MessageResult messageResult = new MessageResult();
+                messageResult.setMessage("Internal server error");
+                messageResult.setStatus(MessageStatus.Error.getValue());
+                messageResult.setCode(HttpStatus.SC_500_INTERNAL_SERVER_ERROR);
+                JsonBoundary boundary = new JsonBoundary(messageResult);
+                boundary.setRequest(request);
+                boundary.setResponse(response);
+                boundary.navigate();
+                throw e;
             } else {
                 throw e;
             }
         }
+    }
+    
+
+
+    protected void handleBadRequest(HttpServletRequest request, HttpServletResponse response, InvalidParamException exception) throws Exception {
+        MessageResult messageResult = exception.getMessageResult();
+        if (messageResult.getStatus() > MessageStatus.Success.getValue()) {
+            if (messageResult.getCode() == null) {
+                messageResult.setStatus(MessageStatus.Error.getValue());
+                messageResult.setCode(HttpStatus.SC_400_BAD_REQUEST);
+            }
+        }
+        JsonBoundary boundary = new JsonBoundary(messageResult);
+        response.setStatus(exception.getMessageResult().getStatus());
+        boundary.setRequest(request);
+        boundary.setResponse(response);
+        boundary.navigate();
     }
 
     /**

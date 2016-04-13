@@ -86,6 +86,14 @@ public class GenRoleFunctionsDao extends AbstractDao {
         return executeQueryList(sql, RoleFunctionsEntity.class, limit, offset);
     }
     /**
+     * Select count that not deleted.
+     * @return count
+     */
+    public Integer selectCountAll() { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/RoleFunctionsDao/RoleFunctionsDao_select_count_all.sql");
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Select data that not deleted on key.
      * @param  functionKey functionKey
      * @param  roleId roleId
