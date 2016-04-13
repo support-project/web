@@ -9,12 +9,15 @@ import org.support.project.common.config.ConfigLoader;
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
 import org.support.project.di.Container;
+import org.support.project.di.DI;
+import org.support.project.di.Instance;
 import org.support.project.ormapping.config.ConnectionConfig;
 import org.support.project.ormapping.config.ConnectionConfigLoader;
 import org.support.project.ormapping.config.ORMappingParameter;
 import org.support.project.ormapping.connection.ConnectionManager;
 import org.support.project.web.config.AppConfig;
 
+@DI(instance = Instance.Singleton)
 public class DBConnenctionLogic {
     /** ログ */
     private static final Log LOG = LogFactory.getLog(DBConnenctionLogic.class);
