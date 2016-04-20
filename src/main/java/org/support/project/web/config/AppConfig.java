@@ -55,6 +55,9 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
     /** バッチプログラムの設定 */
     private List<Batchinfo> batchs = new ArrayList<>();
 
+    /** ユーザ登録後の拡張処理 */
+    private String addUserProcess;
+    
     /**
      * @return the tmpPath
      */
@@ -159,6 +162,22 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
      */
     public void setBatchs(List<Batchinfo> batchs) {
         this.batchs = batchs;
+    }
+
+    /**
+     * Get addUserProcess
+     * @return the addUserProcess
+     */
+    public String getAddUserProcess() {
+        return addUserProcess;
+    }
+
+    /**
+     * Set addUserProcess
+     * @param addUserProcess the addUserProcess to set
+     */
+    public void setAddUserProcess(String addUserProcess) {
+        this.addUserProcess = addUserProcess;
     }
 
 }

@@ -16,6 +16,7 @@ import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
 import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.config.AppConfig;
 import org.support.project.web.config.WebConfig;
 import org.support.project.web.dao.ProvisionalRegistrationsDao;
 import org.support.project.web.dao.RolesDao;
@@ -70,6 +71,12 @@ public class UserLogic {
         insertRoles(user, roles);
         insertDefaultGroup(user);
 
+        // ユーザ登録時の拡張処理の呼び出し
+        if (StringUtils.isNotEmpty(AppConfig.get().getAddUserProcess())) {
+            AddUserProcess process = Container.getComp(AppConfig.get().getAddUserProcess(), AddUserProcess.class);
+            process.addUserProcess(user.getUserKey());
+        }
+        
         return user;
     }
 
@@ -113,6 +120,11 @@ public class UserLogic {
         ProvisionalRegistrationsDao provisionalRegistrationsDao = ProvisionalRegistrationsDao.get();
         provisionalRegistrationsDao.deleteOnUserKey(entity.getUserKey());
 
+        // ユーザ登録時の拡張処理の呼び出し
+        if (StringUtils.isNotEmpty(AppConfig.get().getAddUserProcess())) {
+            AddUserProcess process = Container.getComp(AppConfig.get().getAddUserProcess(), AddUserProcess.class);
+            process.addUserProcess(user.getUserKey());
+        }
         return user;
     }
 
