@@ -94,7 +94,9 @@ public class LoginedUser implements Serializable {
      * @param loginUser セットする loginUser
      */
     public void setLoginUser(UsersEntity loginUser) {
-        loginUser.setPassword(""); // セッションに持つ場合、パスワードはクリアすること
+        if (loginUser != null) {
+            loginUser.setPassword(""); // セッションに持つ場合、パスワードはクリアすること
+        }
         this.loginUser = loginUser;
     }
 
