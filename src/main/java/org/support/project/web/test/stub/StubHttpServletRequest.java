@@ -193,17 +193,17 @@ public class StubHttpServletRequest implements HttpServletRequest {
 
     @Override
     public String getScheme() {
-        throw new NotImplementedException("NotImplemented");
+        return "http";
     }
 
     @Override
     public String getServerName() {
-        throw new NotImplementedException("NotImplemented");
+        return "localhost";
     }
 
     @Override
     public int getServerPort() {
-        throw new NotImplementedException("NotImplemented");
+        return 8080;
     }
 
     @Override
@@ -313,7 +313,7 @@ public class StubHttpServletRequest implements HttpServletRequest {
 
     @Override
     public String getHeader(String paramString) {
-        throw new NotImplementedException("NotImplemented");
+        return "";
     }
 
     @Override
