@@ -10,28 +10,27 @@ import org.support.project.web.dao.gen.GenSystemsDao;
 /**
  * システムの設定
  */
-@DI(instance=Instance.Singleton)
+@DI(instance = Instance.Singleton)
 public class SystemsDao extends GenSystemsDao {
 
-	/** SerialVersion */
-	private static final long serialVersionUID = 1L;
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static SystemsDao get() {
-		return Container.getComp(SystemsDao.class);
-	}
+    /** SerialVersion */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * データをtruncateする
-	 * 
-	 * @return void
-	 */
-	@Aspect(advice=org.support.project.ormapping.transaction.Transaction.class)
-	public void truncate() {
-		String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemsDao/SystemsDao_truncate.sql");
-		executeUpdate(sql);
-	}
+    /**
+     * インスタンス取得 AOPに対応
+     * 
+     * @return インスタンス
+     */
+    public static SystemsDao get() {
+        return Container.getComp(SystemsDao.class);
+    }
+
+    /**
+     * データをtruncateする
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public void truncate() {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemsDao/SystemsDao_truncate.sql");
+        executeUpdate(sql);
+    }
 }

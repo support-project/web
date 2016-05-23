@@ -13,22 +13,24 @@ import org.support.project.web.config.CommonWebParameter;
 
 /**
  * Thread = リクエスト 単位でリソースを切り替える必要があるので、それの制御を楽にするためのクラス
+ * 
  * @author Koda
  *
  */
-@DI(instance=Instance.Singleton)
+@DI(instance = Instance.Singleton)
 public class ThreadResources {
-	private static Log LOG = LogFactory.getLog(ThreadResources.class);
-	public static ThreadResources get() {
-		return Container.getComp(ThreadResources.class);
-	}
-	
-	public Resources getResources() {
-		LoginedUser loginedUser = (LoginedUser) ThredUserPool.get().getInfo(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
-		if (loginedUser != null && loginedUser.getLocale() != null) {
-			return Resources.getInstance(loginedUser.getLocale());
-		}
-		return Resources.getInstance(Locale.getDefault());
-	}
+    private static final Log LOG = LogFactory.getLog(ThreadResources.class);
+
+    public static ThreadResources get() {
+        return Container.getComp(ThreadResources.class);
+    }
+
+    public Resources getResources() {
+        LoginedUser loginedUser = (LoginedUser) ThredUserPool.get().getInfo(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
+        if (loginedUser != null && loginedUser.getLocale() != null) {
+            return Resources.getInstance(loginedUser.getLocale());
+        }
+        return Resources.getInstance(Locale.getDefault());
+    }
 
 }

@@ -17,7 +17,7 @@ import org.support.project.web.logic.AuthenticationLogic;
 
 public class InitializationServlet extends HttpServlet {
 	/** ログ */
-	private static Log LOG = LogFactory.getLog(InitializationServlet.class);
+	private static final Log LOG = LogFactory.getLog(InitializationServlet.class);
 
 	/** 初期ユーザ */
 	private String initialUserId = "web-admin";

@@ -17,14 +17,19 @@ import org.support.project.web.bean.LabelValue;
 public class AppConfig extends org.support.project.common.config.AppConfig {
     /** インスタンス */
     private static AppConfig appConfig = null;
-    /** インスタンスを取得 */
+
+    /**
+     * インスタンスを取得
+     * 
+     * @return instance
+     */
     public static AppConfig get() {
         if (appConfig == null) {
             appConfig = ConfigLoader.load(AppConfig.APP_CONFIG, AppConfig.class);
         }
         return appConfig;
     }
-    
+
     /** パスワードのハッシュを生成する際おイテレーション回数 */
     private static final int DEFAULT_HASH_ITERATIONS = 100;
     /** テンポラリディレクトリのパス */
@@ -33,7 +38,7 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
     private boolean convTmpPath = false;
     /** ファイルアップロード時の最大容量 */
     private int uploadMaxMBSize;
-    
+
     /** マイグレーション処理が置かれるパッケージ名 */
     private String migratePackage;
 
@@ -41,14 +46,17 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
     private Integer hashIterations = DEFAULT_HASH_ITERATIONS;
     /** HASH_SIZE_BITS */
     // private Integer hashSizeBits;
-    
+
     /** web applicationがインストールされているパス */
     private static String webRealPath = "";
-    
+
     /** 言語設定 */
     private List<LabelValue> languages = new ArrayList<>();
     /** バッチプログラムの設定 */
     private List<Batchinfo> batchs = new ArrayList<>();
+
+    /** ユーザ登録後の拡張処理 */
+    private String addUserProcess;
     
     /**
      * @return the tmpPath
@@ -66,8 +74,7 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
     }
 
     /**
-     * @param tmpPath
-     *            the tmpPath to set
+     * @param tmpPath the tmpPath to set
      */
     public void setTmpPath(String tmpPath) {
         this.tmpPath = tmpPath;
@@ -81,8 +88,7 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
     }
 
     /**
-     * @param uploadMaxMBSize
-     *            the uploadMaxMBSize to set
+     * @param uploadMaxMBSize the uploadMaxMBSize to set
      */
     public void setUploadMaxMBSize(int uploadMaxMBSize) {
         this.uploadMaxMBSize = uploadMaxMBSize;
@@ -96,8 +102,7 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
     }
 
     /**
-     * @param hashIterations
-     *            the hashIterations to set
+     * @param hashIterations the hashIterations to set
      */
     public void setHashIterations(Integer hashIterations) {
         this.hashIterations = hashIterations;
@@ -111,8 +116,7 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
     }
 
     /**
-     * @param webRealPath
-     *            the webRealPath to set
+     * @param webRealPath the webRealPath to set
      */
     public static void setWebRealPath(String webRealPath) {
         AppConfig.webRealPath = webRealPath;
@@ -126,8 +130,7 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
     }
 
     /**
-     * @param languages
-     *            the languages to set
+     * @param languages the languages to set
      */
     public void setLanguages(List<LabelValue> languages) {
         this.languages = languages;
@@ -141,8 +144,7 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
     }
 
     /**
-     * @param migratePackage
-     *            the migratePackage to set
+     * @param migratePackage the migratePackage to set
      */
     public void setMigratePackage(String migratePackage) {
         this.migratePackage = migratePackage;
@@ -160,6 +162,22 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
      */
     public void setBatchs(List<Batchinfo> batchs) {
         this.batchs = batchs;
+    }
+
+    /**
+     * Get addUserProcess
+     * @return the addUserProcess
+     */
+    public String getAddUserProcess() {
+        return addUserProcess;
+    }
+
+    /**
+     * Set addUserProcess
+     * @param addUserProcess the addUserProcess to set
+     */
+    public void setAddUserProcess(String addUserProcess) {
+        this.addUserProcess = addUserProcess;
     }
 
 }

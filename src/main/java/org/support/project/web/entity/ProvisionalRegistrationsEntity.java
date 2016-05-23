@@ -1,60 +1,54 @@
 package org.support.project.web.entity;
 
-import java.util.List;
-import java.util.Map;
-import java.sql.Timestamp;
-
-import org.support.project.common.bean.ValidateError;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
 import org.support.project.web.entity.gen.GenProvisionalRegistrationsEntity;
 
-
 /**
  * 仮登録ユーザ
  */
-@DI(instance=Instance.Prototype)
+@DI(instance = Instance.Prototype)
 public class ProvisionalRegistrationsEntity extends GenProvisionalRegistrationsEntity {
 
-	/** SerialVersion */
-	private static final long serialVersionUID = 1L;
+    /** SerialVersion */
+    private static final long serialVersionUID = 1L;
 
-	/** 既に暗号化済かどうか */
-	private Boolean encrypted = Boolean.FALSE;
-	
-	
-	/**
-	 * インスタンス取得
-	 * AOPに対応
-	 * @return インスタンス
-	 */
-	public static ProvisionalRegistrationsEntity get() {
-		return Container.getComp(ProvisionalRegistrationsEntity.class);
-	}
+    /** 既に暗号化済かどうか */
+    private Boolean encrypted = Boolean.FALSE;
 
-	/**
-	 * コンストラクタ
-	 */
-	public ProvisionalRegistrationsEntity() {
-		super();
-	}
+    /**
+     * インスタンス取得 AOPに対応
+     * 
+     * @return インスタンス
+     */
+    public static ProvisionalRegistrationsEntity get() {
+        return Container.getComp(ProvisionalRegistrationsEntity.class);
+    }
 
-	/**
-	 * コンストラクタ
-	 * @param id 仮発行ID
-	 */
+    /**
+     * コンストラクタ
+     */
+    public ProvisionalRegistrationsEntity() {
+        super();
+    }
 
-	public ProvisionalRegistrationsEntity(String id) {
-		super( id);
-	}
+    /**
+     * コンストラクタ
+     * 
+     * @param id 仮発行ID
+     */
 
-	public Boolean getEncrypted() {
-		return encrypted;
-	}
+    public ProvisionalRegistrationsEntity(String id) {
+        super(id);
+    }
 
-	public void setEncrypted(Boolean encrypted) {
-		this.encrypted = encrypted;
-	}
+    public Boolean getEncrypted() {
+        return encrypted;
+    }
+
+    public void setEncrypted(Boolean encrypted) {
+        this.encrypted = encrypted;
+    }
 
 }

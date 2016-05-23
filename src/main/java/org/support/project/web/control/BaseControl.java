@@ -9,12 +9,15 @@ import org.support.project.common.bean.ValidateError;
 import org.support.project.common.config.Resources;
 import org.support.project.common.log.LogLevel;
 import org.support.project.common.util.HtmlUtils;
+import org.support.project.di.DI;
+import org.support.project.di.Instance;
 import org.support.project.web.common.HttpUtil;
 
 /**
  * Controlにメッセージ処理などの基本処理を追加したクラス
  * @author Koda
  */
+@DI(instance = Instance.Prototype)
 public abstract class BaseControl extends Control {
     /** INFO レベルのメッセージをリクエストスコープにセットする際のキー */
     public static final String MSG_INFO = "NOTIFY_MSG_INFO";
@@ -50,8 +53,8 @@ public abstract class BaseControl extends Control {
     
     /**
      * INFO レベルのメッセージを追加
-     * @param key
-     * @param params
+     * @param key key
+     * @param params params
      */
     protected void addMsgInfo(String key, String... params) {
         Resources resources = Resources.getInstance(HttpUtil.getLocale(getRequest()));
@@ -61,8 +64,8 @@ public abstract class BaseControl extends Control {
 
     /**
      * SUCCESS レベルのメッセージを追加
-     * @param key
-     * @param params
+     * @param key key
+     * @param params params
      */
     protected void addMsgSuccess(String key, String... params) {
         Resources resources = Resources.getInstance(HttpUtil.getLocale(getRequest()));
@@ -72,8 +75,8 @@ public abstract class BaseControl extends Control {
 
     /**
      * WARN レベルのメッセージを追加
-     * @param key
-     * @param params
+     * @param key key
+     * @param params params
      */
     protected void addMsgWarn(String key, String... params) {
         Resources resources = Resources.getInstance(HttpUtil.getLocale(getRequest()));
@@ -83,8 +86,8 @@ public abstract class BaseControl extends Control {
 
     /**
      * ERROR レベルのメッセージを追加
-     * @param key
-     * @param params
+     * @param key key
+     * @param params params
      */
     protected void addMsgError(String key, String... params) {
         Resources resources = Resources.getInstance(HttpUtil.getLocale(getRequest()));
@@ -94,8 +97,7 @@ public abstract class BaseControl extends Control {
 
     /**
      * ValidateError をメッセージにセット
-     * @param key
-     * @param params
+     * @param errors errors
      */
     protected void setErrors(List<ValidateError> errors) {
         if (errors != null) {
@@ -130,25 +132,6 @@ public abstract class BaseControl extends Control {
                 c.addMsgError(string);
             }
         }
-    }
-    /**
-     * リソースから文字列を取得
-     * @param key
-     * @return
-     */
-    protected String getResource(String key) {
-        Resources resources = Resources.getInstance(HttpUtil.getLocale(getRequest()));
-        return resources.getResource(key);
-    }
-    /**
-     * リソースから文字列を取得
-     * @param key
-     * @param params
-     * @return
-     */
-    protected String getResource(String key, String... params) {
-        Resources resources = Resources.getInstance(HttpUtil.getLocale(getRequest()));
-        return resources.getResource(key, params);
     }
     
 }

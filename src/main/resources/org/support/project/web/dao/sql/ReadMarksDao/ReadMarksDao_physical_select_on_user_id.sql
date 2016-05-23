@@ -1,0 +1,5 @@
+SELECT * FROM READ_MARKS
+ WHERE 
+USER_ID = ?
+;
+;

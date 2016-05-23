@@ -17,43 +17,43 @@ import org.support.project.common.util.StringUtils;
 import org.support.project.web.common.HttpUtil;
 
 public class PartialsFilter implements Filter {
-	/** ログ */
-	private static Log log = LogFactory.getLog(PartialsFilter.class);
+    /** ログ */
+    private static Log log = LogFactory.getLog(PartialsFilter.class);
 
-	@Override
-	public void init(FilterConfig config) throws ServletException {
-		
-	}
-	@Override
-	public void destroy() {
-		
-	}
+    @Override
+    public void init(FilterConfig config) throws ServletException {
 
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest req = (HttpServletRequest) request;
-		HttpServletResponse res = (HttpServletResponse) response;
-		
-		StringBuilder builder = new StringBuilder();
-		
-		String path = req.getServletPath();
-		if (path != null) {
-			String extention = StringUtils.getExtension(path);
-			if (extention == null) {
-				path = path.concat(".jsp");
-			} else if (extention.equals(".html")) {
-				path = path.replaceAll(".html", ".jsp");
-			}
-			builder.append(path);
-		} else {
-			builder.append("/index.html");
-		}
-		
-		if (log.isDebugEnabled()) {
-			log.debug("path : " + builder.toString());
-		}
-		HttpUtil.forward(res, req, builder.toString());
-	}
+    }
+
+    @Override
+    public void destroy() {
+
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+
+        StringBuilder builder = new StringBuilder();
+
+        String path = req.getServletPath();
+        if (path != null) {
+            String extention = StringUtils.getExtension(path);
+            if (extention == null) {
+                path = path.concat(".jsp");
+            } else if (extention.equals(".html")) {
+                path = path.replaceAll(".html", ".jsp");
+            }
+            builder.append(path);
+        } else {
+            builder.append("/index.html");
+        }
+
+        if (log.isDebugEnabled()) {
+            log.debug("path : " + builder.toString());
+        }
+        HttpUtil.forward(res, req, builder.toString());
+    }
 
 }

@@ -14,7 +14,7 @@ import org.support.project.web.common.HttpUtil;
 
 public class PartialsServlet extends HttpServlet {
 	/** ログ */
-	private static Log LOG = LogFactory.getLog(PartialsServlet.class);
+	private static final Log LOG = LogFactory.getLog(PartialsServlet.class);
 
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse res)

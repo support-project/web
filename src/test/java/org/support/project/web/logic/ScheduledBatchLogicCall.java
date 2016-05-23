@@ -39,6 +39,7 @@ public class ScheduledBatchLogicCall {
         while (count < 10) {
             LOG.info("バッチが起動されるのを待ってます");
             Thread.sleep(1000 * 60);
+            count++;
         }
         
         logic.scheduleDestroy();

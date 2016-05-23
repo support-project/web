@@ -19,50 +19,52 @@ import org.support.project.common.test.Order;
 import org.support.project.common.test.OrderedRunner;
 import org.support.project.common.util.FileUtil;
 
-
 @RunWith(OrderedRunner.class)
 public class SanitizingLogicTest {
-	/** ログ */
-	private static Log LOG = LogFactory.getLog(SanitizingLogicTest.class);
+    /** ログ */
+    private static final Log LOG = LogFactory.getLog(SanitizingLogicTest.class);
 
-	/**
-	 * 改行コードは無視して値比較をするために、文字列（Line）の配列で取得
-	 * @param str
-	 * @return
-	 * @throws IOException 
-	 */
-	private String[] read(String str) throws IOException {
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new StringReader(str));
-			List<String> list = new ArrayList<String>();
-			String s;
-			while((s = reader.readLine())!=null){
-				list.add(s);
-			}
-			return list.toArray(new String[0]);
-		} finally {
-			if (reader != null) {
-				reader.close();
-			}
-		}
+    /**
+     * 改行コードは無視して値比較をするために、文字列（Line）の配列で取得
+     * 
+     * @param str
+     * @return
+     * @throws IOException
+     */
+    private String[] read(String str) throws IOException {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new StringReader(str));
+            List<String> list = new ArrayList<String>();
+            String s;
+            while ((s = reader.readLine()) != null) {
+                list.add(s);
+            }
+            return list.toArray(new String[0]);
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
+        }
 
-	}
-	@Test
-	@Order(order= 1)
-	public void testSanitize() throws ParseException, UnsupportedEncodingException, IOException, TransformerFactoryConfigurationError, TransformerException {
-		String base = FileUtil.read(getClass().getResourceAsStream("sanitize/sanitize1.txt"));
-		String check = FileUtil.read(getClass().getResourceAsStream("sanitize/result-sanitize1.txt"));
-		String result = SanitizingLogic.get().sanitize(base);
-		try {
-			org.junit.Assert.assertArrayEquals(read(check), read(result));
-		} catch (AssertionError e) {
-			LOG.info("Sanitize");
-			LOG.info("[Base] : " + base);
-			LOG.info("[Check]     : " + check);
-			LOG.info("[Result]   : " + result);
-			throw e;
-		}
-	}
+    }
+
+    @Test
+    @Order(order = 1)
+    public void testSanitize()
+            throws ParseException, UnsupportedEncodingException, IOException, TransformerFactoryConfigurationError, TransformerException {
+        String base = FileUtil.read(getClass().getResourceAsStream("sanitize/sanitize1.txt"));
+        String check = FileUtil.read(getClass().getResourceAsStream("sanitize/result-sanitize1.txt"));
+        String result = SanitizingLogic.get().sanitize(base);
+        try {
+            org.junit.Assert.assertArrayEquals(read(check), read(result));
+        } catch (AssertionError e) {
+            LOG.info("Sanitize");
+            LOG.info("[Base] : " + base);
+            LOG.info("[Check]     : " + check);
+            LOG.info("[Result]   : " + result);
+            throw e;
+        }
+    }
 
 }
