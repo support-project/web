@@ -197,4 +197,18 @@ public class UsersDao extends GenUsersDao {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UsersDao/UsersDao_truncate.sql");
         executeUpdate(sql);
     }
+    
+    /**
+     * メールアドレスで検索
+     * （Ldapログイン時は、USER_KEYはIDになるので注意）
+     * @param mail メールアドレス
+     * @return ユーザ情報
+     */
+    public UsersEntity selectOnMail(String mail) {
+        if (mail == null) {
+            return null;
+        }
+        String sql = "SELECT * FROM USERS WHERE LOWER(MAIL_ADDRESS) = ?;";
+        return executeQuerySingle(sql, UsersEntity.class, mail.toLowerCase());
+    }
 }
