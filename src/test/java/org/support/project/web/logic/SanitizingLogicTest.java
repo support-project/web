@@ -66,5 +66,59 @@ public class SanitizingLogicTest {
             throw e;
         }
     }
-
+    
+    @Test
+    @Order(order = 2)
+    public void testUNC() throws Exception {
+        LOG.info("testUNC");
+        String base = "<p><a href=\"\\\\hoge\\data\" title=\"UNCPathLink\">UNCPathLink</a></p>";
+        String result = SanitizingLogic.get().sanitize(base);
+        try {
+            String check = "<p><a href=\"\\\\hoge\\data\" title=\"UNCPathLink\" rel=\"nofollow\">UNCPathLink</a></p>";
+            org.junit.Assert.assertEquals(check, result);
+        } catch (AssertionError e) {
+            LOG.info("Sanitize");
+            LOG.info("[Base]   : " + base);
+            LOG.info("[Result] : " + result);
+            throw e;
+        }
+    }
+    
+    @Test
+    @Order(order = 3)
+    public void testFile() throws Exception {
+        LOG.info("testFile");
+        String base = "<p><a href=\"file://hoge/data\" title=\"UNCPathLink\">UNCPathLink</a></p>";
+        String result = SanitizingLogic.get().sanitize(base);
+        try {
+            String check = "<p><a href=\"file://hoge/data\" title=\"UNCPathLink\" rel=\"nofollow\">UNCPathLink</a></p>";
+            org.junit.Assert.assertEquals(check, result);
+        } catch (AssertionError e) {
+            LOG.info("Sanitize");
+            LOG.info("[Base]   : " + base);
+            LOG.info("[Result] : " + result);
+            throw e;
+        }
+    }
+    
+    @Test
+    @Order(order = 4)
+    public void testSamba() throws Exception {
+        LOG.info("testSamba");
+        String base = "<p><a href=\"smb://hoge/data\" title=\"UNCPathLink\">UNCPathLink</a></p>";
+        String result = SanitizingLogic.get().sanitize(base);
+        try {
+            String check = "<p><a href=\"smb://hoge/data\" title=\"UNCPathLink\" rel=\"nofollow\">UNCPathLink</a></p>";
+            org.junit.Assert.assertEquals(check, result);
+        } catch (AssertionError e) {
+            LOG.info("Sanitize");
+            LOG.info("[Base]   : " + base);
+            LOG.info("[Result] : " + result);
+            throw e;
+        }
+    }
+    
+    
+    
+    
 }
