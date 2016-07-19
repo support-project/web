@@ -54,7 +54,8 @@ public class SanitizingLogic {
     private static final Pattern HTML_CLASS = Pattern.compile("[a-zA-Z0-9\\s,\\-_]+");
     private static final Pattern ONSITE_URL = Pattern.compile("(?:[\\p{L}\\p{N}\\\\\\.\\#@\\$%\\+&;\\-_~,\\?=/!]+|\\#(\\w)+)");
     private static final Pattern OFFSITE_URL = Pattern
-            .compile("\\s*(?:(?:ht|f)tps?://|mailto:)[\\p{L}\\p{N}]" + "[\\p{L}\\p{N}\\p{Zs}\\.\\#@\\$%\\+&;:\\-_~,\\?=/!\\(\\)]*+\\s*");
+            .compile("\\s*(?:(?:ht|f)tps?://|file://|smb://|\\\\\\\\|mailto:)[\\p{L}\\p{N}]"
+                    + "[\\p{L}\\p{N}\\p{Zs}\\.\\#@\\$%\\+&;:\\-_~,\\?=/!\\(\\)]*+\\s*");
     private static final Pattern NUMBER = Pattern.compile("[+-]?(?:(?:[0-9]+(?:\\.[0-9]*)?)|\\.[0-9]+)");
     private static final Pattern NAME = Pattern.compile("[a-zA-Z0-9\\-_\\$]+");
     private static final Pattern ALIGN = Pattern.compile("(?i)center|left|right|justify|char");
@@ -66,7 +67,11 @@ public class SanitizingLogic {
     };
     private static final Predicate<String> ONSITE_OR_OFFSITE_URL = new Predicate<String>() {
         public boolean apply(String s) {
-            return ONSITE_URL.matcher(s).matches() || OFFSITE_URL.matcher(s).matches();
+            boolean result = ONSITE_URL.matcher(s).matches() || OFFSITE_URL.matcher(s).matches();
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("[ONSITE_OR_OFFSITE_URL]: " + result + "\t" + s);
+            }
+            return result;
         }
     };
     private static final Pattern HISTORY_BACK = Pattern.compile("(?:javascript:)?\\Qhistory.go(-1)\\E");
@@ -76,7 +81,10 @@ public class SanitizingLogic {
             .allowAttributes("title").matching(HTML_TITLE).globally().allowStyling().allowAttributes("align").matching(ALIGN).onElements("p")
             .allowAttributes("for").matching(HTML_ID).onElements("label").allowAttributes("color").matching(COLOR_NAME_OR_COLOR_CODE)
             .onElements("font").allowAttributes("face").matching(Pattern.compile("[\\w;, \\-]+")).onElements("font").allowAttributes("size")
-            .matching(NUMBER).onElements("font").allowAttributes("href").matching(ONSITE_OR_OFFSITE_URL).onElements("a").allowStandardUrlProtocols()
+            .matching(NUMBER).onElements("font")
+            .allowAttributes("href").matching(ONSITE_OR_OFFSITE_URL).onElements("a")
+//            .allowStandardUrlProtocols()
+            .allowUrlProtocols("http", "https", "mailto", "file", "smb", "\\\\")
             .allowAttributes("target")
             // .onElements("a")
             // .allowAttributes("name")
