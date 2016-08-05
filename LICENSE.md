@@ -40,3 +40,7 @@
    - License: [Creative Commons Attribution-ShareAlike 3.0 license] http://creativecommons.org/licenses/by-sa/3.0/
    - project-url: https://www.owasp.org/index.php/Category:OWASP_AntiSamy_Project
 
+- Apache Directory LDAP API
+   - License: [Apache License, Version 2.0] http://www.apache.org/licenses/LICENSE-2.0
+   - project-url: http://directory.apache.org/api/
+
