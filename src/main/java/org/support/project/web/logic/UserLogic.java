@@ -17,6 +17,7 @@ import org.support.project.di.DI;
 import org.support.project.di.Instance;
 import org.support.project.web.bean.LoginedUser;
 import org.support.project.web.config.AppConfig;
+import org.support.project.web.config.CommonWebParameter;
 import org.support.project.web.config.WebConfig;
 import org.support.project.web.dao.ProvisionalRegistrationsDao;
 import org.support.project.web.dao.RolesDao;
@@ -228,6 +229,7 @@ public class UserLogic {
         UserGroupsEntity userGroupsEntity = userGroupsDao.selectOnKey(0, user.getUserId());
         if (userGroupsEntity == null) {
             userGroupsEntity = new UserGroupsEntity(0, user.getUserId());
+            userGroupsEntity.setGroupRole(CommonWebParameter.GROUP_ROLE_MEMBER);
             userGroupsDao.insert(userGroupsEntity);
         }
     }
