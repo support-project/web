@@ -77,6 +77,7 @@ public class SanitizingLogic {
     private static final Pattern HISTORY_BACK = Pattern.compile("(?:javascript:)?\\Qhistory.go(-1)\\E");
     private static final Pattern ONE_CHAR = Pattern.compile(".?", Pattern.DOTALL);
     public static final PolicyFactory POLICY_DEFINITION = new HtmlPolicyBuilder().allowAttributes("id").matching(HTML_ID).globally()
+            .allowAttributes("slide").matching(NUMBER).globally()
             .allowAttributes("class").matching(HTML_CLASS).globally().allowAttributes("lang").matching(Pattern.compile("[a-zA-Z]{2,20}")).globally()
             .allowAttributes("title").matching(HTML_TITLE).globally().allowStyling().allowAttributes("align").matching(ALIGN).onElements("p")
             .allowAttributes("for").matching(HTML_ID).onElements("label").allowAttributes("color").matching(COLOR_NAME_OR_COLOR_CODE)
@@ -110,7 +111,8 @@ public class SanitizingLogic {
             .onElements("td", "th").allowAttributes("span", "width").matching(NUMBER_OR_PERCENT).onElements("colgroup", "col")
             .allowElements("a", "label", "noscript", "h1", "h2", "h3", "h4", "h5", "h6", "p", "i", "b", "u", "strong", "em", "small", "big", "pre",
                     "code", "cite", "samp", "sub", "sup", "strike", "center", "blockquote", "hr", "br", "col", "font", "map", "span", "div", "img",
-                    "ul", "ol", "li", "dd", "dt", "dl", "tbody", "thead", "tfoot", "table", "td", "th", "tr", "colgroup", "fieldset", "legend", "del")
+                    "ul", "ol", "li", "dd", "dt", "dl", "tbody", "thead", "tfoot", "table", "td", "th", "tr", "colgroup", "fieldset", "legend", "del",
+                    "var")
             .toFactory();
 
     private Transformer transformer = null;
