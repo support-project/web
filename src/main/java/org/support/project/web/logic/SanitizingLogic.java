@@ -31,6 +31,8 @@ import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
 
+import com.google.common.base.Predicate;
+
 @DI(instance = Instance.Singleton)
 public class SanitizingLogic {
     /** ログ */
@@ -59,7 +61,6 @@ public class SanitizingLogic {
     private static final Pattern NAME = Pattern.compile("[a-zA-Z0-9\\-_\\$]+");
     private static final Pattern ALIGN = Pattern.compile("(?i)center|left|right|justify|char");
     private static final Pattern VALIGN = Pattern.compile("(?i)baseline|bottom|middle|top");
-    /*
     private static final Predicate<String> COLOR_NAME_OR_COLOR_CODE = new Predicate<String>() {
         public boolean apply(String s) {
             return COLOR_NAME.matcher(s).matches() || COLOR_CODE.matcher(s).matches();
@@ -74,7 +75,6 @@ public class SanitizingLogic {
             return result;
         }
     };
-    */
     
     private static final Pattern HISTORY_BACK = Pattern.compile("(?:javascript:)?\\Qhistory.go(-1)\\E");
     private static final Pattern ONE_CHAR = Pattern.compile(".?", Pattern.DOTALL);
@@ -91,28 +91,23 @@ public class SanitizingLogic {
             .allowStyling()
             .allowAttributes("align").matching(ALIGN).onElements("p")
             .allowAttributes("for").matching(HTML_ID).onElements("label")
-//            .allowAttributes("color").matching(COLOR_NAME_OR_COLOR_CODE).onElements("font")
-            .allowAttributes("color").onElements("font")
+            .allowAttributes("color").matching(COLOR_NAME_OR_COLOR_CODE).onElements("font")
             .allowAttributes("face").matching(Pattern.compile("[\\w;, \\-]+")).onElements("font")
             .allowAttributes("size").matching(NUMBER).onElements("font")
-//            .allowAttributes("href").matching(ONSITE_OR_OFFSITE_URL).onElements("a")
-            .allowAttributes("href").onElements("a")
+            .allowAttributes("href").matching(ONSITE_OR_OFFSITE_URL).onElements("a")
             .allowUrlProtocols("http", "https", "mailto", "file", "smb", "\\\\").allowAttributes("target").onElements("a")
             .requireRelNofollowOnLinks()
-//            .allowAttributes("src").matching(ONSITE_OR_OFFSITE_URL).onElements("img")
-            .allowAttributes("src").onElements("img")
+            .allowAttributes("src").matching(ONSITE_OR_OFFSITE_URL).onElements("img")
             .allowAttributes("name").matching(NAME).onElements("img")
             .allowAttributes("alt").matching(PARAGRAPH).onElements("img")
             .allowAttributes("border", "hspace", "vspace").matching(NUMBER).onElements("img")
             .allowAttributes("border", "cellpadding", "cellspacing").matching(NUMBER).onElements("table")
-//            .allowAttributes("bgcolor").matching(COLOR_NAME_OR_COLOR_CODE).onElements("table")
-            .allowAttributes("bgcolor").onElements("table")
+            .allowAttributes("bgcolor").matching(COLOR_NAME_OR_COLOR_CODE).onElements("table")
             .allowAttributes("background").matching(ONSITE_URL).onElements("table")
             .allowAttributes("align").matching(ALIGN).onElements("table")
             .allowAttributes("noresize").matching(Pattern.compile("(?i)noresize")).onElements("table")
             .allowAttributes("background").matching(ONSITE_URL).onElements("td", "th", "tr")
-//            .allowAttributes("bgcolor").matching(COLOR_NAME_OR_COLOR_CODE).onElements("td", "th")
-            .allowAttributes("bgcolor").onElements("td", "th")
+            .allowAttributes("bgcolor").matching(COLOR_NAME_OR_COLOR_CODE).onElements("td", "th")
             .allowAttributes("abbr").matching(PARAGRAPH).onElements("td", "th")
             .allowAttributes("axis", "headers").matching(NAME).onElements("td", "th")
             .allowAttributes("scope").matching(Pattern.compile("(?i)(?:row|col)(?:group)?")).onElements("td", "th")
