@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.support.project.common.exception.SystemException;
@@ -192,6 +193,23 @@ public class DBAuthenticationLogic implements AuthenticationLogic<LoginedUser> {
         } catch (SQLException e) {
             throw new AuthenticateException(e);
         }
+    }
+
+    @Override
+    public void setCookie(HttpServletRequest req, HttpServletResponse res) throws AuthenticateException {
+        // Auto-generated method stub
+    }
+
+    @Override
+    public boolean cookieLogin(HttpServletRequest req, HttpServletResponse res) throws AuthenticateException {
+        // Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public void initCookie(int cookieMaxAge, String cookieEncryptKey, boolean cookieSecure) {
+        // Auto-generated method stub
+        
     }
 
 }

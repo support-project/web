@@ -1,14 +1,9 @@
 package org.support.project.web.filter;
 
 import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -18,14 +13,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
-import org.support.project.common.util.PasswordUtil;
 import org.support.project.common.util.RandomUtil;
 import org.support.project.common.util.StringUtils;
-import org.support.project.web.bean.LoginedUser;
 import org.support.project.web.common.HttpStatus;
 import org.support.project.web.common.HttpUtil;
 import org.support.project.web.config.CommonWebParameter;
@@ -34,8 +26,6 @@ import org.support.project.web.entity.UsersEntity;
 import org.support.project.web.exception.AuthenticateException;
 import org.support.project.web.logic.AuthenticationLogic;
 import org.support.project.web.wrapper.HttpServletRequestWrapper;
-
-import net.arnx.jsonic.JSON;
 
 /**
  * 認証用のフィルタ
@@ -148,6 +138,7 @@ public class AuthenticationFilter implements Filter {
         if (secure != null && secure.toLowerCase().equals("false")) {
             cookieSecure = false;
         }
+        authenticationLogic.initCookie(cookieMaxAge, cookieEncryptKey, cookieSecure);
     }
 
     @Override
@@ -182,7 +173,7 @@ public class AuthenticationFilter implements Filter {
             // LOG.trace(path);
 
             if (!isLogin(req)) {
-                cookieLogin(req, res);
+                authenticationLogic.cookieLogin(req, res);
             }
 
             if (pattern != null) {
@@ -213,7 +204,7 @@ public class AuthenticationFilter implements Filter {
                     // ログイン処理のパスなので、ログイン実施
                     if (doLogin(req)) {
                         // ログイン情報をCookieに保持
-                        setCookie(req, res);
+                        authenticationLogic.setCookie(req, res);
 
                         // ログイン成功
                         this.changePage(req, res);
@@ -267,7 +258,7 @@ public class AuthenticationFilter implements Filter {
             if (!isLogin(req)) {
                 LOG.trace("ログインしていません");
 
-                boolean login = cookieLogin(req, res);
+                boolean login = authenticationLogic.cookieLogin(req, res);
                 if (login) {
                     filterchain.doFilter(req, res);
                     return;
@@ -372,83 +363,9 @@ public class AuthenticationFilter implements Filter {
         return false;
     }
 
-    /**
-     * Cookieに保持しているログイン情報でログイン
-     * 
-     * @param req request
-     * @param res response
-     * @return result
-     */
-    protected boolean cookieLogin(HttpServletRequest req, HttpServletResponse res) {
-        // 認証情報を保持しているか？
-        HttpSession session = req.getSession();
-        if (Boolean.TRUE.equals(session.getAttribute("COOKIE_LOGIN_CHECK"))) {
-            // 既にCookieでログインを試したのであれば実行しない
-            return false;
-        }
 
-        Cookie[] cookies = req.getCookies();
-        if (cookies != null && cookieMaxAge > 0 && StringUtils.isNotEmpty(cookieEncryptKey)) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(CommonWebParameter.LOGIN_USER_KEY)) {
-                    String json = cookie.getValue();
-                    try {
-                        json = PasswordUtil.decrypt(json, cookieEncryptKey);
-                        LoginedUser user = JSON.decode(json, LoginedUser.class);
 
-                        LOG.info(user.getLoginUser().getUserKey() + " is Login(from cookie).");
-                        authenticationLogic.setSession(user.getLoginUser().getUserKey(), req);
 
-                        // Cookie再セット
-                        user = authenticationLogic.getSession(req);
-                        json = JSON.encode(user);
-                        json = PasswordUtil.encrypt(json, cookieEncryptKey);
-
-                        cookie = new Cookie(CommonWebParameter.LOGIN_USER_KEY, json);
-                        cookie.setPath(req.getContextPath() + "/");
-                        cookie.setMaxAge(cookieMaxAge);
-                        cookie.setSecure(cookieSecure);
-                        res.addCookie(cookie);
-
-                        // ログイン成功
-                        return true;
-                    } catch (Exception e) {
-                        // 何もしない
-                    }
-                }
-            }
-        }
-        session.setAttribute("COOKIE_LOGIN_CHECK", Boolean.TRUE);
-        return false;
-    }
-
-    /**
-     * ログイン情報をクッキーに保持
-     * 
-     * @param req request
-     * @param res response
-     * @throws NoSuchAlgorithmException NoSuchAlgorithmException
-     * @throws NoSuchPaddingException NoSuchPaddingException
-     * @throws InvalidKeyException InvalidKeyException
-     * @throws IllegalBlockSizeException IllegalBlockSizeException
-     * @throws BadPaddingException BadPaddingException
-     */
-    private void setCookie(HttpServletRequestWrapper req, HttpServletResponse res)
-            throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-        // 認証情報保持の情報をセット(暗号化)
-        Cookie[] cookies = req.getCookies();
-        if (cookies != null && cookieMaxAge > 0 && StringUtils.isNotEmpty(cookieEncryptKey)) {
-            LoginedUser user = authenticationLogic.getSession(req);
-            String json = JSON.encode(user);
-            json = PasswordUtil.encrypt(json, cookieEncryptKey);
-
-            Cookie cookie = new Cookie(CommonWebParameter.LOGIN_USER_KEY, json);
-            cookie.setPath(req.getContextPath() + "/");
-            cookie.setMaxAge(cookieMaxAge);
-            cookie.setSecure(cookieSecure);
-            res.addCookie(cookie);
-        }
-    }
 
     /**
      * 認証のCookieを削除
