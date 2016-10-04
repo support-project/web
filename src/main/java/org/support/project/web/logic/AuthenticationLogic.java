@@ -61,26 +61,27 @@ public interface AuthenticationLogic<T extends LoginedUser> {
 	
 	/**
 	 * セッション情報を保持するCookieをセット
-	 * @param req
-	 * @param res
-	 * @throws AuthenticateException
+	 * @param req HttpServletRequest
+	 * @param res HttpServletResponse
+	 * @throws AuthenticateException AuthenticateException
 	 */
 	void setCookie(HttpServletRequest req, HttpServletResponse res) throws AuthenticateException;
 	/**
 	 * Cookieからログイン
-	 * @param req
-	 * @param res
-	 * @return
-	 * @throws AuthenticateException
+	 * @param req HttpServletRequest
+	 * @param res HttpServletResponse
+	 * @return ログイン結果
+	 * @throws AuthenticateException AuthenticateException
 	 */
 	boolean cookieLogin(HttpServletRequest req, HttpServletResponse res) throws AuthenticateException;
 	
     /**
      * Cookieログインに使う情報の初期化
-     * @param cookieMaxAge
-     * @param cookieEncryptKey
-     * @param cookieSecure
+     * @param cookieMaxAge cookieMaxAge
+     * @param cookieEncryptKey cookieEncryptKey
+     * @param cookieSecure cookieSecure
+     * @throws AuthenticateException AuthenticateException
      */
-    void initCookie(int cookieMaxAge, String cookieEncryptKey, boolean cookieSecure);
+    void initCookie(int cookieMaxAge, String cookieEncryptKey, boolean cookieSecure) throws AuthenticateException;
 
 }

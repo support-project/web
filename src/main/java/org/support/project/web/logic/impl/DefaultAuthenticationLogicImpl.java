@@ -52,9 +52,9 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
     
     /**
      * Cookieログインに使う情報の初期化
-     * @param cookieMaxAge
-     * @param cookieEncryptKey
-     * @param cookieSecure
+     * @param cookieMaxAge cookieMaxAge
+     * @param cookieEncryptKey cookieEncryptKey
+     * @param cookieSecure cookieSecure
      */
     public void initCookie(int cookieMaxAge, String cookieEncryptKey, boolean cookieSecure) {
         this.cookieMaxAge = cookieMaxAge;
@@ -67,11 +67,7 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
      * 
      * @param req request
      * @param res response
-     * @throws NoSuchAlgorithmException NoSuchAlgorithmException
-     * @throws NoSuchPaddingException NoSuchPaddingException
-     * @throws InvalidKeyException InvalidKeyException
-     * @throws IllegalBlockSizeException IllegalBlockSizeException
-     * @throws BadPaddingException BadPaddingException
+     * @throws AuthenticateException AuthenticateException
      */
     public void setCookie(HttpServletRequest req, HttpServletResponse res)
             throws AuthenticateException {

@@ -338,8 +338,8 @@ public abstract class Control {
 
     /**
      * ダウンロード
-     * 
      * @param down Download information
+     * @return Boundary
      */
     protected Boundary download(DownloadInfo down) {
         return download(down.getFileName(), down.getInputStream(), down.getSize(), down.getContentType());
