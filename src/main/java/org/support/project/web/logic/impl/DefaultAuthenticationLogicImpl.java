@@ -27,6 +27,7 @@ import org.support.project.di.DI;
 import org.support.project.di.Instance;
 import org.support.project.web.bean.LdapInfo;
 import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.UserSecret;
 import org.support.project.web.config.AppConfig;
 import org.support.project.web.config.CommonWebParameter;
 import org.support.project.web.config.WebConfig;
@@ -76,7 +77,13 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
             Cookie[] cookies = req.getCookies();
             if (cookies != null && cookieMaxAge > 0 && StringUtils.isNotEmpty(cookieEncryptKey)) {
                 LoginedUser user = getSession(req);
-                String json = JSON.encode(user);
+                
+                UserSecret secret = new UserSecret();
+                secret.setUserKey(user.getLoginUser().getUserKey());
+                secret.setUserName(user.getLoginUser().getUserName());
+                secret.setEmail(user.getLoginUser().getMailAddress());
+                
+                String json = JSON.encode(secret);
                 json = PasswordUtil.encrypt(json, cookieEncryptKey);
     
                 Cookie cookie = new Cookie(CommonWebParameter.LOGIN_USER_KEY, json);
@@ -112,13 +119,28 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
                     String json = cookie.getValue();
                     try {
                         json = PasswordUtil.decrypt(json, cookieEncryptKey);
-                        LoginedUser user = JSON.decode(json, LoginedUser.class);
-
-                        LOG.info(user.getLoginUser().getUserKey() + " is Login(from cookie).");
-                        setSession(user.getLoginUser().getUserKey(), req);
+                        UserSecret user = JSON.decode(json, UserSecret.class);
+                        
+                        UsersEntity entity =  UsersDao.get().selectOnLowerUserKey(user.getUserKey());
+                        if (entity == null) {
+                            return false;
+                        }
+                        if (!user.getUserKey().toLowerCase().equals(entity.getUserKey().toLowerCase())
+                                || !user.getUserName().equals(entity.getUserName())
+                                || !StringUtils.equals(user.getEmail(), entity.getMailAddress())) {
+                            LOG.warn("Cookie of LOGIN_USER_KEY is invalid.");
+                            return false;
+                        }
+                        
+                        
+                        LOG.info(user.getUserKey() + " is Login(from cookie).");
+                        setSession(user.getUserKey(), req);
 
                         // Cookie再セット
-                        user = getSession(req);
+                        UserSecret secret = new UserSecret();
+                        secret.setUserKey(user.getUserKey());
+                        secret.setUserName(user.getUserName());
+                        secret.setEmail(user.getEmail());
                         json = JSON.encode(user);
                         json = PasswordUtil.encrypt(json, cookieEncryptKey);
 
