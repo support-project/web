@@ -1,9 +1,18 @@
 package org.support.project.web.logic.impl;
 
 import java.io.IOException;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.directory.api.ldap.model.exception.LdapException;
 import org.support.project.common.config.ConfigLoader;
@@ -18,7 +27,9 @@ import org.support.project.di.DI;
 import org.support.project.di.Instance;
 import org.support.project.web.bean.LdapInfo;
 import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.UserSecret;
 import org.support.project.web.config.AppConfig;
+import org.support.project.web.config.CommonWebParameter;
 import org.support.project.web.config.WebConfig;
 import org.support.project.web.dao.LdapConfigsDao;
 import org.support.project.web.dao.UsersDao;
@@ -29,11 +40,129 @@ import org.support.project.web.logic.AddUserProcess;
 import org.support.project.web.logic.LdapLogic;
 import org.support.project.web.logic.UserLogic;
 
+import net.arnx.jsonic.JSON;
+
 @DI(instance = Instance.Singleton)
 public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<LoginedUser> {
     /** ログ */
     private static final Log LOG = LogFactory.getLog(DefaultAuthenticationLogicImpl.class);
+    
+    private int cookieMaxAge = -1; // 日にち単位
+    private String cookieEncryptKey = "";
+    private boolean cookieSecure = true;
+    
+    /**
+     * Cookieログインに使う情報の初期化
+     * @param cookieMaxAge cookieMaxAge
+     * @param cookieEncryptKey cookieEncryptKey
+     * @param cookieSecure cookieSecure
+     */
+    public void initCookie(int cookieMaxAge, String cookieEncryptKey, boolean cookieSecure) {
+        this.cookieMaxAge = cookieMaxAge;
+        this.cookieEncryptKey = cookieEncryptKey;
+        this.cookieSecure = cookieSecure;
+    }
+    
+    /**
+     * ログイン情報をクッキーに保持
+     * 
+     * @param req request
+     * @param res response
+     * @throws AuthenticateException AuthenticateException
+     */
+    public void setCookie(HttpServletRequest req, HttpServletResponse res)
+            throws AuthenticateException {
+        try {
+            // 認証情報保持の情報をセット(暗号化)
+            Cookie[] cookies = req.getCookies();
+            if (cookies != null && cookieMaxAge > 0 && StringUtils.isNotEmpty(cookieEncryptKey)) {
+                LoginedUser user = getSession(req);
+                
+                UserSecret secret = new UserSecret();
+                secret.setUserKey(user.getLoginUser().getUserKey());
+                secret.setUserName(user.getLoginUser().getUserName());
+                secret.setEmail(user.getLoginUser().getMailAddress());
+                
+                String json = JSON.encode(secret);
+                json = PasswordUtil.encrypt(json, cookieEncryptKey);
+    
+                Cookie cookie = new Cookie(CommonWebParameter.LOGIN_USER_KEY, json);
+                cookie.setPath(req.getContextPath() + "/");
+                cookie.setMaxAge(cookieMaxAge);
+                cookie.setSecure(cookieSecure);
+                res.addCookie(cookie);
+            }
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
+            throw new AuthenticateException(e);
+        }
+    }
+    
+    /**
+     * Cookieに保持しているログイン情報でログイン
+     * 
+     * @param req request
+     * @param res response
+     * @return result
+     */
+    public boolean cookieLogin(HttpServletRequest req, HttpServletResponse res) {
+        // 認証情報を保持しているか？
+        HttpSession session = req.getSession();
+        if (Boolean.TRUE.equals(session.getAttribute("COOKIE_LOGIN_CHECK"))) {
+            // 既にCookieでログインを試したのであれば実行しない
+            return false;
+        }
 
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null && cookieMaxAge > 0 && StringUtils.isNotEmpty(cookieEncryptKey)) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(CommonWebParameter.LOGIN_USER_KEY)) {
+                    String json = cookie.getValue();
+                    try {
+                        json = PasswordUtil.decrypt(json, cookieEncryptKey);
+                        UserSecret user = JSON.decode(json, UserSecret.class);
+                        
+                        UsersEntity entity =  UsersDao.get().selectOnLowerUserKey(user.getUserKey());
+                        if (entity == null) {
+                            return false;
+                        }
+                        if (!user.getUserKey().toLowerCase().equals(entity.getUserKey().toLowerCase())
+                                || !user.getUserName().equals(entity.getUserName())
+                                || !StringUtils.equals(user.getEmail(), entity.getMailAddress())) {
+                            LOG.warn("Cookie of LOGIN_USER_KEY is invalid.");
+                            return false;
+                        }
+                        
+                        
+                        LOG.info(user.getUserKey() + " is Login(from cookie).");
+                        setSession(user.getUserKey(), req);
+
+                        // Cookie再セット
+                        UserSecret secret = new UserSecret();
+                        secret.setUserKey(user.getUserKey());
+                        secret.setUserName(user.getUserName());
+                        secret.setEmail(user.getEmail());
+                        json = JSON.encode(user);
+                        json = PasswordUtil.encrypt(json, cookieEncryptKey);
+
+                        cookie = new Cookie(CommonWebParameter.LOGIN_USER_KEY, json);
+                        cookie.setPath(req.getContextPath() + "/");
+                        cookie.setMaxAge(cookieMaxAge);
+                        cookie.setSecure(cookieSecure);
+                        res.addCookie(cookie);
+
+                        // ログイン成功
+                        return true;
+                    } catch (Exception e) {
+                        // 何もしない
+                        LOG.trace("error cookieLogin.", e);
+                    }
+                }
+            }
+        }
+        session.setAttribute("COOKIE_LOGIN_CHECK", Boolean.TRUE);
+        return false;
+    }
+    
     /*
      * (non-Javadoc)
      * 

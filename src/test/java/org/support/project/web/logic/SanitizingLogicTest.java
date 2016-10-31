@@ -118,6 +118,22 @@ public class SanitizingLogicTest {
         }
     }
     
+    @Test
+    @Order(order = 5)
+    public void testMathJax() throws Exception {
+        LOG.info("testSamba");
+        String base = "<pre><code>\\(ax^2 + bx + c = 0\\)</code></pre>";
+        String result = SanitizingLogic.get().sanitize(base);
+        try {
+            String check = "<pre><code>\\(ax^2 &#43; bx &#43; c &#61; 0\\)</code></pre>";
+            org.junit.Assert.assertEquals(check, result);
+        } catch (AssertionError e) {
+            LOG.info("Sanitize");
+            LOG.info("[Base]   : " + base);
+            LOG.info("[Result] : " + result);
+            throw e;
+        }
+    }
     
     
     

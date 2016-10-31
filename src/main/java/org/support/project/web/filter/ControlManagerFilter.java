@@ -184,10 +184,14 @@ public class ControlManagerFilter implements Filter {
                     response.sendError(HttpStatus.SC_403_FORBIDDEN);
                 }
             } else {
+                filterChain.doFilter(request, response);
+                return;
+                /*
                 if (log.isTraceEnabled()) {
                     log.trace("forward to : " + request.getServletPath());
                 }
                 HttpUtil.forward(response, request, request.getServletPath());
+                */
             }
         } catch (Exception e) {
             log.debug("any exception is thrown. [" + e.getClass().getName() + "]", e);

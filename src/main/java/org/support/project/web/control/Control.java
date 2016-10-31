@@ -23,6 +23,7 @@ import org.support.project.common.util.StringUtils;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
+import org.support.project.web.bean.DownloadInfo;
 import org.support.project.web.bean.LoginedUser;
 import org.support.project.web.bean.MessageResult;
 import org.support.project.web.boundary.Boundary;
@@ -335,6 +336,15 @@ public abstract class Control {
         return boundary;
     }
 
+    /**
+     * ダウンロード
+     * @param down Download information
+     * @return Boundary
+     */
+    protected Boundary download(DownloadInfo down) {
+        return download(down.getFileName(), down.getInputStream(), down.getSize(), down.getContentType());
+    }
+    
     /**
      * ダウンロード
      * 

@@ -4,7 +4,7 @@
 
     <groupId>org.support-project</groupId>
     <artifactId>web</artifactId>
-    <version>1.5.0</version>
+    <version>1.6.0</version>
     <packaging>jar</packaging>
 
     <name>web</name>
@@ -59,7 +59,7 @@
         <dependency>
             <groupId>org.support-project</groupId>
             <artifactId>common</artifactId>
-            <version>1.5.0</version>
+            <version>1.6.0</version>
         </dependency>
 
         <dependency>
@@ -103,8 +103,14 @@
         <dependency>
             <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
             <artifactId>owasp-java-html-sanitizer</artifactId>
-            <version>1.1</version>
+            <version>20160827.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
+        </dependency>
+
 
     </dependencies>
 

@@ -2,6 +2,7 @@
 package org.support.project.web.logic;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.support.project.web.bean.LoginedUser;
 import org.support.project.web.exception.AuthenticateException;
@@ -57,4 +58,30 @@ public interface AuthenticationLogic<T extends LoginedUser> {
 	 */
 	void clearSession(HttpServletRequest request) throws AuthenticateException;
 	
+	
+	/**
+	 * セッション情報を保持するCookieをセット
+	 * @param req HttpServletRequest
+	 * @param res HttpServletResponse
+	 * @throws AuthenticateException AuthenticateException
+	 */
+	void setCookie(HttpServletRequest req, HttpServletResponse res) throws AuthenticateException;
+	/**
+	 * Cookieからログイン
+	 * @param req HttpServletRequest
+	 * @param res HttpServletResponse
+	 * @return ログイン結果
+	 * @throws AuthenticateException AuthenticateException
+	 */
+	boolean cookieLogin(HttpServletRequest req, HttpServletResponse res) throws AuthenticateException;
+	
+    /**
+     * Cookieログインに使う情報の初期化
+     * @param cookieMaxAge cookieMaxAge
+     * @param cookieEncryptKey cookieEncryptKey
+     * @param cookieSecure cookieSecure
+     * @throws AuthenticateException AuthenticateException
+     */
+    void initCookie(int cookieMaxAge, String cookieEncryptKey, boolean cookieSecure) throws AuthenticateException;
+
 }

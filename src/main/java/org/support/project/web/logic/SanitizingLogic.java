@@ -21,6 +21,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.owasp.html.Handler;
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.HtmlSanitizer;
+import org.owasp.html.HtmlStreamEventReceiver;
 import org.owasp.html.HtmlStreamRenderer;
 import org.owasp.html.PolicyFactory;
 import org.support.project.common.exception.ParseException;
@@ -74,43 +75,50 @@ public class SanitizingLogic {
             return result;
         }
     };
+    
     private static final Pattern HISTORY_BACK = Pattern.compile("(?:javascript:)?\\Qhistory.go(-1)\\E");
     private static final Pattern ONE_CHAR = Pattern.compile(".?", Pattern.DOTALL);
-    public static final PolicyFactory POLICY_DEFINITION = new HtmlPolicyBuilder().allowAttributes("id").matching(HTML_ID).globally()
-            .allowAttributes("class").matching(HTML_CLASS).globally().allowAttributes("lang").matching(Pattern.compile("[a-zA-Z]{2,20}")).globally()
-            .allowAttributes("title").matching(HTML_TITLE).globally().allowStyling().allowAttributes("align").matching(ALIGN).onElements("p")
-            .allowAttributes("for").matching(HTML_ID).onElements("label").allowAttributes("color").matching(COLOR_NAME_OR_COLOR_CODE)
-            .onElements("font").allowAttributes("face").matching(Pattern.compile("[\\w;, \\-]+")).onElements("font").allowAttributes("size")
-            .matching(NUMBER).onElements("font")
-            .allowAttributes("href").matching(ONSITE_OR_OFFSITE_URL).onElements("a")
-//            .allowStandardUrlProtocols()
-            .allowUrlProtocols("http", "https", "mailto", "file", "smb", "\\\\")
-            .allowAttributes("target")
-            // .onElements("a")
-            // .allowAttributes("name")
-            // .matching(NAME)
-            // .onElements("a")
-            // .allowAttributes("onfocus", "onblur", "onclick", "onmousedown", "onmouseup")
-            // .matching(HISTORY_BACK)
-            .onElements("a").requireRelNofollowOnLinks().allowAttributes("src").matching(ONSITE_OR_OFFSITE_URL).onElements("img")
-            .allowAttributes("name").matching(NAME).onElements("img").allowAttributes("alt").matching(PARAGRAPH).onElements("img")
-            .allowAttributes("border", "hspace", "vspace").matching(NUMBER).onElements("img").allowAttributes("border", "cellpadding", "cellspacing")
-            .matching(NUMBER).onElements("table").allowAttributes("bgcolor").matching(COLOR_NAME_OR_COLOR_CODE).onElements("table")
-            .allowAttributes("background").matching(ONSITE_URL).onElements("table").allowAttributes("align").matching(ALIGN).onElements("table")
-            .allowAttributes("noresize").matching(Pattern.compile("(?i)noresize")).onElements("table").allowAttributes("background")
-            .matching(ONSITE_URL).onElements("td", "th", "tr").allowAttributes("bgcolor").matching(COLOR_NAME_OR_COLOR_CODE).onElements("td", "th")
-            .allowAttributes("abbr").matching(PARAGRAPH).onElements("td", "th").allowAttributes("axis", "headers").matching(NAME)
-            .onElements("td", "th").allowAttributes("scope").matching(Pattern.compile("(?i)(?:row|col)(?:group)?")).onElements("td", "th")
-            .allowAttributes("nowrap").onElements("td", "th").allowAttributes("height", "width").matching(NUMBER_OR_PERCENT)
-            .onElements("table", "td", "th", "tr", "img").allowAttributes("align").matching(ALIGN)
-            .onElements("thead", "tbody", "tfoot", "img", "td", "th", "tr", "colgroup", "col").allowAttributes("valign").matching(VALIGN)
-            .onElements("thead", "tbody", "tfoot", "td", "th", "tr", "colgroup", "col").allowAttributes("charoff").matching(NUMBER_OR_PERCENT)
-            .onElements("td", "th", "tr", "colgroup", "col", "thead", "tbody", "tfoot").allowAttributes("char").matching(ONE_CHAR)
-            .onElements("td", "th", "tr", "colgroup", "col", "thead", "tbody", "tfoot").allowAttributes("colspan", "rowspan").matching(NUMBER)
-            .onElements("td", "th").allowAttributes("span", "width").matching(NUMBER_OR_PERCENT).onElements("colgroup", "col")
+    public static final PolicyFactory POLICY_DEFINITION = new HtmlPolicyBuilder()
             .allowElements("a", "label", "noscript", "h1", "h2", "h3", "h4", "h5", "h6", "p", "i", "b", "u", "strong", "em", "small", "big", "pre",
                     "code", "cite", "samp", "sub", "sup", "strike", "center", "blockquote", "hr", "br", "col", "font", "map", "span", "div", "img",
-                    "ul", "ol", "li", "dd", "dt", "dl", "tbody", "thead", "tfoot", "table", "td", "th", "tr", "colgroup", "fieldset", "legend", "del")
+                    "ul", "ol", "li", "dd", "dt", "dl", "tbody", "thead", "tfoot", "table", "td", "th", "tr", "colgroup", "fieldset", "legend", "del",
+                    "var")
+            .allowAttributes("id").matching(HTML_ID).globally()
+            .allowAttributes("slide").matching(NUMBER).globally()
+            .allowAttributes("class").matching(HTML_CLASS).globally()
+            .allowAttributes("lang").matching(Pattern.compile("[a-zA-Z]{2,20}")).globally()
+            .allowAttributes("title").matching(HTML_TITLE).globally()
+            .allowStyling()
+            .allowAttributes("align").matching(ALIGN).onElements("p")
+            .allowAttributes("for").matching(HTML_ID).onElements("label")
+            .allowAttributes("color").matching(COLOR_NAME_OR_COLOR_CODE).onElements("font")
+            .allowAttributes("face").matching(Pattern.compile("[\\w;, \\-]+")).onElements("font")
+            .allowAttributes("size").matching(NUMBER).onElements("font")
+            .allowAttributes("href").matching(ONSITE_OR_OFFSITE_URL).onElements("a")
+            .allowUrlProtocols("http", "https", "mailto", "file", "smb", "\\\\").allowAttributes("target").onElements("a")
+            .requireRelNofollowOnLinks()
+            .allowAttributes("src").matching(ONSITE_OR_OFFSITE_URL).onElements("img")
+            .allowAttributes("name").matching(NAME).onElements("img")
+            .allowAttributes("alt").matching(PARAGRAPH).onElements("img")
+            .allowAttributes("border", "hspace", "vspace").matching(NUMBER).onElements("img")
+            .allowAttributes("border", "cellpadding", "cellspacing").matching(NUMBER).onElements("table")
+            .allowAttributes("bgcolor").matching(COLOR_NAME_OR_COLOR_CODE).onElements("table")
+            .allowAttributes("background").matching(ONSITE_URL).onElements("table")
+            .allowAttributes("align").matching(ALIGN).onElements("table")
+            .allowAttributes("noresize").matching(Pattern.compile("(?i)noresize")).onElements("table")
+            .allowAttributes("background").matching(ONSITE_URL).onElements("td", "th", "tr")
+            .allowAttributes("bgcolor").matching(COLOR_NAME_OR_COLOR_CODE).onElements("td", "th")
+            .allowAttributes("abbr").matching(PARAGRAPH).onElements("td", "th")
+            .allowAttributes("axis", "headers").matching(NAME).onElements("td", "th")
+            .allowAttributes("scope").matching(Pattern.compile("(?i)(?:row|col)(?:group)?")).onElements("td", "th")
+            .allowAttributes("nowrap").onElements("td", "th")
+            .allowAttributes("height", "width").matching(NUMBER_OR_PERCENT).onElements("table", "td", "th", "tr", "img")
+            .allowAttributes("align").matching(ALIGN).onElements("thead", "tbody", "tfoot", "img", "td", "th", "tr", "colgroup", "col")
+            .allowAttributes("valign").matching(VALIGN).onElements("thead", "tbody", "tfoot", "td", "th", "tr", "colgroup", "col")
+            .allowAttributes("charoff").matching(NUMBER_OR_PERCENT).onElements("td", "th", "tr", "colgroup", "col", "thead", "tbody", "tfoot")
+            .allowAttributes("char").matching(ONE_CHAR).onElements("td", "th", "tr", "colgroup", "col", "thead", "tbody", "tfoot")
+            .allowAttributes("colspan", "rowspan").matching(NUMBER).onElements("td", "th")
+            .allowAttributes("span", "width").matching(NUMBER_OR_PERCENT).onElements("colgroup", "col")
             .toFactory();
 
     private Transformer transformer = null;
@@ -171,9 +179,10 @@ public class SanitizingLogic {
         return sanitize(untrustedHTML, false);
     }
 
+    
     public String sanitize(String untrustedHTML, boolean clean) throws ParseException {
         StringBuilder buffer = new StringBuilder();
-        final HtmlStreamRenderer renderer = HtmlStreamRenderer.create(buffer, new Handler<IOException>() {
+        final HtmlStreamEventReceiver renderer = HtmlStreamRenderer.create(buffer, new Handler<IOException>() {
             public void handle(IOException ex) {
                 // OPEN ITEM: Some other exception type more appropriate here?
                 LOG.error("Error creating AntiSamy policy for HTML Sanitizer", ex);
@@ -184,8 +193,8 @@ public class SanitizingLogic {
                 // OPEN ITEM: Should we also throw something here??? If so what?
             }
         });
-
-        HtmlSanitizer.sanitize(untrustedHTML, POLICY_DEFINITION.apply(renderer));
+        HtmlSanitizer.Policy policy = POLICY_DEFINITION.apply(renderer);
+        HtmlSanitizer.sanitize(untrustedHTML, policy);
         if (clean) {
             try {
                 return indent(buffer.toString());
