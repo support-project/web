@@ -9,5 +9,7 @@ public class WebConfig {
 
     /** アナリティクス設定を保持するキー */
     public static final String KEY_ANALYTICS_SCRIPT = "ANALYTICS_SCRIPT";
+    /** システムへアクセスするためのURLのシステム設定のキー */
+    public static final String KEY_SYSTEM_URL = "SYSTEM_URL";
 
 }
