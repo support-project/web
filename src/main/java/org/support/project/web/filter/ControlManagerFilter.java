@@ -117,8 +117,6 @@ public class ControlManagerFilter implements Filter {
             if (request.getPathInfo() != null && request.getPathInfo().length() > 0) {
                 pathBuilder.append(request.getPathInfo());
             }
-            // log.trace(pathBuilder.toString());
-
             if (pattern != null) {
                 Matcher matcher = pattern.matcher(pathBuilder.toString());
                 if (matcher.find()) {
@@ -127,24 +125,19 @@ public class ControlManagerFilter implements Filter {
                     return;
                 }
             }
-
-            // request.setCharacterEncoding("UTF-8");
             String path = request.getServletPath();
             log.trace("real path : " + path);
             String pathInfo = null;
             if (path.startsWith("/")) {
                 path = path.substring(1);
             }
-
             if (StringUtils.countOccurrencesOf(path, "/") > 1) {
                 pathInfo = path.substring(path.indexOf("/", path.indexOf("/") + 1));
                 path = path.substring(0, path.indexOf("/", path.indexOf("/") + 1));
             }
-
             if (path.length() == 0) {
                 path = "index";
             }
-
             if (path.indexOf("/") == -1) {
                 // メソッド指定無し
                 path = path + "/index";
@@ -175,7 +168,6 @@ public class ControlManagerFilter implements Filter {
             
             if (m != HttpMethod.get) {
                 // CSRFの簡易対策で、Referrerをチェックする
-                // TODO 
                 HttpRequestCheckLogic check = HttpRequestCheckLogic.get();
                 if (!check.checkReferrer(request)) {
                     response.sendError(HttpStatus.SC_403_FORBIDDEN);
@@ -185,6 +177,13 @@ public class ControlManagerFilter implements Filter {
             
             InvokeTarget invokeTarget = invokeSearch.getController(m, path);
             if (invokeTarget != null) {
+                HttpRequestCheckLogic check = HttpRequestCheckLogic.get();
+                if (!check.checkCSRFTocken(invokeTarget, request)) {
+                    response.sendError(HttpStatus.SC_403_FORBIDDEN);
+                    return;
+                }
+                check.setCSRFTocken(invokeTarget, request, response);
+                
                 // コントローラーで処理を呼び出す場合、パラメータは全てリクエストのアトリビュートにコピーする
                 this.copyAttribute(request);
 
@@ -198,17 +197,11 @@ public class ControlManagerFilter implements Filter {
             } else {
                 filterChain.doFilter(request, response);
                 return;
-                /*
-                if (log.isTraceEnabled()) {
-                    log.trace("forward to : " + request.getServletPath());
-                }
-                HttpUtil.forward(response, request, request.getServletPath());
-                */
             }
         } catch (Exception e) {
-            log.debug("any exception is thrown. [" + e.getClass().getName() + "]", e);
+            log.trace("any exception is thrown. [" + e.getClass().getName() + "]", e);
             if (e.getCause() != null) {
-                log.debug("[Cause]" + e.getCause().getMessage(), e.getCause());
+                log.trace("[Cause]" + e.getCause().getMessage(), e.getCause());
             }
 
             if (e instanceof SocketException) {

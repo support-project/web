@@ -8,5 +8,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Get {
-	String path() default "";
+    String path() default "";
+    String subscribeToken() default "";
+    String publishToken() default "";
 }
