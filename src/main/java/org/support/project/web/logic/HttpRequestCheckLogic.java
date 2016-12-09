@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.support.project.common.exception.SerializeException;
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
 import org.support.project.common.serialize.SerializeUtils;
@@ -136,12 +137,19 @@ public class HttpRequestCheckLogic {
             return false;
         }
         String base64 = HttpUtil.getCookie(request, CSRF_TOKENS);
-        CSRFTokens reqTokens = SerializeUtils.Base64ToObject(base64, CSRFTokens.class);
-        if (tokens.checkToken(tokenkey, reqTokens)) {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("Token OK : " + tokenkey);
+        if (StringUtils.isEmpty(base64)) {
+            return false;
+        }
+        try {
+            CSRFTokens reqTokens = SerializeUtils.Base64ToObject(base64, CSRFTokens.class);
+            if (tokens.checkToken(tokenkey, reqTokens)) {
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace("Token OK : " + tokenkey);
+                }
+                return true;
             }
-            return true;
+        } catch (SerializeException e) {
+            LOG.trace("Failed to restore Token", e);
         }
         // Tokenを持たずに、処理を実行しようとした（本来通るべき画面をとおっていない？）
         LOG.warn("Token NG : " + tokenkey);
