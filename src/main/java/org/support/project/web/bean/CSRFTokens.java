@@ -19,8 +19,8 @@ public class CSRFTokens implements Serializable {
     
     /**
      * 指定のキーに対するTokenを発行する
-     * @param token
-     * @throws NoSuchAlgorithmException 
+     * @param key key 
+     * @throws NoSuchAlgorithmException NoSuchAlgorithmException
      */
     public String addToken(String key) throws NoSuchAlgorithmException {
         if (tokens.size() > 5) {
@@ -33,9 +33,9 @@ public class CSRFTokens implements Serializable {
     
     /**
      * トークンが正しい値かチェックする
-     * @param key
-     * @param reqTokens
-     * @return
+     * @param key key
+     * @param reqTokens CSRFTokens
+     * @return チェック結果
      */
     public boolean checkToken(String key, CSRFTokens reqTokens) {
         for (CSRFToken csrfToken : tokens) {
