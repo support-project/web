@@ -109,6 +109,10 @@ public abstract class AbstractAuthenticationLogic<T extends LoginedUser> impleme
     @Override
     public boolean isLogined(HttpServletRequest request) throws AuthenticateException {
         if (getSession(request) != null) {
+            LoginedUser loginedUser = getSession(request);
+            if (loginedUser.getLoginUser() == null) {
+                return false;
+            }
             setUserInfo(request);
             return true;
         } else {
