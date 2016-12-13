@@ -102,6 +102,14 @@ public class GenSystemsDao extends AbstractDao {
         return executeQuerySingle(sql, SystemsEntity.class, systemName);
     }
     /**
+     * Count all data
+     * @return count
+     */
+    public int physicalCountAll() {
+        String sql = "SELECT COUNT(*) FROM SYSTEMS";
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Create row id.
      * @return row id
      */

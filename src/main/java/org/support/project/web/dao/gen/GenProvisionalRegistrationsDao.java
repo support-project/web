@@ -102,6 +102,14 @@ public class GenProvisionalRegistrationsDao extends AbstractDao {
         return executeQuerySingle(sql, ProvisionalRegistrationsEntity.class, id);
     }
     /**
+     * Count all data
+     * @return count
+     */
+    public int physicalCountAll() {
+        String sql = "SELECT COUNT(*) FROM PROVISIONAL_REGISTRATIONS";
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Create row id.
      * @return row id
      */

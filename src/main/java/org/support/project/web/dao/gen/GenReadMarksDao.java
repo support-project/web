@@ -140,6 +140,14 @@ public class GenReadMarksDao extends AbstractDao {
         return executeQueryList(sql, ReadMarksEntity.class, userId);
     }
     /**
+     * Count all data
+     * @return count
+     */
+    public int physicalCountAll() {
+        String sql = "SELECT COUNT(*) FROM READ_MARKS";
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Create row id.
      * @return row id
      */

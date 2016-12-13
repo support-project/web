@@ -140,6 +140,14 @@ public class GenRoleFunctionsDao extends AbstractDao {
         return executeQueryList(sql, RoleFunctionsEntity.class, roleId);
     }
     /**
+     * Count all data
+     * @return count
+     */
+    public int physicalCountAll() {
+        String sql = "SELECT COUNT(*) FROM ROLE_FUNCTIONS";
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Create row id.
      * @return row id
      */

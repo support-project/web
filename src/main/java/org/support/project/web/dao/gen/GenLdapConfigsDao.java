@@ -102,6 +102,14 @@ public class GenLdapConfigsDao extends AbstractDao {
         return executeQuerySingle(sql, LdapConfigsEntity.class, systemName);
     }
     /**
+     * Count all data
+     * @return count
+     */
+    public int physicalCountAll() {
+        String sql = "SELECT COUNT(*) FROM LDAP_CONFIGS";
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Create row id.
      * @return row id
      */

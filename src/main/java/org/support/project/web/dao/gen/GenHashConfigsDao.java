@@ -102,6 +102,14 @@ public class GenHashConfigsDao extends AbstractDao {
         return executeQuerySingle(sql, HashConfigsEntity.class, systemName);
     }
     /**
+     * Count all data
+     * @return count
+     */
+    public int physicalCountAll() {
+        String sql = "SELECT COUNT(*) FROM HASH_CONFIGS";
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Create row id.
      * @return row id
      */

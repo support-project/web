@@ -102,6 +102,14 @@ public class GenPasswordResetsDao extends AbstractDao {
         return executeQuerySingle(sql, PasswordResetsEntity.class, id);
     }
     /**
+     * Count all data
+     * @return count
+     */
+    public int physicalCountAll() {
+        String sql = "SELECT COUNT(*) FROM PASSWORD_RESETS";
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Create row id.
      * @return row id
      */
