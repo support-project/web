@@ -102,6 +102,14 @@ public class GenUsersDao extends AbstractDao {
         return executeQuerySingle(sql, UsersEntity.class, userId);
     }
     /**
+     * Count all data
+     * @return count
+     */
+    public int physicalCountAll() {
+        String sql = "SELECT COUNT(*) FROM USERS";
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Create row id.
      * @return row id
      */

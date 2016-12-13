@@ -160,6 +160,14 @@ public class GenUserConfigsDao extends AbstractDao {
         return executeQueryList(sql, UserConfigsEntity.class, userId);
     }
     /**
+     * Count all data
+     * @return count
+     */
+    public int physicalCountAll() {
+        String sql = "SELECT COUNT(*) FROM USER_CONFIGS";
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Create row id.
      * @return row id
      */

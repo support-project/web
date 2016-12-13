@@ -24,7 +24,8 @@ public class DateTest {
         // Webの初期化
         InitializeDao dao = InitializeDao.get();
         // 全テーブル削除
-        dao.dropAllTable();
+        org.support.project.web.dao.gen.DatabaseControlDao dao2 = new org.support.project.web.dao.gen.DatabaseControlDao();
+        dao2.dropAllTable();
         dao.initializeDatabase("/org/support/project/web/database/ddl.sql");
     }
 

@@ -102,6 +102,14 @@ public class GenProxyConfigsDao extends AbstractDao {
         return executeQuerySingle(sql, ProxyConfigsEntity.class, systemName);
     }
     /**
+     * Count all data
+     * @return count
+     */
+    public int physicalCountAll() {
+        String sql = "SELECT COUNT(*) FROM PROXY_CONFIGS";
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Create row id.
      * @return row id
      */
