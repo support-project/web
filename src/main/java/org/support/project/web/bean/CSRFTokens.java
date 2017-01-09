@@ -23,7 +23,7 @@ public class CSRFTokens implements Serializable {
      * @throws NoSuchAlgorithmException NoSuchAlgorithmException
      */
     public String addToken(String key) throws NoSuchAlgorithmException {
-        if (tokens.size() > 5) {
+        if (tokens.size() > 10) {
             tokens.remove(0);
         }
         CSRFToken token = CSRFToken.create(key);
@@ -45,6 +45,22 @@ public class CSRFTokens implements Serializable {
                         return true;
                     }
                 }
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * リクエストのHiddenトークンが正しい値かチェックする
+     * @param key key
+     * @param reqTokens CSRFTokens
+     * @return チェック結果
+     */
+    public boolean checkToken(String key) {
+        for (CSRFToken csrfToken : tokens) {
+            if (csrfToken.getKey().equals(key)) {
+                // 保持されているTokenのリストの中に存在すればOK
+                return true;
             }
         }
         return false;

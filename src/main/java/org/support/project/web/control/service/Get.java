@@ -11,4 +11,6 @@ public @interface Get {
     String path() default "";
     String subscribeToken() default "";
     String publishToken() default "";
+    boolean checkReferer() default false;
+    boolean checkReqToken() default false;
 }
