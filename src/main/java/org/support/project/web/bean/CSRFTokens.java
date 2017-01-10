@@ -53,7 +53,6 @@ public class CSRFTokens implements Serializable {
     /**
      * リクエストのHiddenトークンが正しい値かチェックする
      * @param key key
-     * @param reqTokens CSRFTokens
      * @return チェック結果
      */
     public boolean checkToken(String key) {
