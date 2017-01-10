@@ -180,6 +180,9 @@ public class HttpRequestCheckLogic {
                 session.setAttribute(CSRF_REQIDS, reqids);
             }
             String reqid = reqids.addToken(tokenkey);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Req Token : " + reqid);
+            }
             request.setAttribute(REQ_ID_KEY, reqid);
         }
     }
@@ -229,9 +232,7 @@ public class HttpRequestCheckLogic {
             if (isCheckReqToken(invokeTarget)) {
                 String reqId = request.getParameter(REQ_ID_KEY);
                 if (!reqids.checkToken(reqId)) {
-                    if (LOG.isTraceEnabled()) {
-                        LOG.trace("Req Token NG : " + reqId);
-                    }
+                    LOG.warn("Req Token NG : " + reqId);
                     return false;
                 }
             }
