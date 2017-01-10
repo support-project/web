@@ -57,7 +57,7 @@ public class CSRFTokens implements Serializable {
      */
     public boolean checkToken(String key) {
         for (CSRFToken csrfToken : tokens) {
-            if (csrfToken.getKey().equals(key)) {
+            if (csrfToken.getToken().equals(key)) {
                 // 保持されているTokenのリストの中に存在すればOK
                 return true;
             }
