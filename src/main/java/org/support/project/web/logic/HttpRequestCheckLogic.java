@@ -28,14 +28,16 @@ import org.support.project.web.control.service.Put;
 import org.support.project.web.dao.SystemConfigsDao;
 import org.support.project.web.entity.SystemConfigsEntity;
 
-import net.arnx.jsonic.JSON;
-
 @DI(instance = Instance.Singleton)
 public class HttpRequestCheckLogic {
     /** ログ */
     private static final Log LOG = LogFactory.getLog(HttpRequestCheckLogic.class);
     /** セッション／Cookieに格納するキー */
     private static final String CSRF_TOKENS = "CSRFTokens";
+    /** セッション／リクエストに格納するキー */
+    private static final String CSRF_REQIDS = "CSRFReqIds";
+    /** リクエストIDのキー（リクエストスコープにセット） */
+    public static final String REQ_ID_KEY = "__REQ_ID_KEY";
     
     /**
      * Get instance
@@ -67,7 +69,8 @@ public class HttpRequestCheckLogic {
         LOG.warn("Referer: " + referrer);
         return false;
     }
-
+    
+    
     private String getSubscribeToken(InvokeTarget invokeTarget) {
         Method method = invokeTarget.getTargetMethod();
         Annotation[] annotations = method.getAnnotations();
@@ -110,6 +113,55 @@ public class HttpRequestCheckLogic {
         return "";
     }
     
+    private boolean isCheckReferer(InvokeTarget invokeTarget) {
+        Method method = invokeTarget.getTargetMethod();
+        Annotation[] annotations = method.getAnnotations();
+        for (Annotation annotation : annotations) {
+            if (annotation instanceof Get) {
+                Get config = (Get) annotation;
+                return config.checkReferer();
+            } else if (annotation instanceof Put) {
+                Put config = (Put) annotation;
+                return config.checkReferer();
+            } else if (annotation instanceof Post) {
+                Post config = (Post) annotation;
+                return config.checkReferer();
+            } else if (annotation instanceof Delete) {
+                Delete config = (Delete) annotation;
+                return config.checkReferer();
+            }
+        }
+        return false;
+    }
+    
+    private boolean isCheckReqToken(InvokeTarget invokeTarget) {
+        Method method = invokeTarget.getTargetMethod();
+        Annotation[] annotations = method.getAnnotations();
+        for (Annotation annotation : annotations) {
+            if (annotation instanceof Get) {
+                Get config = (Get) annotation;
+                return config.checkReqToken();
+            } else if (annotation instanceof Put) {
+                Put config = (Put) annotation;
+                return config.checkReqToken();
+            } else if (annotation instanceof Post) {
+                Post config = (Post) annotation;
+                return config.checkReqToken();
+            } else if (annotation instanceof Delete) {
+                Delete config = (Delete) annotation;
+                return config.checkReqToken();
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * CSRF用のリクエストキーなど発行
+     * @param invokeTarget
+     * @param request
+     * @param response
+     * @throws NoSuchAlgorithmException
+     */
     public void setCSRFTocken(InvokeTarget invokeTarget, HttpServletRequest request, HttpServletResponse response) throws NoSuchAlgorithmException {
         String tokenkey = getPublishToken(invokeTarget);
         if (!StringUtils.isEmpty(tokenkey)) {
@@ -121,10 +173,32 @@ public class HttpRequestCheckLogic {
             }
             tokens.addToken(tokenkey);
             HttpUtil.setCookie(request, response, CSRF_TOKENS, SerializeUtils.objectToBase64(tokens));
+            
+            CSRFTokens reqids = (CSRFTokens) session.getAttribute(CSRF_REQIDS);
+            if (reqids == null) {
+                reqids = new CSRFTokens();
+                session.setAttribute(CSRF_REQIDS, reqids);
+            }
+            String reqid = reqids.addToken(tokenkey);
+            request.setAttribute(REQ_ID_KEY, reqid);
         }
     }
+    
+    /**
+     * CSRFチェック対象であればチェック実施
+     * @param invokeTarget
+     * @param request
+     * @return
+     */
+    public boolean checkCSRF(InvokeTarget invokeTarget, HttpServletRequest request) {
+        if (isCheckReferer(invokeTarget)) {
+            // CSRFの簡易対策で、Referrerをチェックする
+            HttpRequestCheckLogic check = HttpRequestCheckLogic.get();
+            if (!check.checkReferrer(request)) {
+                return false;
+            }
+        }
 
-    public boolean checkCSRFTocken(InvokeTarget invokeTarget, HttpServletRequest request) {
         String tokenkey = getSubscribeToken(invokeTarget);
         if (StringUtils.isEmpty(tokenkey)) {
             // token チェックの対象になっていない
@@ -136,24 +210,38 @@ public class HttpRequestCheckLogic {
         if (tokens == null) {
             return false;
         }
+        CSRFTokens reqids = (CSRFTokens) session.getAttribute(CSRF_REQIDS);
+        if (reqids == null) {
+            return false;
+        }
         String base64 = HttpUtil.getCookie(request, CSRF_TOKENS);
         if (StringUtils.isEmpty(base64)) {
             return false;
         }
         try {
             CSRFTokens reqTokens = SerializeUtils.Base64ToObject(base64, CSRFTokens.class);
-            if (tokens.checkToken(tokenkey, reqTokens)) {
-                if (LOG.isTraceEnabled()) {
-                    LOG.trace("Token OK : " + tokenkey);
-                }
-                return true;
+            if (!tokens.checkToken(tokenkey, reqTokens)) {
+                // Cookieを使った簡易チェック
+                LOG.warn("Token NG : " + tokenkey);
+                return false;
             }
+            
+            if (isCheckReqToken(invokeTarget)) {
+                String reqId = request.getParameter(REQ_ID_KEY);
+                if (!reqids.checkToken(reqId)) {
+                    if (LOG.isTraceEnabled()) {
+                        LOG.trace("Req Token NG : " + reqId);
+                    }
+                    return false;
+                }
+            }
+
+            return true;
         } catch (SerializeException e) {
             LOG.trace("Failed to restore Token", e);
         }
-        // Tokenを持たずに、処理を実行しようとした（本来通るべき画面をとおっていない？）
-        LOG.warn("Token NG : " + tokenkey);
         return false;
     }
+
 
 }

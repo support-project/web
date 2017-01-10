@@ -166,22 +166,15 @@ public class ControlManagerFilter implements Filter {
                 m = HttpMethod.delete;
             }
             
-            if (m != HttpMethod.get) {
-                // CSRFの簡易対策で、Referrerをチェックする
-                HttpRequestCheckLogic check = HttpRequestCheckLogic.get();
-                if (!check.checkReferrer(request)) {
-                    response.sendError(HttpStatus.SC_403_FORBIDDEN);
-                    return;
-                }
-            }
-            
             InvokeTarget invokeTarget = invokeSearch.getController(m, path);
             if (invokeTarget != null) {
                 HttpRequestCheckLogic check = HttpRequestCheckLogic.get();
-                if (!check.checkCSRFTocken(invokeTarget, request)) {
+                if (!check.checkCSRF(invokeTarget, request)) {
+                    // CSRFチェック対象であればチェック実施
                     response.sendError(HttpStatus.SC_403_FORBIDDEN);
                     return;
                 }
+                // CSRF用のリクエストキーなど発行
                 check.setCSRFTocken(invokeTarget, request, response);
                 
                 // コントローラーで処理を呼び出す場合、パラメータは全てリクエストのアトリビュートにコピーする

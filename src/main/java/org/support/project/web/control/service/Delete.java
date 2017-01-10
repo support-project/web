@@ -12,4 +12,6 @@ public @interface Delete {
     String path() default "";
     String subscribeToken() default "";
     String publishToken() default "";
+    boolean checkReferer() default true;
+    boolean checkReqToken() default false;
 }
