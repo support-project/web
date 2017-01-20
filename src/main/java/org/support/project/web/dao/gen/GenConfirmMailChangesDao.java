@@ -102,6 +102,14 @@ public class GenConfirmMailChangesDao extends AbstractDao {
         return executeQuerySingle(sql, ConfirmMailChangesEntity.class, id);
     }
     /**
+     * Count all data
+     * @return count
+     */
+    public int physicalCountAll() {
+        String sql = "SELECT COUNT(*) FROM CONFIRM_MAIL_CHANGES";
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Create row id.
      * @return row id
      */

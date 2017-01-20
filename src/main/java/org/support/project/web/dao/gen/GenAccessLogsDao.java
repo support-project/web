@@ -102,6 +102,14 @@ public class GenAccessLogsDao extends AbstractDao {
         return executeQuerySingle(sql, AccessLogsEntity.class, no);
     }
     /**
+     * Count all data
+     * @return count
+     */
+    public int physicalCountAll() {
+        String sql = "SELECT COUNT(*) FROM ACCESS_LOGS";
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Create row id.
      * @return row id
      */

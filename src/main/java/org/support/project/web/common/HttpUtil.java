@@ -713,4 +713,11 @@ public class HttpUtil {
         }
     }
 
+    public static Object getRequestInfo(HttpServletRequest request) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(getContextUrl(request));
+        builder.append(request.getServletPath());
+        return builder.toString();
+    }
+
 }

@@ -102,6 +102,14 @@ public class GenLocalesDao extends AbstractDao {
         return executeQuerySingle(sql, LocalesEntity.class, key);
     }
     /**
+     * Count all data
+     * @return count
+     */
+    public int physicalCountAll() {
+        String sql = "SELECT COUNT(*) FROM LOCALES";
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Create row id.
      * @return row id
      */

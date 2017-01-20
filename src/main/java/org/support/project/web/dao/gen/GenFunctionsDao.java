@@ -102,6 +102,14 @@ public class GenFunctionsDao extends AbstractDao {
         return executeQuerySingle(sql, FunctionsEntity.class, functionKey);
     }
     /**
+     * Count all data
+     * @return count
+     */
+    public int physicalCountAll() {
+        String sql = "SELECT COUNT(*) FROM FUNCTIONS";
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Create row id.
      * @return row id
      */

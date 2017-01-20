@@ -8,5 +8,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Post {
-	String path() default "";
+    String path() default "";
+    String subscribeToken() default "";
+    String publishToken() default "";
+    boolean checkReferer() default true;
+    boolean checkReqToken() default false;
 }

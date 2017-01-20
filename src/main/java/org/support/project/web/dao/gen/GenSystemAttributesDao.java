@@ -140,6 +140,14 @@ public class GenSystemAttributesDao extends AbstractDao {
         return executeQueryList(sql, SystemAttributesEntity.class, systemName);
     }
     /**
+     * Count all data
+     * @return count
+     */
+    public int physicalCountAll() {
+        String sql = "SELECT COUNT(*) FROM SYSTEM_ATTRIBUTES";
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Create row id.
      * @return row id
      */

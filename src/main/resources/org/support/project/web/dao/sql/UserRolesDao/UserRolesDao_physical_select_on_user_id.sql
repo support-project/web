@@ -2,4 +2,3 @@ SELECT * FROM USER_ROLES
  WHERE 
 USER_ID = ?
 ;
-;

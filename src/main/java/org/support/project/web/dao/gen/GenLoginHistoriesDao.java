@@ -140,6 +140,14 @@ public class GenLoginHistoriesDao extends AbstractDao {
         return executeQueryList(sql, LoginHistoriesEntity.class, userId);
     }
     /**
+     * Count all data
+     * @return count
+     */
+    public int physicalCountAll() {
+        String sql = "SELECT COUNT(*) FROM LOGIN_HISTORIES";
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Create row id.
      * @return row id
      */

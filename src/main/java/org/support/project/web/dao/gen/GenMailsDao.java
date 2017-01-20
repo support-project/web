@@ -102,6 +102,14 @@ public class GenMailsDao extends AbstractDao {
         return executeQuerySingle(sql, MailsEntity.class, mailId);
     }
     /**
+     * Count all data
+     * @return count
+     */
+    public int physicalCountAll() {
+        String sql = "SELECT COUNT(*) FROM MAILS";
+        return executeQuerySingle(sql, Integer.class);
+    }
+    /**
      * Create row id.
      * @return row id
      */

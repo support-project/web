@@ -32,6 +32,7 @@ import org.support.project.web.common.InvokeSearch;
 import org.support.project.web.common.InvokeTarget;
 import org.support.project.web.config.HttpMethod;
 import org.support.project.web.control.Control;
+import org.support.project.web.logic.HttpRequestCheckLogic;
 
 /**
  * リクエストのパス
@@ -116,8 +117,6 @@ public class ControlManagerFilter implements Filter {
             if (request.getPathInfo() != null && request.getPathInfo().length() > 0) {
                 pathBuilder.append(request.getPathInfo());
             }
-            // log.trace(pathBuilder.toString());
-
             if (pattern != null) {
                 Matcher matcher = pattern.matcher(pathBuilder.toString());
                 if (matcher.find()) {
@@ -126,24 +125,19 @@ public class ControlManagerFilter implements Filter {
                     return;
                 }
             }
-
-            // request.setCharacterEncoding("UTF-8");
             String path = request.getServletPath();
             log.trace("real path : " + path);
             String pathInfo = null;
             if (path.startsWith("/")) {
                 path = path.substring(1);
             }
-
             if (StringUtils.countOccurrencesOf(path, "/") > 1) {
                 pathInfo = path.substring(path.indexOf("/", path.indexOf("/") + 1));
                 path = path.substring(0, path.indexOf("/", path.indexOf("/") + 1));
             }
-
             if (path.length() == 0) {
                 path = "index";
             }
-
             if (path.indexOf("/") == -1) {
                 // メソッド指定無し
                 path = path + "/index";
@@ -171,9 +165,18 @@ public class ControlManagerFilter implements Filter {
             } else if (method.equalsIgnoreCase("delete")) {
                 m = HttpMethod.delete;
             }
-
+            
             InvokeTarget invokeTarget = invokeSearch.getController(m, path);
             if (invokeTarget != null) {
+                HttpRequestCheckLogic check = HttpRequestCheckLogic.get();
+                if (!check.checkCSRF(invokeTarget, request)) {
+                    // CSRFチェック対象であればチェック実施
+                    response.sendError(HttpStatus.SC_403_FORBIDDEN);
+                    return;
+                }
+                // CSRF用のリクエストキーなど発行
+                check.setCSRFTocken(invokeTarget, request, response);
+                
                 // コントローラーで処理を呼び出す場合、パラメータは全てリクエストのアトリビュートにコピーする
                 this.copyAttribute(request);
 
@@ -182,21 +185,16 @@ public class ControlManagerFilter implements Filter {
                 } else {
                     // 認可エラー
                     response.sendError(HttpStatus.SC_403_FORBIDDEN);
+                    return;
                 }
             } else {
                 filterChain.doFilter(request, response);
                 return;
-                /*
-                if (log.isTraceEnabled()) {
-                    log.trace("forward to : " + request.getServletPath());
-                }
-                HttpUtil.forward(response, request, request.getServletPath());
-                */
             }
         } catch (Exception e) {
-            log.debug("any exception is thrown. [" + e.getClass().getName() + "]", e);
+            log.trace("any exception is thrown. [" + e.getClass().getName() + "]", e);
             if (e.getCause() != null) {
-                log.debug("[Cause]" + e.getCause().getMessage(), e.getCause());
+                log.trace("[Cause]" + e.getCause().getMessage(), e.getCause());
             }
 
             if (e instanceof SocketException) {
@@ -316,24 +314,7 @@ public class ControlManagerFilter implements Filter {
                 PropertyUtil.setPropertyValue(invoke, prop, invokeTarget);
             }
         }
-
-        // Field[] fields = invokeTarget.getTargetClass().getFields();
-        // for (Field field : fields) {
-        // if (log.isTraceEnabled()) {
-        // log.trace("Field : " + field.getName());
-        // log.trace("Type : " + field.getType());
-        // }
-        // if (field.getType().isAssignableFrom(HttpServletRequest.class)) {
-        // field.set(invokeTarget.getTarget(), request);
-        // log.trace("Field HttpServletRequest is setted");
-        // } else if (field.getType().isAssignableFrom(HttpServletResponse.class)) {
-        // field.set(invokeTarget.getTarget(), response);
-        // log.trace("Field HttpServletResponse is setted");
-        // } else if (field.getName().equals("subPackageName")) {
-        // field.set(invokeTarget.getTarget(), invokeTarget.getSubPackageName());
-        // }
-        // }
-
+        
         // 実行のパラメータを準備
         Class<?>[] parameterClass = invokeTarget.getTargetMethod().getParameterTypes();
         Object[] params = null;
