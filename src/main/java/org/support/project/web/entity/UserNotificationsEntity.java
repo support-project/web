@@ -18,7 +18,7 @@ import java.sql.Timestamp;
  */
 @DI(instance = Instance.Prototype)
 public class UserNotificationsEntity extends GenUserNotificationsEntity {
-
+    
     /** SerialVersion */
     private static final long serialVersionUID = 1L;
 
