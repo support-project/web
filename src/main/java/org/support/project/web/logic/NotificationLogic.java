@@ -59,5 +59,51 @@ public class NotificationLogic {
             }
         }
     }
+    
+    /**
+     * 指定のユーザの通知の件数を取得
+     * @param loginUserId ログインユーザID
+     * @return 件数
+     */
+    public int count(Integer loginUserId) {
+        return UserNotificationsDao.get().count(loginUserId);
+    }
+    /**
+     * 指定のユーザの未読の件数を取得
+     * @param loginUserId ログインユーザID
+     * @return 件数
+     */
+    public int countUnRead(Integer loginUserId) {
+        return UserNotificationsDao.get().countOnStatus(loginUserId, STATUS_UNREAD);
+    }
+    
+    /**
+     * 指定のユーザの通知の取得
+     * @param loginUserId ログインユーザID
+     * @param offset ページオフセット
+     * @return 通知
+     */
+    public List<NotificationsEntity> getNotification(Integer loginUserId, int offset) {
+        int limit = 50;
+        offset = limit * offset;
+        return UserNotificationsDao.get().selectOnUser(loginUserId, limit, offset);
+    }
+    
+    /**
+     * 通知の既読状態を更新
+     * @param loginUserId ログインユーザID
+     * @param no 通知番号
+     * @param status ステータス
+     * @return 更新結果
+     */
+    public boolean setStatus(Integer loginUserId, long no, int status) {
+        UserNotificationsEntity entity = UserNotificationsDao.get().selectOnKey(no, loginUserId);
+        if (entity == null) {
+            return false;
+        }
+        entity.setStatus(status);
+        UserNotificationsDao.get().update(entity);
+        return true;
+    }
 
 }

@@ -1,16 +1,9 @@
 package org.support.project.web.entity;
 
-import org.support.project.web.entity.gen.GenNotificationsEntity;
-
-import java.util.List;
-import java.util.Map;
-
-import org.support.project.common.bean.ValidateError;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
-
-import java.sql.Timestamp;
+import org.support.project.web.entity.gen.GenNotificationsEntity;
 
 
 /**
@@ -21,7 +14,11 @@ public class NotificationsEntity extends GenNotificationsEntity {
 
     /** SerialVersion */
     private static final long serialVersionUID = 1L;
-
+    
+    /** status */
+    private int status;
+    
+    
     /**
      * Get instance from DI container.
      * @return instance
@@ -44,6 +41,20 @@ public class NotificationsEntity extends GenNotificationsEntity {
 
     public NotificationsEntity(Long no) {
         super( no);
+    }
+
+    /**
+     * @return the status
+     */
+    public int getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(int status) {
+        this.status = status;
     }
 
 }
