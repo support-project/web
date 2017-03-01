@@ -16,51 +16,56 @@ import org.support.project.web.exception.InvalidParamException;
 
 @DI(instance = Instance.Prototype)
 public class LangControl extends Control {
-	
-	private void setLocale(LoginedUser loginedUser, Locale locale) {
-		if (loginedUser == null) {
-			return;
-		}
-		loginedUser.setLocale(locale);
-	}
+    
+    private void setLocale(LoginedUser loginedUser, Locale locale) {
+        if (loginedUser == null) {
+            return;
+        }
+        loginedUser.setLocale(locale);
+    }
 
-	@Get
-	public Boundary select() throws InvalidParamException {
-		Locale locale = Locale.ENGLISH;
-		String LocaleID = getPathString();
-		if (StringUtils.isEmpty(LocaleID)) {
-			locale = Locale.ENGLISH;
-		} else if (LocaleID.equals("en")) {
-			locale = Locale.ENGLISH;
-		} else if (LocaleID.equals("ja")) {
-			locale = Locale.JAPANESE;
-		} else {
-			List<LabelValue> languages = AppConfig.get().getLanguages();
-			boolean exist = false;
-			for (LabelValue language : languages) {
-				if (LocaleID.equalsIgnoreCase(language.getValue())) {
-					exist = true;
-					break;
-				}
-			}
-			if (exist) {
-				if (LocaleID.indexOf("_") == -1) {
-					locale = new Locale(LocaleID);
-				} else {
-					String[] sp = LocaleID.split("_");
-					if (sp.length == 2) {
-						locale = new Locale(sp[0], sp[1]);
-					} else if (sp.length >= 3) {
-						locale = new Locale(sp[0], sp[1], sp[2]);
-					}
-				}
-			}
-		}
-		HttpUtil.setLocale(super.getRequest(), locale);
-		
-		this.setLocale(getLoginedUser(), HttpUtil.getLocale(getRequest()));
-		return redirect(getRequest().getContextPath() + "/index/lang" + "/" + LocaleID);
-	}
-	
-	
+    @Get
+    public Boundary select() throws InvalidParamException {
+        Locale locale = Locale.ENGLISH;
+        String LocaleID = getPathString();
+        if (StringUtils.isEmpty(LocaleID)) {
+            locale = Locale.ENGLISH;
+        } else if (LocaleID.equals("en")) {
+            locale = Locale.ENGLISH;
+        } else if (LocaleID.equals("ja")) {
+            locale = Locale.JAPANESE;
+        } else {
+            List<LabelValue> languages = AppConfig.get().getLanguages();
+            boolean exist = false;
+            for (LabelValue language : languages) {
+                if (LocaleID.equalsIgnoreCase(language.getValue())) {
+                    exist = true;
+                    break;
+                }
+            }
+            if (exist) {
+                if (LocaleID.indexOf("_") == -1) {
+                    locale = new Locale(LocaleID);
+                } else {
+                    String[] sp = LocaleID.split("_");
+                    if (sp.length == 2) {
+                        locale = new Locale(sp[0], sp[1]);
+                    } else if (sp.length >= 3) {
+                        locale = new Locale(sp[0], sp[1], sp[2]);
+                    }
+                }
+            }
+        }
+        HttpUtil.setLocale(super.getRequest(), locale);
+        
+        this.setLocale(getLoginedUser(), HttpUtil.getLocale(getRequest()));
+        AppConfig config = AppConfig.get();
+        if (!StringUtils.isEmpty(config.getAfterLangSelectPage())) {
+            return redirect(getRequest().getContextPath() + config.getAfterLangSelectPage());
+        } else {
+            return redirect(getRequest().getContextPath() + "/index/lang" + "/" + LocaleID);
+        }
+    }
+    
+    
 }
