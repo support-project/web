@@ -58,6 +58,9 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
     /** ユーザ登録後の拡張処理 */
     private String addUserProcess;
     
+    /** 言語設定変更後のページ */
+    private String afterLangSelectPage;
+    
     /**
      * @return the tmpPath
      */
@@ -178,6 +181,20 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
      */
     public void setAddUserProcess(String addUserProcess) {
         this.addUserProcess = addUserProcess;
+    }
+
+    /**
+     * @return the afterLangSelectPage
+     */
+    public String getAfterLangSelectPage() {
+        return afterLangSelectPage;
+    }
+
+    /**
+     * @param afterLangSelectPage the afterLangSelectPage to set
+     */
+    public void setAfterLangSelectPage(String afterLangSelectPage) {
+        this.afterLangSelectPage = afterLangSelectPage;
     }
 
 }

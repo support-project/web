@@ -68,4 +68,14 @@ public class RolesDao extends GenRolesDao {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/RolesDao/RolesDao_truncate.sql");
         executeUpdate(sql);
     }
+    
+    /**
+     * ロールのキー文字列で取得
+     * @param roleKey ロールのキー文字列
+     * @return ロール情報
+     */
+    public RolesEntity selectOnRoleKey(String roleKey) {
+        String sql = "SELECT * FROM ROLES WHERE ROLE_KEY = ? AND DELETE_FLAG = 0";
+        return executeQuerySingle(sql, RolesEntity.class, roleKey);
+    }
 }

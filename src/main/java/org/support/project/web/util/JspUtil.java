@@ -685,4 +685,19 @@ public class JspUtil {
     public String cookie(String key, String defaultValue) {
         return HttpUtil.getCookie(request, key, defaultValue);
     }
+    
+    /**
+     * サニタイズした文字列を取得
+     * @param obj
+     * @return
+     * @throws ParseException
+     */
+    public String sanitize(Object obj) throws ParseException {
+        if (StringUtils.isEmpty(obj)) {
+            return "";
+        }
+        return SanitizingLogic.get().sanitize(obj.toString());
+    }
+    
+    
 }
