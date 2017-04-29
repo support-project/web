@@ -43,6 +43,8 @@ public class JspUtil {
     public static final int ESCAPE_HTML = 0;
     /** Escape flag: clear(danger tag is only clean) */
     public static final int ESCAPE_CLEAR = 1;
+    /** Escape flag: url escape */
+    public static final int ESCAPE_URL = 2;
 
     /** ログ */
     private static final Log LOG = LogFactory.getLog(JspUtil.class);
@@ -374,6 +376,8 @@ public class JspUtil {
                     str = SanitizingLogic.get().sanitize((String) str);
                 } else if (escape == ESCAPE_HTML) {
                     str = HtmlUtils.escapeHTML((String) str);
+                } else if (escape == ESCAPE_URL) {
+                    str = HtmlUtils.escapeURL((String) str);
                 }
             }
             if (length > 0) {
