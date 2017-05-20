@@ -206,11 +206,15 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
         }
         // DB認証開始
         try {
+            if (StringUtils.isEmpty(password)) {
+                return false;
+            }
             UsersDao usersDao = UsersDao.get();
             UsersEntity usersEntity = usersDao.selectOnUserKey(userId);
-
             AppConfig config = ConfigLoader.load(AppConfig.APP_CONFIG, AppConfig.class);
-            if (usersEntity != null) {
+            if (usersEntity != null && 
+                    (usersEntity.getAuthLdap() == null || usersEntity.getAuthLdap().intValue() == INT_FLAG.OFF.getValue())
+            ) {
                 String hash = PasswordUtil.getStretchedPassword(password, usersEntity.getSalt(), config.getHashIterations());
                 if (usersEntity.getPassword().equals(hash)) {
                     return true;
@@ -253,6 +257,7 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
             change = true;
         }
         if (change) {
+            usersEntity.setPassword(RandomUtil.randamGen(32));
             usersDao.save(usersEntity);
             LOG.debug("Change User info on Ldap login. [user]" + userId);
         }
@@ -290,6 +295,7 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
         if (ldapInfo.isAdmin()) {
             roles.add(WebConfig.ROLE_ADMIN);
         }
+        usersEntity.setPassword(RandomUtil.randamGen(32));
         usersEntity = UserLogic.get().insert(usersEntity, roles.toArray(new String[0]));
         LOG.info("Add User on first Ldap login. [user]" + userId);
         return usersEntity;

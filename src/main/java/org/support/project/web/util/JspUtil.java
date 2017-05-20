@@ -8,14 +8,11 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.PageContext;
 
-import org.support.project.common.config.AppConfig;
-import org.support.project.common.config.ConfigLoader;
 import org.support.project.common.config.Resources;
 import org.support.project.common.exception.ParseException;
 import org.support.project.common.exception.SystemException;
@@ -27,6 +24,7 @@ import org.support.project.common.util.StringUtils;
 import org.support.project.web.bean.LoginedUser;
 import org.support.project.web.common.HttpUtil;
 import org.support.project.web.config.CommonWebParameter;
+import org.support.project.web.logic.DateConvertLogic;
 import org.support.project.web.logic.SanitizingLogic;
 
 /**
@@ -43,6 +41,8 @@ public class JspUtil {
     public static final int ESCAPE_HTML = 0;
     /** Escape flag: clear(danger tag is only clean) */
     public static final int ESCAPE_CLEAR = 1;
+    /** Escape flag: url escape */
+    public static final int ESCAPE_URL = 2;
 
     /** ログ */
     private static final Log LOG = LogFactory.getLog(JspUtil.class);
@@ -374,6 +374,8 @@ public class JspUtil {
                     str = SanitizingLogic.get().sanitize((String) str);
                 } else if (escape == ESCAPE_HTML) {
                     str = HtmlUtils.escapeHTML((String) str);
+                } else if (escape == ESCAPE_URL) {
+                    str = HtmlUtils.escapeURL((String) str);
                 }
             }
             if (length > 0) {
@@ -452,63 +454,16 @@ public class JspUtil {
         }
         // 元のオブジェクトは操作せず、コピーオブジェクトで表示
         Date val = new Date(v.getTime());
-
-        // DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, request.getLocale());
-        // DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT, request.getLocale());
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT, request.getLocale());
-        StringBuilder builder = new StringBuilder();
+        
         if (convGMTtoLocal) {
-            // TimeZone zone = dateFormat.getTimeZone();
-            TimeZone zone = null;
-            // ブラウザからoffsetを取得して補正をかける(dateFormat.getTimeZone()を実行したら、GMTだった。。。）
-            String offset = HttpUtil.getCookie(request, TIME_ZONE_OFFSET);
-            if (StringUtils.isEmpty(offset)) {
-                AppConfig appConfig = ConfigLoader.load(AppConfig.APP_CONFIG, AppConfig.class);
-                zone = TimeZone.getTimeZone(appConfig.getTime_zone());
-            } else {
-                if (StringUtils.isInteger(offset)) {
-                    int off = Integer.parseInt(offset);
-                    off = off / 60;
-                    // GMT+09:00 が日本
-                    StringBuilder offsetBuilder = new StringBuilder();
-                    offsetBuilder.append("GMT");
-                    if (off <= 0) {
-                        offsetBuilder.append("+0");
-                        off = off * -1; // 正の数へ
-                    } else {
-                        offsetBuilder.append("-0");
-                    }
-                    offsetBuilder.append(off);
-                    offsetBuilder.append(":00");
-                    LOG.trace(offsetBuilder.toString());
-
-                    zone = TimeZone.getTimeZone(offsetBuilder.toString());
-                }
-            }
-            if (zone == null) {
-                zone = dateFormat.getTimeZone();
-            }
-            if (LOG.isTraceEnabled()) {
-                LOG.trace(zone.getDisplayName());
-                LOG.trace(zone.getRawOffset());
-                LOG.trace(zone);
-            }
-
-            // ZoneId zoneId = ZoneId.of(zone.getID());
-            // ZonedDateTime ztime = ZonedDateTime.ofInstant(val.toInstant(), zoneId);
-            // ztime.plusSeconds(zone.getRawOffset() / 1000);
-            // Date date = Date.from(ztime.toInstant());
-
-            val.setTime(val.getTime() + zone.getRawOffset());
-            builder.append(dateFormat.format(val));
+            return DateConvertLogic.get().convertDate(val, request);
         } else {
-            builder.append(dateFormat.format(val));
-            // builder.append(" ");
-            // builder.append(timeFormat.format(val));
+            DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT, request.getLocale());
+            return dateFormat.format(val);
         }
-
-        return builder.toString();
     }
+
+
 
     /**
      * 指定した値が等しいかチェック
