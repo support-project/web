@@ -1,3 +1,25 @@
+-- ユーザのエイリアス
+drop table if exists USER_ALIAS cascade;
+
+create table USER_ALIAS (
+  USER_ID INTEGER not null
+  , ALIAS_NO integer not null
+  , ALIAS_KEY character varying(256) not null
+  , ALIAS_NAME character varying(256) not null
+  , ALIAS_MAIL character varying(256)
+  , MIAN_FLAG integer
+  , ROW_ID character varying(64)
+  , INSERT_USER integer
+  , INSERT_DATETIME timestamp
+  , UPDATE_USER integer
+  , UPDATE_DATETIME timestamp
+  , DELETE_FLAG integer
+  , constraint USER_ALIAS_PKC primary key (USER_ID,ALIAS_NO)
+) ;
+
+create unique index USER_ALIAS_IX1
+  on USER_ALIAS(ALIAS_KEY);
+
 -- ユーザへの通知
 drop table if exists USER_NOTIFICATIONS cascade;
 
@@ -467,6 +489,20 @@ create table ROLE_FUNCTIONS (
   , constraint ROLE_FUNCTIONS_PKC primary key (ROLE_ID,FUNCTION_KEY)
 ) ;
 
+comment on table USER_ALIAS is 'ユーザのエイリアス';
+comment on column USER_ALIAS.USER_ID is 'ユーザID';
+comment on column USER_ALIAS.ALIAS_NO is '番号';
+comment on column USER_ALIAS.ALIAS_KEY is 'エイリアスのキー';
+comment on column USER_ALIAS.ALIAS_NAME is 'エイリアスの表示名';
+comment on column USER_ALIAS.ALIAS_MAIL is 'メールアドレス';
+comment on column USER_ALIAS.MIAN_FLAG is 'メインかどうか';
+comment on column USER_ALIAS.ROW_ID is '行ID';
+comment on column USER_ALIAS.INSERT_USER is '登録ユーザ';
+comment on column USER_ALIAS.INSERT_DATETIME is '登録日時';
+comment on column USER_ALIAS.UPDATE_USER is '更新ユーザ';
+comment on column USER_ALIAS.UPDATE_DATETIME is '更新日時';
+comment on column USER_ALIAS.DELETE_FLAG is '削除フラグ';
+
 comment on table USER_NOTIFICATIONS is 'ユーザへの通知';
 comment on column USER_NOTIFICATIONS.USER_ID is 'ユーザID';
 comment on column USER_NOTIFICATIONS.NO is 'NO';
@@ -570,7 +606,7 @@ comment on column LDAP_CONFIGS.ID_ATTR is 'ID_ATTR';
 comment on column LDAP_CONFIGS.NAME_ATTR is 'NAME_ATTR';
 comment on column LDAP_CONFIGS.MAIL_ATTR is 'MAIL_ATTR';
 comment on column LDAP_CONFIGS.ADMIN_CHECK_FILTER is 'ADMIN_CHECK_FILTER';
-comment on column LDAP_CONFIGS.AUTH_TYPE is 'AUTH_TYPE	 0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先)';
+comment on column LDAP_CONFIGS.AUTH_TYPE is 'AUTH_TYPE:0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先)';
 comment on column LDAP_CONFIGS.ROW_ID is '行ID';
 comment on column LDAP_CONFIGS.INSERT_USER is '登録ユーザ';
 comment on column LDAP_CONFIGS.INSERT_DATETIME is '登録日時';
@@ -645,7 +681,7 @@ comment on column MAIL_CONFIGS.HOST is 'SMTP_HOST';
 comment on column MAIL_CONFIGS.PORT is 'SMTP_PORT';
 comment on column MAIL_CONFIGS.AUTH_TYPE is 'AUTH_TYPE';
 comment on column MAIL_CONFIGS.SMTP_ID is 'SMTP_ID';
-comment on column MAIL_CONFIGS.SMTP_PASSWORD is 'SMTP_PASSWORD	 暗号化（可逆）';
+comment on column MAIL_CONFIGS.SMTP_PASSWORD is 'SMTP_PASSWORD:暗号化（可逆）';
 comment on column MAIL_CONFIGS.SALT is 'SALT';
 comment on column MAIL_CONFIGS.FROM_ADDRESS is '送信元';
 comment on column MAIL_CONFIGS.FROM_NAME is '送信元名';
@@ -707,7 +743,7 @@ comment on column SYSTEMS.DELETE_FLAG is '削除フラグ';
 
 comment on table USER_GROUPS is 'ユーザが所属するグループ';
 comment on column USER_GROUPS.USER_ID is 'ユーザID';
-comment on column USER_GROUPS.GROUP_ID is 'グループID	 CHARACTER SET latin1';
+comment on column USER_GROUPS.GROUP_ID is 'グループID:CHARACTER SET latin1';
 comment on column USER_GROUPS.GROUP_ROLE is 'グループの権限';
 comment on column USER_GROUPS.ROW_ID is '行ID';
 comment on column USER_GROUPS.INSERT_USER is '登録ユーザ';
@@ -732,9 +768,9 @@ comment on column GROUPS.DELETE_FLAG is '削除フラグ';
 
 comment on table USERS is 'ユーザ';
 comment on column USERS.USER_ID is 'ユーザID';
-comment on column USERS.USER_KEY is 'ユーザKEY	 ユニーク';
+comment on column USERS.USER_KEY is 'ユーザKEY:ユニーク';
 comment on column USERS.USER_NAME is 'ユーザ名';
-comment on column USERS.PASSWORD is 'パスワード	 ハッシュ(不可逆)';
+comment on column USERS.PASSWORD is 'パスワード:ハッシュ(不可逆)';
 comment on column USERS.SALT is 'SALT';
 comment on column USERS.LOCALE_KEY is 'ロケール';
 comment on column USERS.MAIL_ADDRESS is 'メールアドレス';

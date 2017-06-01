@@ -77,7 +77,7 @@ public class GenLdapConfigsEntity implements Serializable {
     private String mailAttr;
     /** ADMIN_CHECK_FILTER */
     private String adminCheckFilter;
-    /** AUTH_TYPE	 0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先) */
+    /** AUTH_TYPE:0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先) */
     private Integer authType;
     /** 行ID */
     private String rowId;
@@ -317,15 +317,15 @@ public class GenLdapConfigsEntity implements Serializable {
     }
 
     /**
-     * Get AUTH_TYPE	 0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先).
-     * @return AUTH_TYPE	 0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先)
+     * Get AUTH_TYPE:0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先).
+     * @return AUTH_TYPE:0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先)
      */
     public Integer getAuthType() {
         return this.authType;
     }
     /**
-     * Set AUTH_TYPE	 0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先).
-     * @param authType AUTH_TYPE	 0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先)
+     * Set AUTH_TYPE:0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先).
+     * @param authType AUTH_TYPE:0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先)
      * @return this object     */
     public GenLdapConfigsEntity setAuthType(Integer authType) {
         this.authType = authType;

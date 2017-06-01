@@ -1,0 +1,16 @@
+UPDATE USER_ALIAS
+SET 
+   ALIAS_KEY = ?
+ , ALIAS_NAME = ?
+ , ALIAS_MAIL = ?
+ , MIAN_FLAG = ?
+ , ROW_ID = ?
+ , INSERT_USER = ?
+ , INSERT_DATETIME = ?
+ , UPDATE_USER = ?
+ , UPDATE_DATETIME = ?
+ , DELETE_FLAG = ?
+WHERE 
+ALIAS_NO = ?
+ AND USER_ID = ?
+;
