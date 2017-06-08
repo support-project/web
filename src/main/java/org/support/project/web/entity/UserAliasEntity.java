@@ -39,12 +39,12 @@ public class UserAliasEntity extends GenUserAliasEntity {
 
     /**
      * Constructor
-     * @param aliasNo 番号
+     * @param authKey 認証設定キー
      * @param userId ユーザID
      */
 
-    public UserAliasEntity(Integer aliasNo, Integer userId) {
-        super( aliasNo,  userId);
+    public UserAliasEntity(String authKey, Integer userId) {
+        super( authKey,  userId);
     }
 
 }

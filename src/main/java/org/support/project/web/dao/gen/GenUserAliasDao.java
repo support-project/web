@@ -59,13 +59,13 @@ public class GenUserAliasDao extends AbstractDao {
     }
     /**
      * Select data on key.
-     * @param  aliasNo aliasNo
+     * @param  authKey authKey
      * @param  userId userId
      * @return data
      */
-    public UserAliasEntity physicalSelectOnKey(Integer aliasNo, Integer userId) {
+    public UserAliasEntity physicalSelectOnKey(String authKey, Integer userId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_physical_select_on_key.sql");
-        return executeQuerySingle(sql, UserAliasEntity.class, aliasNo, userId);
+        return executeQuerySingle(sql, UserAliasEntity.class, authKey, userId);
     }
     /**
      * Select all data that not deleted.
@@ -95,22 +95,22 @@ public class GenUserAliasDao extends AbstractDao {
     }
     /**
      * Select data that not deleted on key.
-     * @param  aliasNo aliasNo
+     * @param  authKey authKey
      * @param  userId userId
      * @return data
      */
-    public UserAliasEntity selectOnKey(Integer aliasNo, Integer userId) {
+    public UserAliasEntity selectOnKey(String authKey, Integer userId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_select_on_key.sql");
-        return executeQuerySingle(sql, UserAliasEntity.class, aliasNo, userId);
+        return executeQuerySingle(sql, UserAliasEntity.class, authKey, userId);
     }
     /**
-     * Select data that not deleted on ALIAS_NO column.
-     * @param aliasNo aliasNo
+     * Select data that not deleted on AUTH_KEY column.
+     * @param authKey authKey
      * @return list
      */
-    public List<UserAliasEntity> selectOnAliasNo(Integer aliasNo) {
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_select_on_alias_no.sql");
-        return executeQueryList(sql, UserAliasEntity.class, aliasNo);
+    public List<UserAliasEntity> selectOnAuthKey(String authKey) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_select_on_auth_key.sql");
+        return executeQueryList(sql, UserAliasEntity.class, authKey);
     }
     /**
      * Select data that not deleted on USER_ID column.
@@ -122,13 +122,13 @@ public class GenUserAliasDao extends AbstractDao {
         return executeQueryList(sql, UserAliasEntity.class, userId);
     }
     /**
-     * Select data on ALIAS_NO column.
-     * @param aliasNo aliasNo
+     * Select data on AUTH_KEY column.
+     * @param authKey authKey
      * @return list
      */
-    public List<UserAliasEntity> physicalSelectOnAliasNo(Integer aliasNo) {
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_physical_select_on_alias_no.sql");
-        return executeQueryList(sql, UserAliasEntity.class, aliasNo);
+    public List<UserAliasEntity> physicalSelectOnAuthKey(String authKey) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_physical_select_on_auth_key.sql");
+        return executeQueryList(sql, UserAliasEntity.class, authKey);
     }
     /**
      * Select data on USER_ID column.
@@ -164,12 +164,12 @@ public class GenUserAliasDao extends AbstractDao {
     public UserAliasEntity rawPhysicalInsert(UserAliasEntity entity) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_raw_insert.sql");
         executeUpdate(sql, 
-            entity.getAliasNo(), 
+            entity.getAuthKey(), 
             entity.getUserId(), 
             entity.getAliasKey(), 
             entity.getAliasName(), 
             entity.getAliasMail(), 
-            entity.getMianFlag(), 
+            entity.getUserInfoUpdate(), 
             entity.getRowId(), 
             entity.getInsertUser(), 
             entity.getInsertDatetime(), 
@@ -188,12 +188,12 @@ public class GenUserAliasDao extends AbstractDao {
     public UserAliasEntity physicalInsert(UserAliasEntity entity) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_insert.sql");
         executeUpdate(sql, 
-            entity.getAliasNo(), 
+            entity.getAuthKey(), 
             entity.getUserId(), 
             entity.getAliasKey(), 
             entity.getAliasName(), 
             entity.getAliasMail(), 
-            entity.getMianFlag(), 
+            entity.getUserInfoUpdate(), 
             entity.getRowId(), 
             entity.getInsertUser(), 
             entity.getInsertDatetime(), 
@@ -243,14 +243,14 @@ public class GenUserAliasDao extends AbstractDao {
             entity.getAliasKey(), 
             entity.getAliasName(), 
             entity.getAliasMail(), 
-            entity.getMianFlag(), 
+            entity.getUserInfoUpdate(), 
             entity.getRowId(), 
             entity.getInsertUser(), 
             entity.getInsertDatetime(), 
             entity.getUpdateUser(), 
             entity.getUpdateDatetime(), 
             entity.getDeleteFlag(), 
-            entity.getAliasNo(), 
+            entity.getAuthKey(), 
             entity.getUserId());
         return entity;
     }
@@ -263,7 +263,7 @@ public class GenUserAliasDao extends AbstractDao {
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public UserAliasEntity update(Integer user, UserAliasEntity entity) {
-        UserAliasEntity db = selectOnKey(entity.getAliasNo(), entity.getUserId());
+        UserAliasEntity db = selectOnKey(entity.getAuthKey(), entity.getUserId());
         entity.setInsertUser(db.getInsertUser());
         entity.setInsertDatetime(db.getInsertDatetime());
         entity.setDeleteFlag(db.getDeleteFlag());
@@ -293,7 +293,7 @@ public class GenUserAliasDao extends AbstractDao {
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public UserAliasEntity save(Integer user, UserAliasEntity entity) {
-        UserAliasEntity db = selectOnKey(entity.getAliasNo(), entity.getUserId());
+        UserAliasEntity db = selectOnKey(entity.getAuthKey(), entity.getUserId());
         if (db == null) {
             return insert(user, entity);
         } else {
@@ -308,7 +308,7 @@ public class GenUserAliasDao extends AbstractDao {
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public UserAliasEntity save(UserAliasEntity entity) {
-        UserAliasEntity db = selectOnKey(entity.getAliasNo(), entity.getUserId());
+        UserAliasEntity db = selectOnKey(entity.getAuthKey(), entity.getUserId());
         if (db == null) {
             return insert(entity);
         } else {
@@ -317,13 +317,13 @@ public class GenUserAliasDao extends AbstractDao {
     }
     /**
      * Physical Delete.
-     * @param  aliasNo aliasNo
+     * @param  authKey authKey
      * @param  userId userId
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void physicalDelete(Integer aliasNo, Integer userId) {
+    public void physicalDelete(String authKey, Integer userId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_delete.sql");
-        executeUpdate(sql, aliasNo, userId);
+        executeUpdate(sql, authKey, userId);
     }
     /**
      * Physical Delete.
@@ -331,7 +331,7 @@ public class GenUserAliasDao extends AbstractDao {
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public void physicalDelete(UserAliasEntity entity) {
-        physicalDelete(entity.getAliasNo(), entity.getUserId());
+        physicalDelete(entity.getAuthKey(), entity.getUserId());
 
     }
     /**
@@ -339,12 +339,12 @@ public class GenUserAliasDao extends AbstractDao {
      * if delete flag is exists, the data is logical delete.
      * set saved user id.
      * @param user saved userid
-     * @param  aliasNo aliasNo
+     * @param  authKey authKey
      * @param  userId userId
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void delete(Integer user, Integer aliasNo, Integer userId) {
-        UserAliasEntity db = selectOnKey(aliasNo, userId);
+    public void delete(Integer user, String authKey, Integer userId) {
+        UserAliasEntity db = selectOnKey(authKey, userId);
         db.setDeleteFlag(1);
         db.setUpdateUser(user);
         db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
@@ -353,14 +353,14 @@ public class GenUserAliasDao extends AbstractDao {
     /**
      * Delete.
      * if delete flag is exists, the data is logical delete.
-     * @param  aliasNo aliasNo
+     * @param  authKey authKey
      * @param  userId userId
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void delete(Integer aliasNo, Integer userId) {
+    public void delete(String authKey, Integer userId) {
         DBUserPool pool = Container.getComp(DBUserPool.class);
         Integer user = (Integer) pool.getUser();
-        delete(user, aliasNo, userId);
+        delete(user, authKey, userId);
     }
     /**
      * Delete.
@@ -371,7 +371,7 @@ public class GenUserAliasDao extends AbstractDao {
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public void delete(Integer user, UserAliasEntity entity) {
-        delete(user, entity.getAliasNo(), entity.getUserId());
+        delete(user, entity.getAuthKey(), entity.getUserId());
 
     }
     /**
@@ -382,7 +382,7 @@ public class GenUserAliasDao extends AbstractDao {
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public void delete(UserAliasEntity entity) {
-        delete(entity.getAliasNo(), entity.getUserId());
+        delete(entity.getAuthKey(), entity.getUserId());
 
     }
     /**
@@ -390,12 +390,12 @@ public class GenUserAliasDao extends AbstractDao {
      * if delete flag is exists and delete flag is true, delete flug is false to activate.
      * set saved user id.
      * @param user saved userid
-     * @param  aliasNo aliasNo
+     * @param  authKey authKey
      * @param  userId userId
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void activation(Integer user, Integer aliasNo, Integer userId) {
-        UserAliasEntity db = physicalSelectOnKey(aliasNo, userId);
+    public void activation(Integer user, String authKey, Integer userId) {
+        UserAliasEntity db = physicalSelectOnKey(authKey, userId);
         db.setDeleteFlag(0);
         db.setUpdateUser(user);
         db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
@@ -404,14 +404,14 @@ public class GenUserAliasDao extends AbstractDao {
     /**
      * Ativation.
      * if delete flag is exists and delete flag is true, delete flug is false to activate.
-     * @param  aliasNo aliasNo
+     * @param  authKey authKey
      * @param  userId userId
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void activation(Integer aliasNo, Integer userId) {
+    public void activation(String authKey, Integer userId) {
         DBUserPool pool = Container.getComp(DBUserPool.class);
         Integer user = (Integer) pool.getUser();
-        activation(user, aliasNo, userId);
+        activation(user, authKey, userId);
     }
     /**
      * Ativation.
@@ -422,7 +422,7 @@ public class GenUserAliasDao extends AbstractDao {
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public void activation(Integer user, UserAliasEntity entity) {
-        activation(user, entity.getAliasNo(), entity.getUserId());
+        activation(user, entity.getAuthKey(), entity.getUserId());
 
     }
     /**
@@ -432,7 +432,7 @@ public class GenUserAliasDao extends AbstractDao {
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public void activation(UserAliasEntity entity) {
-        activation(entity.getAliasNo(), entity.getUserId());
+        activation(entity.getAuthKey(), entity.getUserId());
 
     }
 

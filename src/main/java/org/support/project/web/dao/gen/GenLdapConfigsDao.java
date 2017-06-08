@@ -127,6 +127,7 @@ public class GenLdapConfigsDao extends AbstractDao {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LdapConfigsDao/LdapConfigsDao_raw_insert.sql");
         executeUpdate(sql, 
             entity.getSystemName(), 
+            entity.getDescription(), 
             entity.getHost(), 
             entity.getPort(), 
             entity.getUseSsl(), 
@@ -160,6 +161,7 @@ public class GenLdapConfigsDao extends AbstractDao {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LdapConfigsDao/LdapConfigsDao_insert.sql");
         executeUpdate(sql, 
             entity.getSystemName(), 
+            entity.getDescription(), 
             entity.getHost(), 
             entity.getPort(), 
             entity.getUseSsl(), 
@@ -220,6 +222,7 @@ public class GenLdapConfigsDao extends AbstractDao {
     public LdapConfigsEntity physicalUpdate(LdapConfigsEntity entity) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LdapConfigsDao/LdapConfigsDao_update.sql");
         executeUpdate(sql, 
+            entity.getDescription(), 
             entity.getHost(), 
             entity.getPort(), 
             entity.getUseSsl(), 

@@ -3,22 +3,19 @@ drop table if exists USER_ALIAS cascade;
 
 create table USER_ALIAS (
   USER_ID INTEGER not null
-  , ALIAS_NO integer not null
+  , AUTH_KEY character varying(64) not null
   , ALIAS_KEY character varying(256) not null
   , ALIAS_NAME character varying(256) not null
   , ALIAS_MAIL character varying(256)
-  , MIAN_FLAG integer
+  , USER_INFO_UPDATE integer
   , ROW_ID character varying(64)
   , INSERT_USER integer
   , INSERT_DATETIME timestamp
   , UPDATE_USER integer
   , UPDATE_DATETIME timestamp
   , DELETE_FLAG integer
-  , constraint USER_ALIAS_PKC primary key (USER_ID,ALIAS_NO)
+  , constraint USER_ALIAS_PKC primary key (USER_ID,AUTH_KEY)
 ) ;
-
-create unique index USER_ALIAS_IX1
-  on USER_ALIAS(ALIAS_KEY);
 
 -- ユーザへの通知
 drop table if exists USER_NOTIFICATIONS cascade;
@@ -148,6 +145,7 @@ drop table if exists LDAP_CONFIGS cascade;
 
 create table LDAP_CONFIGS (
   SYSTEM_NAME character varying(64) not null
+  , DESCRIPTION character varying(64)
   , HOST character varying(256) not null
   , PORT integer not null
   , USE_SSL integer
@@ -491,11 +489,11 @@ create table ROLE_FUNCTIONS (
 
 comment on table USER_ALIAS is 'ユーザのエイリアス';
 comment on column USER_ALIAS.USER_ID is 'ユーザID';
-comment on column USER_ALIAS.ALIAS_NO is '番号';
+comment on column USER_ALIAS.AUTH_KEY is '認証設定キー';
 comment on column USER_ALIAS.ALIAS_KEY is 'エイリアスのキー';
 comment on column USER_ALIAS.ALIAS_NAME is 'エイリアスの表示名';
 comment on column USER_ALIAS.ALIAS_MAIL is 'メールアドレス';
-comment on column USER_ALIAS.MIAN_FLAG is 'メインかどうか';
+comment on column USER_ALIAS.USER_INFO_UPDATE is 'アカウント情報更新フラグ';
 comment on column USER_ALIAS.ROW_ID is '行ID';
 comment on column USER_ALIAS.INSERT_USER is '登録ユーザ';
 comment on column USER_ALIAS.INSERT_DATETIME is '登録日時';
@@ -592,7 +590,8 @@ comment on column PROXY_CONFIGS.UPDATE_DATETIME is '更新日時';
 comment on column PROXY_CONFIGS.DELETE_FLAG is '削除フラグ';
 
 comment on table LDAP_CONFIGS is 'LDAP認証設定';
-comment on column LDAP_CONFIGS.SYSTEM_NAME is 'システム名';
+comment on column LDAP_CONFIGS.SYSTEM_NAME is '設定名';
+comment on column LDAP_CONFIGS.DESCRIPTION is 'DESCRIPTION';
 comment on column LDAP_CONFIGS.HOST is 'HOST';
 comment on column LDAP_CONFIGS.PORT is 'PORT';
 comment on column LDAP_CONFIGS.USE_SSL is 'USE_SSL';

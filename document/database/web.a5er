@@ -47,21 +47,78 @@ SqlSeparator=0
 ShowTag=1
 ShowCommonAttributes=0
 
+[Relation]
+Entity1=AUTH_CONFIGS
+Entity2=LDAP_CONFIGS
+RelationType1=1
+RelationType2=3
+Fields1=AUTH_KEY
+Fields2=SYSTEM_NAME
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,7280,2804,4650,R,R
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20170608064823
+LineMode=0
+Bar1=728
+Bar2=280
+Bar3=465
+TermPos1=R
+TermPos2=R
+
+[Relation]
+Entity1=AUTH_CONFIGS
+Entity2=USER_ALIAS
+RelationType1=1
+RelationType2=3
+Fields1=AUTH_KEY
+Fields2=AUTH_KEY
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,2822,6205,2294,R,R
+Dependence=1
+Caption=
+PName=
+LineMode=0
+Bar1=282
+Bar2=620
+Bar3=229
+TermPos1=R
+TermPos2=R
+
+[Entity]
+PName=AUTH_CONFIGS
+LName=認証設定
+Comment=
+TableOption=
+Page=MAIN
+Left=1020
+Top=1190
+Field="認証設定キー","AUTH_KEY","@VARCHAR(64)","NOT NULL",0,"","",$FFFFFFFF,""
+NoDDL=1
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20170608063855
+Position="MAIN",1020,1190
+
 [Comment]
-Comment=LDAPや、OAuthなどで別システムでログインする\n場合に、複数のログイン方法（エイリアス）を\n一つのユーザに紐づける。\nLdapの場合、エイリアスのキーを\nLDAP_{system_name}_{LDAP_ID}\nとする。（エイリアスキーはユニークになるようにする）
+Comment=エイリアスのキーは、その認証設定におけるID。\nLDAPでログインした際のID。\n初めてログインしたときに、アカウントを作成するため、\nそのキーがユーザのユーザKEYになる。\n複数のLDAPに接続する場合、重複する場合が\nある可能性がゼロではないが、いったん重複は\nしないものとして扱う\n
 FontName=Tahoma
 FontBold=0
 FontItalic=0
 FontUnderline=0
-FontSize=6
+FontSize=4
 FontColor=$000000
 LineColor=$000000
 BkColor=$99FFFF
 Page=Main
-Left=980
-Top=970
-Width=480
-Height=187
+Left=1110
+Top=710
+Width=351
+Height=148
 
 [Relation]
 Entity1=USERS
@@ -72,7 +129,7 @@ Fields1=USER_ID
 Fields2=USER_ID
 Cardinarity1=
 Cardinarity2=
-Position="MAIN",0,6363,3818,1847,R,R
+Position="MAIN",0,6363,3818,1398,R,R
 Dependence=1
 Caption=
 PName=
@@ -80,7 +137,7 @@ ModifiedDateTime=20170601125044
 LineMode=0
 Bar1=636
 Bar2=382
-Bar3=185
+Bar3=140
 TermPos1=R
 TermPos2=R
 
@@ -89,36 +146,35 @@ PName=USER_ALIAS
 LName=ユーザのエイリアス
 Comment=
 TableOption=
-Page=Main
+Page=MAIN
 Left=990
-Top=790
+Top=900
 Field="ユーザID","USER_ID","INTEGER","NOT NULL",0,"","",$FFFFFFFF,""
-Field="番号","ALIAS_NO","@INT","NOT NULL",1,"","",$FFFFFFFF,""
+Field="認証設定キー","AUTH_KEY","@VARCHAR(64)","NOT NULL",1,"","",$FFFFFFFF,""
 Field="エイリアスのキー","ALIAS_KEY","@VARCHAR(256)","NOT NULL",,"","",$FFFFFFFF,""
 Field="エイリアスの表示名","ALIAS_NAME","@VARCHAR(256)","NOT NULL",,"","",$FFFFFFFF,""
 Field="メールアドレス","ALIAS_MAIL","@VARCHAR(256)",,,"","",$FFFFFFFF,""
-Field="メインかどうか","MIAN_FLAG","@INT",,,"","",$FFFFFFFF,""
-Index==1,ALIAS_KEY
+Field="アカウント情報更新フラグ","USER_INFO_UPDATE","@INT",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20170601125940
-Position="Main",990,790
+ModifiedDateTime=20170608064125
+Position="MAIN",990,900
 
 [Comment]
-Comment=管理者が出す全体へのメッセージ
+Comment=管理者が登録する利用者へのメッセージ
 FontName=Tahoma
 FontBold=0
 FontItalic=0
 FontUnderline=0
-FontSize=6
+FontSize=4
 FontColor=$000000
 LineColor=$000000
 BkColor=$99FFFF
 Page=Main
 Left=1400
 Top=200
-Width=365
+Width=291
 Height=50
 
 [Relation]
@@ -431,27 +487,6 @@ Top=1380
 Width=423
 Height=153
 
-[Relation]
-Entity1=SYSTEMS
-Entity2=LDAP_CONFIGS
-RelationType1=1
-RelationType2=3
-Fields1=SYSTEM_NAME
-Fields2=SYSTEM_NAME
-Cardinarity1=
-Cardinarity2=
-Position="MAIN",1,2030,4454,8591,R,R
-Dependence=1
-Caption=
-PName=
-ModifiedDateTime=20170601124540
-LineMode=1
-Bar1=203
-Bar2=445
-Bar3=859
-TermPos1=R
-TermPos2=R
-
 [Entity]
 PName=LDAP_CONFIGS
 LName=LDAP認証設定
@@ -459,8 +494,9 @@ Comment=
 TableOption=
 Page=MAIN
 Left=1020
-Top=1190
-Field="システム名","SYSTEM_NAME","@VARCHAR(64)","NOT NULL",0,"","",$FFFFFFFF,""
+Top=1340
+Field="設定名","SYSTEM_NAME","@VARCHAR(64)","NOT NULL",0,"","",$FFFFFFFF,""
+Field="DESCRIPTION","DESCRIPTION","@VARCHAR(64)",,,"","",$FFFFFFFF,""
 Field="HOST","HOST","@VARCHAR(256)","NOT NULL",,"","",$FFFFFFFF,""
 Field="PORT","PORT","@INT","NOT NULL",,"","",$FFFFFFFF,""
 Field="USE_SSL","USE_SSL","@INT",,,"","",$FFFFFFFF,""
@@ -478,8 +514,8 @@ Field="AUTH_TYPE","AUTH_TYPE","@INT","NOT NULL",,"","0:DB認証,1:LDAP認証,2:D
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20150910044010
-Position="MAIN",1020,1190
+ModifiedDateTime=20170608082114
+Position="MAIN",1020,1340
 
 [Relation]
 Entity1=LOCALES
@@ -588,14 +624,14 @@ Comment=
 TableOption=
 Page=MAIN
 Left=2350
-Top=50
+Top=340
 Field="パスワードリセットID","ID","@VARCHAR(256)","NOT NULL",0,"","",$FFFFFFFF,""
 Field="ユーザKEY","USER_KEY","@VARCHAR(256)",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20150104130853
-Position="MAIN",2350,50
+Position="MAIN",2350,340
 
 [Entity]
 PName=PROVISIONAL_REGISTRATIONS
@@ -627,14 +663,14 @@ Fields1=SYSTEM_NAME
 Fields2=SYSTEM_NAME
 Cardinarity1=
 Cardinarity2=
-Position="MAIN",0,0,5190,6562,R,R
+Position="MAIN",0,0,5190,6693,R,R
 Dependence=1
 Caption=
 PName=
 LineMode=0
 Bar1=0
 Bar2=519
-Bar3=656
+Bar3=669
 TermPos1=R
 TermPos2=R
 
@@ -741,8 +777,8 @@ LName=メール
 Comment=
 TableOption=
 Page=MAIN
-Left=90
-Top=1420
+Left=2360
+Top=40
 Field="MAIL_ID","MAIL_ID","@VARCHAR(64)","NOT NULL",0,"","",$FFFFFFFF,""
 Field="ステータス","STATUS","@INT","NOT NULL",,"","",$FFFFFFFF,""
 Field="送信先","TO_ADDRESS","@VARCHAR(256)","NOT NULL",,"","",$FFFFFFFF,""
@@ -756,7 +792,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20150104130634
-Position="MAIN",90,1420
+Position="MAIN",2360,40
 
 [Entity]
 PName=ACCESS_LOGS
@@ -783,14 +819,14 @@ Comment=
 TableOption=
 Page=MAIN
 Left=1500
-Top=1050
+Top=1160
 Field="システム名","SYSTEM_NAME","@VARCHAR(64)","NOT NULL",0,"","",$FFFFFFFF,""
 Field="バージョン","VERSION","@VARCHAR(16)","NOT NULL",,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20141129075343
-Position="MAIN",1500,1050
+Position="MAIN",1500,1160
 
 [Comment]
 Comment=Web共通テーブル
@@ -809,20 +845,20 @@ Width=402
 Height=53
 
 [Comment]
-Comment=ユーザID/グループIDはシステムで採番する。\n(制御用で桁合わせする)\nKEYは、ユーザが使う一意のキー
+Comment=ユーザID/グループIDはシステムで採番する。\n(制御用で桁合わせする)\nKEYは、ユーザがログインで使う一意のキー
 FontName=Tahoma
 FontBold=0
 FontItalic=0
 FontUnderline=0
-FontSize=6
+FontSize=4
 FontColor=$000000
 LineColor=$000000
 BkColor=$99FFFF
 Page=Main
-Left=1350
-Top=550
-Width=429
-Height=115
+Left=1340
+Top=380
+Width=321
+Height=88
 
 [Relation]
 Entity1=GROUPS

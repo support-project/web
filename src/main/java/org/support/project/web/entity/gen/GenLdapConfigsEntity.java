@@ -42,15 +42,17 @@ public class GenLdapConfigsEntity implements Serializable {
 
     /**
      * Constructor
-     * @param systemName システム名
+     * @param systemName 設定名
      */
 
     public GenLdapConfigsEntity(String systemName) {
         super();
         this.systemName = systemName;
     }
-    /** システム名 */
+    /** 設定名 */
     private String systemName;
+    /** DESCRIPTION */
+    private String description;
     /** HOST */
     private String host;
     /** PORT */
@@ -93,18 +95,34 @@ public class GenLdapConfigsEntity implements Serializable {
     private Integer deleteFlag;
 
     /**
-     * Get システム名.
-     * @return システム名
+     * Get 設定名.
+     * @return 設定名
      */
     public String getSystemName() {
         return this.systemName;
     }
     /**
-     * Set システム名.
-     * @param systemName システム名
+     * Set 設定名.
+     * @param systemName 設定名
      * @return this object     */
     public GenLdapConfigsEntity setSystemName(String systemName) {
         this.systemName = systemName;
+        return this;
+    }
+
+    /**
+     * Get DESCRIPTION.
+     * @return DESCRIPTION
+     */
+    public String getDescription() {
+        return this.description;
+    }
+    /**
+     * Set DESCRIPTION.
+     * @param description DESCRIPTION
+     * @return this object     */
+    public GenLdapConfigsEntity setDescription(String description) {
+        this.description = description;
         return this;
     }
 
@@ -439,7 +457,7 @@ public class GenLdapConfigsEntity implements Serializable {
     }
     /**
      * Set key values 
-     * @param systemName システム名
+     * @param systemName 設定名
      */
     public void setKeyValues(String systemName) {
         this.systemName = systemName;
@@ -477,6 +495,7 @@ public class GenLdapConfigsEntity implements Serializable {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("systemName = ").append(systemName).append("\n");
+        builder.append("description = ").append(description).append("\n");
         builder.append("host = ").append(host).append("\n");
         builder.append("port = ").append(port).append("\n");
         builder.append("useSsl = ").append(useSsl).append("\n");
@@ -522,6 +541,11 @@ public class GenLdapConfigsEntity implements Serializable {
         }
         validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
         error = validator.validate(this.systemName, convLabelName("System Name"), 64);
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+        error = validator.validate(this.description, convLabelName("Description"), 64);
         if (error != null) {
             errors.add(error);
         }
@@ -658,6 +682,11 @@ public class GenLdapConfigsEntity implements Serializable {
         }
         validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
         error = validator.validate(values.get("systemName"), convLabelName("System Name"), 64);
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+        error = validator.validate(values.get("description"), convLabelName("Description"), 64);
         if (error != null) {
             errors.add(error);
         }

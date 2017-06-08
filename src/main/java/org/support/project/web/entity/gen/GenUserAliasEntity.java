@@ -42,27 +42,27 @@ public class GenUserAliasEntity implements Serializable {
 
     /**
      * Constructor
-     * @param aliasNo 番号
+     * @param authKey 認証設定キー
      * @param userId ユーザID
      */
 
-    public GenUserAliasEntity(Integer aliasNo, Integer userId) {
+    public GenUserAliasEntity(String authKey, Integer userId) {
         super();
-        this.aliasNo = aliasNo;
+        this.authKey = authKey;
         this.userId = userId;
     }
     /** ユーザID */
     private Integer userId;
-    /** 番号 */
-    private Integer aliasNo;
+    /** 認証設定キー */
+    private String authKey;
     /** エイリアスのキー */
     private String aliasKey;
     /** エイリアスの表示名 */
     private String aliasName;
     /** メールアドレス */
     private String aliasMail;
-    /** メインかどうか */
-    private Integer mianFlag;
+    /** アカウント情報更新フラグ */
+    private Integer userInfoUpdate;
     /** 行ID */
     private String rowId;
     /** 登録ユーザ */
@@ -93,18 +93,18 @@ public class GenUserAliasEntity implements Serializable {
     }
 
     /**
-     * Get 番号.
-     * @return 番号
+     * Get 認証設定キー.
+     * @return 認証設定キー
      */
-    public Integer getAliasNo() {
-        return this.aliasNo;
+    public String getAuthKey() {
+        return this.authKey;
     }
     /**
-     * Set 番号.
-     * @param aliasNo 番号
+     * Set 認証設定キー.
+     * @param authKey 認証設定キー
      * @return this object     */
-    public GenUserAliasEntity setAliasNo(Integer aliasNo) {
-        this.aliasNo = aliasNo;
+    public GenUserAliasEntity setAuthKey(String authKey) {
+        this.authKey = authKey;
         return this;
     }
 
@@ -157,18 +157,18 @@ public class GenUserAliasEntity implements Serializable {
     }
 
     /**
-     * Get メインかどうか.
-     * @return メインかどうか
+     * Get アカウント情報更新フラグ.
+     * @return アカウント情報更新フラグ
      */
-    public Integer getMianFlag() {
-        return this.mianFlag;
+    public Integer getUserInfoUpdate() {
+        return this.userInfoUpdate;
     }
     /**
-     * Set メインかどうか.
-     * @param mianFlag メインかどうか
+     * Set アカウント情報更新フラグ.
+     * @param userInfoUpdate アカウント情報更新フラグ
      * @return this object     */
-    public GenUserAliasEntity setMianFlag(Integer mianFlag) {
-        this.mianFlag = mianFlag;
+    public GenUserAliasEntity setUserInfoUpdate(Integer userInfoUpdate) {
+        this.userInfoUpdate = userInfoUpdate;
         return this;
     }
 
@@ -274,17 +274,17 @@ public class GenUserAliasEntity implements Serializable {
      */
     public Object[] getKeyValues() {
         Object[] keyValues = new Object[2];
-        keyValues[0] = this.aliasNo;
+        keyValues[0] = this.authKey;
         keyValues[1] = this.userId;
         return keyValues;
     }
     /**
      * Set key values 
-     * @param aliasNo 番号
+     * @param authKey 認証設定キー
      * @param userId ユーザID
      */
-    public void setKeyValues(Integer aliasNo, Integer userId) {
-        this.aliasNo = aliasNo;
+    public void setKeyValues(String authKey, Integer userId) {
+        this.authKey = authKey;
         this.userId = userId;
     }
     /**
@@ -319,12 +319,12 @@ public class GenUserAliasEntity implements Serializable {
      */
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("aliasNo = ").append(aliasNo).append("\n");
+        builder.append("authKey = ").append(authKey).append("\n");
         builder.append("userId = ").append(userId).append("\n");
         builder.append("aliasKey = ").append(aliasKey).append("\n");
         builder.append("aliasName = ").append(aliasName).append("\n");
         builder.append("aliasMail = ").append(aliasMail).append("\n");
-        builder.append("mianFlag = ").append(mianFlag).append("\n");
+        builder.append("userInfoUpdate = ").append(userInfoUpdate).append("\n");
         builder.append("rowId = ").append(rowId).append("\n");
         builder.append("insertUser = ").append(insertUser).append("\n");
         builder.append("insertDatetime = ").append(insertDatetime).append("\n");
@@ -360,12 +360,12 @@ public class GenUserAliasEntity implements Serializable {
             errors.add(error);
         }
         validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-        error = validator.validate(this.aliasNo, convLabelName("Alias No"));
+        error = validator.validate(this.authKey, convLabelName("Auth Key"));
         if (error != null) {
             errors.add(error);
         }
-        validator = ValidatorFactory.getInstance(Validator.INTEGER);
-        error = validator.validate(this.aliasNo, convLabelName("Alias No"));
+        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+        error = validator.validate(this.authKey, convLabelName("Auth Key"), 64);
         if (error != null) {
             errors.add(error);
         }
@@ -395,7 +395,7 @@ public class GenUserAliasEntity implements Serializable {
             errors.add(error);
         }
         validator = ValidatorFactory.getInstance(Validator.INTEGER);
-        error = validator.validate(this.mianFlag, convLabelName("Mian Flag"));
+        error = validator.validate(this.userInfoUpdate, convLabelName("User Info Update"));
         if (error != null) {
             errors.add(error);
         }
@@ -441,12 +441,12 @@ public class GenUserAliasEntity implements Serializable {
             errors.add(error);
         }
         validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-        error = validator.validate(values.get("aliasNo"), convLabelName("Alias No"));
+        error = validator.validate(values.get("authKey"), convLabelName("Auth Key"));
         if (error != null) {
             errors.add(error);
         }
-        validator = ValidatorFactory.getInstance(Validator.INTEGER);
-        error = validator.validate(values.get("aliasNo"), convLabelName("Alias No"));
+        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+        error = validator.validate(values.get("authKey"), convLabelName("Auth Key"), 64);
         if (error != null) {
             errors.add(error);
         }
@@ -476,7 +476,7 @@ public class GenUserAliasEntity implements Serializable {
             errors.add(error);
         }
         validator = ValidatorFactory.getInstance(Validator.INTEGER);
-        error = validator.validate(values.get("mianFlag"), convLabelName("Mian Flag"));
+        error = validator.validate(values.get("userInfoUpdate"), convLabelName("User Info Update"));
         if (error != null) {
             errors.add(error);
         }

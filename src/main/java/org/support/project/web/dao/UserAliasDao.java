@@ -5,6 +5,7 @@ import org.support.project.di.DI;
 import org.support.project.di.Instance;
 
 import org.support.project.web.dao.gen.GenUserAliasDao;
+import org.support.project.web.entity.UserAliasEntity;
 
 /**
  * ユーザのエイリアス
@@ -20,6 +21,11 @@ public class UserAliasDao extends GenUserAliasDao {
      */
     public static UserAliasDao get() {
         return Container.getComp(UserAliasDao.class);
+    }
+    
+    public UserAliasEntity selectOnAliasKey(String authKey, String aliasKey) {
+        String sql = "SELECT * FROM USER_ALIAS WHERE AUTH_KEY = ? AND ALIAS_KEY = ?";
+        return executeQuerySingle(sql, UserAliasEntity.class, authKey, aliasKey);
     }
 
 
