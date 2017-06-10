@@ -1,6 +1,7 @@
 INSERT INTO LDAP_CONFIGS
 ( 
 SYSTEM_NAME
+ , DESCRIPTION
  , HOST
  , PORT
  , USE_SSL
@@ -23,6 +24,7 @@ SYSTEM_NAME
  , DELETE_FLAG
 ) VALUES (
 ?
+ , ?
  , ?
  , ?
  , ?

@@ -17,10 +17,10 @@ import org.support.project.di.DI;
 import org.support.project.di.Instance;
 
 /**
- * メール設定
+ * ユーザのエイリアス
  */
 @DI(instance = Instance.Prototype)
-public class GenMailConfigsEntity implements Serializable {
+public class GenUserAliasEntity implements Serializable {
 
     /** SerialVersion */
     private static final long serialVersionUID = 1L;
@@ -29,44 +29,40 @@ public class GenMailConfigsEntity implements Serializable {
      * Get instance from DI container.
      * @return instance
      */
-    public static GenMailConfigsEntity get() {
-        return Container.getComp(GenMailConfigsEntity.class);
+    public static GenUserAliasEntity get() {
+        return Container.getComp(GenUserAliasEntity.class);
     }
 
     /**
      * Constructor.
      */
-    public GenMailConfigsEntity() {
+    public GenUserAliasEntity() {
         super();
     }
 
     /**
      * Constructor
-     * @param systemName システム名
+     * @param authKey 認証設定キー
+     * @param userId ユーザID
      */
 
-    public GenMailConfigsEntity(String systemName) {
+    public GenUserAliasEntity(String authKey, Integer userId) {
         super();
-        this.systemName = systemName;
+        this.authKey = authKey;
+        this.userId = userId;
     }
-    /** システム名 */
-    private String systemName;
-    /** SMTP_HOST */
-    private String host;
-    /** SMTP_PORT */
-    private Integer port;
-    /** AUTH_TYPE */
-    private Integer authType;
-    /** SMTP_ID */
-    private String smtpId;
-    /** SMTP_PASSWORD:暗号化（可逆） */
-    private String smtpPassword;
-    /** SALT */
-    private String salt;
-    /** 送信元 */
-    private String fromAddress;
-    /** 送信元名 */
-    private String fromName;
+    /** ユーザID */
+    private Integer userId;
+    /** 認証設定キー */
+    private String authKey;
+    /** エイリアスのキー */
+    private String aliasKey;
+    /** エイリアスの表示名 */
+    private String aliasName;
+    /** メールアドレス */
+    private String aliasMail;
+    /** アカウント情報更新フラグ */
+    private Integer userInfoUpdate;
     /** 行ID */
     private String rowId;
     /** 登録ユーザ */
@@ -81,146 +77,98 @@ public class GenMailConfigsEntity implements Serializable {
     private Integer deleteFlag;
 
     /**
-     * Get システム名.
-     * @return システム名
+     * Get ユーザID.
+     * @return ユーザID
      */
-    public String getSystemName() {
-        return this.systemName;
+    public Integer getUserId() {
+        return this.userId;
     }
     /**
-     * Set システム名.
-     * @param systemName システム名
+     * Set ユーザID.
+     * @param userId ユーザID
      * @return this object     */
-    public GenMailConfigsEntity setSystemName(String systemName) {
-        this.systemName = systemName;
+    public GenUserAliasEntity setUserId(Integer userId) {
+        this.userId = userId;
         return this;
     }
 
     /**
-     * Get SMTP_HOST.
-     * @return SMTP_HOST
+     * Get 認証設定キー.
+     * @return 認証設定キー
      */
-    public String getHost() {
-        return this.host;
+    public String getAuthKey() {
+        return this.authKey;
     }
     /**
-     * Set SMTP_HOST.
-     * @param host SMTP_HOST
+     * Set 認証設定キー.
+     * @param authKey 認証設定キー
      * @return this object     */
-    public GenMailConfigsEntity setHost(String host) {
-        this.host = host;
+    public GenUserAliasEntity setAuthKey(String authKey) {
+        this.authKey = authKey;
         return this;
     }
 
     /**
-     * Get SMTP_PORT.
-     * @return SMTP_PORT
+     * Get エイリアスのキー.
+     * @return エイリアスのキー
      */
-    public Integer getPort() {
-        return this.port;
+    public String getAliasKey() {
+        return this.aliasKey;
     }
     /**
-     * Set SMTP_PORT.
-     * @param port SMTP_PORT
+     * Set エイリアスのキー.
+     * @param aliasKey エイリアスのキー
      * @return this object     */
-    public GenMailConfigsEntity setPort(Integer port) {
-        this.port = port;
+    public GenUserAliasEntity setAliasKey(String aliasKey) {
+        this.aliasKey = aliasKey;
         return this;
     }
 
     /**
-     * Get AUTH_TYPE.
-     * @return AUTH_TYPE
+     * Get エイリアスの表示名.
+     * @return エイリアスの表示名
      */
-    public Integer getAuthType() {
-        return this.authType;
+    public String getAliasName() {
+        return this.aliasName;
     }
     /**
-     * Set AUTH_TYPE.
-     * @param authType AUTH_TYPE
+     * Set エイリアスの表示名.
+     * @param aliasName エイリアスの表示名
      * @return this object     */
-    public GenMailConfigsEntity setAuthType(Integer authType) {
-        this.authType = authType;
+    public GenUserAliasEntity setAliasName(String aliasName) {
+        this.aliasName = aliasName;
         return this;
     }
 
     /**
-     * Get SMTP_ID.
-     * @return SMTP_ID
+     * Get メールアドレス.
+     * @return メールアドレス
      */
-    public String getSmtpId() {
-        return this.smtpId;
+    public String getAliasMail() {
+        return this.aliasMail;
     }
     /**
-     * Set SMTP_ID.
-     * @param smtpId SMTP_ID
+     * Set メールアドレス.
+     * @param aliasMail メールアドレス
      * @return this object     */
-    public GenMailConfigsEntity setSmtpId(String smtpId) {
-        this.smtpId = smtpId;
+    public GenUserAliasEntity setAliasMail(String aliasMail) {
+        this.aliasMail = aliasMail;
         return this;
     }
 
     /**
-     * Get SMTP_PASSWORD:暗号化（可逆）.
-     * @return SMTP_PASSWORD:暗号化（可逆）
+     * Get アカウント情報更新フラグ.
+     * @return アカウント情報更新フラグ
      */
-    public String getSmtpPassword() {
-        return this.smtpPassword;
+    public Integer getUserInfoUpdate() {
+        return this.userInfoUpdate;
     }
     /**
-     * Set SMTP_PASSWORD:暗号化（可逆）.
-     * @param smtpPassword SMTP_PASSWORD:暗号化（可逆）
+     * Set アカウント情報更新フラグ.
+     * @param userInfoUpdate アカウント情報更新フラグ
      * @return this object     */
-    public GenMailConfigsEntity setSmtpPassword(String smtpPassword) {
-        this.smtpPassword = smtpPassword;
-        return this;
-    }
-
-    /**
-     * Get SALT.
-     * @return SALT
-     */
-    public String getSalt() {
-        return this.salt;
-    }
-    /**
-     * Set SALT.
-     * @param salt SALT
-     * @return this object     */
-    public GenMailConfigsEntity setSalt(String salt) {
-        this.salt = salt;
-        return this;
-    }
-
-    /**
-     * Get 送信元.
-     * @return 送信元
-     */
-    public String getFromAddress() {
-        return this.fromAddress;
-    }
-    /**
-     * Set 送信元.
-     * @param fromAddress 送信元
-     * @return this object     */
-    public GenMailConfigsEntity setFromAddress(String fromAddress) {
-        this.fromAddress = fromAddress;
-        return this;
-    }
-
-    /**
-     * Get 送信元名.
-     * @return 送信元名
-     */
-    public String getFromName() {
-        return this.fromName;
-    }
-    /**
-     * Set 送信元名.
-     * @param fromName 送信元名
-     * @return this object     */
-    public GenMailConfigsEntity setFromName(String fromName) {
-        this.fromName = fromName;
+    public GenUserAliasEntity setUserInfoUpdate(Integer userInfoUpdate) {
+        this.userInfoUpdate = userInfoUpdate;
         return this;
     }
 
@@ -235,7 +183,7 @@ public class GenMailConfigsEntity implements Serializable {
      * Set 行ID.
      * @param rowId 行ID
      * @return this object     */
-    public GenMailConfigsEntity setRowId(String rowId) {
+    public GenUserAliasEntity setRowId(String rowId) {
         this.rowId = rowId;
         return this;
     }
@@ -251,7 +199,7 @@ public class GenMailConfigsEntity implements Serializable {
      * Set 登録ユーザ.
      * @param insertUser 登録ユーザ
      * @return this object     */
-    public GenMailConfigsEntity setInsertUser(Integer insertUser) {
+    public GenUserAliasEntity setInsertUser(Integer insertUser) {
         this.insertUser = insertUser;
         return this;
     }
@@ -267,7 +215,7 @@ public class GenMailConfigsEntity implements Serializable {
      * Set 登録日時.
      * @param insertDatetime 登録日時
      * @return this object     */
-    public GenMailConfigsEntity setInsertDatetime(Timestamp insertDatetime) {
+    public GenUserAliasEntity setInsertDatetime(Timestamp insertDatetime) {
         this.insertDatetime = insertDatetime;
         return this;
     }
@@ -283,7 +231,7 @@ public class GenMailConfigsEntity implements Serializable {
      * Set 更新ユーザ.
      * @param updateUser 更新ユーザ
      * @return this object     */
-    public GenMailConfigsEntity setUpdateUser(Integer updateUser) {
+    public GenUserAliasEntity setUpdateUser(Integer updateUser) {
         this.updateUser = updateUser;
         return this;
     }
@@ -299,7 +247,7 @@ public class GenMailConfigsEntity implements Serializable {
      * Set 更新日時.
      * @param updateDatetime 更新日時
      * @return this object     */
-    public GenMailConfigsEntity setUpdateDatetime(Timestamp updateDatetime) {
+    public GenUserAliasEntity setUpdateDatetime(Timestamp updateDatetime) {
         this.updateDatetime = updateDatetime;
         return this;
     }
@@ -315,7 +263,7 @@ public class GenMailConfigsEntity implements Serializable {
      * Set 削除フラグ.
      * @param deleteFlag 削除フラグ
      * @return this object     */
-    public GenMailConfigsEntity setDeleteFlag(Integer deleteFlag) {
+    public GenUserAliasEntity setDeleteFlag(Integer deleteFlag) {
         this.deleteFlag = deleteFlag;
         return this;
     }
@@ -325,23 +273,26 @@ public class GenMailConfigsEntity implements Serializable {
      * @return values 
      */
     public Object[] getKeyValues() {
-        Object[] keyValues = new Object[1];
-        keyValues[0] = this.systemName;
+        Object[] keyValues = new Object[2];
+        keyValues[0] = this.authKey;
+        keyValues[1] = this.userId;
         return keyValues;
     }
     /**
      * Set key values 
-     * @param systemName システム名
+     * @param authKey 認証設定キー
+     * @param userId ユーザID
      */
-    public void setKeyValues(String systemName) {
-        this.systemName = systemName;
+    public void setKeyValues(String authKey, Integer userId) {
+        this.authKey = authKey;
+        this.userId = userId;
     }
     /**
      * compare on key 
      * @param entity entity 
      * @return result 
      */
-    public boolean equalsOnKey(GenMailConfigsEntity entity) {
+    public boolean equalsOnKey(GenUserAliasEntity entity) {
         Object[] keyValues1 = getKeyValues();
         Object[] keyValues2 = entity.getKeyValues();
         for (int i = 0; i < keyValues1.length; i++) {
@@ -368,15 +319,12 @@ public class GenMailConfigsEntity implements Serializable {
      */
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("systemName = ").append(systemName).append("\n");
-        builder.append("host = ").append(host).append("\n");
-        builder.append("port = ").append(port).append("\n");
-        builder.append("authType = ").append(authType).append("\n");
-        builder.append("smtpId = ").append(smtpId).append("\n");
-        builder.append("smtpPassword = ").append(smtpPassword).append("\n");
-        builder.append("salt = ").append(salt).append("\n");
-        builder.append("fromAddress = ").append(fromAddress).append("\n");
-        builder.append("fromName = ").append(fromName).append("\n");
+        builder.append("authKey = ").append(authKey).append("\n");
+        builder.append("userId = ").append(userId).append("\n");
+        builder.append("aliasKey = ").append(aliasKey).append("\n");
+        builder.append("aliasName = ").append(aliasName).append("\n");
+        builder.append("aliasMail = ").append(aliasMail).append("\n");
+        builder.append("userInfoUpdate = ").append(userInfoUpdate).append("\n");
         builder.append("rowId = ").append(rowId).append("\n");
         builder.append("insertUser = ").append(insertUser).append("\n");
         builder.append("insertDatetime = ").append(insertDatetime).append("\n");
@@ -402,67 +350,52 @@ public class GenMailConfigsEntity implements Serializable {
         Validator validator;
         ValidateError error;
         validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-        error = validator.validate(this.systemName, convLabelName("System Name"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(this.systemName, convLabelName("System Name"), 64);
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-        error = validator.validate(this.host, convLabelName("Host"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(this.host, convLabelName("Host"), 256);
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-        error = validator.validate(this.port, convLabelName("Port"));
+        error = validator.validate(this.userId, convLabelName("User Id"));
         if (error != null) {
             errors.add(error);
         }
         validator = ValidatorFactory.getInstance(Validator.INTEGER);
-        error = validator.validate(this.port, convLabelName("Port"));
+        error = validator.validate(this.userId, convLabelName("User Id"));
         if (error != null) {
             errors.add(error);
         }
         validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-        error = validator.validate(this.authType, convLabelName("Auth Type"));
+        error = validator.validate(this.authKey, convLabelName("Auth Key"));
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+        error = validator.validate(this.authKey, convLabelName("Auth Key"), 64);
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
+        error = validator.validate(this.aliasKey, convLabelName("Alias Key"));
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+        error = validator.validate(this.aliasKey, convLabelName("Alias Key"), 256);
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
+        error = validator.validate(this.aliasName, convLabelName("Alias Name"));
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+        error = validator.validate(this.aliasName, convLabelName("Alias Name"), 256);
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+        error = validator.validate(this.aliasMail, convLabelName("Alias Mail"), 256);
         if (error != null) {
             errors.add(error);
         }
         validator = ValidatorFactory.getInstance(Validator.INTEGER);
-        error = validator.validate(this.authType, convLabelName("Auth Type"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(this.smtpId, convLabelName("Smtp Id"), 256);
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(this.smtpPassword, convLabelName("Smtp Password"), 1024);
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(this.salt, convLabelName("Salt"), 1024);
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(this.fromAddress, convLabelName("From Address"), 256);
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(this.fromName, convLabelName("From Name"), 256);
+        error = validator.validate(this.userInfoUpdate, convLabelName("User Info Update"));
         if (error != null) {
             errors.add(error);
         }
@@ -498,67 +431,52 @@ public class GenMailConfigsEntity implements Serializable {
         Validator validator;
         ValidateError error;
         validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-        error = validator.validate(values.get("systemName"), convLabelName("System Name"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(values.get("systemName"), convLabelName("System Name"), 64);
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-        error = validator.validate(values.get("host"), convLabelName("Host"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(values.get("host"), convLabelName("Host"), 256);
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-        error = validator.validate(values.get("port"), convLabelName("Port"));
+        error = validator.validate(values.get("userId"), convLabelName("User Id"));
         if (error != null) {
             errors.add(error);
         }
         validator = ValidatorFactory.getInstance(Validator.INTEGER);
-        error = validator.validate(values.get("port"), convLabelName("Port"));
+        error = validator.validate(values.get("userId"), convLabelName("User Id"));
         if (error != null) {
             errors.add(error);
         }
         validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-        error = validator.validate(values.get("authType"), convLabelName("Auth Type"));
+        error = validator.validate(values.get("authKey"), convLabelName("Auth Key"));
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+        error = validator.validate(values.get("authKey"), convLabelName("Auth Key"), 64);
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
+        error = validator.validate(values.get("aliasKey"), convLabelName("Alias Key"));
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+        error = validator.validate(values.get("aliasKey"), convLabelName("Alias Key"), 256);
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
+        error = validator.validate(values.get("aliasName"), convLabelName("Alias Name"));
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+        error = validator.validate(values.get("aliasName"), convLabelName("Alias Name"), 256);
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+        error = validator.validate(values.get("aliasMail"), convLabelName("Alias Mail"), 256);
         if (error != null) {
             errors.add(error);
         }
         validator = ValidatorFactory.getInstance(Validator.INTEGER);
-        error = validator.validate(values.get("authType"), convLabelName("Auth Type"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(values.get("smtpId"), convLabelName("Smtp Id"), 256);
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(values.get("smtpPassword"), convLabelName("Smtp Password"), 1024);
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(values.get("salt"), convLabelName("Salt"), 1024);
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(values.get("fromAddress"), convLabelName("From Address"), 256);
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(values.get("fromName"), convLabelName("From Name"), 256);
+        error = validator.validate(values.get("userInfoUpdate"), convLabelName("User Info Update"));
         if (error != null) {
             errors.add(error);
         }

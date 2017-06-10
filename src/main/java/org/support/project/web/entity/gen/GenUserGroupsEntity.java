@@ -42,7 +42,7 @@ public class GenUserGroupsEntity implements Serializable {
 
     /**
      * Constructor
-     * @param groupId グループID	 CHARACTER SET latin1
+     * @param groupId グループID:CHARACTER SET latin1
      * @param userId ユーザID
      */
 
@@ -53,7 +53,7 @@ public class GenUserGroupsEntity implements Serializable {
     }
     /** ユーザID */
     private Integer userId;
-    /** グループID	 CHARACTER SET latin1 */
+    /** グループID:CHARACTER SET latin1 */
     private Integer groupId;
     /** グループの権限 */
     private Integer groupRole;
@@ -87,15 +87,15 @@ public class GenUserGroupsEntity implements Serializable {
     }
 
     /**
-     * Get グループID	 CHARACTER SET latin1.
-     * @return グループID	 CHARACTER SET latin1
+     * Get グループID:CHARACTER SET latin1.
+     * @return グループID:CHARACTER SET latin1
      */
     public Integer getGroupId() {
         return this.groupId;
     }
     /**
-     * Set グループID	 CHARACTER SET latin1.
-     * @param groupId グループID	 CHARACTER SET latin1
+     * Set グループID:CHARACTER SET latin1.
+     * @param groupId グループID:CHARACTER SET latin1
      * @return this object     */
     public GenUserGroupsEntity setGroupId(Integer groupId) {
         this.groupId = groupId;
@@ -226,7 +226,7 @@ public class GenUserGroupsEntity implements Serializable {
     }
     /**
      * Set key values 
-     * @param groupId グループID	 CHARACTER SET latin1
+     * @param groupId グループID:CHARACTER SET latin1
      * @param userId ユーザID
      */
     public void setKeyValues(Integer groupId, Integer userId) {

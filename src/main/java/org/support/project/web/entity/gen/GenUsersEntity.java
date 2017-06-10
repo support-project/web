@@ -51,11 +51,11 @@ public class GenUsersEntity implements Serializable {
     }
     /** ユーザID */
     private Integer userId;
-    /** ユーザKEY	 ユニーク */
+    /** ユーザKEY:ユニーク */
     private String userKey;
     /** ユーザ名 */
     private String userName;
-    /** パスワード	 ハッシュ(不可逆) */
+    /** パスワード:ハッシュ(不可逆) */
     private String password;
     /** SALT */
     private String salt;
@@ -95,15 +95,15 @@ public class GenUsersEntity implements Serializable {
     }
 
     /**
-     * Get ユーザKEY	 ユニーク.
-     * @return ユーザKEY	 ユニーク
+     * Get ユーザKEY:ユニーク.
+     * @return ユーザKEY:ユニーク
      */
     public String getUserKey() {
         return this.userKey;
     }
     /**
-     * Set ユーザKEY	 ユニーク.
-     * @param userKey ユーザKEY	 ユニーク
+     * Set ユーザKEY:ユニーク.
+     * @param userKey ユーザKEY:ユニーク
      * @return this object     */
     public GenUsersEntity setUserKey(String userKey) {
         this.userKey = userKey;
@@ -127,15 +127,15 @@ public class GenUsersEntity implements Serializable {
     }
 
     /**
-     * Get パスワード	 ハッシュ(不可逆).
-     * @return パスワード	 ハッシュ(不可逆)
+     * Get パスワード:ハッシュ(不可逆).
+     * @return パスワード:ハッシュ(不可逆)
      */
     public String getPassword() {
         return this.password;
     }
     /**
-     * Set パスワード	 ハッシュ(不可逆).
-     * @param password パスワード	 ハッシュ(不可逆)
+     * Set パスワード:ハッシュ(不可逆).
+     * @param password パスワード:ハッシュ(不可逆)
      * @return this object     */
     public GenUsersEntity setPassword(String password) {
         this.password = password;

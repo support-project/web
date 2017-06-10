@@ -19,12 +19,14 @@ import org.support.project.ormapping.dao.AbstractDao;
 import org.support.project.web.bean.User;
 import org.support.project.web.logic.impl.AuthParam;
 import org.support.project.web.logic.impl.AuthParamManager;
-import org.support.project.web.logic.impl.DBAuthenticationLogic;
 
 @DI(instance = Instance.Singleton)
 public class ManageUserDao extends AbstractDao {
+    /** シリアルバージョン */
+    private static final long serialVersionUID = 1L;
+
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(DBAuthenticationLogic.class);
+    private static final Log LOG = LogFactory.getLog(ManageUserDao.class);
 
     private String insertUserSql = null;
     private String updateUserSql = null;
