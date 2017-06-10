@@ -21,7 +21,7 @@ public interface AuthenticationLogic<T extends LoginedUser> {
 	 * @return result
 	 * @throws AuthenticateException AuthenticateException
 	 */
-	boolean auth(String userId, String password) throws AuthenticateException;
+    int auth(String userId, String password) throws AuthenticateException;
 	/**
 	 * ログインしているかどうか
 	 * @param request request

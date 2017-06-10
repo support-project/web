@@ -174,7 +174,7 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
      */
     @Override
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public boolean auth(String userId, String password) throws AuthenticateException {
+    public int auth(String userId, String password) throws AuthenticateException {
         initLogic();
         // Ldap認証が有効であれば、Ldap認証を実施する
         LdapConfigsDao dao = LdapConfigsDao.get();
@@ -186,37 +186,45 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
                 if (ldapInfo != null) {
                     // Ldap認証成功
                     UserAliasEntity alias = UserAliasDao.get().selectOnAliasKey(config.getSystemName(), userId);
-                    if (alias == null) {
-                        alias = new UserAliasEntity();
-                        alias.setUserInfoUpdate(INT_FLAG.ON.getValue());
-                    }
-                    alias.setAuthKey(config.getSystemName());
-                    alias.setAliasKey(userId);
-                    alias.setAliasName(ldapInfo.getName());
-                    alias.setAliasMail(ldapInfo.getMail());
-                    
-                    // ユーザ情報が無ければ登録、あれば更新
-                    UsersDao usersDao = UsersDao.get();
-                    UsersEntity usersEntity = usersDao.selectOnLowerUserKey(userId);
-                    if (usersEntity == null) {
-                        usersEntity = addUser(userId, password, ldapInfo);
-                        // 拡張処理の呼び出し
-                        if (StringUtils.isNotEmpty(AppConfig.get().getAddUserProcess())) {
-                            AddUserProcess process = Container.getComp(AppConfig.get().getAddUserProcess(), AddUserProcess.class);
-                            process.addUserProcess(usersEntity.getUserKey());
+                    if (alias != null) {
+                        // Aliasが既にある
+                        UsersDao usersDao = UsersDao.get();
+                        UsersEntity usersEntity = usersDao.selectOnKey(alias.getUserId());
+                        if (usersEntity == null) {
+                            return Integer.MIN_VALUE;
+                        } else {
+                            if (Compare.equal(alias.getUserInfoUpdate(), INT_FLAG.ON.getValue())) {
+                                // 情報更新するというフラグが無ければ更新しない
+                                updateUser(userId, password, ldapInfo, usersDao, usersEntity);
+                            }
                         }
+                        return usersEntity.getUserId();
                     } else {
-                        if (Compare.equal(alias.getUserInfoUpdate(), INT_FLAG.ON.getValue())) {
-                            // 情報更新するというフラグが無ければ更新しない
+                        UsersDao usersDao = UsersDao.get();
+                        
+                        // ユーザ情報が無ければ登録、あれば更新
+                        UsersEntity usersEntity = usersDao.selectOnLowerUserKey(userId);
+                        if (usersEntity == null) {
+                            usersEntity = addUser(userId, password, ldapInfo);
+                            // 拡張処理の呼び出し
+                            if (StringUtils.isNotEmpty(AppConfig.get().getAddUserProcess())) {
+                                AddUserProcess process = Container.getComp(AppConfig.get().getAddUserProcess(), AddUserProcess.class);
+                                process.addUserProcess(usersEntity.getUserKey());
+                            }
+                        } else {
                             updateUser(userId, password, ldapInfo, usersDao, usersEntity);
                         }
+                        // ユーザのAliasを登録
+                        alias = new UserAliasEntity();
+                        alias.setUserInfoUpdate(INT_FLAG.ON.getValue());
+                        alias.setUserId(usersEntity.getUserId());
+                        alias.setAuthKey(config.getSystemName());
+                        alias.setAliasKey(userId);
+                        alias.setAliasName(ldapInfo.getName().toLowerCase());
+                        alias.setAliasMail(ldapInfo.getMail());
+                        UserAliasDao.get().save(alias);
+                        return usersEntity.getUserId();
                     }
-                    
-                    // ユーザのAliasを更新（なければ登録）
-                    alias.setUserId(usersEntity.getUserId());
-                    UserAliasDao.get().save(alias);
-                    
-                    return true;
                 }
             } catch (LdapException | IOException e) {
                 throw new AuthenticateException(e);
@@ -226,7 +234,7 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
         // DB認証開始
         try {
             if (StringUtils.isEmpty(password)) {
-                return false;
+                return Integer.MIN_VALUE;
             }
             UsersDao usersDao = UsersDao.get();
             UsersEntity usersEntity = usersDao.selectOnUserKey(userId);
@@ -236,10 +244,10 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
             ) {
                 String hash = PasswordUtil.getStretchedPassword(password, usersEntity.getSalt(), config.getHashIterations());
                 if (usersEntity.getPassword().equals(hash)) {
-                    return true;
+                    return usersEntity.getUserId();
                 }
             }
-            return false;
+            return Integer.MIN_VALUE;
         } catch (NoSuchAlgorithmException e) {
             throw new AuthenticateException(e);
         }

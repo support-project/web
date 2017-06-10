@@ -155,10 +155,11 @@ Field="エイリアスのキー","ALIAS_KEY","@VARCHAR(256)","NOT NULL",,"","",$
 Field="エイリアスの表示名","ALIAS_NAME","@VARCHAR(256)","NOT NULL",,"","",$FFFFFFFF,""
 Field="メールアドレス","ALIAS_MAIL","@VARCHAR(256)",,,"","",$FFFFFFFF,""
 Field="アカウント情報更新フラグ","USER_INFO_UPDATE","@INT",,,"","",$FFFFFFFF,""
+Index==1,AUTH_KEY,ALIAS_KEY
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20170608064125
+ModifiedDateTime=20170610133509
 Position="MAIN",990,900
 
 [Comment]

@@ -3,7 +3,6 @@ package org.support.project.web.dao;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
-
 import org.support.project.web.dao.gen.GenUserAliasDao;
 import org.support.project.web.entity.UserAliasEntity;
 
@@ -25,7 +24,7 @@ public class UserAliasDao extends GenUserAliasDao {
     
     public UserAliasEntity selectOnAliasKey(String authKey, String aliasKey) {
         String sql = "SELECT * FROM USER_ALIAS WHERE AUTH_KEY = ? AND ALIAS_KEY = ?";
-        return executeQuerySingle(sql, UserAliasEntity.class, authKey, aliasKey);
+        return executeQuerySingle(sql, UserAliasEntity.class, authKey, aliasKey.toLowerCase());
     }
 
 
