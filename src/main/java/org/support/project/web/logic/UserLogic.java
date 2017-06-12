@@ -21,11 +21,13 @@ import org.support.project.web.config.CommonWebParameter;
 import org.support.project.web.config.WebConfig;
 import org.support.project.web.dao.ProvisionalRegistrationsDao;
 import org.support.project.web.dao.RolesDao;
+import org.support.project.web.dao.UserAliasDao;
 import org.support.project.web.dao.UserGroupsDao;
 import org.support.project.web.dao.UserRolesDao;
 import org.support.project.web.dao.UsersDao;
 import org.support.project.web.entity.ProvisionalRegistrationsEntity;
 import org.support.project.web.entity.RolesEntity;
+import org.support.project.web.entity.UserAliasEntity;
 import org.support.project.web.entity.UserGroupsEntity;
 import org.support.project.web.entity.UserRolesEntity;
 import org.support.project.web.entity.UsersEntity;
@@ -213,6 +215,11 @@ public class UserLogic {
             user.setDeleteFlag(INT_FLAG.ON.getValue());
             usersDao.update(user);
             usersDao.delete(loginUserId);
+        }
+        // Aliasの情報を削除
+        List<UserAliasEntity> aliases = UserAliasDao.get().selectOnUserId(loginUserId);
+        for (UserAliasEntity userAliasEntity : aliases) {
+            UserAliasDao.get().physicalDelete(userAliasEntity);
         }
     }
 
