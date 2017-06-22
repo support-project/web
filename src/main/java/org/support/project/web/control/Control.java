@@ -602,7 +602,20 @@ public abstract class Control {
 
     /**
      * PathInfoに設定された文字列を取得する
-     * 
+     * @param defaultStr defaultStr
+     * @return string
+     */
+    protected String getPathString(String defaultStr) {
+        String[] pathInfos = getPathInfos();
+        if (pathInfos == null) {
+            return defaultStr;
+        }
+        return pathInfos[0];
+    }
+
+    
+    /**
+     * PathInfoに設定された文字列を取得する
      * @return string
      * @throws InvalidParamException InvalidParamException
      */
