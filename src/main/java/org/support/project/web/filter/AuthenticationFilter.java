@@ -347,7 +347,7 @@ public class AuthenticationFilter implements Filter {
         int userId = authenticationLogic.auth(userkey, password);
         if (userId >= 0) {
             // セッションにログイン情報を格納
-            LOG.trace(userId + " is Login.");
+            LOG.debug(userId + " is Login.");
             // ActiveDirectoryでは、ログインIDは大文字・小文字を判定しないので、DBに格納されているIDを取得
             UsersEntity usersEntity = UsersDao.get().selectOnKey(userId);
             if (usersEntity == null) {

@@ -132,12 +132,12 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
                         if (!user.getUserKey().toLowerCase().equals(entity.getUserKey().toLowerCase())
                                 || !user.getUserName().equals(entity.getUserName())
                                 || !StringUtils.equals(user.getEmail(), entity.getMailAddress())) {
-                            LOG.warn("Cookie of LOGIN_USER_KEY is invalid.");
+                            LOG.info("Cookie of LOGIN_USER_KEY is invalid.");
                             return false;
                         }
                         
                         
-                        LOG.info(user.getUserKey() + " is Login(from cookie).");
+                        LOG.debug(user.getUserKey() + " is Login(from cookie).");
                         setSession(user.getUserKey(), req);
 
                         // Cookie再セット
