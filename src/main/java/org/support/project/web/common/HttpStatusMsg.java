@@ -16,6 +16,8 @@ public final class HttpStatusMsg {
                 return "UNAUTHORIZED";
             case HttpStatus.SC_403_FORBIDDEN:
                 return "FORBIDDEN";
+            case HttpStatus.SC_404_NOT_FOUND:
+                return "NOT_FOUND";
             case HttpStatus.SC_500_INTERNAL_SERVER_ERROR:
                 return "INTERNAL_SERVER_ERROR";
             default:
