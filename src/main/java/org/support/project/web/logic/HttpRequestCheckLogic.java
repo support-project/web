@@ -61,7 +61,7 @@ public class HttpRequestCheckLogic {
         }
         String url = config.getConfigValue();
         String referrer = request.getHeader("REFERER");
-        if (referrer.startsWith(url)) {
+        if (StringUtils.isNotEmpty(referrer) && referrer.startsWith(url)) {
             return true;
         }
         LOG.warn("It is a request from outside the system.");
