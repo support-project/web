@@ -607,7 +607,7 @@ public abstract class Control {
      */
     protected String getPathString(String defaultStr) {
         String[] pathInfos = getPathInfos();
-        if (pathInfos == null) {
+        if (pathInfos == null || pathInfos.length == 0) {
             return defaultStr;
         }
         return pathInfos[0];
