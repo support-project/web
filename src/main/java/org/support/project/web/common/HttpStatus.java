@@ -112,8 +112,9 @@ public class HttpStatus {
     /* 5xxレスポンス：サーバエラー */
     /** 500 Internal Server Error */
     public static final int SC_500_INTERNAL_SERVER_ERROR = 500;
-
-
-     
+    /** 501 Not Implemented */
+    public static final int SC_501_NOT_IMPLEMENTED = 501;
+    /** 503 Service Unavailable */
+    public static final int SC_503_SERVICE_UNAVAILABLE = 503;
 
 }

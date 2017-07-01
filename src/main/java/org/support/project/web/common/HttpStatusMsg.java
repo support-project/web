@@ -20,6 +20,10 @@ public final class HttpStatusMsg {
                 return "NOT_FOUND";
             case HttpStatus.SC_500_INTERNAL_SERVER_ERROR:
                 return "INTERNAL_SERVER_ERROR";
+            case HttpStatus.SC_501_NOT_IMPLEMENTED:
+                return "NOT_IMPLEMENTED";
+            case HttpStatus.SC_503_SERVICE_UNAVAILABLE:
+                return "SERVICE_UNAVAILABLE";
             default:
                 return "";
         }
