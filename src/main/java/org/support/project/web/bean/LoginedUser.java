@@ -84,7 +84,9 @@ public class LoginedUser implements Serializable {
      * @return loginUser loginUser
      */
     public UsersEntity getLoginUser() {
-        loginUser.setPassword(""); // セッションに持つ場合、パスワードはクリアすること
+        if (loginUser != null) {
+            loginUser.setPassword(""); // セッションに持つ場合、パスワードはクリアすること
+        }
         return loginUser;
     }
 
