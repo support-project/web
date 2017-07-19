@@ -5,7 +5,7 @@ import java.util.List;
 import java.sql.Timestamp;
 
 
-import org.support.project.web.entity.LdapConfigsEntity;
+import org.support.project.web.entity.UserAliasEntity;
 import org.support.project.ormapping.dao.AbstractDao;
 import org.support.project.ormapping.exception.ORMappingException;
 import org.support.project.ormapping.common.SQLManager;
@@ -21,12 +21,12 @@ import org.support.project.di.Instance;
 import org.support.project.aop.Aspect;
 
 /**
- * LDAP認証設定
+ * ユーザのエイリアス
  * this class is auto generate and not edit.
- * if modify dao method, you can edit LdapConfigsDao.
+ * if modify dao method, you can edit UserAliasDao.
  */
 @DI(instance = Instance.Singleton)
-public class GenLdapConfigsDao extends AbstractDao {
+public class GenUserAliasDao extends AbstractDao {
 
     /** SerialVersion */
     private static final long serialVersionUID = 1L;
@@ -35,17 +35,17 @@ public class GenLdapConfigsDao extends AbstractDao {
      * Get instance from DI container.
      * @return instance
      */
-    public static GenLdapConfigsDao get() {
-        return Container.getComp(GenLdapConfigsDao.class);
+    public static GenUserAliasDao get() {
+        return Container.getComp(GenUserAliasDao.class);
     }
 
     /**
      * Select all data.
      * @return all data
      */
-    public List<LdapConfigsEntity> physicalSelectAll() { 
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LdapConfigsDao/LdapConfigsDao_physical_select_all.sql");
-        return executeQueryList(sql, LdapConfigsEntity.class);
+    public List<UserAliasEntity> physicalSelectAll() { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_physical_select_all.sql");
+        return executeQueryList(sql, UserAliasEntity.class);
     }
     /**
      * Select all data with pager.
@@ -53,26 +53,27 @@ public class GenLdapConfigsDao extends AbstractDao {
      * @param offset offset
      * @return all data on limit and offset
      */
-    public List<LdapConfigsEntity> physicalSelectAllWithPager(int limit, int offset) { 
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LdapConfigsDao/LdapConfigsDao_physical_select_all_with_pager.sql");
-        return executeQueryList(sql, LdapConfigsEntity.class, limit, offset);
+    public List<UserAliasEntity> physicalSelectAllWithPager(int limit, int offset) { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_physical_select_all_with_pager.sql");
+        return executeQueryList(sql, UserAliasEntity.class, limit, offset);
     }
     /**
      * Select data on key.
-     * @param  systemName systemName
+     * @param  authKey authKey
+     * @param  userId userId
      * @return data
      */
-    public LdapConfigsEntity physicalSelectOnKey(String systemName) {
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LdapConfigsDao/LdapConfigsDao_physical_select_on_key.sql");
-        return executeQuerySingle(sql, LdapConfigsEntity.class, systemName);
+    public UserAliasEntity physicalSelectOnKey(String authKey, Integer userId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_physical_select_on_key.sql");
+        return executeQuerySingle(sql, UserAliasEntity.class, authKey, userId);
     }
     /**
      * Select all data that not deleted.
      * @return all data
      */
-    public List<LdapConfigsEntity> selectAll() { 
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LdapConfigsDao/LdapConfigsDao_select_all.sql");
-        return executeQueryList(sql, LdapConfigsEntity.class);
+    public List<UserAliasEntity> selectAll() { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_select_all.sql");
+        return executeQueryList(sql, UserAliasEntity.class);
     }
     /**
      * Select all data that not deleted with pager.
@@ -80,33 +81,70 @@ public class GenLdapConfigsDao extends AbstractDao {
      * @param offset offset
      * @return all data
      */
-    public List<LdapConfigsEntity> selectAllWidthPager(int limit, int offset) { 
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LdapConfigsDao/LdapConfigsDao_select_all_with_pager.sql");
-        return executeQueryList(sql, LdapConfigsEntity.class, limit, offset);
+    public List<UserAliasEntity> selectAllWidthPager(int limit, int offset) { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_select_all_with_pager.sql");
+        return executeQueryList(sql, UserAliasEntity.class, limit, offset);
     }
     /**
      * Select count that not deleted.
      * @return count
      */
     public Integer selectCountAll() { 
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LdapConfigsDao/LdapConfigsDao_select_count_all.sql");
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_select_count_all.sql");
         return executeQuerySingle(sql, Integer.class);
     }
     /**
      * Select data that not deleted on key.
-     * @param  systemName systemName
+     * @param  authKey authKey
+     * @param  userId userId
      * @return data
      */
-    public LdapConfigsEntity selectOnKey(String systemName) {
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LdapConfigsDao/LdapConfigsDao_select_on_key.sql");
-        return executeQuerySingle(sql, LdapConfigsEntity.class, systemName);
+    public UserAliasEntity selectOnKey(String authKey, Integer userId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_select_on_key.sql");
+        return executeQuerySingle(sql, UserAliasEntity.class, authKey, userId);
+    }
+    /**
+     * Select data that not deleted on AUTH_KEY column.
+     * @param authKey authKey
+     * @return list
+     */
+    public List<UserAliasEntity> selectOnAuthKey(String authKey) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_select_on_auth_key.sql");
+        return executeQueryList(sql, UserAliasEntity.class, authKey);
+    }
+    /**
+     * Select data that not deleted on USER_ID column.
+     * @param userId userId
+     * @return list
+     */
+    public List<UserAliasEntity> selectOnUserId(Integer userId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_select_on_user_id.sql");
+        return executeQueryList(sql, UserAliasEntity.class, userId);
+    }
+    /**
+     * Select data on AUTH_KEY column.
+     * @param authKey authKey
+     * @return list
+     */
+    public List<UserAliasEntity> physicalSelectOnAuthKey(String authKey) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_physical_select_on_auth_key.sql");
+        return executeQueryList(sql, UserAliasEntity.class, authKey);
+    }
+    /**
+     * Select data on USER_ID column.
+     * @param userId userId
+     * @return list
+     */
+    public List<UserAliasEntity> physicalSelectOnUserId(Integer userId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_physical_select_on_user_id.sql");
+        return executeQueryList(sql, UserAliasEntity.class, userId);
     }
     /**
      * Count all data
      * @return count
      */
     public int physicalCountAll() {
-        String sql = "SELECT COUNT(*) FROM LDAP_CONFIGS";
+        String sql = "SELECT COUNT(*) FROM USER_ALIAS";
         return executeQuerySingle(sql, Integer.class);
     }
     /**
@@ -114,7 +152,7 @@ public class GenLdapConfigsDao extends AbstractDao {
      * @return row id
      */
     protected String createRowId() {
-        return IDGen.get().gen("LDAP_CONFIGS");
+        return IDGen.get().gen("USER_ALIAS");
     }
     /**
      * Physical Insert.
@@ -123,25 +161,15 @@ public class GenLdapConfigsDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public LdapConfigsEntity rawPhysicalInsert(LdapConfigsEntity entity) {
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LdapConfigsDao/LdapConfigsDao_raw_insert.sql");
+    public UserAliasEntity rawPhysicalInsert(UserAliasEntity entity) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_raw_insert.sql");
         executeUpdate(sql, 
-            entity.getSystemName(), 
-            entity.getDescription(), 
-            entity.getHost(), 
-            entity.getPort(), 
-            entity.getUseSsl(), 
-            entity.getUseTls(), 
-            entity.getBindDn(), 
-            entity.getBindPassword(), 
-            entity.getSalt(), 
-            entity.getBaseDn(), 
-            entity.getFilter(), 
-            entity.getIdAttr(), 
-            entity.getNameAttr(), 
-            entity.getMailAttr(), 
-            entity.getAdminCheckFilter(), 
-            entity.getAuthType(), 
+            entity.getAuthKey(), 
+            entity.getUserId(), 
+            entity.getAliasKey(), 
+            entity.getAliasName(), 
+            entity.getAliasMail(), 
+            entity.getUserInfoUpdate(), 
             entity.getRowId(), 
             entity.getInsertUser(), 
             entity.getInsertDatetime(), 
@@ -157,25 +185,15 @@ public class GenLdapConfigsDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public LdapConfigsEntity physicalInsert(LdapConfigsEntity entity) {
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LdapConfigsDao/LdapConfigsDao_insert.sql");
+    public UserAliasEntity physicalInsert(UserAliasEntity entity) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_insert.sql");
         executeUpdate(sql, 
-            entity.getSystemName(), 
-            entity.getDescription(), 
-            entity.getHost(), 
-            entity.getPort(), 
-            entity.getUseSsl(), 
-            entity.getUseTls(), 
-            entity.getBindDn(), 
-            entity.getBindPassword(), 
-            entity.getSalt(), 
-            entity.getBaseDn(), 
-            entity.getFilter(), 
-            entity.getIdAttr(), 
-            entity.getNameAttr(), 
-            entity.getMailAttr(), 
-            entity.getAdminCheckFilter(), 
-            entity.getAuthType(), 
+            entity.getAuthKey(), 
+            entity.getUserId(), 
+            entity.getAliasKey(), 
+            entity.getAliasName(), 
+            entity.getAliasMail(), 
+            entity.getUserInfoUpdate(), 
             entity.getRowId(), 
             entity.getInsertUser(), 
             entity.getInsertDatetime(), 
@@ -192,7 +210,7 @@ public class GenLdapConfigsDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public LdapConfigsEntity insert(Integer user, LdapConfigsEntity entity) {
+    public UserAliasEntity insert(Integer user, UserAliasEntity entity) {
         entity.setInsertUser(user);
         entity.setInsertDatetime(new Timestamp(new java.util.Date().getTime()));
         entity.setUpdateUser(user);
@@ -208,7 +226,7 @@ public class GenLdapConfigsDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public LdapConfigsEntity insert(LdapConfigsEntity entity) {
+    public UserAliasEntity insert(UserAliasEntity entity) {
         DBUserPool pool = Container.getComp(DBUserPool.class);
         Integer userId = (Integer) pool.getUser();
         return insert(userId, entity);
@@ -219,31 +237,21 @@ public class GenLdapConfigsDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public LdapConfigsEntity physicalUpdate(LdapConfigsEntity entity) {
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LdapConfigsDao/LdapConfigsDao_update.sql");
+    public UserAliasEntity physicalUpdate(UserAliasEntity entity) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_update.sql");
         executeUpdate(sql, 
-            entity.getDescription(), 
-            entity.getHost(), 
-            entity.getPort(), 
-            entity.getUseSsl(), 
-            entity.getUseTls(), 
-            entity.getBindDn(), 
-            entity.getBindPassword(), 
-            entity.getSalt(), 
-            entity.getBaseDn(), 
-            entity.getFilter(), 
-            entity.getIdAttr(), 
-            entity.getNameAttr(), 
-            entity.getMailAttr(), 
-            entity.getAdminCheckFilter(), 
-            entity.getAuthType(), 
+            entity.getAliasKey(), 
+            entity.getAliasName(), 
+            entity.getAliasMail(), 
+            entity.getUserInfoUpdate(), 
             entity.getRowId(), 
             entity.getInsertUser(), 
             entity.getInsertDatetime(), 
             entity.getUpdateUser(), 
             entity.getUpdateDatetime(), 
             entity.getDeleteFlag(), 
-            entity.getSystemName());
+            entity.getAuthKey(), 
+            entity.getUserId());
         return entity;
     }
     /**
@@ -254,8 +262,8 @@ public class GenLdapConfigsDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public LdapConfigsEntity update(Integer user, LdapConfigsEntity entity) {
-        LdapConfigsEntity db = selectOnKey(entity.getSystemName());
+    public UserAliasEntity update(Integer user, UserAliasEntity entity) {
+        UserAliasEntity db = selectOnKey(entity.getAuthKey(), entity.getUserId());
         entity.setInsertUser(db.getInsertUser());
         entity.setInsertDatetime(db.getInsertDatetime());
         entity.setDeleteFlag(db.getDeleteFlag());
@@ -270,7 +278,7 @@ public class GenLdapConfigsDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public LdapConfigsEntity update(LdapConfigsEntity entity) {
+    public UserAliasEntity update(UserAliasEntity entity) {
         DBUserPool pool = Container.getComp(DBUserPool.class);
         Integer userId = (Integer) pool.getUser();
         return update(userId, entity);
@@ -284,8 +292,8 @@ public class GenLdapConfigsDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public LdapConfigsEntity save(Integer user, LdapConfigsEntity entity) {
-        LdapConfigsEntity db = selectOnKey(entity.getSystemName());
+    public UserAliasEntity save(Integer user, UserAliasEntity entity) {
+        UserAliasEntity db = selectOnKey(entity.getAuthKey(), entity.getUserId());
         if (db == null) {
             return insert(user, entity);
         } else {
@@ -299,8 +307,8 @@ public class GenLdapConfigsDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public LdapConfigsEntity save(LdapConfigsEntity entity) {
-        LdapConfigsEntity db = selectOnKey(entity.getSystemName());
+    public UserAliasEntity save(UserAliasEntity entity) {
+        UserAliasEntity db = selectOnKey(entity.getAuthKey(), entity.getUserId());
         if (db == null) {
             return insert(entity);
         } else {
@@ -309,20 +317,21 @@ public class GenLdapConfigsDao extends AbstractDao {
     }
     /**
      * Physical Delete.
-     * @param  systemName systemName
+     * @param  authKey authKey
+     * @param  userId userId
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void physicalDelete(String systemName) {
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LdapConfigsDao/LdapConfigsDao_delete.sql");
-        executeUpdate(sql, systemName);
+    public void physicalDelete(String authKey, Integer userId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_delete.sql");
+        executeUpdate(sql, authKey, userId);
     }
     /**
      * Physical Delete.
      * @param entity entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void physicalDelete(LdapConfigsEntity entity) {
-        physicalDelete(entity.getSystemName());
+    public void physicalDelete(UserAliasEntity entity) {
+        physicalDelete(entity.getAuthKey(), entity.getUserId());
 
     }
     /**
@@ -330,11 +339,12 @@ public class GenLdapConfigsDao extends AbstractDao {
      * if delete flag is exists, the data is logical delete.
      * set saved user id.
      * @param user saved userid
-     * @param  systemName systemName
+     * @param  authKey authKey
+     * @param  userId userId
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void delete(Integer user, String systemName) {
-        LdapConfigsEntity db = selectOnKey(systemName);
+    public void delete(Integer user, String authKey, Integer userId) {
+        UserAliasEntity db = selectOnKey(authKey, userId);
         db.setDeleteFlag(1);
         db.setUpdateUser(user);
         db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
@@ -343,13 +353,14 @@ public class GenLdapConfigsDao extends AbstractDao {
     /**
      * Delete.
      * if delete flag is exists, the data is logical delete.
-     * @param  systemName systemName
+     * @param  authKey authKey
+     * @param  userId userId
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void delete(String systemName) {
+    public void delete(String authKey, Integer userId) {
         DBUserPool pool = Container.getComp(DBUserPool.class);
         Integer user = (Integer) pool.getUser();
-        delete(user, systemName);
+        delete(user, authKey, userId);
     }
     /**
      * Delete.
@@ -359,8 +370,8 @@ public class GenLdapConfigsDao extends AbstractDao {
      * @param entity entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void delete(Integer user, LdapConfigsEntity entity) {
-        delete(user, entity.getSystemName());
+    public void delete(Integer user, UserAliasEntity entity) {
+        delete(user, entity.getAuthKey(), entity.getUserId());
 
     }
     /**
@@ -370,8 +381,8 @@ public class GenLdapConfigsDao extends AbstractDao {
      * @param entity entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void delete(LdapConfigsEntity entity) {
-        delete(entity.getSystemName());
+    public void delete(UserAliasEntity entity) {
+        delete(entity.getAuthKey(), entity.getUserId());
 
     }
     /**
@@ -379,11 +390,12 @@ public class GenLdapConfigsDao extends AbstractDao {
      * if delete flag is exists and delete flag is true, delete flug is false to activate.
      * set saved user id.
      * @param user saved userid
-     * @param  systemName systemName
+     * @param  authKey authKey
+     * @param  userId userId
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void activation(Integer user, String systemName) {
-        LdapConfigsEntity db = physicalSelectOnKey(systemName);
+    public void activation(Integer user, String authKey, Integer userId) {
+        UserAliasEntity db = physicalSelectOnKey(authKey, userId);
         db.setDeleteFlag(0);
         db.setUpdateUser(user);
         db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
@@ -392,13 +404,14 @@ public class GenLdapConfigsDao extends AbstractDao {
     /**
      * Ativation.
      * if delete flag is exists and delete flag is true, delete flug is false to activate.
-     * @param  systemName systemName
+     * @param  authKey authKey
+     * @param  userId userId
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void activation(String systemName) {
+    public void activation(String authKey, Integer userId) {
         DBUserPool pool = Container.getComp(DBUserPool.class);
         Integer user = (Integer) pool.getUser();
-        activation(user, systemName);
+        activation(user, authKey, userId);
     }
     /**
      * Ativation.
@@ -408,8 +421,8 @@ public class GenLdapConfigsDao extends AbstractDao {
      * @param entity entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void activation(Integer user, LdapConfigsEntity entity) {
-        activation(user, entity.getSystemName());
+    public void activation(Integer user, UserAliasEntity entity) {
+        activation(user, entity.getAuthKey(), entity.getUserId());
 
     }
     /**
@@ -418,8 +431,8 @@ public class GenLdapConfigsDao extends AbstractDao {
      * @param entity entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void activation(LdapConfigsEntity entity) {
-        activation(entity.getSystemName());
+    public void activation(UserAliasEntity entity) {
+        activation(entity.getAuthKey(), entity.getUserId());
 
     }
 

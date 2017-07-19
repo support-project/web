@@ -79,7 +79,7 @@ public abstract class AbstractAuthenticationLogic<T extends LoginedUser> impleme
      * @throws AuthenticateException AuthenticateException
      */
     @Override
-    public boolean auth(String userId, String password) throws AuthenticateException {
+    public int auth(String userId, String password) throws AuthenticateException {
         if (!init) {
             initLogic();
         }
@@ -92,10 +92,10 @@ public abstract class AbstractAuthenticationLogic<T extends LoginedUser> impleme
             if (usersEntity != null) {
                 String hash = PasswordUtil.getStretchedPassword(password, usersEntity.getSalt(), config.getHashIterations());
                 if (usersEntity.getPassword().equals(hash)) {
-                    return true;
+                    return usersEntity.getUserId();
                 }
             }
-            return false;
+            return Integer.MIN_VALUE;
         } catch (NoSuchAlgorithmException e) {
             throw new AuthenticateException(e);
         }

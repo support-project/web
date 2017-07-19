@@ -43,6 +43,12 @@ public class JspUtil {
     public static final int ESCAPE_CLEAR = 1;
     /** Escape flag: url escape */
     public static final int ESCAPE_URL = 2;
+    
+    public static final int SCOPE_PAGE_ATTRIBUTE = 0x1;
+    public static final int SCOPE_REQUEST_ATTRIBUTE = 0x2;
+    public static final int SCOPE_PARAMETER = 0x4;
+    public static final int SCOPE_SESSION = 0x8;
+    public static final int SCOPE_ALL = SCOPE_PAGE_ATTRIBUTE | SCOPE_REQUEST_ATTRIBUTE | SCOPE_PARAMETER | SCOPE_SESSION;
 
     /** ログ */
     private static final Log LOG = LogFactory.getLog(JspUtil.class);
@@ -227,7 +233,7 @@ public class JspUtil {
      * @throws IllegalAccessException IllegalAccessException
      */
     public <T> T getValue(final String param, Class<? extends T> clazz) throws InstantiationException, IllegalAccessException {
-        return getValue(param, clazz, null);
+        return getValue(param, clazz, null, SCOPE_ALL);
     }
 
     /**
@@ -241,26 +247,10 @@ public class JspUtil {
      * @throws InstantiationException InstantiationException
      * @throws IllegalAccessException IllegalAccessException
      */
-    public <T> T getValue(final String param, Class<? extends T> clazz, Object defaultValue) throws InstantiationException, IllegalAccessException {
+    public <T> T getValue(final String param, Class<? extends T> clazz, Object defaultValue, int scope) throws InstantiationException, IllegalAccessException {
         Object obj = null;
         String propertyName = null;
         String paramName = param;
-
-        // if (LOG.isDebugEnabled()) {
-        // LOG.debug("***** get value debug start");
-        // LOG.debug("[request attribute]");
-        // Enumeration<String> emEnumeration = request.getAttributeNames();
-        // while (emEnumeration.hasMoreElements()) {
-        // String param = (String) emEnumeration.nextElement();
-        // LOG.debug(param);
-        // if (request.getAttribute(param) != null) {
-        // LOG.debug(request.getAttribute(param).getClass().getName());
-        // } else {
-        // LOG.debug("null");
-        // }
-        // }
-        // LOG.debug("***** get value debug end");
-        // }
 
         if (paramName.indexOf(".") != -1) {
             String[] params = paramName.split("\\.");
@@ -274,18 +264,26 @@ public class JspUtil {
             }
             propertyName = builder.toString();
         }
-        obj = pageContext.findAttribute(paramName);
-        if (request.getAttribute(paramName) != null) {
-            obj = request.getAttribute(paramName);
+        if ((scope & SCOPE_PAGE_ATTRIBUTE) != 0) {
+            obj = pageContext.findAttribute(paramName);
         }
-        if (StringUtils.isEmpty(obj) && request.getParameter(paramName) != null) {
-            obj = request.getParameter(paramName);
+        if ((scope & SCOPE_REQUEST_ATTRIBUTE) != 0) {
+            if (request.getAttribute(paramName) != null) {
+                obj = request.getAttribute(paramName);
+            }
         }
-        if (StringUtils.isEmpty(obj)) {
-            HttpSession session = request.getSession();
-            if (session.getAttribute(paramName) != null) {
+        if ((scope & SCOPE_PARAMETER) != 0) {
+            if (StringUtils.isEmpty(obj) && request.getParameter(paramName) != null) {
+                obj = request.getParameter(paramName);
+            }
+        }
+        if ((scope & SCOPE_SESSION) != 0) {
+            if (StringUtils.isEmpty(obj)) {
+                HttpSession session = request.getSession();
                 if (session.getAttribute(paramName) != null) {
-                    obj = session.getAttribute(paramName);
+                    if (session.getAttribute(paramName) != null) {
+                        obj = session.getAttribute(paramName);
+                    }
                 }
             }
         }
@@ -332,6 +330,19 @@ public class JspUtil {
         return (T) obj;
     }
 
+    
+    /**
+     * 値を出力
+     * 
+     * @param paramName parameter name
+     * @return string
+     * @throws ParseException ParseException
+     */
+    public String attr(String paramName) throws ParseException {
+        return out(paramName, ESCAPE_HTML, -1, SCOPE_REQUEST_ATTRIBUTE);
+    }
+    
+    
     /**
      * 値を出力
      * 
@@ -365,8 +376,21 @@ public class JspUtil {
      * @throws ParseException ParseException
      */
     public String out(String paramName, int escape, int length) throws ParseException {
+        return out(paramName, escape, length, SCOPE_ALL);
+    }
+    
+    /**
+     * 値を出力
+     * 
+     * @param paramName parameter name
+     * @param escape escape
+     * @param length max length
+     * @return string
+     * @throws ParseException ParseException
+     */
+    public String out(String paramName, int escape, int length, int scope) throws ParseException {
         try {
-            Object str = getValue(paramName, Object.class, "");
+            Object str = getValue(paramName, Object.class, "", scope);
             if (str == null) {
                 return "";
             } else if (str != null && str instanceof String) {
@@ -445,9 +469,9 @@ public class JspUtil {
      * @throws InstantiationException InstantiationException
      */
     public String date(String paramName, boolean convGMTtoLocal) throws InstantiationException, IllegalAccessException {
-        Date v = getValue(paramName, Timestamp.class, null);
+        Date v = getValue(paramName, Timestamp.class, null, SCOPE_ALL);
         if (v == null) {
-            v = getValue(paramName, Date.class, null);
+            v = getValue(paramName, Date.class, null, SCOPE_ALL);
         }
         if (v == null) {
             return "";
@@ -475,7 +499,7 @@ public class JspUtil {
      * @throws IllegalAccessException IllegalAccessException
      */
     public boolean is(Object val, String paramName) throws InstantiationException, IllegalAccessException {
-        Object check = getValue(paramName, Object.class, "");
+        Object check = getValue(paramName, Object.class, "", SCOPE_ALL);
         if (check == null) {
             if (val == null) {
                 return true;
@@ -551,7 +575,7 @@ public class JspUtil {
         if (is(val, paramName)) {
             return "checked=\"checked\"";
         }
-        Object check = getValue(paramName, Object.class, "");
+        Object check = getValue(paramName, Object.class, "", SCOPE_ALL);
         if (StringUtils.isEmpty(check) && defaultCheck) {
             return "checked=\"checked\"";
         }

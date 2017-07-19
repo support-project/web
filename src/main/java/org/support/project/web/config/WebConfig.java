@@ -11,5 +11,7 @@ public class WebConfig {
     public static final String KEY_ANALYTICS_SCRIPT = "ANALYTICS_SCRIPT";
     /** システムへアクセスするためのURLのシステム設定のキー */
     public static final String KEY_SYSTEM_URL = "SYSTEM_URL";
-
+    
+    /** Ldap の設定キーを保存するための、システム設定キー */
+    public static final String KEY_LDAP_CONFIG = "KEY_LDAP_CONFIG";
 }

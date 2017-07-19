@@ -344,12 +344,12 @@ public class AuthenticationFilter implements Filter {
         String userkey = req.getParameter("username");
         String password = req.getParameter("password");
 
-        if (authenticationLogic.auth(userkey, password)) {
+        int userId = authenticationLogic.auth(userkey, password);
+        if (userId >= 0) {
             // セッションにログイン情報を格納
-            LOG.info(userkey + " is Login.");
-
+            LOG.debug(userId + " is Login.");
             // ActiveDirectoryでは、ログインIDは大文字・小文字を判定しないので、DBに格納されているIDを取得
-            UsersEntity usersEntity = UsersDao.get().selectOnLowerUserKey(userkey);
+            UsersEntity usersEntity = UsersDao.get().selectOnKey(userId);
             if (usersEntity == null) {
                 // なぜかユーザ情報が無い
                 return false;

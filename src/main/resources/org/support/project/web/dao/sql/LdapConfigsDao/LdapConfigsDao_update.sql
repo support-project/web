@@ -1,6 +1,7 @@
 UPDATE LDAP_CONFIGS
 SET 
-   HOST = ?
+   DESCRIPTION = ?
+ , HOST = ?
  , PORT = ?
  , USE_SSL = ?
  , USE_TLS = ?

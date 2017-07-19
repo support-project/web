@@ -15,10 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.directory.api.ldap.model.exception.LdapException;
+import org.support.project.aop.Aspect;
 import org.support.project.common.config.ConfigLoader;
 import org.support.project.common.config.INT_FLAG;
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
+import org.support.project.common.util.Compare;
 import org.support.project.common.util.PasswordUtil;
 import org.support.project.common.util.RandomUtil;
 import org.support.project.common.util.StringUtils;
@@ -32,8 +34,10 @@ import org.support.project.web.config.AppConfig;
 import org.support.project.web.config.CommonWebParameter;
 import org.support.project.web.config.WebConfig;
 import org.support.project.web.dao.LdapConfigsDao;
+import org.support.project.web.dao.UserAliasDao;
 import org.support.project.web.dao.UsersDao;
 import org.support.project.web.entity.LdapConfigsEntity;
+import org.support.project.web.entity.UserAliasEntity;
 import org.support.project.web.entity.UsersEntity;
 import org.support.project.web.exception.AuthenticateException;
 import org.support.project.web.logic.AddUserProcess;
@@ -128,12 +132,12 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
                         if (!user.getUserKey().toLowerCase().equals(entity.getUserKey().toLowerCase())
                                 || !user.getUserName().equals(entity.getUserName())
                                 || !StringUtils.equals(user.getEmail(), entity.getMailAddress())) {
-                            LOG.warn("Cookie of LOGIN_USER_KEY is invalid.");
+                            LOG.info("Cookie of LOGIN_USER_KEY is invalid.");
                             return false;
                         }
                         
                         
-                        LOG.info(user.getUserKey() + " is Login(from cookie).");
+                        LOG.debug(user.getUserKey() + " is Login(from cookie).");
                         setSession(user.getUserKey(), req);
 
                         // Cookie再セット
@@ -169,23 +173,36 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
      * @see org.support.project.web.logic.impl.AbstractAuthenticationLogic#auth(java.lang.String, java.lang.String)
      */
     @Override
-    public boolean auth(String userId, String password) throws AuthenticateException {
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public int auth(String userId, String password) throws AuthenticateException {
         initLogic();
         // Ldap認証が有効であれば、Ldap認証を実施する
         LdapConfigsDao dao = LdapConfigsDao.get();
-        LdapConfigsEntity entity = dao.selectOnKey(AppConfig.get().getSystemName());
-        if (entity != null && entity.getAuthType() != null) {
+        List<LdapConfigsEntity> ldaps = dao.selectAll();
+        for (LdapConfigsEntity config : ldaps) {
             try {
-                if (entity.isLdapLoginAble()) {
-                    LdapLogic ldapLogic = LdapLogic.get();
-                    LdapInfo ldapInfo = ldapLogic.auth(entity, userId, password);
-                    if (ldapInfo == null && entity.isLdapLoginOnly()) {
-                        // 認証タイプがLdapのみの場合、Ldap認証に失敗したら処理終了
-                        return false;
-                    }
-                    if (ldapInfo != null) {
-                        // Ldap認証成功
+                LdapLogic ldapLogic = LdapLogic.get();
+                LdapInfo ldapInfo = ldapLogic.auth(config, userId, password);
+                if (ldapInfo != null) {
+                    // Ldap認証成功
+                    UserAliasEntity alias = UserAliasDao.get().selectOnAliasKey(config.getSystemName(), userId);
+                    if (alias != null) {
+                        // Aliasが既にある
                         UsersDao usersDao = UsersDao.get();
+                        UsersEntity usersEntity = usersDao.selectOnKey(alias.getUserId());
+                        if (usersEntity == null) {
+                            return Integer.MIN_VALUE;
+                        } else {
+                            if (Compare.equal(alias.getUserInfoUpdate(), INT_FLAG.ON.getValue())) {
+                                // 情報更新するというフラグが無ければ更新しない
+                                updateUser(userId, password, ldapInfo, usersDao, usersEntity);
+                            }
+                        }
+                        return usersEntity.getUserId();
+                    } else {
+                        UsersDao usersDao = UsersDao.get();
+                        
+                        // ユーザ情報が無ければ登録、あれば更新
                         UsersEntity usersEntity = usersDao.selectOnLowerUserKey(userId);
                         if (usersEntity == null) {
                             usersEntity = addUser(userId, password, ldapInfo);
@@ -197,17 +214,27 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
                         } else {
                             updateUser(userId, password, ldapInfo, usersDao, usersEntity);
                         }
-                        return true;
+                        // ユーザのAliasを登録
+                        alias = new UserAliasEntity();
+                        alias.setUserInfoUpdate(INT_FLAG.ON.getValue());
+                        alias.setUserId(usersEntity.getUserId());
+                        alias.setAuthKey(config.getSystemName());
+                        alias.setAliasKey(userId);
+                        alias.setAliasName(ldapInfo.getName().toLowerCase());
+                        alias.setAliasMail(ldapInfo.getMail());
+                        UserAliasDao.get().save(alias);
+                        return usersEntity.getUserId();
                     }
                 }
             } catch (LdapException | IOException e) {
                 throw new AuthenticateException(e);
             }
         }
+        
         // DB認証開始
         try {
             if (StringUtils.isEmpty(password)) {
-                return false;
+                return Integer.MIN_VALUE;
             }
             UsersDao usersDao = UsersDao.get();
             UsersEntity usersEntity = usersDao.selectOnUserKey(userId);
@@ -217,10 +244,10 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
             ) {
                 String hash = PasswordUtil.getStretchedPassword(password, usersEntity.getSalt(), config.getHashIterations());
                 if (usersEntity.getPassword().equals(hash)) {
-                    return true;
+                    return usersEntity.getUserId();
                 }
             }
-            return false;
+            return Integer.MIN_VALUE;
         } catch (NoSuchAlgorithmException e) {
             throw new AuthenticateException(e);
         }
