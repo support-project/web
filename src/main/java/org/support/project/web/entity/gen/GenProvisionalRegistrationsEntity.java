@@ -97,6 +97,7 @@ public class GenProvisionalRegistrationsEntity implements Serializable {
      * @return ユーザKEY
      */
     public String getUserKey() {
+        if (userKey == null) return "";
         return this.userKey;
     }
     /**
@@ -113,6 +114,7 @@ public class GenProvisionalRegistrationsEntity implements Serializable {
      * @return ユーザ名
      */
     public String getUserName() {
+        if (userName == null) return "";
         return this.userName;
     }
     /**
