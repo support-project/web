@@ -32,7 +32,7 @@ public class UserGroupsDao extends GenUserGroupsDao {
     /**
      * グループのID配列からエンティティを取得する
      * 
-     * @param Integer[] groupIds
+     * @param groupIds Integer[] Group Ids
      * @return list
      */
     public List<UserGroupsEntity> selectOnGroupIds(List<Integer> groupIds) {
