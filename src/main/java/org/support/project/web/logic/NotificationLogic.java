@@ -81,12 +81,19 @@ public class NotificationLogic {
      * 指定のユーザの通知の取得
      * @param loginUserId ログインユーザID
      * @param offset ページオフセット
+     * @param all 
      * @return 通知
      */
-    public List<NotificationsEntity> getNotification(Integer loginUserId, int offset) {
+    public List<NotificationsEntity> getNotification(Integer loginUserId, int offset, boolean all) {
         int limit = 50;
         offset = limit * offset;
-        return UserNotificationsDao.get().selectOnUser(loginUserId, limit, offset);
+        if (all) {
+            // すべて取得
+            return UserNotificationsDao.get().selectOnUser(loginUserId, limit, offset);
+        } else {
+            // 未読のみ
+            return UserNotificationsDao.get().selectOnUserOnlyUnread(loginUserId, limit, offset);
+        }
     }
     
     /**
