@@ -58,6 +58,11 @@ public class UserNotificationsDao extends GenUserNotificationsDao {
         
     }
 
+    public List<NotificationsEntity> selectOnUserOnlyUnread(Integer loginUserId, int limit, int offset) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserNotificationsDao/UserNotificationsDao_selectOnUserOnlyUnread.sql");
+        return executeQueryList(sql, NotificationsEntity.class, loginUserId, limit, offset);
+    }
+
 
 
 }
