@@ -112,5 +112,39 @@ public class NotificationLogic {
         UserNotificationsDao.get().update(entity);
         return true;
     }
+    
+    /**
+     * 指定の番号の前の通知を取得
+     * @param no 通知番号
+     * @param loginUserId ログインユーザ
+     * @param all 全て取得 or 未読のみ
+     * @return 前の通知
+     */
+    public NotificationsEntity previous(long no, int loginUserId, boolean all) {
+        if (all) {
+            // すべて取得
+            return UserNotificationsDao.get().selectPrevious(no, loginUserId);
+        } else {
+            // 未読のみ
+            return UserNotificationsDao.get().selectPreviousOnlyUnread(no, loginUserId);
+        }
+    }
+
+    /**
+     * 指定の番号の次の通知を取得
+     * @param no 通知番号
+     * @param loginUserId ログインユーザ
+     * @param all 全て取得 or 未読のみ
+     * @return 次の通知
+     */
+    public NotificationsEntity next(long no, int loginUserId, boolean all) {
+        if (all) {
+            // すべて取得
+            return UserNotificationsDao.get().selectNext(no, loginUserId);
+        } else {
+            // 未読のみ
+            return UserNotificationsDao.get().selectNextOnlyUnread(no, loginUserId);
+        }
+    }
 
 }

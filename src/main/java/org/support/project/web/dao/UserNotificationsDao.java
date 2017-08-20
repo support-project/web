@@ -57,10 +57,56 @@ public class UserNotificationsDao extends GenUserNotificationsDao {
         return executeQueryList(sql, NotificationsEntity.class, loginUserId, limit, offset);
         
     }
-
+    /**
+     * 指定ユーザの通知の取得(未読のみ)
+     * @param loginUserId ログインユーザID
+     * @param offset オフセット
+     * @param limit リミット
+     * @return 通知
+     */
     public List<NotificationsEntity> selectOnUserOnlyUnread(Integer loginUserId, int limit, int offset) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserNotificationsDao/UserNotificationsDao_selectOnUserOnlyUnread.sql");
         return executeQueryList(sql, NotificationsEntity.class, loginUserId, limit, offset);
+    }
+    /**
+     * 指定のユーザの前の通知を取得
+     * @param no 通知番号
+     * @param loginUserId ログインユーザ
+     * @return 通知
+     */
+    public NotificationsEntity selectPrevious(long no, int loginUserId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserNotificationsDao/UserNotificationsDao_selectPrevious.sql");
+        return executeQuerySingle(sql, NotificationsEntity.class, loginUserId, no);
+    }
+    /**
+     * 指定のユーザの前の通知を取得（未読のみ）
+     * @param no 通知番号
+     * @param loginUserId ログインユーザ
+     * @return 通知
+     */
+    public NotificationsEntity selectPreviousOnlyUnread(long no, int loginUserId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserNotificationsDao/UserNotificationsDao_selectPreviousOnlyUnread.sql");
+        return executeQuerySingle(sql, NotificationsEntity.class, loginUserId, no);
+    }
+    /**
+     * 指定のユーザの次の通知を取得
+     * @param no 通知番号
+     * @param loginUserId ログインユーザ
+     * @return 通知
+     */
+    public NotificationsEntity selectNext(long no, int loginUserId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserNotificationsDao/UserNotificationsDao_selectNext.sql");
+        return executeQuerySingle(sql, NotificationsEntity.class, loginUserId, no);
+    }
+    /**
+     * 指定のユーザの次の通知を取得（未読のみ）
+     * @param no 通知番号
+     * @param loginUserId ログインユーザ
+     * @return 通知
+     */
+    public NotificationsEntity selectNextOnlyUnread(long no, int loginUserId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserNotificationsDao/UserNotificationsDao_selectNextOnlyUnread.sql");
+        return executeQuerySingle(sql, NotificationsEntity.class, loginUserId, no);
     }
 
 
