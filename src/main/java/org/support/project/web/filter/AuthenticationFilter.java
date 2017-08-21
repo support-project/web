@@ -99,7 +99,10 @@ public class AuthenticationFilter implements Filter {
         if (StringUtils.isNotEmpty(initialPage)) {
             this.initialPage = initialPage;
         }
-
+        String outPage = filterconfig.getInitParameter("out-page");
+        if (StringUtils.isNotEmpty(outPage)) {
+            this.outPage = outPage;
+        }
         String authorizerErrorPage = filterconfig.getInitParameter("authorizer-error-page");
         if (StringUtils.isNotEmpty(authorizerErrorPage)) {
             this.authorizerErrorPage = authorizerErrorPage;
