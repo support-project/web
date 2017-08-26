@@ -33,7 +33,7 @@ public class MailsDao extends GenMailsDao {
      * @return mail list
      */
     public List<MailsEntity> selectOnStatus(int status) {
-        String sql = "SELECT * FROM MAILS WHERE STATUS < ? AND DELETE_FLAG = 0";
+        String sql = "SELECT * FROM MAILS WHERE STATUS < ? AND DELETE_FLAG = 0 ORDER BY INSERT_DATETIME";
         return executeQueryList(sql, MailsEntity.class, status);
     }
 
