@@ -43,6 +43,7 @@ public class GenProvisionalRegistrationsDao extends AbstractDao {
      * Select all data.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<ProvisionalRegistrationsEntity> physicalSelectAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ProvisionalRegistrationsDao/ProvisionalRegistrationsDao_physical_select_all.sql");
         return executeQueryList(sql, ProvisionalRegistrationsEntity.class);
@@ -53,6 +54,7 @@ public class GenProvisionalRegistrationsDao extends AbstractDao {
      * @param offset offset
      * @return all data on limit and offset
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<ProvisionalRegistrationsEntity> physicalSelectAllWithPager(int limit, int offset) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ProvisionalRegistrationsDao/ProvisionalRegistrationsDao_physical_select_all_with_pager.sql");
         return executeQueryList(sql, ProvisionalRegistrationsEntity.class, limit, offset);
@@ -62,6 +64,7 @@ public class GenProvisionalRegistrationsDao extends AbstractDao {
      * @param  id id
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public ProvisionalRegistrationsEntity physicalSelectOnKey(String id) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ProvisionalRegistrationsDao/ProvisionalRegistrationsDao_physical_select_on_key.sql");
         return executeQuerySingle(sql, ProvisionalRegistrationsEntity.class, id);
@@ -70,6 +73,7 @@ public class GenProvisionalRegistrationsDao extends AbstractDao {
      * Select all data that not deleted.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<ProvisionalRegistrationsEntity> selectAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ProvisionalRegistrationsDao/ProvisionalRegistrationsDao_select_all.sql");
         return executeQueryList(sql, ProvisionalRegistrationsEntity.class);
@@ -80,6 +84,7 @@ public class GenProvisionalRegistrationsDao extends AbstractDao {
      * @param offset offset
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<ProvisionalRegistrationsEntity> selectAllWidthPager(int limit, int offset) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ProvisionalRegistrationsDao/ProvisionalRegistrationsDao_select_all_with_pager.sql");
         return executeQueryList(sql, ProvisionalRegistrationsEntity.class, limit, offset);
@@ -88,6 +93,7 @@ public class GenProvisionalRegistrationsDao extends AbstractDao {
      * Select count that not deleted.
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public Integer selectCountAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ProvisionalRegistrationsDao/ProvisionalRegistrationsDao_select_count_all.sql");
         return executeQuerySingle(sql, Integer.class);
@@ -97,6 +103,7 @@ public class GenProvisionalRegistrationsDao extends AbstractDao {
      * @param  id id
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public ProvisionalRegistrationsEntity selectOnKey(String id) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ProvisionalRegistrationsDao/ProvisionalRegistrationsDao_select_on_key.sql");
         return executeQuerySingle(sql, ProvisionalRegistrationsEntity.class, id);
@@ -105,6 +112,7 @@ public class GenProvisionalRegistrationsDao extends AbstractDao {
      * Count all data
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public int physicalCountAll() {
         String sql = "SELECT COUNT(*) FROM PROVISIONAL_REGISTRATIONS";
         return executeQuerySingle(sql, Integer.class);

@@ -43,6 +43,7 @@ public class GenLocalesDao extends AbstractDao {
      * Select all data.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<LocalesEntity> physicalSelectAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LocalesDao/LocalesDao_physical_select_all.sql");
         return executeQueryList(sql, LocalesEntity.class);
@@ -53,6 +54,7 @@ public class GenLocalesDao extends AbstractDao {
      * @param offset offset
      * @return all data on limit and offset
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<LocalesEntity> physicalSelectAllWithPager(int limit, int offset) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LocalesDao/LocalesDao_physical_select_all_with_pager.sql");
         return executeQueryList(sql, LocalesEntity.class, limit, offset);
@@ -62,6 +64,7 @@ public class GenLocalesDao extends AbstractDao {
      * @param  key key
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public LocalesEntity physicalSelectOnKey(String key) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LocalesDao/LocalesDao_physical_select_on_key.sql");
         return executeQuerySingle(sql, LocalesEntity.class, key);
@@ -70,6 +73,7 @@ public class GenLocalesDao extends AbstractDao {
      * Select all data that not deleted.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<LocalesEntity> selectAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LocalesDao/LocalesDao_select_all.sql");
         return executeQueryList(sql, LocalesEntity.class);
@@ -80,6 +84,7 @@ public class GenLocalesDao extends AbstractDao {
      * @param offset offset
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<LocalesEntity> selectAllWidthPager(int limit, int offset) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LocalesDao/LocalesDao_select_all_with_pager.sql");
         return executeQueryList(sql, LocalesEntity.class, limit, offset);
@@ -88,6 +93,7 @@ public class GenLocalesDao extends AbstractDao {
      * Select count that not deleted.
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public Integer selectCountAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LocalesDao/LocalesDao_select_count_all.sql");
         return executeQuerySingle(sql, Integer.class);
@@ -97,6 +103,7 @@ public class GenLocalesDao extends AbstractDao {
      * @param  key key
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public LocalesEntity selectOnKey(String key) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LocalesDao/LocalesDao_select_on_key.sql");
         return executeQuerySingle(sql, LocalesEntity.class, key);
@@ -105,6 +112,7 @@ public class GenLocalesDao extends AbstractDao {
      * Count all data
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public int physicalCountAll() {
         String sql = "SELECT COUNT(*) FROM LOCALES";
         return executeQuerySingle(sql, Integer.class);

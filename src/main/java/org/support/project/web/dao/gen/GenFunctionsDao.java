@@ -43,6 +43,7 @@ public class GenFunctionsDao extends AbstractDao {
      * Select all data.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<FunctionsEntity> physicalSelectAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/FunctionsDao/FunctionsDao_physical_select_all.sql");
         return executeQueryList(sql, FunctionsEntity.class);
@@ -53,6 +54,7 @@ public class GenFunctionsDao extends AbstractDao {
      * @param offset offset
      * @return all data on limit and offset
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<FunctionsEntity> physicalSelectAllWithPager(int limit, int offset) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/FunctionsDao/FunctionsDao_physical_select_all_with_pager.sql");
         return executeQueryList(sql, FunctionsEntity.class, limit, offset);
@@ -62,6 +64,7 @@ public class GenFunctionsDao extends AbstractDao {
      * @param  functionKey functionKey
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public FunctionsEntity physicalSelectOnKey(String functionKey) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/FunctionsDao/FunctionsDao_physical_select_on_key.sql");
         return executeQuerySingle(sql, FunctionsEntity.class, functionKey);
@@ -70,6 +73,7 @@ public class GenFunctionsDao extends AbstractDao {
      * Select all data that not deleted.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<FunctionsEntity> selectAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/FunctionsDao/FunctionsDao_select_all.sql");
         return executeQueryList(sql, FunctionsEntity.class);
@@ -80,6 +84,7 @@ public class GenFunctionsDao extends AbstractDao {
      * @param offset offset
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<FunctionsEntity> selectAllWidthPager(int limit, int offset) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/FunctionsDao/FunctionsDao_select_all_with_pager.sql");
         return executeQueryList(sql, FunctionsEntity.class, limit, offset);
@@ -88,6 +93,7 @@ public class GenFunctionsDao extends AbstractDao {
      * Select count that not deleted.
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public Integer selectCountAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/FunctionsDao/FunctionsDao_select_count_all.sql");
         return executeQuerySingle(sql, Integer.class);
@@ -97,6 +103,7 @@ public class GenFunctionsDao extends AbstractDao {
      * @param  functionKey functionKey
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public FunctionsEntity selectOnKey(String functionKey) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/FunctionsDao/FunctionsDao_select_on_key.sql");
         return executeQuerySingle(sql, FunctionsEntity.class, functionKey);
@@ -105,6 +112,7 @@ public class GenFunctionsDao extends AbstractDao {
      * Count all data
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public int physicalCountAll() {
         String sql = "SELECT COUNT(*) FROM FUNCTIONS";
         return executeQuerySingle(sql, Integer.class);

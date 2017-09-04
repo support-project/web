@@ -38,6 +38,7 @@ public class GroupsDao extends GenGroupsDao {
      * IDを採番 ※コミットしなくても次のIDを採番する為、保存しなければ欠番になる
      * @return next id
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public Integer getNextId() {
         String sql = "SELECT MAX(GROUP_ID) FROM GROUPS;";
         Integer integer = executeQuerySingle(sql, Integer.class);
@@ -58,6 +59,7 @@ public class GroupsDao extends GenGroupsDao {
      * @param limit limit
      * @return groups
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<GroupsEntity> selectMyGroup(LoginedUser loginedUser, int offset, int limit) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectMyGroup.sql");
         return executeQueryList(sql, GroupsEntity.class, loginedUser.getUserId(), limit, offset);
@@ -70,6 +72,7 @@ public class GroupsDao extends GenGroupsDao {
      * @param limit limit
      * @return groups
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<GroupsEntity> selectAccessAbleGroups(LoginedUser loginedUser, int offset, int limit) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectAccessAbleGroups.sql");
         return executeQueryList(sql, GroupsEntity.class, loginedUser.getUserId(), limit, offset);
@@ -84,6 +87,7 @@ public class GroupsDao extends GenGroupsDao {
      * @param limit limit
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<GroupsEntity> selectOnKeyword(String keyword, LoginedUser loginedUser, int offset, int limit) {
         if (loginedUser != null && loginedUser.isAdmin()) {
             String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectAdminOnKeyword.sql");
@@ -107,6 +111,7 @@ public class GroupsDao extends GenGroupsDao {
      * @param limit limit
      * @return group list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<GroupsEntity> selectMyGroupOnKeyword(String keyword, LoginedUser loginedUser, int offset, int limit) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectMyGroupOnKeyword.sql");
         return executeQueryList(sql, GroupsEntity.class, keyword, loginedUser.getUserId(), limit, offset);
@@ -119,6 +124,7 @@ public class GroupsDao extends GenGroupsDao {
      * @param loginedUser loginedUser
      * @return group
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public GroupsEntity selectAccessAbleGroup(Integer groupId, LoginedUser loginedUser) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectAccessAbleGroup.sql");
         return executeQuerySingle(sql, GroupsEntity.class, groupId, loginedUser.getUserId());
@@ -131,6 +137,7 @@ public class GroupsDao extends GenGroupsDao {
      * @param loginedUser loginedUser
      * @return group
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public GroupsEntity selectEditAbleGroup(Integer groupId, LoginedUser loginedUser) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectEditAbleGroup.sql");
         return executeQuerySingle(sql, GroupsEntity.class, groupId, loginedUser.getUserId());
@@ -142,6 +149,7 @@ public class GroupsDao extends GenGroupsDao {
      * @param groupids groupids
      * @return group list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<GroupsEntity> selectOnGroupIds(List<Integer> groupids) {
         StringBuilder builder = new StringBuilder();
         builder.append("SELECT * FROM GROUPS WHERE GROUP_ID IN (");
@@ -163,6 +171,7 @@ public class GroupsDao extends GenGroupsDao {
      * @param groupName group name
      * @return group
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public GroupsEntity selectOnGroupName(String groupName) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectOnGroupName.sql");
         return executeQuerySingle(sql, GroupsEntity.class, groupName);
