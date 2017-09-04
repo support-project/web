@@ -43,6 +43,7 @@ public class GenAccessLogsDao extends AbstractDao {
      * Select all data.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<AccessLogsEntity> physicalSelectAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/AccessLogsDao/AccessLogsDao_physical_select_all.sql");
         return executeQueryList(sql, AccessLogsEntity.class);
@@ -53,6 +54,7 @@ public class GenAccessLogsDao extends AbstractDao {
      * @param offset offset
      * @return all data on limit and offset
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<AccessLogsEntity> physicalSelectAllWithPager(int limit, int offset) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/AccessLogsDao/AccessLogsDao_physical_select_all_with_pager.sql");
         return executeQueryList(sql, AccessLogsEntity.class, limit, offset);
@@ -62,6 +64,7 @@ public class GenAccessLogsDao extends AbstractDao {
      * @param  no no
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public AccessLogsEntity physicalSelectOnKey(Long no) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/AccessLogsDao/AccessLogsDao_physical_select_on_key.sql");
         return executeQuerySingle(sql, AccessLogsEntity.class, no);
@@ -70,6 +73,7 @@ public class GenAccessLogsDao extends AbstractDao {
      * Select all data that not deleted.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<AccessLogsEntity> selectAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/AccessLogsDao/AccessLogsDao_select_all.sql");
         return executeQueryList(sql, AccessLogsEntity.class);
@@ -80,6 +84,7 @@ public class GenAccessLogsDao extends AbstractDao {
      * @param offset offset
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<AccessLogsEntity> selectAllWidthPager(int limit, int offset) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/AccessLogsDao/AccessLogsDao_select_all_with_pager.sql");
         return executeQueryList(sql, AccessLogsEntity.class, limit, offset);
@@ -88,6 +93,7 @@ public class GenAccessLogsDao extends AbstractDao {
      * Select count that not deleted.
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public Integer selectCountAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/AccessLogsDao/AccessLogsDao_select_count_all.sql");
         return executeQuerySingle(sql, Integer.class);
@@ -97,6 +103,7 @@ public class GenAccessLogsDao extends AbstractDao {
      * @param  no no
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public AccessLogsEntity selectOnKey(Long no) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/AccessLogsDao/AccessLogsDao_select_on_key.sql");
         return executeQuerySingle(sql, AccessLogsEntity.class, no);
@@ -105,6 +112,7 @@ public class GenAccessLogsDao extends AbstractDao {
      * Count all data
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public int physicalCountAll() {
         String sql = "SELECT COUNT(*) FROM ACCESS_LOGS";
         return executeQuerySingle(sql, Integer.class);

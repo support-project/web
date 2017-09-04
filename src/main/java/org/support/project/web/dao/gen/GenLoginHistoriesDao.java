@@ -43,6 +43,7 @@ public class GenLoginHistoriesDao extends AbstractDao {
      * Select all data.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<LoginHistoriesEntity> physicalSelectAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LoginHistoriesDao/LoginHistoriesDao_physical_select_all.sql");
         return executeQueryList(sql, LoginHistoriesEntity.class);
@@ -53,6 +54,7 @@ public class GenLoginHistoriesDao extends AbstractDao {
      * @param offset offset
      * @return all data on limit and offset
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<LoginHistoriesEntity> physicalSelectAllWithPager(int limit, int offset) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LoginHistoriesDao/LoginHistoriesDao_physical_select_all_with_pager.sql");
         return executeQueryList(sql, LoginHistoriesEntity.class, limit, offset);
@@ -63,6 +65,7 @@ public class GenLoginHistoriesDao extends AbstractDao {
      * @param  userId userId
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public LoginHistoriesEntity physicalSelectOnKey(Double loginCount, Integer userId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LoginHistoriesDao/LoginHistoriesDao_physical_select_on_key.sql");
         return executeQuerySingle(sql, LoginHistoriesEntity.class, loginCount, userId);
@@ -71,6 +74,7 @@ public class GenLoginHistoriesDao extends AbstractDao {
      * Select all data that not deleted.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<LoginHistoriesEntity> selectAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LoginHistoriesDao/LoginHistoriesDao_select_all.sql");
         return executeQueryList(sql, LoginHistoriesEntity.class);
@@ -81,6 +85,7 @@ public class GenLoginHistoriesDao extends AbstractDao {
      * @param offset offset
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<LoginHistoriesEntity> selectAllWidthPager(int limit, int offset) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LoginHistoriesDao/LoginHistoriesDao_select_all_with_pager.sql");
         return executeQueryList(sql, LoginHistoriesEntity.class, limit, offset);
@@ -89,6 +94,7 @@ public class GenLoginHistoriesDao extends AbstractDao {
      * Select count that not deleted.
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public Integer selectCountAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LoginHistoriesDao/LoginHistoriesDao_select_count_all.sql");
         return executeQuerySingle(sql, Integer.class);
@@ -99,6 +105,7 @@ public class GenLoginHistoriesDao extends AbstractDao {
      * @param  userId userId
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public LoginHistoriesEntity selectOnKey(Double loginCount, Integer userId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LoginHistoriesDao/LoginHistoriesDao_select_on_key.sql");
         return executeQuerySingle(sql, LoginHistoriesEntity.class, loginCount, userId);
@@ -108,6 +115,7 @@ public class GenLoginHistoriesDao extends AbstractDao {
      * @param loginCount loginCount
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<LoginHistoriesEntity> selectOnLoginCount(Double loginCount) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LoginHistoriesDao/LoginHistoriesDao_select_on_login_count.sql");
         return executeQueryList(sql, LoginHistoriesEntity.class, loginCount);
@@ -117,6 +125,7 @@ public class GenLoginHistoriesDao extends AbstractDao {
      * @param userId userId
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<LoginHistoriesEntity> selectOnUserId(Integer userId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LoginHistoriesDao/LoginHistoriesDao_select_on_user_id.sql");
         return executeQueryList(sql, LoginHistoriesEntity.class, userId);
@@ -126,6 +135,7 @@ public class GenLoginHistoriesDao extends AbstractDao {
      * @param loginCount loginCount
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<LoginHistoriesEntity> physicalSelectOnLoginCount(Double loginCount) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LoginHistoriesDao/LoginHistoriesDao_physical_select_on_login_count.sql");
         return executeQueryList(sql, LoginHistoriesEntity.class, loginCount);
@@ -135,6 +145,7 @@ public class GenLoginHistoriesDao extends AbstractDao {
      * @param userId userId
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<LoginHistoriesEntity> physicalSelectOnUserId(Integer userId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/LoginHistoriesDao/LoginHistoriesDao_physical_select_on_user_id.sql");
         return executeQueryList(sql, LoginHistoriesEntity.class, userId);
@@ -143,6 +154,7 @@ public class GenLoginHistoriesDao extends AbstractDao {
      * Count all data
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public int physicalCountAll() {
         String sql = "SELECT COUNT(*) FROM LOGIN_HISTORIES";
         return executeQuerySingle(sql, Integer.class);

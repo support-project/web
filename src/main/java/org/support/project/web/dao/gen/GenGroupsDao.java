@@ -43,6 +43,7 @@ public class GenGroupsDao extends AbstractDao {
      * Select all data.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<GroupsEntity> physicalSelectAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_physical_select_all.sql");
         return executeQueryList(sql, GroupsEntity.class);
@@ -53,6 +54,7 @@ public class GenGroupsDao extends AbstractDao {
      * @param offset offset
      * @return all data on limit and offset
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<GroupsEntity> physicalSelectAllWithPager(int limit, int offset) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_physical_select_all_with_pager.sql");
         return executeQueryList(sql, GroupsEntity.class, limit, offset);
@@ -62,6 +64,7 @@ public class GenGroupsDao extends AbstractDao {
      * @param  groupId groupId
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public GroupsEntity physicalSelectOnKey(Integer groupId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_physical_select_on_key.sql");
         return executeQuerySingle(sql, GroupsEntity.class, groupId);
@@ -70,6 +73,7 @@ public class GenGroupsDao extends AbstractDao {
      * Select all data that not deleted.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<GroupsEntity> selectAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_select_all.sql");
         return executeQueryList(sql, GroupsEntity.class);
@@ -80,6 +84,7 @@ public class GenGroupsDao extends AbstractDao {
      * @param offset offset
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<GroupsEntity> selectAllWidthPager(int limit, int offset) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_select_all_with_pager.sql");
         return executeQueryList(sql, GroupsEntity.class, limit, offset);
@@ -88,6 +93,7 @@ public class GenGroupsDao extends AbstractDao {
      * Select count that not deleted.
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public Integer selectCountAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_select_count_all.sql");
         return executeQuerySingle(sql, Integer.class);
@@ -97,6 +103,7 @@ public class GenGroupsDao extends AbstractDao {
      * @param  groupId groupId
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public GroupsEntity selectOnKey(Integer groupId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_select_on_key.sql");
         return executeQuerySingle(sql, GroupsEntity.class, groupId);
@@ -105,6 +112,7 @@ public class GenGroupsDao extends AbstractDao {
      * Count all data
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public int physicalCountAll() {
         String sql = "SELECT COUNT(*) FROM GROUPS";
         return executeQuerySingle(sql, Integer.class);

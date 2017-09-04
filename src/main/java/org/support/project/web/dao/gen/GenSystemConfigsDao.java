@@ -43,6 +43,7 @@ public class GenSystemConfigsDao extends AbstractDao {
      * Select all data.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<SystemConfigsEntity> physicalSelectAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemConfigsDao/SystemConfigsDao_physical_select_all.sql");
         return executeQueryList(sql, SystemConfigsEntity.class);
@@ -53,6 +54,7 @@ public class GenSystemConfigsDao extends AbstractDao {
      * @param offset offset
      * @return all data on limit and offset
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<SystemConfigsEntity> physicalSelectAllWithPager(int limit, int offset) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemConfigsDao/SystemConfigsDao_physical_select_all_with_pager.sql");
         return executeQueryList(sql, SystemConfigsEntity.class, limit, offset);
@@ -63,6 +65,7 @@ public class GenSystemConfigsDao extends AbstractDao {
      * @param  systemName systemName
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public SystemConfigsEntity physicalSelectOnKey(String configName, String systemName) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemConfigsDao/SystemConfigsDao_physical_select_on_key.sql");
         return executeQuerySingle(sql, SystemConfigsEntity.class, configName, systemName);
@@ -71,6 +74,7 @@ public class GenSystemConfigsDao extends AbstractDao {
      * Select all data that not deleted.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<SystemConfigsEntity> selectAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemConfigsDao/SystemConfigsDao_select_all.sql");
         return executeQueryList(sql, SystemConfigsEntity.class);
@@ -81,6 +85,7 @@ public class GenSystemConfigsDao extends AbstractDao {
      * @param offset offset
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<SystemConfigsEntity> selectAllWidthPager(int limit, int offset) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemConfigsDao/SystemConfigsDao_select_all_with_pager.sql");
         return executeQueryList(sql, SystemConfigsEntity.class, limit, offset);
@@ -89,6 +94,7 @@ public class GenSystemConfigsDao extends AbstractDao {
      * Select count that not deleted.
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public Integer selectCountAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemConfigsDao/SystemConfigsDao_select_count_all.sql");
         return executeQuerySingle(sql, Integer.class);
@@ -99,6 +105,7 @@ public class GenSystemConfigsDao extends AbstractDao {
      * @param  systemName systemName
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public SystemConfigsEntity selectOnKey(String configName, String systemName) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemConfigsDao/SystemConfigsDao_select_on_key.sql");
         return executeQuerySingle(sql, SystemConfigsEntity.class, configName, systemName);
@@ -108,6 +115,7 @@ public class GenSystemConfigsDao extends AbstractDao {
      * @param configName configName
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<SystemConfigsEntity> selectOnConfigName(String configName) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemConfigsDao/SystemConfigsDao_select_on_config_name.sql");
         return executeQueryList(sql, SystemConfigsEntity.class, configName);
@@ -117,6 +125,7 @@ public class GenSystemConfigsDao extends AbstractDao {
      * @param systemName systemName
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<SystemConfigsEntity> selectOnSystemName(String systemName) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemConfigsDao/SystemConfigsDao_select_on_system_name.sql");
         return executeQueryList(sql, SystemConfigsEntity.class, systemName);
@@ -126,6 +135,7 @@ public class GenSystemConfigsDao extends AbstractDao {
      * @param configName configName
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<SystemConfigsEntity> physicalSelectOnConfigName(String configName) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemConfigsDao/SystemConfigsDao_physical_select_on_config_name.sql");
         return executeQueryList(sql, SystemConfigsEntity.class, configName);
@@ -135,6 +145,7 @@ public class GenSystemConfigsDao extends AbstractDao {
      * @param systemName systemName
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<SystemConfigsEntity> physicalSelectOnSystemName(String systemName) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/SystemConfigsDao/SystemConfigsDao_physical_select_on_system_name.sql");
         return executeQueryList(sql, SystemConfigsEntity.class, systemName);
@@ -143,6 +154,7 @@ public class GenSystemConfigsDao extends AbstractDao {
      * Count all data
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public int physicalCountAll() {
         String sql = "SELECT COUNT(*) FROM SYSTEM_CONFIGS";
         return executeQuerySingle(sql, Integer.class);
