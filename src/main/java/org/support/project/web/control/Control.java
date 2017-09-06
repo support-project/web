@@ -497,7 +497,7 @@ public abstract class Control {
         LoginedUser loginedUser = getLoginedUser();
         if (loginedUser != null) {
             authenticationLogic.clearSession(request);
-            authenticationLogic.setSession(loginedUser.getLoginUser().getUserKey(), request);
+            authenticationLogic.setSession(loginedUser.getLoginUser().getUserKey(), request, response);
         }
     }
 

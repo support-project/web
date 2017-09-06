@@ -138,7 +138,7 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
                         
                         
                         LOG.debug(user.getUserKey() + " is Login(from cookie).");
-                        setSession(user.getUserKey(), req);
+                        setSession(user.getUserKey(), req, res); //セッションにLoginUserを生成
 
                         // Cookie再セット
                         UserSecret secret = new UserSecret();

@@ -33,9 +33,10 @@ public interface AuthenticationLogic<T extends LoginedUser> {
 	 * セッションにログインしたユーザ情報を設定
 	 * @param userId userId
 	 * @param request request
+     * @param response response
 	 * @throws AuthenticateException AuthenticateException
 	 */
-	void setSession(String userId, HttpServletRequest request) throws AuthenticateException;
+	void setSession(String userId, HttpServletRequest request, HttpServletResponse response) throws AuthenticateException;
 	/**
 	 * セッションに保持したユーザ情報を取得
 	 * @param request request
