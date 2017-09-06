@@ -205,7 +205,7 @@ public class AuthenticationFilter implements Filter {
                 } else {
                     // Post
                     // ログイン処理のパスなので、ログイン実施
-                    if (doLogin(req)) {
+                    if (doLogin(req, res)) {
                         // ログイン情報をCookieに保持
                         authenticationLogic.setCookie(req, res);
 
@@ -343,7 +343,7 @@ public class AuthenticationFilter implements Filter {
      * @return result
      * @throws Exception Exception
      */
-    protected boolean doLogin(HttpServletRequest req) throws Exception {
+    protected boolean doLogin(HttpServletRequest req, HttpServletResponse res) throws Exception {
         String userkey = req.getParameter("username");
         String password = req.getParameter("password");
 
@@ -360,7 +360,7 @@ public class AuthenticationFilter implements Filter {
             if (!userkey.equals(usersEntity.getUserKey())) {
                 userkey = usersEntity.getUserKey();
             }
-            authenticationLogic.setSession(userkey, req);
+            authenticationLogic.setSession(userkey, req, res);
             return true;
         }
         return false;

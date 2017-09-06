@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.support.project.common.config.ConfigLoader;
@@ -125,10 +126,11 @@ public abstract class AbstractAuthenticationLogic<T extends LoginedUser> impleme
      * セッション情報を作成
      * @param userId userId
      * @param request request
+     * @param response response
      * @throws AuthenticateException AuthenticateException
      */
     @Override
-    public void setSession(String userId, HttpServletRequest request) throws AuthenticateException {
+    public void setSession(String userId, HttpServletRequest request, HttpServletResponse response) throws AuthenticateException {
         try {
             HttpSession session = request.getSession();
             session.setAttribute(CommonWebParameter.LOGIN_USER_ID_SESSION_KEY, userId);
