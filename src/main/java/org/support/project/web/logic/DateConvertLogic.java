@@ -2,6 +2,7 @@ package org.support.project.web.logic;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,15 +36,28 @@ public class DateConvertLogic {
      * @return 日付の文字列
      */
     public String convertDate(Date val, HttpServletRequest request) {
+        Locale locale = HttpUtil.getLocale(request);
+        String offset = HttpUtil.getCookie(request, JspUtil.TIME_ZONE_OFFSET);
+        return convertDate(val, locale, offset);
+    }
+
+    /**
+     * 日付の文字列を取得
+     * 保存されている値はGMTなので、ブラウザのロケールで変換をかける
+     * @param val 日付
+     * @param locale locale
+     * @param offset timezone offset
+     * @return 日付の文字列
+     */
+    public String convertDate(Date val, Locale locale, String offset) {
         // DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, request.getLocale());
         // DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT, request.getLocale());
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT, request.getLocale());
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT, locale);
         StringBuilder builder = new StringBuilder();
         
         // TimeZone zone = dateFormat.getTimeZone();
         TimeZone zone = null;
         // ブラウザからoffsetを取得して補正をかける(dateFormat.getTimeZone()を実行したら、GMTだった。。。）
-        String offset = HttpUtil.getCookie(request, JspUtil.TIME_ZONE_OFFSET);
         if (StringUtils.isEmpty(offset)) {
             AppConfig appConfig = ConfigLoader.load(AppConfig.APP_CONFIG, AppConfig.class);
             zone = TimeZone.getTimeZone(appConfig.getTime_zone());
