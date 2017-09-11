@@ -10,7 +10,7 @@ public abstract class AbstractEndpoint {
 
     public abstract void onClose(Session session) throws Exception;
 
-    public abstract void onMessage(String text) throws Exception;
+    public abstract void onMessage(String text, Session session) throws Exception;
 
     public abstract void onError(Throwable t);
 
