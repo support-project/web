@@ -3,6 +3,7 @@ package org.support.project.web.websocket;
 import java.io.IOException;
 import java.util.List;
 
+import javax.websocket.OnClose;
 import javax.websocket.Session;
 
 import org.support.project.common.bat.JobResult;
@@ -18,9 +19,18 @@ public abstract class CallBatchEndpoint extends AbstractEndpoint implements JobO
     private static final Log LOG = LogFactory.getLog(CallBatchEndpoint.class);
 
     private String sendPlefix = "[SEND]";
+    private Class<?> batch = null;
     protected void setSendPlefix(String string) {
         this.sendPlefix = string;
     }
+    
+    @OnClose
+    public void onClose(Session session) {
+        if (batch != null && BatchPool.get().getPool().containsKey(batch.getName())) {
+            BatchPool.get().getPool().get(batch.getName()).removeSession(session);
+        }
+    }
+    
     @Override
     public void finishJob(JobResult result, Class<?> batch, List<Session> sessions) {
         if (BatchPool.get().getPool().containsKey(batch.getName())) {
@@ -44,7 +54,7 @@ public abstract class CallBatchEndpoint extends AbstractEndpoint implements JobO
             job.addSession(session);
             return;
         }
-        
+        this.batch = batch;
         JobOnWebsocket job = new JobOnWebsocket();
         BatchPool.get().getPool().put(batch.getName(), job);
         job.setSendPlefix(sendPlefix);

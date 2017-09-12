@@ -33,6 +33,9 @@ public class JobOnWebsocket {
     public void addSession(Session session) {
         this.sessions.add(session);
     }
+    public void removeSession(Session session) {
+        this.sessions.remove(session);
+    }
     
     private void sendText(String message) {
         MessageResult result = new MessageResult();
