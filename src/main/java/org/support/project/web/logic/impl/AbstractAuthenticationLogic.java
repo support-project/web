@@ -232,7 +232,7 @@ public abstract class AbstractAuthenticationLogic<T extends LoginedUser> impleme
      */
     protected void setUserInfo(HttpServletRequest request) {
         LoginedUser loginedUser = getSession(request);
-        DBUserPool.get().setUser(loginedUser.getLoginUser().getUserId());
+        DBUserPool.get().setUser(loginedUser.getUserId());
         ThredUserPool.get().setInfo(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY, loginedUser);
     }
 
