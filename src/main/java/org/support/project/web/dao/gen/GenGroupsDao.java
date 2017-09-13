@@ -193,8 +193,13 @@ public class GenGroupsDao extends AbstractDao {
             entity.getDeleteFlag());
         String driverClass = ConnectionManager.getInstance().getDriverClass(getConnectionName());
         if (ORMappingParameter.DRIVER_NAME_POSTGRESQL.equals(driverClass)) {
-            String setValSql = "select setval('GROUPS_GROUP_ID_seq', (select max(GROUP_ID) from GROUPS));";
-            executeQuerySingle(setValSql, Long.class);
+            String maxSql = "SELECT MAX(GROUP_ID) from GROUPS;";
+            long max = executeQuerySingle(maxSql, Long.class);
+            if (max < 1) {
+                max = 1;
+            }
+            String setValSql = "SELECT SETVAL('GROUPS_GROUP_ID_seq', ?);";
+            executeQuerySingle(setValSql, Long.class, max);
         }
         return entity;
     }

@@ -192,8 +192,13 @@ public class GenNoticesDao extends AbstractDao {
             entity.getDeleteFlag());
         String driverClass = ConnectionManager.getInstance().getDriverClass(getConnectionName());
         if (ORMappingParameter.DRIVER_NAME_POSTGRESQL.equals(driverClass)) {
-            String setValSql = "select setval('NOTICES_NO_seq', (select max(NO) from NOTICES));";
-            executeQuerySingle(setValSql, Long.class);
+            String maxSql = "SELECT MAX(NO) from NOTICES;";
+            long max = executeQuerySingle(maxSql, Long.class);
+            if (max < 1) {
+                max = 1;
+            }
+            String setValSql = "SELECT SETVAL('NOTICES_NO_seq', ?);";
+            executeQuerySingle(setValSql, Long.class, max);
         }
         return entity;
     }
