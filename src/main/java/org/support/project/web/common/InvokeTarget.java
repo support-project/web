@@ -1,6 +1,8 @@
 package org.support.project.web.common;
 
 import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.support.project.common.util.ObjectUtils;
 import org.support.project.di.Container;
@@ -25,7 +27,10 @@ public class InvokeTarget {
     private String subPackageName;
     /** ターゲットの検索の際に使ったサフィックス */
     private String classSuffix;
-
+    
+    /** パスからパラメータ値を取得できるようにセットした場合の値 */
+    private Map<String, String> pathValue;
+    
     /**
      * コンストラクタ
      * 
@@ -34,22 +39,20 @@ public class InvokeTarget {
      * @param targetPackageName targetPackageName
      * @param classSuffix classSuffix
      */
-    public InvokeTarget(Class<?> targetClass, Method targetMethod, String targetPackageName, String classSuffix) {
+    public InvokeTarget(Class<?> targetClass, Method targetMethod, String targetPackageName, String classSuffix, Map<String, String> pathValue) {
         super();
         this.targetClass = targetClass;
         this.targetMethod = targetMethod;
         // 実行するオブジェクトのインスタンスをDIコンテナから取得
         // DIで、シングルトンなどの管理を行う
         this.target = Container.getComp(targetClass);
-
         this.targetPackageName = targetPackageName;
-
         String packageName = targetClass.getPackage().getName();
         if (!packageName.equals(targetPackageName) && packageName.length() > targetPackageName.length()) {
             subPackageName = packageName.substring(targetPackageName.length() + 1);
         }
-
         this.classSuffix = classSuffix;
+        this.pathValue = pathValue;
     }
     /**
      * Get Target Class
@@ -112,8 +115,15 @@ public class InvokeTarget {
      * @return copy instance
      */
     public InvokeTarget copy() {
-        InvokeTarget copy = new InvokeTarget(targetClass, targetMethod, targetPackageName, classSuffix);
+        LinkedHashMap<String, String> map = new LinkedHashMap<>(pathValue);
+        InvokeTarget copy = new InvokeTarget(targetClass, targetMethod, targetPackageName, classSuffix, map);
         return copy;
+    }
+    /**
+     * @return the pathValue
+     */
+    public Map<String, String> getPathValue() {
+        return pathValue;
     }
 
 }

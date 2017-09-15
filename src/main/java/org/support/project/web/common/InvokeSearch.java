@@ -3,8 +3,13 @@ package org.support.project.web.common;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.support.project.common.classanalysis.ClassSearch;
 import org.support.project.common.classanalysis.impl.ClassSearchImpl;
@@ -23,7 +28,7 @@ import org.support.project.web.control.service.Put;
 @DI(instance = Instance.Singleton)
 public class InvokeSearch {
     /** ログ */
-    private static Log log = LogFactory.getLog(InvokeSearch.class);
+    private static Log LOG = LogFactory.getLog(InvokeSearch.class);
 
     /** 文字列に対するターゲット */
     private Map<String, InvokeTarget> invokeGetTargets;
@@ -36,10 +41,10 @@ public class InvokeSearch {
      */
     public InvokeSearch() {
         super();
-        invokeGetTargets = new HashMap<>();
-        invokePostTargets = new HashMap<>();
-        invokePutTargets = new HashMap<>();
-        invokeDeleteTargets = new HashMap<>();
+        invokeGetTargets = new TreeMap<>();
+        invokePostTargets = new TreeMap<>();
+        invokePutTargets = new TreeMap<>();
+        invokeDeleteTargets = new TreeMap<>();
     }
 
     /**
@@ -118,7 +123,6 @@ public class InvokeSearch {
                         Delete delete = (Delete) annotation;
                         addDeleteTarget(class1, method, targetPackageName, classSuffix, builder.toString(), delete);
                     }
-
                 }
             }
         }
@@ -146,22 +150,20 @@ public class InvokeSearch {
 
     private void addTarget(Class<?> class1, Method method, String targetPackageName, String classSuffix, String call, String path,
             Map<String, InvokeTarget> invokeTargets) {
-        String key = call + "/" + method.getName();
+        String key = call + "/" + method.getName().toLowerCase(); // 大文字・小文字は無視
         if (StringUtils.isNotEmpty(path)) {
             key = path;
         }
-        InvokeTarget invokeTarget = new InvokeTarget(class1, method, targetPackageName, classSuffix);
+        InvokeTarget invokeTarget = new InvokeTarget(class1, method, targetPackageName, classSuffix, new LinkedHashMap<>());
         if (invokeTargets.containsKey(key)) {
             // 既に指定のパスが使われている
-            log.error("Target duplicated. [" + key + "]");
+            LOG.error("Target duplicated. [" + key + "]");
             throw new SystemException("Target duplicated. [" + key + "]");
         }
-
-        invokeTargets.put(key, invokeTarget);
-        // 小文字のみでもアクセス可能にする
+        // 大文字／小文字は判定しない
         invokeTargets.put(key.toLowerCase(), invokeTarget);
-        if (log.isDebugEnabled()) {
-            log.debug("Add targget. [" + key + "]");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Add targget. [" + key + "]");
         }
     }
 
@@ -170,9 +172,10 @@ public class InvokeSearch {
      * 
      * @param method HttpMethod
      * @param path パス文字列
+     * @param pathInfo 
      * @return 実行するターゲット
      */
-    public InvokeTarget getController(HttpMethod method, String path) {
+    public InvokeTarget getController(HttpMethod method, String path, String pathInfo) {
         Map<String, InvokeTarget> invokeTargets = invokeDeleteTargets;
         if (method == HttpMethod.get) {
             invokeTargets = invokeGetTargets;
@@ -181,7 +184,59 @@ public class InvokeSearch {
         } else if (method == HttpMethod.put) {
             invokeTargets = invokePutTargets;
         }
-        InvokeTarget target = invokeTargets.get(path);
+        // そのものズバリのパスが無い場合、、、
+        // // /api/knowledges/{:knowledgeId}/event を管理できるように拡張
+        InvokeTarget target = null;
+        if (StringUtils.isNotEmpty(pathInfo)) {
+            String access = path + pathInfo;
+            LOG.trace(access);
+            List<String> sortedKeys = new ArrayList<String>(invokeTargets.keySet());
+            //Collections.reverse(sortedKeys);
+            Collections.sort(sortedKeys, new Comparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    int pathcnt1 = o1.split("/").length;
+                    int pathcnt2 = o2.split("/").length;
+                    if (pathcnt1 > pathcnt2) {
+                        return -1;
+                    } else if (pathcnt1 < pathcnt2) {
+                        return 1;
+                    }
+                    return o1.compareTo(o2);
+                }
+            });
+            for (String key : sortedKeys) {
+                if (key.startsWith(path)) {
+                    if (key.equals(path.toLowerCase())) {
+                        target = invokeTargets.get(key);
+                        break;
+                    }
+                    String[] paths1 = key.split("/");
+                    String[] paths2 = access.split("/");
+                    if (paths1.length == paths2.length) {
+                        boolean same = true;
+                        LinkedHashMap<String, String> paramMap = new LinkedHashMap<>();
+                        for (int i = 0; i < paths1.length; i++) {
+                            if (!paths1[i].equals(paths2[i])) {
+                                if (paths1[i].startsWith(":")) {
+                                    paramMap.put(paths1[i].substring(1), paths2[i]);
+                                } else {
+                                    same = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if (same) {
+                            target = invokeTargets.get(key);
+                            target.getPathValue().putAll(paramMap);
+                            break;
+                        }
+                    }
+                }
+            }
+        } else {
+            target = invokeTargets.get(path.toLowerCase()); // 大文字・小文字は無視
+        }
         if (target != null) {
             InvokeTarget copy = target.copy();
             return copy;
