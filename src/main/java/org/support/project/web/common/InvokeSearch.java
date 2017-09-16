@@ -184,6 +184,7 @@ public class InvokeSearch {
         } else if (method == HttpMethod.put) {
             invokeTargets = invokePutTargets;
         }
+        path = path.toLowerCase(); // 大文字・小文字は無視
         // そのものズバリのパスが無い場合、、、
         // // /api/knowledges/{:knowledgeId}/event を管理できるように拡張
         InvokeTarget target = null;
@@ -207,7 +208,7 @@ public class InvokeSearch {
             });
             for (String key : sortedKeys) {
                 if (key.startsWith(path)) {
-                    if (key.equals(path.toLowerCase())) {
+                    if (key.equals(path)) {
                         target = invokeTargets.get(key);
                         break;
                     }
@@ -217,7 +218,7 @@ public class InvokeSearch {
                         boolean same = true;
                         LinkedHashMap<String, String> paramMap = new LinkedHashMap<>();
                         for (int i = 0; i < paths1.length; i++) {
-                            if (!paths1[i].equals(paths2[i])) {
+                            if (!paths1[i].toLowerCase().equals(paths2[i].toLowerCase())) {
                                 if (paths1[i].startsWith(":")) {
                                     paramMap.put(paths1[i].substring(1), paths2[i]);
                                 } else {
@@ -235,7 +236,7 @@ public class InvokeSearch {
                 }
             }
         } else {
-            target = invokeTargets.get(path.toLowerCase()); // 大文字・小文字は無視
+            target = invokeTargets.get(path);
         }
         if (target != null) {
             InvokeTarget copy = target.copy();
