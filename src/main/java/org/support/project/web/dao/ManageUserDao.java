@@ -6,11 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
+import org.support.project.common.util.DateUtils;
 import org.support.project.common.util.StringUtils;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
@@ -395,7 +395,7 @@ public class ManageUserDao extends AbstractDao {
                 stmt.setString(count++, performer);
             }
             if (StringUtils.isNotEmpty(param.getUserTableInsertDateTimeColumn())) {
-                stmt.setTimestamp(count++, new Timestamp(new Date().getTime()));
+                stmt.setTimestamp(count++, new Timestamp(DateUtils.now().getTime()));
             }
             result += stmt.executeUpdate();
 
@@ -414,7 +414,7 @@ public class ManageUserDao extends AbstractDao {
                     stmt.setString(count++, performer);
                 }
                 if (StringUtils.isNotEmpty(param.getUserTableInsertDateTimeColumn())) {
-                    stmt.setTimestamp(count++, new Timestamp(new Date().getTime()));
+                    stmt.setTimestamp(count++, new Timestamp(DateUtils.now().getTime()));
                 }
                 result += stmt.executeUpdate();
             }
@@ -466,7 +466,7 @@ public class ManageUserDao extends AbstractDao {
                     stmt.setString(count++, performer);
                 }
                 if (StringUtils.isNotEmpty(param.getUserTableInsertDateTimeColumn())) {
-                    stmt.setTimestamp(count++, new Timestamp(new Date().getTime()));
+                    stmt.setTimestamp(count++, new Timestamp(DateUtils.now().getTime()));
                 }
                 result += stmt.executeUpdate();
             }
@@ -486,7 +486,7 @@ public class ManageUserDao extends AbstractDao {
                 stmt.setString(count++, performer);
             }
             if (StringUtils.isNotEmpty(param.getUserTableUpdateDateTimeColumn())) {
-                stmt.setTimestamp(count++, new Timestamp(new Date().getTime()));
+                stmt.setTimestamp(count++, new Timestamp(DateUtils.now().getTime()));
             }
 
             stmt.setString(count++, userId);

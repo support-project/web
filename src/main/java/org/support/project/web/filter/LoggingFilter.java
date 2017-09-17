@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
+import org.support.project.common.util.DateUtils;
 import org.support.project.common.util.StringUtils;
 import org.support.project.web.common.HttpStatus;
 import org.support.project.web.common.HttpUtil;
@@ -49,7 +50,7 @@ public class LoggingFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        Date start = new Date();
+        Date start = DateUtils.now();
 
         // if (LOG.isTraceEnabled()) {
         // if (request instanceof HttpServletRequest) {
@@ -64,7 +65,7 @@ public class LoggingFilter implements Filter {
             LOG.error("Any exception is thrown. [" + e.getClass().getName() + "]", e);
             request.setAttribute("SERVER_EXCEPTION", e);
         } finally {
-            Date end = new Date();
+            Date end = DateUtils.now();
 
             if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
                 HttpServletRequest req = (HttpServletRequest) request;
