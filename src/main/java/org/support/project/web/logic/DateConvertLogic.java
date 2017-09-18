@@ -11,6 +11,7 @@ import org.support.project.common.config.AppConfig;
 import org.support.project.common.config.ConfigLoader;
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
+import org.support.project.common.util.DateUtils;
 import org.support.project.common.util.StringUtils;
 import org.support.project.di.Container;
 import org.support.project.web.common.HttpUtil;
@@ -95,7 +96,7 @@ public class DateConvertLogic {
         // ztime.plusSeconds(zone.getRawOffset() / 1000);
         // Date date = Date.from(ztime.toInstant());
         
-        Date conv = new Date();
+        Date conv = DateUtils.now();
         conv.setTime(val.getTime() + zone.getRawOffset());
         builder.append(dateFormat.format(conv));
 

@@ -13,6 +13,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.support.project.common.util.DateUtils;
 import org.support.project.ormapping.tool.dao.InitializeDao;
 import org.support.project.web.dao.FunctionsDao;
 import org.support.project.web.entity.FunctionsEntity;
@@ -48,9 +49,9 @@ public class DateTest {
         TimeZone zone = TimeZone.getTimeZone("GMT" + (-540 / 60));
         dateFormat.setTimeZone(zone);
 
-        System.out.println("java.util.Date:" + new Date());
-        System.out.println("java.util.Date:getTime():" + new Date().getTime());
-        System.out.println(dateFormat.format(new Date()));
+        System.out.println("java.util.Date:" + DateUtils.now());
+        System.out.println("java.util.Date:getTime():" + DateUtils.now().getTime());
+        System.out.println(dateFormat.format(DateUtils.now()));
 
         FunctionsEntity functionsEntity = new FunctionsEntity();
         functionsEntity.setFunctionKey("test");
@@ -61,7 +62,7 @@ public class DateTest {
         System.out.println(functionsEntity.getUpdateDatetime());
         System.out.println(functionsEntity.getUpdateDatetime().getTime());
 
-        Date check = new Date();
+        Date check = DateUtils.now();
         check.setTime(functionsEntity.getUpdateDatetime().getTime());
 
         System.out.println("2 java.util.Date:" + check);
@@ -88,7 +89,7 @@ public class DateTest {
         // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS");
 
         System.out.println(dateTime.format(formatter));
-        System.out.println(new Date().getTime());
+        System.out.println(DateUtils.now().getTime());
 
         FunctionsEntity functionsEntity = new FunctionsEntity();
         functionsEntity.setFunctionKey("test");
