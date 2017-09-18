@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -166,7 +167,7 @@ public class ControlManagerFilter implements Filter {
                 m = HttpMethod.delete;
             }
             
-            InvokeTarget invokeTarget = invokeSearch.getController(m, path);
+            InvokeTarget invokeTarget = invokeSearch.getController(m, path, pathInfo);
             if (invokeTarget != null) {
                 HttpRequestCheckLogic check = HttpRequestCheckLogic.get();
                 if (!check.checkCSRF(invokeTarget, request)) {
@@ -179,6 +180,10 @@ public class ControlManagerFilter implements Filter {
                 
                 // コントローラーで処理を呼び出す場合、パラメータは全てリクエストのアトリビュートにコピーする
                 this.copyAttribute(request);
+                // パスで取得できる値があればセット
+                for (Entry<String, String> entry : invokeTarget.getPathValue().entrySet()) {
+                    request.setAttribute(entry.getKey(), entry.getValue());
+                }
 
                 if (auth(invokeTarget, request, response, path, pathInfo)) {
                     this.invoke(invokeTarget, request, response, path, pathInfo);
