@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.AsyncContext;
 import javax.servlet.DispatcherType;
@@ -28,7 +30,9 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpUpgradeHandler;
 import javax.servlet.http.Part;
 
+import org.apache.commons.collections.iterators.IteratorEnumeration;
 import org.support.project.common.exception.NotImplementedException;
+import org.support.project.common.util.StringJoinBuilder;
 
 public class StubHttpServletRequest implements HttpServletRequest {
     /** セッション */
@@ -43,7 +47,13 @@ public class StubHttpServletRequest implements HttpServletRequest {
     private String characterEncoding;
     /** ContextPath */
     private String contextPath;
-
+    
+    private String servletPath;
+    private String pathInfo;
+    private String method;
+    private Locale locale = Locale.JAPAN;
+    private Map<String, Object> attributes = new HashMap<>();
+    
     /**
      * コンストラクタ
      */
@@ -96,36 +106,43 @@ public class StubHttpServletRequest implements HttpServletRequest {
         }
         return params;
     }
-
     @Override
     public Map<String, String[]> getParameterMap() {
         return parameterMap;
     }
-
+    
     @Override
-    public Object getAttribute(String paramString) {
-        // TODO 自動生成されたメソッド・スタブ
-        return null;
+    public String getQueryString() {
+        StringJoinBuilder builder = new StringJoinBuilder();
+        for (Entry<String, String[]> entry : parameterMap.entrySet()) {
+            StringJoinBuilder join = new StringJoinBuilder<>(entry.getValue());
+            builder.append(entry.getKey()).append("=").append(join.join(","));
+        }
+        return builder.join("&");
     }
-
+    
     @Override
-    public Enumeration<String> getAttributeNames() {
-        // TODO 自動生成されたメソッド・スタブ
-        return null;
+    public String getServletPath() {
+        return servletPath;
     }
-
+    public void setServletPath(String servletPath) {
+        this.servletPath = servletPath;
+    }
     @Override
-    public void setAttribute(String paramString, Object paramObject) {
-        // TODO 自動生成されたメソッド・スタブ
-
+    public String getPathInfo() {
+        return pathInfo;
     }
-
+    public void setPathInfo(String pathInfo) {
+        this.pathInfo = pathInfo;
+    }
+    
     @Override
-    public void removeAttribute(String paramString) {
-        // TODO 自動生成されたメソッド・スタブ
-
+    public String getMethod() {
+        return method;
     }
-
+    public void setMethod(String method) {
+        this.method = method;
+    }
     @Override
     public HttpSession getSession() {
         return session;
@@ -135,7 +152,52 @@ public class StubHttpServletRequest implements HttpServletRequest {
     public HttpSession getSession(boolean paramBoolean) {
         return session;
     }
-
+    
+    @Override
+    public Object getAttribute(String name) {
+        return attributes.get(name);
+    }
+    @Override
+    public void setAttribute(String name, Object value) {
+        attributes.put(name, value);
+    }
+    @Override
+    public void removeAttribute(String paramString) {
+        attributes.remove(paramString);
+    }
+    @Override
+    public Enumeration<String> getAttributeNames() {
+        Enumeration enumeration = new IteratorEnumeration(attributes.keySet().iterator());
+        return enumeration;
+    }
+    @Override
+    public Locale getLocale() {
+        return locale;
+    }
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
+    public void addCookie(Cookie paramCookie) {
+        cookies.add(paramCookie);
+    }
+    @Override
+    public Cookie[] getCookies() {
+        return (Cookie[]) cookies.toArray(new Cookie[0]);
+    }
+    /**
+     * @param cookies
+     *            the cookies to set
+     */
+    public void setCookies(List<Cookie> cookies) {
+        this.cookies = cookies;
+    }
+    /**
+     * @param contextPath
+     *            the contextPath to set
+     */
+    public void setContextPath(String contextPath) {
+        this.contextPath = contextPath;
+    }
     @Override
     public String getCharacterEncoding() {
         return this.characterEncoding;
@@ -145,12 +207,7 @@ public class StubHttpServletRequest implements HttpServletRequest {
     public void setCharacterEncoding(String characterEncoding) throws UnsupportedEncodingException {
         this.characterEncoding = characterEncoding;
     }
-
-    @Override
-    public Cookie[] getCookies() {
-        return cookies.toArray(new StubCookie[0]);
-    }
-
+    
     @Override
     public boolean authenticate(HttpServletResponse paramHttpServletResponse) throws IOException, ServletException {
         throw new NotImplementedException("NotImplemented");
@@ -221,10 +278,6 @@ public class StubHttpServletRequest implements HttpServletRequest {
         throw new NotImplementedException("NotImplemented");
     }
 
-    @Override
-    public Locale getLocale() {
-        throw new NotImplementedException("NotImplemented");
-    }
 
     @Override
     public Enumeration<Locale> getLocales() {
@@ -331,25 +384,12 @@ public class StubHttpServletRequest implements HttpServletRequest {
         throw new NotImplementedException("NotImplemented");
     }
 
-    @Override
-    public String getMethod() {
-        throw new NotImplementedException("NotImplemented");
-    }
-
-    @Override
-    public String getPathInfo() {
-        throw new NotImplementedException("NotImplemented");
-    }
 
     @Override
     public String getPathTranslated() {
         throw new NotImplementedException("NotImplemented");
     }
 
-    @Override
-    public String getQueryString() {
-        throw new NotImplementedException("NotImplemented");
-    }
 
     @Override
     public String getRemoteUser() {
@@ -381,10 +421,6 @@ public class StubHttpServletRequest implements HttpServletRequest {
         throw new NotImplementedException("NotImplemented");
     }
 
-    @Override
-    public String getServletPath() {
-        throw new NotImplementedException("NotImplemented");
-    }
 
     @Override
     public boolean isRequestedSessionIdValid() {
@@ -416,21 +452,6 @@ public class StubHttpServletRequest implements HttpServletRequest {
         throw new NotImplementedException("NotImplemented");
     }
 
-    /**
-     * @param contextPath
-     *            the contextPath to set
-     */
-    public void setContextPath(String contextPath) {
-        this.contextPath = contextPath;
-    }
-
-    /**
-     * @param cookies
-     *            the cookies to set
-     */
-    public void setCookies(List<Cookie> cookies) {
-        this.cookies = cookies;
-    }
 
     @Override
     public long getContentLengthLong() {
@@ -449,5 +470,6 @@ public class StubHttpServletRequest implements HttpServletRequest {
         // TODO Auto-generated method stub
         return null;
     }
+
 
 }

@@ -30,6 +30,8 @@ public class InvokeTarget {
     
     /** パスからパラメータ値を取得できるようにセットした場合の値 */
     private Map<String, String> pathValue;
+    /** 実行時の呼び出しパラメータ */
+    private Object[] params;
     
     /**
      * コンストラクタ
@@ -100,11 +102,9 @@ public class InvokeTarget {
 
     /**
      * 処理を実行
-     * 
-     * @param params パラメータ
      * @return 実行結果
      */
-    public Object invoke(Object... params) {
+    public Object invoke() {
         // 処理を実施
         return ObjectUtils.invoke(target, targetMethod, params);
     }
@@ -124,6 +124,12 @@ public class InvokeTarget {
      */
     public Map<String, String> getPathValue() {
         return pathValue;
+    }
+    /**
+     * @param params the params to set
+     */
+    public void setParams(Object[] params) {
+        this.params = params;
     }
 
 }

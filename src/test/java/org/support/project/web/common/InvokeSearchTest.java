@@ -12,10 +12,10 @@ public class InvokeSearchTest {
         search.addTarget("org.support.project.web.control", "Control");
         
         InvokeTarget target = search.getController(HttpMethod.get, "Test/test", null);
-        target.invoke(null);
+        target.invoke();
         
         target = search.getController(HttpMethod.post, "sub.TestSub/testMethod", null);
-        target.invoke(null);
+        target.invoke();
     }
 
 }
