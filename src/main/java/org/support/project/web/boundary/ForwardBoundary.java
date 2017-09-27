@@ -6,21 +6,21 @@ import org.support.project.web.common.HttpUtil;
 
 
 public class ForwardBoundary extends AbstractBoundary {
-	/** ログ */
-	private static Log log = LogFactory.getLog(ForwardBoundary.class);
+    /** ログ */
+    private static Log log = LogFactory.getLog(ForwardBoundary.class);
 
-	/** フォワードするパス */
-	private String path;
-	
-	public ForwardBoundary(String path) {
-		super();
-		this.path = path;
-	}
-	
-	@Override
-	public void navigate() throws Exception {
-		log.debug("foward to : " + path);
-		HttpUtil.forward(getResponse(), getRequest(), path);
-	}
-	
+    /** フォワードするパス */
+    private String path;
+    
+    public ForwardBoundary(String path) {
+        super();
+        this.path = path;
+    }
+    
+    @Override
+    public void navigate() throws Exception {
+        log.debug("foward to : " + path);
+        HttpUtil.forward(getResponse(), getRequest(), path);
+    }
+    
 }

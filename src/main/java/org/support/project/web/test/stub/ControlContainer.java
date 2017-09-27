@@ -29,7 +29,7 @@ public class ControlContainer {
         Control control = Container.getComp(type);
 
         StubHttpServletRequest request = new StubHttpServletRequest();
-        StubHttpServletResponse response = new StubHttpServletResponse();
+        StubHttpServletResponse response = new StubHttpServletResponse(request);
         control.setRequest(request);
         control.setResponse(response);
 

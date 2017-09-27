@@ -65,6 +65,9 @@ public class InvokeSearch {
      * @param subpackages サブパッケージを対象にするか
      */
     public void addTarget(String targetPackageName, String classSuffix, boolean subpackages) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Add targget from oackage. [" + targetPackageName + "]");
+        }
         ClassSearch classSearch = new ClassSearchImpl();
         Class<?>[] classes = classSearch.classSearch(targetPackageName, subpackages);
         if (classes != null) {
