@@ -2,6 +2,7 @@ package org.support.project.web.test.stub;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -53,7 +54,8 @@ public class StubHttpServletRequest implements HttpServletRequest {
     private String method;
     private Locale locale = Locale.JAPAN;
     private Map<String, Object> attributes = new HashMap<>();
-    
+    private InputStream inputStream;
+
     /**
      * コンストラクタ
      */
@@ -209,6 +211,17 @@ public class StubHttpServletRequest implements HttpServletRequest {
     }
     
     @Override
+    public ServletInputStream getInputStream() throws IOException {
+        return new StubServletInputStream(this.inputStream);
+    }
+    public void setInputstream(InputStream inputStream) {
+        this.inputStream = inputStream;
+    }
+    
+
+    
+    
+    @Override
     public boolean authenticate(HttpServletResponse paramHttpServletResponse) throws IOException, ServletException {
         throw new NotImplementedException("NotImplemented");
     }
@@ -238,10 +251,6 @@ public class StubHttpServletRequest implements HttpServletRequest {
         throw new NotImplementedException("NotImplemented");
     }
 
-    @Override
-    public ServletInputStream getInputStream() throws IOException {
-        throw new NotImplementedException("NotImplemented");
-    }
 
     @Override
     public String getProtocol() {
@@ -470,6 +479,7 @@ public class StubHttpServletRequest implements HttpServletRequest {
         // TODO Auto-generated method stub
         return null;
     }
+
 
 
 }

@@ -145,7 +145,7 @@ public class CallControlLogic {
             HttpRequestCheckLogic check = HttpRequestCheckLogic.get();
             if (!check.checkCSRF(invokeTarget, request)) {
                 // CSRFチェック対象であればチェック実施
-                throw new CallControlException(HttpStatus.SC_403_FORBIDDEN);
+                throw new CallControlException(HttpStatus.SC_403_FORBIDDEN, method, path, "CSRF check error.");
             }
             // CSRF用のリクエストキーなど発行
             check.setCSRFTocken(invokeTarget, request, response);
@@ -161,7 +161,7 @@ public class CallControlLogic {
                 return this.setInvokeParams(invokeTarget, request, response, path, pathInfo);
             } else {
                 // 認可エラー
-                throw new CallControlException(HttpStatus.SC_403_FORBIDDEN);
+                throw new CallControlException(HttpStatus.SC_403_FORBIDDEN, method, path, "CSRF check error.");
             }
         }
         return null;
