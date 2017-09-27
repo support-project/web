@@ -5,12 +5,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Delete {
     String path() default "";
-    String subscribeToken() default "";
+    String subscribeToken() default "csrf";
     String publishToken() default "";
     boolean checkReferer() default true;
     boolean checkReqToken() default false;

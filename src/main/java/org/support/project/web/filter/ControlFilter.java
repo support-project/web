@@ -25,13 +25,11 @@ public class ControlFilter extends ControlManagerFilter {
     private static Log log = LogFactory.getLog(ControlManagerFilter.class);
 
     @Override
-    protected void invoke(InvokeTarget invokeTarget, HttpServletRequest request, HttpServletResponse response, String path, String pathInfo)
-            throws Exception {
+    protected void invoke(InvokeTarget invokeTarget, HttpServletRequest request, HttpServletResponse response) throws Exception {
         try {
-            Object result = super.doInvoke(invokeTarget, request, response, path, pathInfo);
+            Object result = invokeTarget.invoke();
             if (result instanceof Boundary) {
                 Boundary boundary = (Boundary) result;
-
                 if (boundary instanceof JsonBoundary) {
                     JsonBoundary json = (JsonBoundary) boundary;
                     Object send = json.getObj();
@@ -56,7 +54,6 @@ public class ControlFilter extends ControlManagerFilter {
                 handleBadRequest(request, response, ex);
                 return;
             }
-            
             if (JsonBoundary.class.isAssignableFrom(invokeTarget.getTargetMethod().getReturnType())) {
                 MessageResult messageResult = new MessageResult();
                 messageResult.setMessage("Internal server error");
@@ -66,7 +63,6 @@ public class ControlFilter extends ControlManagerFilter {
                 boundary.setRequest(request);
                 boundary.setResponse(response);
                 boundary.navigate();
-                throw e;
             } else {
                 throw e;
             }

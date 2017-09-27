@@ -1,6 +1,8 @@
 package org.support.project.web.common;
 
 import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.support.project.common.util.ObjectUtils;
 import org.support.project.di.Container;
@@ -25,7 +27,12 @@ public class InvokeTarget {
     private String subPackageName;
     /** ターゲットの検索の際に使ったサフィックス */
     private String classSuffix;
-
+    
+    /** パスからパラメータ値を取得できるようにセットした場合の値 */
+    private Map<String, String> pathValue;
+    /** 実行時の呼び出しパラメータ */
+    private Object[] params;
+    
     /**
      * コンストラクタ
      * 
@@ -34,22 +41,20 @@ public class InvokeTarget {
      * @param targetPackageName targetPackageName
      * @param classSuffix classSuffix
      */
-    public InvokeTarget(Class<?> targetClass, Method targetMethod, String targetPackageName, String classSuffix) {
+    public InvokeTarget(Class<?> targetClass, Method targetMethod, String targetPackageName, String classSuffix, Map<String, String> pathValue) {
         super();
         this.targetClass = targetClass;
         this.targetMethod = targetMethod;
         // 実行するオブジェクトのインスタンスをDIコンテナから取得
         // DIで、シングルトンなどの管理を行う
         this.target = Container.getComp(targetClass);
-
         this.targetPackageName = targetPackageName;
-
         String packageName = targetClass.getPackage().getName();
         if (!packageName.equals(targetPackageName) && packageName.length() > targetPackageName.length()) {
             subPackageName = packageName.substring(targetPackageName.length() + 1);
         }
-
         this.classSuffix = classSuffix;
+        this.pathValue = pathValue;
     }
     /**
      * Get Target Class
@@ -97,11 +102,9 @@ public class InvokeTarget {
 
     /**
      * 処理を実行
-     * 
-     * @param params パラメータ
      * @return 実行結果
      */
-    public Object invoke(Object... params) {
+    public Object invoke() {
         // 処理を実施
         return ObjectUtils.invoke(target, targetMethod, params);
     }
@@ -112,8 +115,21 @@ public class InvokeTarget {
      * @return copy instance
      */
     public InvokeTarget copy() {
-        InvokeTarget copy = new InvokeTarget(targetClass, targetMethod, targetPackageName, classSuffix);
+        LinkedHashMap<String, String> map = new LinkedHashMap<>(pathValue);
+        InvokeTarget copy = new InvokeTarget(targetClass, targetMethod, targetPackageName, classSuffix, map);
         return copy;
+    }
+    /**
+     * @return the pathValue
+     */
+    public Map<String, String> getPathValue() {
+        return pathValue;
+    }
+    /**
+     * @param params the params to set
+     */
+    public void setParams(Object[] params) {
+        this.params = params;
     }
 
 }
