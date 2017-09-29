@@ -73,7 +73,7 @@ public class NotificationLogic {
      * @param loginUserId ログインユーザID
      * @return 件数
      */
-    public int countUnRead(Integer loginUserId) {
+    public Integer countUnRead(Integer loginUserId) {
         return UserNotificationsDao.get().countOnStatus(loginUserId, STATUS_UNREAD);
     }
     
