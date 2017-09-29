@@ -172,7 +172,11 @@ public class HttpRequestCheckLogic {
                 session.setAttribute(CSRF_TOKENS, tokens);
             }
             tokens.addToken(tokenkey);
-            HttpUtil.setCookie(request, response, CSRF_TOKENS, SerializeUtils.objectToBase64(tokens));
+            try {
+                HttpUtil.setCookie(request, response, CSRF_TOKENS, SerializeUtils.objectToBase64(tokens));
+            } catch (SerializeException e) {
+                LOG.info("Error on set CSRF token to request. " + e.getClass().getSimpleName());
+            }
             
             CSRFTokens reqids = (CSRFTokens) session.getAttribute(CSRF_REQIDS);
             if (reqids == null) {

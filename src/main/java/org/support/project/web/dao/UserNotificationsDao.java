@@ -40,7 +40,7 @@ public class UserNotificationsDao extends GenUserNotificationsDao {
      * @param status ステータス
      * @return 件数
      */
-    public int countOnStatus(Integer loginUserId, int status) {
+    public Integer countOnStatus(Integer loginUserId, int status) {
         String sql = "SELECT COUNT(*) FROM USER_NOTIFICATIONS WHERE USER_ID = ? AND DELETE_FLAG = 0 AND STATUS = ?";
         return executeQuerySingle(sql, Integer.class, loginUserId, status);
     }
