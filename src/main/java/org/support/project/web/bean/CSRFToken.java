@@ -26,7 +26,7 @@ public class CSRFToken implements Serializable {
     }
     
     private static String createToken(String k) throws NoSuchAlgorithmException {
-        String s = RandomUtil.randamGen(32).concat(k).concat(DateUtils.now().toString());
+        String s = RandomUtil.randamGen(16).concat(k).concat(DateUtils.now().toString());
         return PasswordUtil.hash(s);
     }
 
