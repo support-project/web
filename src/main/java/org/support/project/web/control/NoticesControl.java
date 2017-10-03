@@ -36,7 +36,7 @@ public class NoticesControl extends Control {
     /** 既読情報をSessionに格納するキー */
     public static final String READ_NOTICES = "READ_NOTICES";
     
-    @Get(path = "admin.api/notices")
+    @Get(path = "admin.api/notices", publishToken = "csrf")
     @Auth(roles = "admin")
     public Boundary getNotices() {
         LOG.trace("getNotices");
@@ -62,7 +62,7 @@ public class NoticesControl extends Control {
         }
     }
     
-    @Post(path = "admin.api/notices")
+    @Post(path = "admin.api/notices", subscribeToken = "csrf")
     @Auth(roles = "admin")
     public Boundary postNotice() throws InvalidParamException {
         LOG.trace("postNotice");
@@ -73,7 +73,7 @@ public class NoticesControl extends Control {
         return send(result);
     }
     
-    @Put(path = "admin.api/notices")
+    @Put(path = "admin.api/notices", subscribeToken = "csrf")
     @Auth(roles = "admin")
     public Boundary putNotice() throws InvalidParamException {
         LOG.trace("putNotice");
@@ -89,7 +89,7 @@ public class NoticesControl extends Control {
         return send(result);
     }
     
-    @Delete(path = "admin.api/notices")
+    @Delete(path = "admin.api/notices", subscribeToken = "csrf")
     @Auth(roles = "admin")
     public Boundary deleteNotice() throws InvalidParamException {
         LOG.trace("deleteNotice");

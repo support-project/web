@@ -217,10 +217,6 @@ public class HttpRequestCheckLogic {
         if (tokens == null) {
             return false;
         }
-        CSRFTokens reqids = (CSRFTokens) session.getAttribute(CSRF_REQIDS);
-        if (reqids == null) {
-            return false;
-        }
         String base64 = HttpUtil.getCookie(request, CSRF_TOKENS);
         if (StringUtils.isEmpty(base64)) {
             return false;
@@ -235,6 +231,10 @@ public class HttpRequestCheckLogic {
             
             if (isCheckReqToken(invokeTarget)) {
                 String reqId = request.getParameter(REQ_ID_KEY);
+                CSRFTokens reqids = (CSRFTokens) session.getAttribute(CSRF_REQIDS);
+                if (reqids == null) {
+                    return false;
+                }
                 if (!reqids.checkToken(reqId)) {
                     LOG.warn("Req Token NG : " + reqId);
                     return false;

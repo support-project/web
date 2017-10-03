@@ -23,7 +23,7 @@ public class CSRFTokens implements Serializable {
      * @throws NoSuchAlgorithmException NoSuchAlgorithmException
      */
     public String addToken(String key) throws NoSuchAlgorithmException {
-        if (tokens.size() > 10) {
+        if (tokens.size() > 20) {
             tokens.remove(0);
         }
         CSRFToken token = CSRFToken.create(key);
