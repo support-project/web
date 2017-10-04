@@ -3,6 +3,7 @@ package org.support.project.web.test.stub;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ import javax.servlet.http.Part;
 
 import org.apache.commons.collections.iterators.IteratorEnumeration;
 import org.support.project.common.exception.NotImplementedException;
+import org.support.project.common.util.PropertyUtil;
 import org.support.project.common.util.StringJoinBuilder;
 
 public class StubHttpServletRequest implements HttpServletRequest {
@@ -64,11 +66,24 @@ public class StubHttpServletRequest implements HttpServletRequest {
         session = new StubHttpSession();
         cookies = new ArrayList<>();
     }
-
+    /**
+     * コンストラクタ
+     * @param request StubHttpServletRequest
+     */
     public StubHttpServletRequest(StubHttpServletRequest request) {
         this();
         this.setCookies(request.cookies);
         this.setSession(request.session);
+    }
+    /**
+     * set attributes by property
+     * @param object
+     */
+    public void setAttributeByProperty(Object object) {
+        List<String> props = PropertyUtil.getPropertyNames(object);
+        for (String key : props) {
+            this.setAttribute(key, PropertyUtil.getPropertyValue(object, key));
+        }
     }
 
     /**
@@ -225,8 +240,13 @@ public class StubHttpServletRequest implements HttpServletRequest {
     public void setInputstream(InputStream inputStream) {
         this.inputStream = inputStream;
     }
+    @Override
+    public BufferedReader getReader() throws IOException {
+        return new BufferedReader(new InputStreamReader(inputStream));
+    }
     
 
+    
     
     
     @Override
@@ -280,10 +300,6 @@ public class StubHttpServletRequest implements HttpServletRequest {
         return 8080;
     }
 
-    @Override
-    public BufferedReader getReader() throws IOException {
-        throw new NotImplementedException("NotImplemented");
-    }
 
     @Override
     public String getRemoteAddr() {
@@ -487,6 +503,7 @@ public class StubHttpServletRequest implements HttpServletRequest {
         // TODO Auto-generated method stub
         return null;
     }
+
 
 
 
