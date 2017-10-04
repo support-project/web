@@ -65,6 +65,12 @@ public class StubHttpServletRequest implements HttpServletRequest {
         cookies = new ArrayList<>();
     }
 
+    public StubHttpServletRequest(StubHttpServletRequest request) {
+        this();
+        this.setCookies(request.cookies);
+        this.setSession(request.session);
+    }
+
     /**
      * パラメータ追加
      * 
@@ -149,10 +155,12 @@ public class StubHttpServletRequest implements HttpServletRequest {
     public HttpSession getSession() {
         return session;
     }
-
     @Override
     public HttpSession getSession(boolean paramBoolean) {
         return session;
+    }
+    public void setSession(HttpSession session) {
+        this.session = session;
     }
     
     @Override
@@ -479,6 +487,7 @@ public class StubHttpServletRequest implements HttpServletRequest {
         // TODO Auto-generated method stub
         return null;
     }
+
 
 
 
