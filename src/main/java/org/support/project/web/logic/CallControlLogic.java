@@ -161,7 +161,7 @@ public class CallControlLogic {
                 return this.setInvokeParams(invokeTarget, request, response, path, pathInfo);
             } else {
                 // 認可エラー
-                throw new CallControlException(HttpStatus.SC_403_FORBIDDEN, method, path, "CSRF check error.");
+                throw new CallControlException(HttpStatus.SC_403_FORBIDDEN, method, path, "Authentication error.");
             }
         }
         return null;
