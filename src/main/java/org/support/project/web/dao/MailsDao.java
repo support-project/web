@@ -1,7 +1,10 @@
 package org.support.project.web.dao;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
+import org.support.project.aop.Aspect;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
@@ -35,6 +38,19 @@ public class MailsDao extends GenMailsDao {
     public List<MailsEntity> selectOnStatus(int status) {
         String sql = "SELECT * FROM MAILS WHERE STATUS < ? AND DELETE_FLAG = 0 ORDER BY INSERT_DATETIME";
         return executeQueryList(sql, MailsEntity.class, status);
+    }
+    
+    /**
+     * 古いデータを物理削除
+     * @return 削除件数
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public int physicalDeleteOnOldData() {
+        String sql = "DELETE FROM MAILS WHERE INSERT_DATETIME < ?";
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -10); // 10日より前は消す対象
+        Timestamp t = new Timestamp(calendar.getTimeInMillis());
+        return executeUpdate(sql, t);
     }
 
 }
