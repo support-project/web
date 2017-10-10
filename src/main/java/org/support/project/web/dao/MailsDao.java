@@ -46,7 +46,7 @@ public class MailsDao extends GenMailsDao {
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public int physicalDeleteOnOldData() {
-        String sql = "DELETE FROM MAILS WHERE INSERT_DATETIME < ?";
+        String sql = "DELETE FROM MAILS WHERE INSERT_DATETIME < ? AND (STATUS >= 100 OR DELETE_FLAG = 1);";
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -10); // 10日より前は消す対象
         Timestamp t = new Timestamp(calendar.getTimeInMillis());
