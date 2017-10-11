@@ -1,13 +1,12 @@
 package org.support.project.web.dao;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.List;
 
 import org.support.project.aop.Aspect;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
+import org.support.project.ormapping.common.SQLManager;
 import org.support.project.web.dao.gen.GenMailsDao;
 import org.support.project.web.entity.MailsEntity;
 
@@ -46,11 +45,8 @@ public class MailsDao extends GenMailsDao {
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public int physicalDeleteOnOldData() {
-        String sql = "DELETE FROM MAILS WHERE INSERT_DATETIME < ? AND (STATUS >= 100 OR DELETE_FLAG = 1);";
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, -10); // 10日より前は消す対象
-        Timestamp t = new Timestamp(calendar.getTimeInMillis());
-        return executeUpdate(sql, t);
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/MailsDao/MailsDao_physicalDeleteOnOldData.sql");
+        return executeUpdate(sql);
     }
 
 }
