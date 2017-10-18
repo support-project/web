@@ -41,6 +41,7 @@ public class DateConvertLogic {
         String offset = HttpUtil.getCookie(request, JspUtil.TIME_ZONE_OFFSET);
         return convertDate(val, locale, offset);
     }
+    
 
     /**
      * 日付の文字列を取得
@@ -51,11 +52,6 @@ public class DateConvertLogic {
      * @return 日付の文字列
      */
     public String convertDate(Date val, Locale locale, String offset) {
-        // DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, request.getLocale());
-        // DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT, request.getLocale());
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT, locale);
-        StringBuilder builder = new StringBuilder();
-        
         // TimeZone zone = dateFormat.getTimeZone();
         TimeZone zone = null;
         // ブラウザからoffsetを取得して補正をかける(dateFormat.getTimeZone()を実行したら、GMTだった。。。）
@@ -65,23 +61,53 @@ public class DateConvertLogic {
         } else {
             if (StringUtils.isInteger(offset)) {
                 int off = Integer.parseInt(offset);
-                off = off / 60;
-                // GMT+09:00 が日本
-                StringBuilder offsetBuilder = new StringBuilder();
-                offsetBuilder.append("GMT");
-                if (off <= 0) {
-                    offsetBuilder.append("+0");
-                    off = off * -1; // 正の数へ
-                } else {
-                    offsetBuilder.append("-0");
-                }
-                offsetBuilder.append(off);
-                offsetBuilder.append(":00");
-                LOG.trace(offsetBuilder.toString());
-
-                zone = TimeZone.getTimeZone(offsetBuilder.toString());
+                return convertDate(val, locale, off);
             }
         }
+        return convertDate(val, locale, zone);
+    }
+
+    /**
+     * 日付の文字列を取得
+     * 保存されている値はGMTなので、ブラウザのロケールで変換をかける
+     * @param val 日付
+     * @param locale locale
+     * @param off timezone offset
+     * @return 日付の文字列
+     */
+    public String convertDate(Date val, Locale locale, int off) {
+        off = off / 60;
+        TimeZone zone = null;
+        // GMT+09:00 が日本
+        StringBuilder offsetBuilder = new StringBuilder();
+        offsetBuilder.append("GMT");
+        if (off <= 0) {
+            offsetBuilder.append("+0");
+            off = off * -1; // 正の数へ
+        } else {
+            offsetBuilder.append("-0");
+        }
+        offsetBuilder.append(off);
+        offsetBuilder.append(":00");
+        LOG.trace(offsetBuilder.toString());
+
+        zone = TimeZone.getTimeZone(offsetBuilder.toString());
+        return convertDate(val, locale, zone);
+    }
+    
+    /**
+     * 日付の文字列を取得
+     * 保存されている値はGMTなので、ブラウザのロケールで変換をかける
+     * @param val 日付
+     * @param locale locale
+     * @param zone TimeZone
+     * @return 日付の文字列
+     */
+    private String convertDate(Date val, Locale locale, TimeZone zone) {
+        // DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, request.getLocale());
+        // DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT, request.getLocale());
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT, locale);
+        
         if (zone == null) {
             zone = dateFormat.getTimeZone();
         }
@@ -96,11 +122,49 @@ public class DateConvertLogic {
         // ztime.plusSeconds(zone.getRawOffset() / 1000);
         // Date date = Date.from(ztime.toInstant());
         
+        StringBuilder builder = new StringBuilder();
         Date conv = DateUtils.now();
         conv.setTime(val.getTime() + zone.getRawOffset());
         builder.append(dateFormat.format(conv));
 
         return builder.toString();
     }
+    
+    /**
+     * タイムゾーンの取得
+     * @param locale locale
+     * @param off timezone offset
+     * @return TimeZone
+     */
+    public TimeZone getTimezone(Locale locale, int off) {
+        off = off / 60;
+        TimeZone zone = null;
+        // GMT+09:00 が日本
+        StringBuilder offsetBuilder = new StringBuilder();
+        offsetBuilder.append("GMT");
+        if (off <= 0) {
+            offsetBuilder.append("+0");
+            off = off * -1; // 正の数へ
+        } else {
+            offsetBuilder.append("-0");
+        }
+        offsetBuilder.append(off);
+        offsetBuilder.append(":00");
+        LOG.trace(offsetBuilder.toString());
+
+        zone = TimeZone.getTimeZone(offsetBuilder.toString());
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT, locale);
+        
+        if (zone == null) {
+            zone = dateFormat.getTimeZone();
+        }
+        if (LOG.isTraceEnabled()) {
+            LOG.trace(zone.getDisplayName());
+            LOG.trace(zone.getRawOffset());
+            LOG.trace(zone);
+        }
+        return zone;
+    }
+    
     
 }
