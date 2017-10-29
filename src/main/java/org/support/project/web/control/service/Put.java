@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Put {
     String path() default "";
-    String subscribeToken() default "";
+    String subscribeToken() default "csrf";
     String publishToken() default "";
     boolean checkReferer() default true;
     boolean checkReqToken() default false;

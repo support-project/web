@@ -12,8 +12,10 @@ import org.support.project.ormapping.common.SQLManager;
 import org.support.project.ormapping.common.DBUserPool;
 import org.support.project.ormapping.common.IDGen;
 import org.support.project.ormapping.config.ORMappingParameter;
+import org.support.project.ormapping.config.Order;
 import org.support.project.ormapping.connection.ConnectionManager;
 import org.support.project.common.util.PropertyUtil;
+import org.support.project.common.util.DateUtils;
 
 import org.support.project.di.Container;
 import org.support.project.di.DI;
@@ -43,8 +45,19 @@ public class GenUserAliasDao extends AbstractDao {
      * Select all data.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<UserAliasEntity> physicalSelectAll() { 
+        return physicalSelectAll(Order.DESC);
+    }
+    /**
+     * Select all data.
+     * @param order order
+     * @return all data
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<UserAliasEntity> physicalSelectAll(Order order) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_physical_select_all.sql");
+        sql = String.format(sql, order.toString());
         return executeQueryList(sql, UserAliasEntity.class);
     }
     /**
@@ -53,8 +66,21 @@ public class GenUserAliasDao extends AbstractDao {
      * @param offset offset
      * @return all data on limit and offset
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<UserAliasEntity> physicalSelectAllWithPager(int limit, int offset) { 
+        return physicalSelectAllWithPager(limit, offset, Order.DESC);
+    }
+    /**
+     * Select all data with pager.
+     * @param limit limit
+     * @param offset offset
+     * @param order order
+     * @return all data on limit and offset
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<UserAliasEntity> physicalSelectAllWithPager(int limit, int offset, Order order) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_physical_select_all_with_pager.sql");
+        sql = String.format(sql, order.toString());
         return executeQueryList(sql, UserAliasEntity.class, limit, offset);
     }
     /**
@@ -63,6 +89,7 @@ public class GenUserAliasDao extends AbstractDao {
      * @param  userId userId
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public UserAliasEntity physicalSelectOnKey(String authKey, Integer userId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_physical_select_on_key.sql");
         return executeQuerySingle(sql, UserAliasEntity.class, authKey, userId);
@@ -71,8 +98,19 @@ public class GenUserAliasDao extends AbstractDao {
      * Select all data that not deleted.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<UserAliasEntity> selectAll() { 
+        return selectAll(Order.DESC);
+    }
+    /**
+     * Select all data that not deleted.
+     * @param order order
+     * @return all data
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<UserAliasEntity> selectAll(Order order) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_select_all.sql");
+        sql = String.format(sql, order.toString());
         return executeQueryList(sql, UserAliasEntity.class);
     }
     /**
@@ -81,14 +119,28 @@ public class GenUserAliasDao extends AbstractDao {
      * @param offset offset
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<UserAliasEntity> selectAllWidthPager(int limit, int offset) { 
+        return selectAllWidthPager(limit, offset, Order.DESC);
+    }
+    /**
+     * Select all data that not deleted with pager.
+     * @param limit limit
+     * @param offset offset
+     * @param order order
+     * @return all data
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<UserAliasEntity> selectAllWidthPager(int limit, int offset, Order order) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_select_all_with_pager.sql");
+        sql = String.format(sql, order.toString());
         return executeQueryList(sql, UserAliasEntity.class, limit, offset);
     }
     /**
      * Select count that not deleted.
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public Integer selectCountAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_select_count_all.sql");
         return executeQuerySingle(sql, Integer.class);
@@ -99,6 +151,7 @@ public class GenUserAliasDao extends AbstractDao {
      * @param  userId userId
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public UserAliasEntity selectOnKey(String authKey, Integer userId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_select_on_key.sql");
         return executeQuerySingle(sql, UserAliasEntity.class, authKey, userId);
@@ -108,6 +161,7 @@ public class GenUserAliasDao extends AbstractDao {
      * @param authKey authKey
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<UserAliasEntity> selectOnAuthKey(String authKey) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_select_on_auth_key.sql");
         return executeQueryList(sql, UserAliasEntity.class, authKey);
@@ -117,6 +171,7 @@ public class GenUserAliasDao extends AbstractDao {
      * @param userId userId
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<UserAliasEntity> selectOnUserId(Integer userId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_select_on_user_id.sql");
         return executeQueryList(sql, UserAliasEntity.class, userId);
@@ -126,6 +181,7 @@ public class GenUserAliasDao extends AbstractDao {
      * @param authKey authKey
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<UserAliasEntity> physicalSelectOnAuthKey(String authKey) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_physical_select_on_auth_key.sql");
         return executeQueryList(sql, UserAliasEntity.class, authKey);
@@ -135,6 +191,7 @@ public class GenUserAliasDao extends AbstractDao {
      * @param userId userId
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<UserAliasEntity> physicalSelectOnUserId(Integer userId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/UserAliasDao/UserAliasDao_physical_select_on_user_id.sql");
         return executeQueryList(sql, UserAliasEntity.class, userId);
@@ -143,6 +200,7 @@ public class GenUserAliasDao extends AbstractDao {
      * Count all data
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public int physicalCountAll() {
         String sql = "SELECT COUNT(*) FROM USER_ALIAS";
         return executeQuerySingle(sql, Integer.class);
@@ -212,9 +270,9 @@ public class GenUserAliasDao extends AbstractDao {
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public UserAliasEntity insert(Integer user, UserAliasEntity entity) {
         entity.setInsertUser(user);
-        entity.setInsertDatetime(new Timestamp(new java.util.Date().getTime()));
+        entity.setInsertDatetime(new Timestamp(DateUtils.now().getTime()));
         entity.setUpdateUser(user);
-        entity.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        entity.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
         entity.setDeleteFlag(0);
         entity.setRowId(createRowId());
         return physicalInsert(entity);
@@ -268,7 +326,7 @@ public class GenUserAliasDao extends AbstractDao {
         entity.setInsertDatetime(db.getInsertDatetime());
         entity.setDeleteFlag(db.getDeleteFlag());
         entity.setUpdateUser(user);
-        entity.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        entity.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
         return physicalUpdate(entity);
     }
     /**
@@ -347,7 +405,7 @@ public class GenUserAliasDao extends AbstractDao {
         UserAliasEntity db = selectOnKey(authKey, userId);
         db.setDeleteFlag(1);
         db.setUpdateUser(user);
-        db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        db.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
         physicalUpdate(db);
     }
     /**
@@ -398,7 +456,7 @@ public class GenUserAliasDao extends AbstractDao {
         UserAliasEntity db = physicalSelectOnKey(authKey, userId);
         db.setDeleteFlag(0);
         db.setUpdateUser(user);
-        db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        db.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
         physicalUpdate(db);
     }
     /**

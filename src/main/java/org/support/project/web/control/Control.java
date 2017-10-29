@@ -123,7 +123,7 @@ public abstract class Control {
             path = path.substring(1);
         }
         InvokeSearch invokeSearch = Container.getComp(InvokeSearch.class);
-        InvokeTarget invokeTarget = invokeSearch.getController(method, path);
+        InvokeTarget invokeTarget = invokeSearch.getController(method, path, pathinfo);
         if (invokeTarget != null && Control.class.isAssignableFrom(invokeTarget.getTargetClass())) {
             Control control = (Control) invokeTarget.getTarget();
             copy(control);
@@ -497,7 +497,7 @@ public abstract class Control {
         LoginedUser loginedUser = getLoginedUser();
         if (loginedUser != null) {
             authenticationLogic.clearSession(request);
-            authenticationLogic.setSession(loginedUser.getLoginUser().getUserKey(), request);
+            authenticationLogic.setSession(loginedUser.getLoginUser().getUserKey(), request, response);
         }
     }
 

@@ -12,8 +12,10 @@ import org.support.project.ormapping.common.SQLManager;
 import org.support.project.ormapping.common.DBUserPool;
 import org.support.project.ormapping.common.IDGen;
 import org.support.project.ormapping.config.ORMappingParameter;
+import org.support.project.ormapping.config.Order;
 import org.support.project.ormapping.connection.ConnectionManager;
 import org.support.project.common.util.PropertyUtil;
+import org.support.project.common.util.DateUtils;
 
 import org.support.project.di.Container;
 import org.support.project.di.DI;
@@ -43,8 +45,19 @@ public class GenConfirmMailChangesDao extends AbstractDao {
      * Select all data.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<ConfirmMailChangesEntity> physicalSelectAll() { 
+        return physicalSelectAll(Order.DESC);
+    }
+    /**
+     * Select all data.
+     * @param order order
+     * @return all data
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<ConfirmMailChangesEntity> physicalSelectAll(Order order) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ConfirmMailChangesDao/ConfirmMailChangesDao_physical_select_all.sql");
+        sql = String.format(sql, order.toString());
         return executeQueryList(sql, ConfirmMailChangesEntity.class);
     }
     /**
@@ -53,8 +66,21 @@ public class GenConfirmMailChangesDao extends AbstractDao {
      * @param offset offset
      * @return all data on limit and offset
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<ConfirmMailChangesEntity> physicalSelectAllWithPager(int limit, int offset) { 
+        return physicalSelectAllWithPager(limit, offset, Order.DESC);
+    }
+    /**
+     * Select all data with pager.
+     * @param limit limit
+     * @param offset offset
+     * @param order order
+     * @return all data on limit and offset
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<ConfirmMailChangesEntity> physicalSelectAllWithPager(int limit, int offset, Order order) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ConfirmMailChangesDao/ConfirmMailChangesDao_physical_select_all_with_pager.sql");
+        sql = String.format(sql, order.toString());
         return executeQueryList(sql, ConfirmMailChangesEntity.class, limit, offset);
     }
     /**
@@ -62,6 +88,7 @@ public class GenConfirmMailChangesDao extends AbstractDao {
      * @param  id id
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public ConfirmMailChangesEntity physicalSelectOnKey(String id) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ConfirmMailChangesDao/ConfirmMailChangesDao_physical_select_on_key.sql");
         return executeQuerySingle(sql, ConfirmMailChangesEntity.class, id);
@@ -70,8 +97,19 @@ public class GenConfirmMailChangesDao extends AbstractDao {
      * Select all data that not deleted.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<ConfirmMailChangesEntity> selectAll() { 
+        return selectAll(Order.DESC);
+    }
+    /**
+     * Select all data that not deleted.
+     * @param order order
+     * @return all data
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<ConfirmMailChangesEntity> selectAll(Order order) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ConfirmMailChangesDao/ConfirmMailChangesDao_select_all.sql");
+        sql = String.format(sql, order.toString());
         return executeQueryList(sql, ConfirmMailChangesEntity.class);
     }
     /**
@@ -80,14 +118,28 @@ public class GenConfirmMailChangesDao extends AbstractDao {
      * @param offset offset
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<ConfirmMailChangesEntity> selectAllWidthPager(int limit, int offset) { 
+        return selectAllWidthPager(limit, offset, Order.DESC);
+    }
+    /**
+     * Select all data that not deleted with pager.
+     * @param limit limit
+     * @param offset offset
+     * @param order order
+     * @return all data
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<ConfirmMailChangesEntity> selectAllWidthPager(int limit, int offset, Order order) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ConfirmMailChangesDao/ConfirmMailChangesDao_select_all_with_pager.sql");
+        sql = String.format(sql, order.toString());
         return executeQueryList(sql, ConfirmMailChangesEntity.class, limit, offset);
     }
     /**
      * Select count that not deleted.
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public Integer selectCountAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ConfirmMailChangesDao/ConfirmMailChangesDao_select_count_all.sql");
         return executeQuerySingle(sql, Integer.class);
@@ -97,6 +149,7 @@ public class GenConfirmMailChangesDao extends AbstractDao {
      * @param  id id
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public ConfirmMailChangesEntity selectOnKey(String id) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ConfirmMailChangesDao/ConfirmMailChangesDao_select_on_key.sql");
         return executeQuerySingle(sql, ConfirmMailChangesEntity.class, id);
@@ -105,6 +158,7 @@ public class GenConfirmMailChangesDao extends AbstractDao {
      * Count all data
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public int physicalCountAll() {
         String sql = "SELECT COUNT(*) FROM CONFIRM_MAIL_CHANGES";
         return executeQuerySingle(sql, Integer.class);
@@ -168,9 +222,9 @@ public class GenConfirmMailChangesDao extends AbstractDao {
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public ConfirmMailChangesEntity insert(Integer user, ConfirmMailChangesEntity entity) {
         entity.setInsertUser(user);
-        entity.setInsertDatetime(new Timestamp(new java.util.Date().getTime()));
+        entity.setInsertDatetime(new Timestamp(DateUtils.now().getTime()));
         entity.setUpdateUser(user);
-        entity.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        entity.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
         entity.setDeleteFlag(0);
         entity.setRowId(createRowId());
         return physicalInsert(entity);
@@ -221,7 +275,7 @@ public class GenConfirmMailChangesDao extends AbstractDao {
         entity.setInsertDatetime(db.getInsertDatetime());
         entity.setDeleteFlag(db.getDeleteFlag());
         entity.setUpdateUser(user);
-        entity.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        entity.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
         return physicalUpdate(entity);
     }
     /**
@@ -298,7 +352,7 @@ public class GenConfirmMailChangesDao extends AbstractDao {
         ConfirmMailChangesEntity db = selectOnKey(id);
         db.setDeleteFlag(1);
         db.setUpdateUser(user);
-        db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        db.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
         physicalUpdate(db);
     }
     /**
@@ -347,7 +401,7 @@ public class GenConfirmMailChangesDao extends AbstractDao {
         ConfirmMailChangesEntity db = physicalSelectOnKey(id);
         db.setDeleteFlag(0);
         db.setUpdateUser(user);
-        db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        db.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
         physicalUpdate(db);
     }
     /**

@@ -12,8 +12,10 @@ import org.support.project.ormapping.common.SQLManager;
 import org.support.project.ormapping.common.DBUserPool;
 import org.support.project.ormapping.common.IDGen;
 import org.support.project.ormapping.config.ORMappingParameter;
+import org.support.project.ormapping.config.Order;
 import org.support.project.ormapping.connection.ConnectionManager;
 import org.support.project.common.util.PropertyUtil;
+import org.support.project.common.util.DateUtils;
 
 import org.support.project.di.Container;
 import org.support.project.di.DI;
@@ -43,8 +45,19 @@ public class GenRoleFunctionsDao extends AbstractDao {
      * Select all data.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<RoleFunctionsEntity> physicalSelectAll() { 
+        return physicalSelectAll(Order.DESC);
+    }
+    /**
+     * Select all data.
+     * @param order order
+     * @return all data
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<RoleFunctionsEntity> physicalSelectAll(Order order) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/RoleFunctionsDao/RoleFunctionsDao_physical_select_all.sql");
+        sql = String.format(sql, order.toString());
         return executeQueryList(sql, RoleFunctionsEntity.class);
     }
     /**
@@ -53,8 +66,21 @@ public class GenRoleFunctionsDao extends AbstractDao {
      * @param offset offset
      * @return all data on limit and offset
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<RoleFunctionsEntity> physicalSelectAllWithPager(int limit, int offset) { 
+        return physicalSelectAllWithPager(limit, offset, Order.DESC);
+    }
+    /**
+     * Select all data with pager.
+     * @param limit limit
+     * @param offset offset
+     * @param order order
+     * @return all data on limit and offset
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<RoleFunctionsEntity> physicalSelectAllWithPager(int limit, int offset, Order order) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/RoleFunctionsDao/RoleFunctionsDao_physical_select_all_with_pager.sql");
+        sql = String.format(sql, order.toString());
         return executeQueryList(sql, RoleFunctionsEntity.class, limit, offset);
     }
     /**
@@ -63,6 +89,7 @@ public class GenRoleFunctionsDao extends AbstractDao {
      * @param  roleId roleId
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public RoleFunctionsEntity physicalSelectOnKey(String functionKey, Integer roleId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/RoleFunctionsDao/RoleFunctionsDao_physical_select_on_key.sql");
         return executeQuerySingle(sql, RoleFunctionsEntity.class, functionKey, roleId);
@@ -71,8 +98,19 @@ public class GenRoleFunctionsDao extends AbstractDao {
      * Select all data that not deleted.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<RoleFunctionsEntity> selectAll() { 
+        return selectAll(Order.DESC);
+    }
+    /**
+     * Select all data that not deleted.
+     * @param order order
+     * @return all data
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<RoleFunctionsEntity> selectAll(Order order) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/RoleFunctionsDao/RoleFunctionsDao_select_all.sql");
+        sql = String.format(sql, order.toString());
         return executeQueryList(sql, RoleFunctionsEntity.class);
     }
     /**
@@ -81,14 +119,28 @@ public class GenRoleFunctionsDao extends AbstractDao {
      * @param offset offset
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<RoleFunctionsEntity> selectAllWidthPager(int limit, int offset) { 
+        return selectAllWidthPager(limit, offset, Order.DESC);
+    }
+    /**
+     * Select all data that not deleted with pager.
+     * @param limit limit
+     * @param offset offset
+     * @param order order
+     * @return all data
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<RoleFunctionsEntity> selectAllWidthPager(int limit, int offset, Order order) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/RoleFunctionsDao/RoleFunctionsDao_select_all_with_pager.sql");
+        sql = String.format(sql, order.toString());
         return executeQueryList(sql, RoleFunctionsEntity.class, limit, offset);
     }
     /**
      * Select count that not deleted.
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public Integer selectCountAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/RoleFunctionsDao/RoleFunctionsDao_select_count_all.sql");
         return executeQuerySingle(sql, Integer.class);
@@ -99,6 +151,7 @@ public class GenRoleFunctionsDao extends AbstractDao {
      * @param  roleId roleId
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public RoleFunctionsEntity selectOnKey(String functionKey, Integer roleId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/RoleFunctionsDao/RoleFunctionsDao_select_on_key.sql");
         return executeQuerySingle(sql, RoleFunctionsEntity.class, functionKey, roleId);
@@ -108,6 +161,7 @@ public class GenRoleFunctionsDao extends AbstractDao {
      * @param functionKey functionKey
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<RoleFunctionsEntity> selectOnFunctionKey(String functionKey) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/RoleFunctionsDao/RoleFunctionsDao_select_on_function_key.sql");
         return executeQueryList(sql, RoleFunctionsEntity.class, functionKey);
@@ -117,6 +171,7 @@ public class GenRoleFunctionsDao extends AbstractDao {
      * @param roleId roleId
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<RoleFunctionsEntity> selectOnRoleId(Integer roleId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/RoleFunctionsDao/RoleFunctionsDao_select_on_role_id.sql");
         return executeQueryList(sql, RoleFunctionsEntity.class, roleId);
@@ -126,6 +181,7 @@ public class GenRoleFunctionsDao extends AbstractDao {
      * @param functionKey functionKey
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<RoleFunctionsEntity> physicalSelectOnFunctionKey(String functionKey) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/RoleFunctionsDao/RoleFunctionsDao_physical_select_on_function_key.sql");
         return executeQueryList(sql, RoleFunctionsEntity.class, functionKey);
@@ -135,6 +191,7 @@ public class GenRoleFunctionsDao extends AbstractDao {
      * @param roleId roleId
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<RoleFunctionsEntity> physicalSelectOnRoleId(Integer roleId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/RoleFunctionsDao/RoleFunctionsDao_physical_select_on_role_id.sql");
         return executeQueryList(sql, RoleFunctionsEntity.class, roleId);
@@ -143,6 +200,7 @@ public class GenRoleFunctionsDao extends AbstractDao {
      * Count all data
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public int physicalCountAll() {
         String sql = "SELECT COUNT(*) FROM ROLE_FUNCTIONS";
         return executeQuerySingle(sql, Integer.class);
@@ -204,9 +262,9 @@ public class GenRoleFunctionsDao extends AbstractDao {
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public RoleFunctionsEntity insert(Integer user, RoleFunctionsEntity entity) {
         entity.setInsertUser(user);
-        entity.setInsertDatetime(new Timestamp(new java.util.Date().getTime()));
+        entity.setInsertDatetime(new Timestamp(DateUtils.now().getTime()));
         entity.setUpdateUser(user);
-        entity.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        entity.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
         entity.setDeleteFlag(0);
         entity.setRowId(createRowId());
         return physicalInsert(entity);
@@ -256,7 +314,7 @@ public class GenRoleFunctionsDao extends AbstractDao {
         entity.setInsertDatetime(db.getInsertDatetime());
         entity.setDeleteFlag(db.getDeleteFlag());
         entity.setUpdateUser(user);
-        entity.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        entity.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
         return physicalUpdate(entity);
     }
     /**
@@ -335,7 +393,7 @@ public class GenRoleFunctionsDao extends AbstractDao {
         RoleFunctionsEntity db = selectOnKey(functionKey, roleId);
         db.setDeleteFlag(1);
         db.setUpdateUser(user);
-        db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        db.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
         physicalUpdate(db);
     }
     /**
@@ -386,7 +444,7 @@ public class GenRoleFunctionsDao extends AbstractDao {
         RoleFunctionsEntity db = physicalSelectOnKey(functionKey, roleId);
         db.setDeleteFlag(0);
         db.setUpdateUser(user);
-        db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        db.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
         physicalUpdate(db);
     }
     /**

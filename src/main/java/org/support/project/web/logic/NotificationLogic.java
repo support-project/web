@@ -73,7 +73,7 @@ public class NotificationLogic {
      * @param loginUserId ログインユーザID
      * @return 件数
      */
-    public int countUnRead(Integer loginUserId) {
+    public Integer countUnRead(Integer loginUserId) {
         return UserNotificationsDao.get().countOnStatus(loginUserId, STATUS_UNREAD);
     }
     
@@ -81,12 +81,19 @@ public class NotificationLogic {
      * 指定のユーザの通知の取得
      * @param loginUserId ログインユーザID
      * @param offset ページオフセット
+     * @param all 
      * @return 通知
      */
-    public List<NotificationsEntity> getNotification(Integer loginUserId, int offset) {
+    public List<NotificationsEntity> getNotification(Integer loginUserId, int offset, boolean all) {
         int limit = 50;
         offset = limit * offset;
-        return UserNotificationsDao.get().selectOnUser(loginUserId, limit, offset);
+        if (all) {
+            // すべて取得
+            return UserNotificationsDao.get().selectOnUser(loginUserId, limit, offset);
+        } else {
+            // 未読のみ
+            return UserNotificationsDao.get().selectOnUserOnlyUnread(loginUserId, limit, offset);
+        }
     }
     
     /**
@@ -104,6 +111,40 @@ public class NotificationLogic {
         entity.setStatus(status);
         UserNotificationsDao.get().update(entity);
         return true;
+    }
+    
+    /**
+     * 指定の番号の前の通知を取得
+     * @param no 通知番号
+     * @param loginUserId ログインユーザ
+     * @param all 全て取得 or 未読のみ
+     * @return 前の通知
+     */
+    public NotificationsEntity previous(long no, int loginUserId, boolean all) {
+        if (all) {
+            // すべて取得
+            return UserNotificationsDao.get().selectPrevious(no, loginUserId);
+        } else {
+            // 未読のみ
+            return UserNotificationsDao.get().selectPreviousOnlyUnread(no, loginUserId);
+        }
+    }
+
+    /**
+     * 指定の番号の次の通知を取得
+     * @param no 通知番号
+     * @param loginUserId ログインユーザ
+     * @param all 全て取得 or 未読のみ
+     * @return 次の通知
+     */
+    public NotificationsEntity next(long no, int loginUserId, boolean all) {
+        if (all) {
+            // すべて取得
+            return UserNotificationsDao.get().selectNext(no, loginUserId);
+        } else {
+            // 未読のみ
+            return UserNotificationsDao.get().selectNextOnlyUnread(no, loginUserId);
+        }
     }
 
 }

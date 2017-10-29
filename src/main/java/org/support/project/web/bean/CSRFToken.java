@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.support.project.common.serialize.Serialize;
 import org.support.project.common.serialize.SerializerValue;
+import org.support.project.common.util.DateUtils;
 import org.support.project.common.util.PasswordUtil;
 import org.support.project.common.util.RandomUtil;
 
@@ -19,13 +20,13 @@ public class CSRFToken implements Serializable {
     public static CSRFToken create(String key) throws NoSuchAlgorithmException {
         CSRFToken token = new CSRFToken();
         token.key = key;
-        token.date = new Date();
+        token.date = DateUtils.now();
         token.token = createToken(key);
         return token;
     }
     
     private static String createToken(String k) throws NoSuchAlgorithmException {
-        String s = RandomUtil.randamGen(32).concat(k).concat(new Date().toString());
+        String s = RandomUtil.randamGen(16).concat(k).concat(DateUtils.now().toString());
         return PasswordUtil.hash(s);
     }
 

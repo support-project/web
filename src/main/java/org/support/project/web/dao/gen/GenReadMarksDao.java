@@ -12,8 +12,10 @@ import org.support.project.ormapping.common.SQLManager;
 import org.support.project.ormapping.common.DBUserPool;
 import org.support.project.ormapping.common.IDGen;
 import org.support.project.ormapping.config.ORMappingParameter;
+import org.support.project.ormapping.config.Order;
 import org.support.project.ormapping.connection.ConnectionManager;
 import org.support.project.common.util.PropertyUtil;
+import org.support.project.common.util.DateUtils;
 
 import org.support.project.di.Container;
 import org.support.project.di.DI;
@@ -43,8 +45,19 @@ public class GenReadMarksDao extends AbstractDao {
      * Select all data.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<ReadMarksEntity> physicalSelectAll() { 
+        return physicalSelectAll(Order.DESC);
+    }
+    /**
+     * Select all data.
+     * @param order order
+     * @return all data
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<ReadMarksEntity> physicalSelectAll(Order order) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ReadMarksDao/ReadMarksDao_physical_select_all.sql");
+        sql = String.format(sql, order.toString());
         return executeQueryList(sql, ReadMarksEntity.class);
     }
     /**
@@ -53,8 +66,21 @@ public class GenReadMarksDao extends AbstractDao {
      * @param offset offset
      * @return all data on limit and offset
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<ReadMarksEntity> physicalSelectAllWithPager(int limit, int offset) { 
+        return physicalSelectAllWithPager(limit, offset, Order.DESC);
+    }
+    /**
+     * Select all data with pager.
+     * @param limit limit
+     * @param offset offset
+     * @param order order
+     * @return all data on limit and offset
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<ReadMarksEntity> physicalSelectAllWithPager(int limit, int offset, Order order) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ReadMarksDao/ReadMarksDao_physical_select_all_with_pager.sql");
+        sql = String.format(sql, order.toString());
         return executeQueryList(sql, ReadMarksEntity.class, limit, offset);
     }
     /**
@@ -63,6 +89,7 @@ public class GenReadMarksDao extends AbstractDao {
      * @param  userId userId
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public ReadMarksEntity physicalSelectOnKey(Integer no, Integer userId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ReadMarksDao/ReadMarksDao_physical_select_on_key.sql");
         return executeQuerySingle(sql, ReadMarksEntity.class, no, userId);
@@ -71,8 +98,19 @@ public class GenReadMarksDao extends AbstractDao {
      * Select all data that not deleted.
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<ReadMarksEntity> selectAll() { 
+        return selectAll(Order.DESC);
+    }
+    /**
+     * Select all data that not deleted.
+     * @param order order
+     * @return all data
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<ReadMarksEntity> selectAll(Order order) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ReadMarksDao/ReadMarksDao_select_all.sql");
+        sql = String.format(sql, order.toString());
         return executeQueryList(sql, ReadMarksEntity.class);
     }
     /**
@@ -81,14 +119,28 @@ public class GenReadMarksDao extends AbstractDao {
      * @param offset offset
      * @return all data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<ReadMarksEntity> selectAllWidthPager(int limit, int offset) { 
+        return selectAllWidthPager(limit, offset, Order.DESC);
+    }
+    /**
+     * Select all data that not deleted with pager.
+     * @param limit limit
+     * @param offset offset
+     * @param order order
+     * @return all data
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<ReadMarksEntity> selectAllWidthPager(int limit, int offset, Order order) { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ReadMarksDao/ReadMarksDao_select_all_with_pager.sql");
+        sql = String.format(sql, order.toString());
         return executeQueryList(sql, ReadMarksEntity.class, limit, offset);
     }
     /**
      * Select count that not deleted.
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public Integer selectCountAll() { 
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ReadMarksDao/ReadMarksDao_select_count_all.sql");
         return executeQuerySingle(sql, Integer.class);
@@ -99,6 +151,7 @@ public class GenReadMarksDao extends AbstractDao {
      * @param  userId userId
      * @return data
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public ReadMarksEntity selectOnKey(Integer no, Integer userId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ReadMarksDao/ReadMarksDao_select_on_key.sql");
         return executeQuerySingle(sql, ReadMarksEntity.class, no, userId);
@@ -108,6 +161,7 @@ public class GenReadMarksDao extends AbstractDao {
      * @param no no
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<ReadMarksEntity> selectOnNo(Integer no) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ReadMarksDao/ReadMarksDao_select_on_no.sql");
         return executeQueryList(sql, ReadMarksEntity.class, no);
@@ -117,6 +171,7 @@ public class GenReadMarksDao extends AbstractDao {
      * @param userId userId
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<ReadMarksEntity> selectOnUserId(Integer userId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ReadMarksDao/ReadMarksDao_select_on_user_id.sql");
         return executeQueryList(sql, ReadMarksEntity.class, userId);
@@ -126,6 +181,7 @@ public class GenReadMarksDao extends AbstractDao {
      * @param no no
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<ReadMarksEntity> physicalSelectOnNo(Integer no) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ReadMarksDao/ReadMarksDao_physical_select_on_no.sql");
         return executeQueryList(sql, ReadMarksEntity.class, no);
@@ -135,6 +191,7 @@ public class GenReadMarksDao extends AbstractDao {
      * @param userId userId
      * @return list
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public List<ReadMarksEntity> physicalSelectOnUserId(Integer userId) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/ReadMarksDao/ReadMarksDao_physical_select_on_user_id.sql");
         return executeQueryList(sql, ReadMarksEntity.class, userId);
@@ -143,6 +200,7 @@ public class GenReadMarksDao extends AbstractDao {
      * Count all data
      * @return count
      */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public int physicalCountAll() {
         String sql = "SELECT COUNT(*) FROM READ_MARKS";
         return executeQuerySingle(sql, Integer.class);
@@ -206,9 +264,9 @@ public class GenReadMarksDao extends AbstractDao {
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public ReadMarksEntity insert(Integer user, ReadMarksEntity entity) {
         entity.setInsertUser(user);
-        entity.setInsertDatetime(new Timestamp(new java.util.Date().getTime()));
+        entity.setInsertDatetime(new Timestamp(DateUtils.now().getTime()));
         entity.setUpdateUser(user);
-        entity.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        entity.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
         entity.setDeleteFlag(0);
         entity.setRowId(createRowId());
         return physicalInsert(entity);
@@ -259,7 +317,7 @@ public class GenReadMarksDao extends AbstractDao {
         entity.setInsertDatetime(db.getInsertDatetime());
         entity.setDeleteFlag(db.getDeleteFlag());
         entity.setUpdateUser(user);
-        entity.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        entity.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
         return physicalUpdate(entity);
     }
     /**
@@ -338,7 +396,7 @@ public class GenReadMarksDao extends AbstractDao {
         ReadMarksEntity db = selectOnKey(no, userId);
         db.setDeleteFlag(1);
         db.setUpdateUser(user);
-        db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        db.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
         physicalUpdate(db);
     }
     /**
@@ -389,7 +447,7 @@ public class GenReadMarksDao extends AbstractDao {
         ReadMarksEntity db = physicalSelectOnKey(no, userId);
         db.setDeleteFlag(0);
         db.setUpdateUser(user);
-        db.setUpdateDatetime(new Timestamp(new java.util.Date().getTime()));
+        db.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
         physicalUpdate(db);
     }
     /**
