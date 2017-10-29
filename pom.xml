@@ -4,7 +4,7 @@
 
     <groupId>org.support-project</groupId>
     <artifactId>web</artifactId>
-    <version>1.11.0</version>
+    <version>1.11.1</version>
     <packaging>jar</packaging>
 
     <name>web</name>
