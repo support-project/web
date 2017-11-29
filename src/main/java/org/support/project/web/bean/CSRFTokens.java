@@ -2,8 +2,8 @@ package org.support.project.web.bean;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 
 import org.support.project.common.serialize.Serialize;
 import org.support.project.common.serialize.SerializerValue;
@@ -14,33 +14,48 @@ public class CSRFTokens implements Serializable {
      * シリアルバージョン
      */
     private static final long serialVersionUID = 1L;
-    
-    private List<CSRFToken> tokens = new ArrayList<>();
-    
+
+    private LinkedHashMap<String, CSRFToken> tokens = new LinkedHashMap<>();
+
     /**
      * 指定のキーに対するTokenを発行する
-     * @param key key 
+     * 
+     * @param key key
      * @throws NoSuchAlgorithmException NoSuchAlgorithmException
      */
     public String addToken(String key) throws NoSuchAlgorithmException {
+        if (tokens.containsKey(key)) {
+            CSRFToken token = tokens.get(key);
+            return token.getToken();
+        }
         if (tokens.size() > 20) {
-            tokens.remove(0);
+            Iterator<String> iterator = tokens.keySet().iterator();
+            while (iterator.hasNext()) {
+                String string = (String) iterator.next();
+                tokens.remove(string); // 初めの1件を削除（古いもの）
+                break;
+            }
         }
         CSRFToken token = CSRFToken.create(key);
-        tokens.add(token);
+        tokens.put(key, token);
         return token.getToken();
     }
-    
+
     /**
      * トークンが正しい値かチェックする
+     * 
      * @param key key
      * @param reqTokens CSRFTokens
      * @return チェック結果
      */
     public boolean checkToken(String key, CSRFTokens reqTokens) {
-        for (CSRFToken csrfToken : tokens) {
+        Iterator<CSRFToken> iterator = tokens.values().iterator();
+        while (iterator.hasNext()) {
+            CSRFToken csrfToken = (CSRFToken) iterator.next();
             if (csrfToken.getKey().equals(key)) {
-                for (CSRFToken reqToken : reqTokens.tokens) {
+                Iterator<CSRFToken> iterator2 = reqTokens.tokens.values().iterator();
+                while (iterator2.hasNext()) {
+                    CSRFToken reqToken = (CSRFToken) iterator2.next();
                     if (reqToken.getKey().equals(key) && csrfToken.getToken().equals(reqToken.getToken())) {
                         return true;
                     }
@@ -49,14 +64,17 @@ public class CSRFTokens implements Serializable {
         }
         return false;
     }
-    
+
     /**
      * リクエストのHiddenトークンが正しい値かチェックする
+     * 
      * @param key key
      * @return チェック結果
      */
     public boolean checkToken(String key) {
-        for (CSRFToken csrfToken : tokens) {
+        Iterator<CSRFToken> iterator = tokens.values().iterator();
+        while (iterator.hasNext()) {
+            CSRFToken csrfToken = (CSRFToken) iterator.next();
             if (csrfToken.getToken().equals(key)) {
                 // 保持されているTokenのリストの中に存在すればOK
                 return true;
@@ -64,5 +82,5 @@ public class CSRFTokens implements Serializable {
         }
         return false;
     }
-    
+
 }
