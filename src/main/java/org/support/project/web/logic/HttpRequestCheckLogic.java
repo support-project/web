@@ -172,7 +172,9 @@ public class HttpRequestCheckLogic {
                 session.setAttribute(CSRF_TOKENS, tokens);
             }
             String result = tokens.addToken(tokenkey);
-            LOG.info("Add token to CSRF_TOKENS. key:" + tokenkey + "  token:" + result);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Add token to CSRF_TOKENS. key:" + tokenkey + "  token:" + result);
+            }
             try {
                 HttpUtil.setCookie(request, response, CSRF_TOKENS, SerializeUtils.objectToBase64(tokens));
             } catch (SerializeException e) {
@@ -185,7 +187,9 @@ public class HttpRequestCheckLogic {
                 session.setAttribute(CSRF_REQIDS, reqids);
             }
             String reqid = reqids.addToken(tokenkey);
-            LOG.info("Add token to CSRF_REQIDS. key:" + tokenkey + "  token:" + reqid);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Add token to CSRF_REQIDS. key:" + tokenkey + "  token:" + reqid);
+            }
             request.setAttribute(REQ_ID_KEY, reqid);
         }
     }
