@@ -86,6 +86,7 @@ public class SanitizingLogic {
             .allowAttributes("id").matching(HTML_ID).globally()
             .allowAttributes("slide").matching(NUMBER).globally()
             .allowAttributes("transition").matching(HTML_CLASS).globally()
+            .allowAttributes("centered").matching(HTML_CLASS).globally()
             .allowAttributes("class").matching(HTML_CLASS).globally()
             .allowAttributes("lang").matching(Pattern.compile("[a-zA-Z]{2,20}")).globally()
             .allowAttributes("title").matching(HTML_TITLE).globally()
