@@ -1,3 +1,26 @@
+-- 認証トークン
+drop table if exists TOKENS cascade;
+
+create table TOKENS (
+  TOKEN character varying(128) not null
+  , USER_ID integer not null
+  , EXPIRES timestamp not null
+  , TOKEN_TYPE integer default 1 not null
+  , ROW_ID character varying(64)
+  , INSERT_USER integer
+  , INSERT_DATETIME timestamp
+  , UPDATE_USER integer
+  , UPDATE_DATETIME timestamp
+  , DELETE_FLAG integer
+  , constraint TOKENS_PKC primary key (TOKEN)
+) ;
+
+create index TOKENS_IX1
+  on TOKENS(USER_ID);
+
+create index TOKENS_IX2
+  on TOKENS(EXPIRES);
+
 -- ユーザのエイリアス
 drop table if exists USER_ALIAS cascade;
 
@@ -490,6 +513,18 @@ create table ROLE_FUNCTIONS (
   , constraint ROLE_FUNCTIONS_PKC primary key (ROLE_ID,FUNCTION_KEY)
 ) ;
 
+comment on table TOKENS is '認証トークン';
+comment on column TOKENS.TOKEN is 'TOKEN';
+comment on column TOKENS.USER_ID is 'ユーザID';
+comment on column TOKENS.EXPIRES is '有効期限';
+comment on column TOKENS.TOKEN_TYPE is '登録種類	 1:公開API用、2:内部API用';
+comment on column TOKENS.ROW_ID is '行ID';
+comment on column TOKENS.INSERT_USER is '登録ユーザ';
+comment on column TOKENS.INSERT_DATETIME is '登録日時';
+comment on column TOKENS.UPDATE_USER is '更新ユーザ';
+comment on column TOKENS.UPDATE_DATETIME is '更新日時';
+comment on column TOKENS.DELETE_FLAG is '削除フラグ';
+
 comment on table USER_ALIAS is 'ユーザのエイリアス';
 comment on column USER_ALIAS.USER_ID is 'ユーザID';
 comment on column USER_ALIAS.AUTH_KEY is '認証設定キー';
@@ -608,7 +643,7 @@ comment on column LDAP_CONFIGS.ID_ATTR is 'ID_ATTR';
 comment on column LDAP_CONFIGS.NAME_ATTR is 'NAME_ATTR';
 comment on column LDAP_CONFIGS.MAIL_ATTR is 'MAIL_ATTR';
 comment on column LDAP_CONFIGS.ADMIN_CHECK_FILTER is 'ADMIN_CHECK_FILTER';
-comment on column LDAP_CONFIGS.AUTH_TYPE is 'AUTH_TYPE:0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先)';
+comment on column LDAP_CONFIGS.AUTH_TYPE is 'AUTH_TYPE	 0:DB認証,1:LDAP認証,2:DB認証+LDAP認証(LDAP優先)';
 comment on column LDAP_CONFIGS.ROW_ID is '行ID';
 comment on column LDAP_CONFIGS.INSERT_USER is '登録ユーザ';
 comment on column LDAP_CONFIGS.INSERT_DATETIME is '登録日時';
@@ -683,7 +718,7 @@ comment on column MAIL_CONFIGS.HOST is 'SMTP_HOST';
 comment on column MAIL_CONFIGS.PORT is 'SMTP_PORT';
 comment on column MAIL_CONFIGS.AUTH_TYPE is 'AUTH_TYPE';
 comment on column MAIL_CONFIGS.SMTP_ID is 'SMTP_ID';
-comment on column MAIL_CONFIGS.SMTP_PASSWORD is 'SMTP_PASSWORD:暗号化（可逆）';
+comment on column MAIL_CONFIGS.SMTP_PASSWORD is 'SMTP_PASSWORD	 暗号化（可逆）';
 comment on column MAIL_CONFIGS.SALT is 'SALT';
 comment on column MAIL_CONFIGS.FROM_ADDRESS is '送信元';
 comment on column MAIL_CONFIGS.FROM_NAME is '送信元名';
@@ -745,7 +780,7 @@ comment on column SYSTEMS.DELETE_FLAG is '削除フラグ';
 
 comment on table USER_GROUPS is 'ユーザが所属するグループ';
 comment on column USER_GROUPS.USER_ID is 'ユーザID';
-comment on column USER_GROUPS.GROUP_ID is 'グループID:CHARACTER SET latin1';
+comment on column USER_GROUPS.GROUP_ID is 'グループID	 CHARACTER SET latin1';
 comment on column USER_GROUPS.GROUP_ROLE is 'グループの権限';
 comment on column USER_GROUPS.ROW_ID is '行ID';
 comment on column USER_GROUPS.INSERT_USER is '登録ユーザ';
@@ -770,9 +805,9 @@ comment on column GROUPS.DELETE_FLAG is '削除フラグ';
 
 comment on table USERS is 'ユーザ';
 comment on column USERS.USER_ID is 'ユーザID';
-comment on column USERS.USER_KEY is 'ユーザKEY:ユニーク';
+comment on column USERS.USER_KEY is 'ユーザKEY	 ユニーク';
 comment on column USERS.USER_NAME is 'ユーザ名';
-comment on column USERS.PASSWORD is 'パスワード:ハッシュ(不可逆)';
+comment on column USERS.PASSWORD is 'パスワード	 ハッシュ(不可逆)';
 comment on column USERS.SALT is 'SALT';
 comment on column USERS.LOCALE_KEY is 'ロケール';
 comment on column USERS.MAIL_ADDRESS is 'メールアドレス';

@@ -59,7 +59,7 @@ public class GenMailConfigsEntity implements Serializable {
     private Integer authType;
     /** SMTP_ID */
     private String smtpId;
-    /** SMTP_PASSWORD:暗号化（可逆） */
+    /** SMTP_PASSWORD	 暗号化（可逆） */
     private String smtpPassword;
     /** SALT */
     private String salt;
@@ -161,15 +161,15 @@ public class GenMailConfigsEntity implements Serializable {
     }
 
     /**
-     * Get SMTP_PASSWORD:暗号化（可逆）.
-     * @return SMTP_PASSWORD:暗号化（可逆）
+     * Get SMTP_PASSWORD	 暗号化（可逆）.
+     * @return SMTP_PASSWORD	 暗号化（可逆）
      */
     public String getSmtpPassword() {
         return this.smtpPassword;
     }
     /**
-     * Set SMTP_PASSWORD:暗号化（可逆）.
-     * @param smtpPassword SMTP_PASSWORD:暗号化（可逆）
+     * Set SMTP_PASSWORD	 暗号化（可逆）.
+     * @param smtpPassword SMTP_PASSWORD	 暗号化（可逆）
      * @return this object     */
     public GenMailConfigsEntity setSmtpPassword(String smtpPassword) {
         this.smtpPassword = smtpPassword;

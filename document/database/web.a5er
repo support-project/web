@@ -48,6 +48,62 @@ ShowTag=1
 ShowCommonAttributes=0
 
 [Relation]
+Entity1=USERS
+Entity2=TOKENS
+RelationType1=2
+RelationType2=3
+Fields1=USER_ID
+Fields2=USER_ID
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,1314,9500,3577,R,R
+Dependence=0
+Caption=
+PName=
+LineMode=0
+Bar1=131
+Bar2=950
+Bar3=358
+TermPos1=R
+TermPos2=R
+
+[Comment]
+Comment=今のところ、そのユーザとして操作するところのみ\n（Scope制御なし）
+FontName=Tahoma
+FontBold=0
+FontItalic=0
+FontUnderline=0
+FontSize=4
+FontColor=$000000
+LineColor=$000000
+BkColor=$99FFFF
+Page=Main
+Left=250
+Top=1550
+Width=320
+Height=59
+
+[Entity]
+PName=TOKENS
+LName=認証トークン
+Comment=
+TableOption=
+Page=MAIN
+Left=150
+Top=1450
+Field="TOKEN","TOKEN","@VARCHAR(128)","NOT NULL",0,"","",$FFFFFFFF,""
+Field="ユーザID","USER_ID","@INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="有効期限","EXPIRES","@DATETIME","NOT NULL",,"","",$FFFFFFFF,""
+Field="登録種類","TOKEN_TYPE","@INT","NOT NULL",,"1","1:公開API用、2:内部API用",$FFFFFFFF,""
+Index==0,USER_ID
+Index==0,EXPIRES
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20171218095925
+Position="MAIN",150,1450
+
+[Relation]
 Entity1=AUTH_CONFIGS
 Entity2=LDAP_CONFIGS
 RelationType1=1
@@ -56,7 +112,7 @@ Fields1=AUTH_KEY
 Fields2=SYSTEM_NAME
 Cardinarity1=
 Cardinarity2=
-Position="MAIN",0,7280,2804,4650,R,R
+Position="MAIN",0,7280,2804,1180,R,R
 Dependence=0
 Caption=
 PName=
@@ -64,7 +120,7 @@ ModifiedDateTime=20170608064823
 LineMode=0
 Bar1=728
 Bar2=280
-Bar3=465
+Bar3=118
 TermPos1=R
 TermPos2=R
 
@@ -115,8 +171,8 @@ FontColor=$000000
 LineColor=$000000
 BkColor=$99FFFF
 Page=Main
-Left=1110
-Top=710
+Left=1100
+Top=700
 Width=351
 Height=148
 
@@ -187,14 +243,14 @@ Fields1=NO
 Fields2=NO
 Cardinarity1=
 Cardinarity2=
-Position="MAIN",0,3788,5426,4513,R,R
+Position="MAIN",0,4171,5426,4370,R,R
 Dependence=1
 Caption=
 PName=
 LineMode=0
-Bar1=379
+Bar1=417
 Bar2=543
-Bar3=451
+Bar3=437
 TermPos1=R
 TermPos2=R
 
@@ -207,14 +263,14 @@ Fields1=USER_ID
 Fields2=USER_ID
 Cardinarity1=
 Cardinarity2=
-Position="MAIN",0,1345,5468,5182,R,R
+Position="MAIN",0,4216,8958,2787,R,R
 Dependence=1
 Caption=
 PName=
 LineMode=0
-Bar1=134
-Bar2=547
-Bar3=518
+Bar1=422
+Bar2=896
+Bar3=279
 TermPos1=R
 TermPos2=R
 
@@ -224,8 +280,8 @@ LName=ユーザへの通知
 Comment=
 TableOption=
 Page=MAIN
-Left=590
-Top=920
+Left=850
+Top=1350
 Field="ユーザID","USER_ID","INTEGER","NOT NULL",0,"","",$FFFFFFFF,""
 Field="NO","NO","bigint","NOT NULL",1,"","",$FFFFFFFF,""
 Field="ステータス","STATUS","@INT",,,"","",$FFFFFFFF,""
@@ -233,7 +289,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20160524165509
-Position="MAIN",590,920
+Position="MAIN",850,1350
 
 [Entity]
 PName=NOTIFICATIONS
@@ -241,8 +297,8 @@ LName=通知
 Comment=
 TableOption=
 Page=MAIN
-Left=610
-Top=1160
+Left=850
+Top=1550
 Field="NO","NO","BIGSERIAL","NOT NULL",0,"","",$FFFFFFFF,""
 Field="タイトル","TITLE","VARCHAR(256)",,,"","",$FFFFFFFF,""
 Field="メッセージ","CONTENT","text",,,"","",$FFFFFFFF,""
@@ -250,7 +306,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20160524165243
-Position="MAIN",610,1160
+Position="MAIN",850,1550
 
 [Relation]
 Entity1=USERS
@@ -494,8 +550,8 @@ LName=LDAP認証設定
 Comment=
 TableOption=
 Page=MAIN
-Left=1020
-Top=1340
+Left=1250
+Top=1350
 Field="設定名","SYSTEM_NAME","@VARCHAR(64)","NOT NULL",0,"","",$FFFFFFFF,""
 Field="DESCRIPTION","DESCRIPTION","@VARCHAR(64)",,,"","",$FFFFFFFF,""
 Field="HOST","HOST","@VARCHAR(256)","NOT NULL",,"","",$FFFFFFFF,""
@@ -516,7 +572,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20170608082114
-Position="MAIN",1020,1340
+Position="MAIN",1250,1350
 
 [Relation]
 Entity1=LOCALES

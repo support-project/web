@@ -17,10 +17,10 @@ import org.support.project.di.DI;
 import org.support.project.di.Instance;
 
 /**
- * ユーザが所属するグループ
+ * 認証トークン
  */
 @DI(instance = Instance.Prototype)
-public class GenUserGroupsEntity implements Serializable {
+public class GenTokensEntity implements Serializable {
 
     /** SerialVersion */
     private static final long serialVersionUID = 1L;
@@ -29,34 +29,34 @@ public class GenUserGroupsEntity implements Serializable {
      * Get instance from DI container.
      * @return instance
      */
-    public static GenUserGroupsEntity get() {
-        return Container.getComp(GenUserGroupsEntity.class);
+    public static GenTokensEntity get() {
+        return Container.getComp(GenTokensEntity.class);
     }
 
     /**
      * Constructor.
      */
-    public GenUserGroupsEntity() {
+    public GenTokensEntity() {
         super();
     }
 
     /**
      * Constructor
-     * @param groupId グループID	 CHARACTER SET latin1
-     * @param userId ユーザID
+     * @param token TOKEN
      */
 
-    public GenUserGroupsEntity(Integer groupId, Integer userId) {
+    public GenTokensEntity(String token) {
         super();
-        this.groupId = groupId;
-        this.userId = userId;
+        this.token = token;
     }
+    /** TOKEN */
+    private String token;
     /** ユーザID */
     private Integer userId;
-    /** グループID	 CHARACTER SET latin1 */
-    private Integer groupId;
-    /** グループの権限 */
-    private Integer groupRole;
+    /** 有効期限 */
+    private Timestamp expires;
+    /** 登録種類	 1:公開API用、2:内部API用 */
+    private Integer tokenType;
     /** 行ID */
     private String rowId;
     /** 登録ユーザ */
@@ -71,6 +71,22 @@ public class GenUserGroupsEntity implements Serializable {
     private Integer deleteFlag;
 
     /**
+     * Get TOKEN.
+     * @return TOKEN
+     */
+    public String getToken() {
+        return this.token;
+    }
+    /**
+     * Set TOKEN.
+     * @param token TOKEN
+     * @return this object     */
+    public GenTokensEntity setToken(String token) {
+        this.token = token;
+        return this;
+    }
+
+    /**
      * Get ユーザID.
      * @return ユーザID
      */
@@ -81,40 +97,40 @@ public class GenUserGroupsEntity implements Serializable {
      * Set ユーザID.
      * @param userId ユーザID
      * @return this object     */
-    public GenUserGroupsEntity setUserId(Integer userId) {
+    public GenTokensEntity setUserId(Integer userId) {
         this.userId = userId;
         return this;
     }
 
     /**
-     * Get グループID	 CHARACTER SET latin1.
-     * @return グループID	 CHARACTER SET latin1
+     * Get 有効期限.
+     * @return 有効期限
      */
-    public Integer getGroupId() {
-        return this.groupId;
+    public Timestamp getExpires() {
+        return this.expires;
     }
     /**
-     * Set グループID	 CHARACTER SET latin1.
-     * @param groupId グループID	 CHARACTER SET latin1
+     * Set 有効期限.
+     * @param expires 有効期限
      * @return this object     */
-    public GenUserGroupsEntity setGroupId(Integer groupId) {
-        this.groupId = groupId;
+    public GenTokensEntity setExpires(Timestamp expires) {
+        this.expires = expires;
         return this;
     }
 
     /**
-     * Get グループの権限.
-     * @return グループの権限
+     * Get 登録種類	 1:公開API用、2:内部API用.
+     * @return 登録種類	 1:公開API用、2:内部API用
      */
-    public Integer getGroupRole() {
-        return this.groupRole;
+    public Integer getTokenType() {
+        return this.tokenType;
     }
     /**
-     * Set グループの権限.
-     * @param groupRole グループの権限
+     * Set 登録種類	 1:公開API用、2:内部API用.
+     * @param tokenType 登録種類	 1:公開API用、2:内部API用
      * @return this object     */
-    public GenUserGroupsEntity setGroupRole(Integer groupRole) {
-        this.groupRole = groupRole;
+    public GenTokensEntity setTokenType(Integer tokenType) {
+        this.tokenType = tokenType;
         return this;
     }
 
@@ -129,7 +145,7 @@ public class GenUserGroupsEntity implements Serializable {
      * Set 行ID.
      * @param rowId 行ID
      * @return this object     */
-    public GenUserGroupsEntity setRowId(String rowId) {
+    public GenTokensEntity setRowId(String rowId) {
         this.rowId = rowId;
         return this;
     }
@@ -145,7 +161,7 @@ public class GenUserGroupsEntity implements Serializable {
      * Set 登録ユーザ.
      * @param insertUser 登録ユーザ
      * @return this object     */
-    public GenUserGroupsEntity setInsertUser(Integer insertUser) {
+    public GenTokensEntity setInsertUser(Integer insertUser) {
         this.insertUser = insertUser;
         return this;
     }
@@ -161,7 +177,7 @@ public class GenUserGroupsEntity implements Serializable {
      * Set 登録日時.
      * @param insertDatetime 登録日時
      * @return this object     */
-    public GenUserGroupsEntity setInsertDatetime(Timestamp insertDatetime) {
+    public GenTokensEntity setInsertDatetime(Timestamp insertDatetime) {
         this.insertDatetime = insertDatetime;
         return this;
     }
@@ -177,7 +193,7 @@ public class GenUserGroupsEntity implements Serializable {
      * Set 更新ユーザ.
      * @param updateUser 更新ユーザ
      * @return this object     */
-    public GenUserGroupsEntity setUpdateUser(Integer updateUser) {
+    public GenTokensEntity setUpdateUser(Integer updateUser) {
         this.updateUser = updateUser;
         return this;
     }
@@ -193,7 +209,7 @@ public class GenUserGroupsEntity implements Serializable {
      * Set 更新日時.
      * @param updateDatetime 更新日時
      * @return this object     */
-    public GenUserGroupsEntity setUpdateDatetime(Timestamp updateDatetime) {
+    public GenTokensEntity setUpdateDatetime(Timestamp updateDatetime) {
         this.updateDatetime = updateDatetime;
         return this;
     }
@@ -209,7 +225,7 @@ public class GenUserGroupsEntity implements Serializable {
      * Set 削除フラグ.
      * @param deleteFlag 削除フラグ
      * @return this object     */
-    public GenUserGroupsEntity setDeleteFlag(Integer deleteFlag) {
+    public GenTokensEntity setDeleteFlag(Integer deleteFlag) {
         this.deleteFlag = deleteFlag;
         return this;
     }
@@ -219,26 +235,23 @@ public class GenUserGroupsEntity implements Serializable {
      * @return values 
      */
     public Object[] getKeyValues() {
-        Object[] keyValues = new Object[2];
-        keyValues[0] = this.groupId;
-        keyValues[1] = this.userId;
+        Object[] keyValues = new Object[1];
+        keyValues[0] = this.token;
         return keyValues;
     }
     /**
      * Set key values 
-     * @param groupId グループID	 CHARACTER SET latin1
-     * @param userId ユーザID
+     * @param token TOKEN
      */
-    public void setKeyValues(Integer groupId, Integer userId) {
-        this.groupId = groupId;
-        this.userId = userId;
+    public void setKeyValues(String token) {
+        this.token = token;
     }
     /**
      * compare on key 
      * @param entity entity 
      * @return result 
      */
-    public boolean equalsOnKey(GenUserGroupsEntity entity) {
+    public boolean equalsOnKey(GenTokensEntity entity) {
         Object[] keyValues1 = getKeyValues();
         Object[] keyValues2 = entity.getKeyValues();
         for (int i = 0; i < keyValues1.length; i++) {
@@ -265,9 +278,10 @@ public class GenUserGroupsEntity implements Serializable {
      */
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("groupId = ").append(groupId).append("\n");
+        builder.append("token = ").append(token).append("\n");
         builder.append("userId = ").append(userId).append("\n");
-        builder.append("groupRole = ").append(groupRole).append("\n");
+        builder.append("expires = ").append(expires).append("\n");
+        builder.append("tokenType = ").append(tokenType).append("\n");
         builder.append("rowId = ").append(rowId).append("\n");
         builder.append("insertUser = ").append(insertUser).append("\n");
         builder.append("insertDatetime = ").append(insertDatetime).append("\n");
@@ -293,6 +307,16 @@ public class GenUserGroupsEntity implements Serializable {
         Validator validator;
         ValidateError error;
         validator = ValidatorFactory.getInstance(Validator.REQUIRED);
+        error = validator.validate(this.token, convLabelName("Token"));
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+        error = validator.validate(this.token, convLabelName("Token"), 128);
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
         error = validator.validate(this.userId, convLabelName("User Id"));
         if (error != null) {
             errors.add(error);
@@ -303,17 +327,17 @@ public class GenUserGroupsEntity implements Serializable {
             errors.add(error);
         }
         validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-        error = validator.validate(this.groupId, convLabelName("Group Id"));
+        error = validator.validate(this.expires, convLabelName("Expires"));
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
+        error = validator.validate(this.tokenType, convLabelName("Token Type"));
         if (error != null) {
             errors.add(error);
         }
         validator = ValidatorFactory.getInstance(Validator.INTEGER);
-        error = validator.validate(this.groupId, convLabelName("Group Id"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.INTEGER);
-        error = validator.validate(this.groupRole, convLabelName("Group Role"));
+        error = validator.validate(this.tokenType, convLabelName("Token Type"));
         if (error != null) {
             errors.add(error);
         }
@@ -349,6 +373,16 @@ public class GenUserGroupsEntity implements Serializable {
         Validator validator;
         ValidateError error;
         validator = ValidatorFactory.getInstance(Validator.REQUIRED);
+        error = validator.validate(values.get("token"), convLabelName("Token"));
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+        error = validator.validate(values.get("token"), convLabelName("Token"), 128);
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
         error = validator.validate(values.get("userId"), convLabelName("User Id"));
         if (error != null) {
             errors.add(error);
@@ -359,17 +393,17 @@ public class GenUserGroupsEntity implements Serializable {
             errors.add(error);
         }
         validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-        error = validator.validate(values.get("groupId"), convLabelName("Group Id"));
+        error = validator.validate(values.get("expires"), convLabelName("Expires"));
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
+        error = validator.validate(values.get("tokenType"), convLabelName("Token Type"));
         if (error != null) {
             errors.add(error);
         }
         validator = ValidatorFactory.getInstance(Validator.INTEGER);
-        error = validator.validate(values.get("groupId"), convLabelName("Group Id"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.INTEGER);
-        error = validator.validate(values.get("groupRole"), convLabelName("Group Role"));
+        error = validator.validate(values.get("tokenType"), convLabelName("Token Type"));
         if (error != null) {
             errors.add(error);
         }
