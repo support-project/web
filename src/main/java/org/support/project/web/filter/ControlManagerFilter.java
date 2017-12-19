@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
+import org.support.project.di.Container;
 import org.support.project.web.boundary.Boundary;
 import org.support.project.web.common.HttpStatus;
 import org.support.project.web.common.InvokeTarget;
@@ -30,8 +31,11 @@ public class ControlManagerFilter implements Filter {
     /** ログ */
     private static Log log = LogFactory.getLog(ControlManagerFilter.class);
     
+    private CallControlLogic callControlLogic;
+    
     @Override
     public void destroy() {
+        callControlLogic = null;
     }
 
     @Override
@@ -50,7 +54,18 @@ public class ControlManagerFilter implements Filter {
             searchSubpackages = false;
         }
         String ignoreRegularExpression = filterconfig.getInitParameter("ignore-regular-expression");
-        CallControlLogic.get().init(controlPackage, classSuffix, searchSubpackages, ignoreRegularExpression);
+        
+        String callControlLogicClass = "org.support.project.web.logic.impl.CallControlLogicImpl";
+        if (filterconfig.getInitParameter("callControlLogicClass") != null) {
+            callControlLogicClass = filterconfig.getInitParameter("callControlLogicClass");
+        }
+        try {
+            Class<?> clazz = Class.forName(callControlLogicClass);
+            callControlLogic = (CallControlLogic) Container.getComp(clazz);
+            callControlLogic.init(controlPackage, classSuffix, searchSubpackages, ignoreRegularExpression);
+        } catch (ClassNotFoundException e) {
+            throw new ServletException(e);
+        }
     }
 
     @Override
@@ -59,7 +74,7 @@ public class ControlManagerFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         try {
-            InvokeTarget invokeTarget = CallControlLogic.get().searchInvokeTarget(request, response);
+            InvokeTarget invokeTarget = callControlLogic.searchInvokeTarget(request, response);
             if (invokeTarget == null) {
                 filterChain.doFilter(request, response);
                 return;

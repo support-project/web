@@ -1,7 +1,9 @@
 package org.support.project.web.common;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.support.project.common.util.ObjectUtils;
@@ -27,6 +29,8 @@ public class InvokeTarget {
     private String subPackageName;
     /** ターゲットの検索の際に使ったサフィックス */
     private String classSuffix;
+    /** Authアノテーションでセットするロール情報(copyするとアノテーション情報が取得できなくなるため実体を保持する） */
+    private List<String> roles = new ArrayList<>();
     
     /** パスからパラメータ値を取得できるようにセットした場合の値 */
     private Map<String, String> pathValue;
@@ -56,6 +60,20 @@ public class InvokeTarget {
         this.classSuffix = classSuffix;
         this.pathValue = pathValue;
     }
+    /**
+     * マルチスレッド時に同じInvokeTargetを実行するとスレッドセーフで無いので、コピーインスタンスを生成する
+     * 
+     * @return copy instance
+     */
+    public InvokeTarget copy() {
+        LinkedHashMap<String, String> map = new LinkedHashMap<>(pathValue);
+        InvokeTarget copy = new InvokeTarget(targetClass, targetMethod, targetPackageName, classSuffix, map);
+        for (String role : roles) {
+            copy.addRole(role);
+        }
+        return copy;
+    }
+    
     /**
      * Get Target Class
      * @return targetClass
@@ -110,16 +128,6 @@ public class InvokeTarget {
     }
 
     /**
-     * マルチスレッド時に同じInvokeTargetを実行するとスレッドセーフで無いので、コピーインスタンスを生成する
-     * 
-     * @return copy instance
-     */
-    public InvokeTarget copy() {
-        LinkedHashMap<String, String> map = new LinkedHashMap<>(pathValue);
-        InvokeTarget copy = new InvokeTarget(targetClass, targetMethod, targetPackageName, classSuffix, map);
-        return copy;
-    }
-    /**
      * @return the pathValue
      */
     public Map<String, String> getPathValue() {
@@ -130,6 +138,12 @@ public class InvokeTarget {
      */
     public void setParams(Object[] params) {
         this.params = params;
+    }
+    public List<String> getRoles() {
+        return roles;
+    }
+    public void addRole(String role) {
+        this.roles.add(role);
     }
 
 }

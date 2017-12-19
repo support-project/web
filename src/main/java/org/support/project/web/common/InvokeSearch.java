@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.lang.ClassUtils;
 import org.support.project.common.classanalysis.ClassSearch;
 import org.support.project.common.classanalysis.impl.ClassSearchImpl;
 import org.support.project.common.exception.SystemException;
@@ -19,6 +20,7 @@ import org.support.project.common.log.LogFactory;
 import org.support.project.common.util.StringUtils;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
+import org.support.project.web.annotation.Auth;
 import org.support.project.web.config.HttpMethod;
 import org.support.project.web.control.service.Delete;
 import org.support.project.web.control.service.Get;
@@ -91,7 +93,7 @@ public class InvokeSearch {
      * @param targetPackageName 検索するパッケージ名
      * @param classSuffix サフィックス
      */
-    private void addTarget(Class<?> class1, String targetPackageName, String classSuffix) {
+    protected void addTarget(Class<?> class1, String targetPackageName, String classSuffix) {
         // 以下の規則で、実行ターゲットを登録する
         // {subpackage}.{Classname(Suffixを除外)}/{methodName}
         StringBuilder builder = new StringBuilder();
@@ -131,33 +133,50 @@ public class InvokeSearch {
         }
     }
 
-    private void addDeleteTarget(Class<?> class1, Method method, String targetPackageName, String classSuffix, String call, Delete delete) {
+    protected void addDeleteTarget(Class<?> class1, Method method, String targetPackageName, String classSuffix, String call, Delete delete) {
         String path = delete.path();
         addTarget(class1, method, targetPackageName, classSuffix, call, path, invokeDeleteTargets);
     }
 
-    private void addPutTarget(Class<?> class1, Method method, String targetPackageName, String classSuffix, String call, Put put) {
+    protected void addPutTarget(Class<?> class1, Method method, String targetPackageName, String classSuffix, String call, Put put) {
         String path = put.path();
         addTarget(class1, method, targetPackageName, classSuffix, call, path, invokePutTargets);
     }
 
-    private void addPostTarget(Class<?> class1, Method method, String targetPackageName, String classSuffix, String call, Post post) {
+    protected void addPostTarget(Class<?> class1, Method method, String targetPackageName, String classSuffix, String call, Post post) {
         String path = post.path();
         addTarget(class1, method, targetPackageName, classSuffix, call, path, invokePostTargets);
     }
 
-    private void addGetTarget(Class<?> class1, Method method, String targetPackageName, String classSuffix, String call, Get get) {
+    protected void addGetTarget(Class<?> class1, Method method, String targetPackageName, String classSuffix, String call, Get get) {
         String path = get.path();
         addTarget(class1, method, targetPackageName, classSuffix, call, path, invokeGetTargets);
     }
 
-    private void addTarget(Class<?> class1, Method method, String targetPackageName, String classSuffix, String call, String path,
+    protected void addTarget(Class<?> class1, Method method, String targetPackageName, String classSuffix, String call, String path,
             Map<String, InvokeTarget> invokeTargets) {
+        LOG.warn(ClassUtils.getShortClassName(class1) + "#" + method.getName());
+        Annotation[] as = method.getAnnotations();
+        for (Annotation annotation : as) {
+            LOG.warn("        " + annotation.annotationType());
+        }
+        
+        InvokeTarget invokeTarget = createInvokeTarget(class1, method, targetPackageName, classSuffix);
+        
+        // Auth セット
+        Auth auth = method.getAnnotation(Auth.class);
+        if (auth != null) {
+            String[] roles = auth.roles();
+            LOG.warn("            " + String.join(",", roles));
+            for (String role : roles) {
+                invokeTarget.addRole(role);
+            }
+        }
+        
         String key = call + "/" + method.getName().toLowerCase(); // 大文字・小文字は無視
         if (StringUtils.isNotEmpty(path)) {
             key = path;
         }
-        InvokeTarget invokeTarget = new InvokeTarget(class1, method, targetPackageName, classSuffix, new LinkedHashMap<>());
         if (invokeTargets.containsKey(key)) {
             InvokeTarget exists =  invokeTargets.get(key);
             if (exists.getTargetClass().getName().equals(invokeTarget.getTargetClass().getName())
@@ -177,6 +196,11 @@ public class InvokeSearch {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Add targget. [" + key + "]");
         }
+    }
+
+    protected InvokeTarget createInvokeTarget(Class<?> class1, Method method, String targetPackageName, String classSuffix) {
+        InvokeTarget invokeTarget = new InvokeTarget(class1, method, targetPackageName, classSuffix, new LinkedHashMap<>());
+        return invokeTarget;
     }
 
     /**
