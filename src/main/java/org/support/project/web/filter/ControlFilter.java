@@ -55,6 +55,8 @@ public class ControlFilter extends ControlManagerFilter {
                 return;
             }
             if (JsonBoundary.class.isAssignableFrom(invokeTarget.getTargetMethod().getReturnType())) {
+                log.error("exception is thrown.", e);
+                
                 MessageResult messageResult = new MessageResult();
                 messageResult.setMessage("Internal server error");
                 messageResult.setStatus(MessageStatus.Error.getValue());

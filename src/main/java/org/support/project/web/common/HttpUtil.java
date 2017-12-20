@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.support.project.common.exception.SystemException;
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
 import org.support.project.common.util.PropertyUtil;
@@ -180,19 +181,7 @@ public class HttpUtil {
 
         String contentType = req.getHeader("content-type");
         if (contentType != null && contentType.startsWith("application/json")) {
-            // try {
-            // BufferedReader br = new BufferedReader(
-            // new InputStreamReader(req.getInputStream(), Charset.forName("UTF-8")));
-            // String line;
-            // while ((line = br.readLine()) != null) {
-            // log.trace(line);
-            // }
-            // br.close();
-            // } catch (IOException e) {
-            // e.printStackTrace();
-            // }
             object = JSON.decode(req.getInputStream(), paramtypes);
-
         } else {
             object = paramtypes.newInstance();
             List<String> paramNames = PropertyUtil.getPropertyNames(paramtypes);
@@ -209,22 +198,12 @@ public class HttpUtil {
                         param = null;
                     }
                 }
-
                 if (param != null && paramNames.contains(param.toString())) {
                     Class<?> type = PropertyUtil.getPropertyType(paramtypes, param.toString());
-                    // String[] values = req.getParameterValues(string);
-                    // if (values != null && values.length == 1) {
-                    // // ただのString
-                    // String str = req.getParameter(string);
-                    // values = new String[1];
-                    // values[0] = str;
-                    // }
-                    // Object value = ValueConverter.conv(values, type);
                     Object value = getParameter(req, string, type);
                     if (value != null) {
                         PropertyUtil.setPropertyValue(object, param.toString(), value);
                     }
-
                     builder.append(param).append(" : ").append(value);
                     builder.append("\n");
                 }
@@ -235,6 +214,12 @@ public class HttpUtil {
     }
     /**
      * Get parameter
+     * 
+     * リクエストのParameter,Attribute,Sessionの順に値がセットされているか見て、
+     * あれば、その値を取得する
+     * 
+     * リクエストヘッダのContent-Typeがapplication/jsonの場合、 HttpUtil#parseRequest を使うべきなので、ExceptionをThrowする
+     * 
      * @param req request
      * @param param param
      * @param paramtypes type
@@ -243,6 +228,13 @@ public class HttpUtil {
      * @throws InvalidParamException InvalidParamException
      */
     public static <T> T getParameter(HttpServletRequest req, String param, Class<? extends T> paramtypes) throws InvalidParamException {
+        // request header が application/json;charset=UTF-8 であれば、JSONとして処理する
+        String contentType = req.getHeader("content-type");
+        if (contentType != null && contentType.startsWith("application/json")) {
+            throw new SystemException("HttpUtil#getParameter don't get value from application/json. \r\n" + 
+                    "It is good to use HttpUtil#parseRequest.");
+        }
+        
         String[] values = null;
         if (paramtypes.isArray() || List.class.isAssignableFrom(paramtypes)) {
             values = req.getParameterValues(param);
@@ -253,40 +245,42 @@ public class HttpUtil {
                 values[0] = str;
             }
         }
-
-        if (values == null || values.length == 0) {
-            Object value = req.getAttribute(param);
-            if (value == null) {
-                HttpSession session = req.getSession();
-                value = session.getAttribute(param);
-            }
-            if (value == null) {
-                return null;
-            }
-            if (paramtypes.isAssignableFrom(value.getClass())) {
-                return (T) value;
-            } else {
-                if (value instanceof String) {
-                    values = new String[1];
-                    values[0] = (String) value;
-                    return ValueConverter.conv(values, paramtypes);
-                } else if (value instanceof String[]) {
-                    return ValueConverter.conv((String[]) value, paramtypes);
-                }
-                if (paramtypes.isAssignableFrom(String.class)) {
-                    // String型取得であれば、どんな型でも取得する
-                    return (T) value.toString();
-                }
-
-                log.error("fail getParameter   [param]" + param + "   [type]" + paramtypes.getName() + "   [value]"
-                        + PropertyUtil.reflectionToString(value));
-                MessageResult messageResult = new MessageResult();
-                messageResult.setMessage("");
-                messageResult.setStatus(HttpStatus.SC_400_BAD_REQUEST);
-                throw new InvalidParamException(messageResult);
-            }
-        } else {
+        if (values != null && values.length > 0) {
+            // リクエストのパラメータがあれば、それを優先する
             return ValueConverter.conv(values, paramtypes);
+        }
+        
+        // Attributeを取得
+        Object value = req.getAttribute(param);
+        if (value == null) {
+            // Attribute がなければ、最後にSessionを取得
+            HttpSession session = req.getSession();
+            value = session.getAttribute(param);
+        }
+        if (value == null) {
+            return null;
+        }
+        if (paramtypes.isAssignableFrom(value.getClass())) {
+            return (T) value;
+        } else {
+            if (value instanceof String) {
+                values = new String[1];
+                values[0] = (String) value;
+                return ValueConverter.conv(values, paramtypes);
+            } else if (value instanceof String[]) {
+                return ValueConverter.conv((String[]) value, paramtypes);
+            }
+            if (paramtypes.isAssignableFrom(String.class)) {
+                // String型取得であれば、どんな型でも取得する
+                return (T) value.toString();
+            }
+
+            log.error("fail getParameter   [param]" + param + "   [type]" + paramtypes.getName() + "   [value]"
+                    + PropertyUtil.reflectionToString(value));
+            MessageResult messageResult = new MessageResult();
+            messageResult.setMessage("");
+            messageResult.setStatus(HttpStatus.SC_400_BAD_REQUEST);
+            throw new InvalidParamException(messageResult);
         }
     }
 

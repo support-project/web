@@ -9,6 +9,9 @@ import org.support.project.web.common.HttpUtil;
 import org.support.project.web.exception.InvalidParamException;
 
 public abstract class ApiControl extends Control {
+    protected <T> T parseJson(Class<T> type) throws InvalidParamException {
+        return HttpUtil.parseJson(getRequest(), type); 
+    }
     protected String getResource(String key) {
         Resources resources = Resources.getInstance(HttpUtil.getLocale(getRequest()));
         return resources.getResource(key);

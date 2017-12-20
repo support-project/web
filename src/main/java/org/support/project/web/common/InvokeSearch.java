@@ -155,10 +155,10 @@ public class InvokeSearch {
 
     protected void addTarget(Class<?> class1, Method method, String targetPackageName, String classSuffix, String call, String path,
             Map<String, InvokeTarget> invokeTargets) {
-        LOG.warn(ClassUtils.getShortClassName(class1) + "#" + method.getName());
+        LOG.info(ClassUtils.getShortClassName(class1) + "#" + method.getName());
         Annotation[] as = method.getAnnotations();
         for (Annotation annotation : as) {
-            LOG.warn("        " + annotation.annotationType());
+            LOG.info("        " + annotation.annotationType());
         }
         
         InvokeTarget invokeTarget = createInvokeTarget(class1, method, targetPackageName, classSuffix);
@@ -167,7 +167,7 @@ public class InvokeSearch {
         Auth auth = method.getAnnotation(Auth.class);
         if (auth != null) {
             String[] roles = auth.roles();
-            LOG.warn("            " + String.join(",", roles));
+            LOG.info("            " + String.join(",", roles));
             for (String role : roles) {
                 invokeTarget.addRole(role);
             }

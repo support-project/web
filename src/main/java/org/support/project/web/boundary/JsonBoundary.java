@@ -15,6 +15,8 @@ import org.support.project.web.bean.Msg;
 import org.support.project.web.common.HttpStatus;
 import org.support.project.web.config.MessageStatus;
 
+import com.google.gson.JsonElement;
+
 import net.arnx.jsonic.JSON;
 
 public class JsonBoundary extends AbstractBoundary {
@@ -94,6 +96,9 @@ public class JsonBoundary extends AbstractBoundary {
         if (obj instanceof String) {
             Msg msg = new Msg((String) obj);
             jsonString = json.format(msg);
+        } else if (obj instanceof JsonElement){
+            JsonElement element = (JsonElement) obj;
+            jsonString = element.toString();
         } else {
             jsonString = json.format(obj);
         }
