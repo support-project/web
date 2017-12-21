@@ -800,7 +800,7 @@ public abstract class Control {
         if (StringUtils.isInteger(str)) {
             num = Integer.parseInt(str);
         }
-        if(num > maxVal) {
+        if(maxVal >= 0 && num > maxVal) {
             num = maxVal;
         }
         return num;
