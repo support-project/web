@@ -61,6 +61,10 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
     /** 言語設定変更後のページ */
     private String afterLangSelectPage;
     
+    /** メンテナンス中かどうか */
+    private static boolean maintenanceMode = false;
+    
+    
     /**
      * @return the tmpPath
      */
@@ -195,6 +199,20 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
      */
     public void setAfterLangSelectPage(String afterLangSelectPage) {
         this.afterLangSelectPage = afterLangSelectPage;
+    }
+
+    /**
+     * @return the maintenanceMode
+     */
+    public boolean isMaintenanceMode() {
+        return maintenanceMode;
+    }
+
+    /**
+     * @param maintenanceMode the maintenanceMode to set
+     */
+    public void setMaintenanceMode(boolean mode) {
+        maintenanceMode = mode;
     }
 
 }

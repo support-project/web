@@ -32,6 +32,7 @@ import org.support.project.web.entity.RolesEntity;
 import org.support.project.web.entity.UsersEntity;
 import org.support.project.web.exception.AuthenticateException;
 import org.support.project.web.logic.AuthenticationLogic;
+import org.support.project.web.logic.HttpRequestCheckLogic;
 import org.support.project.web.util.ThredUserPool;
 
 @DI(instance = Instance.Singleton)
@@ -222,6 +223,8 @@ public abstract class AbstractAuthenticationLogic<T extends LoginedUser> impleme
         session.removeAttribute(CommonWebParameter.LOGIN_USER_ID_SESSION_KEY);
         session.removeAttribute(CommonWebParameter.LOGIN_ROLE_IDS_SESSION_KEY);
         session.removeAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
+        session.removeAttribute(HttpRequestCheckLogic.CSRF_TOKENS);
+        session.removeAttribute(HttpRequestCheckLogic.CSRF_REQIDS);
     }
 
     /**

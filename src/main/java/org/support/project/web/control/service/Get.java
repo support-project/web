@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 public @interface Get {
     String path() default "";
     String subscribeToken() default "";
-    String publishToken() default "";
+    String publishToken() default "csrf";
     boolean checkReferer() default false;
     boolean checkReqToken() default false;
 }

@@ -49,9 +49,9 @@ public class CallControlLogicImpl implements CallControlLogic {
     
     protected InvokeSearch getInvokeSearch() {
         if (_invokeSearch == null) {
-            this._invokeSearch = Container.getComp(InvokeSearch.class);
+            _invokeSearch = Container.getComp(InvokeSearch.class);
         }
-        return this._invokeSearch;
+        return _invokeSearch;
     }
     
     /* (non-Javadoc)

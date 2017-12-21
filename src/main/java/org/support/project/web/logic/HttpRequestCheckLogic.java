@@ -33,9 +33,9 @@ public class HttpRequestCheckLogic {
     /** ログ */
     private static final Log LOG = LogFactory.getLog(HttpRequestCheckLogic.class);
     /** セッション／Cookieに格納するキー */
-    private static final String CSRF_TOKENS = "CSRFTokens";
+    public static final String CSRF_TOKENS = "CSRFTokens";
     /** セッション／リクエストに格納するキー */
-    private static final String CSRF_REQIDS = "CSRFReqIds";
+    public static final String CSRF_REQIDS = "CSRFReqIds";
     /** リクエストIDのキー（リクエストスコープにセット） */
     public static final String REQ_ID_KEY = "__REQ_ID_KEY";
     

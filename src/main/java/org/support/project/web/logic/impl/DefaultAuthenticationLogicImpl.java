@@ -328,4 +328,16 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
         return usersEntity;
     }
 
+    @Override
+    public void removeCookie(HttpServletRequest req, HttpServletResponse res) {
+        // Cookie削除
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null) {
+            Cookie cookie = new Cookie(CommonWebParameter.LOGIN_USER_KEY, "");
+            cookie.setPath(req.getContextPath() + "/");
+            cookie.setMaxAge(0);
+            res.addCookie(cookie);
+        }
+    }
+
 }

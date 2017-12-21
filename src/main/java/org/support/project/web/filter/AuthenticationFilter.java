@@ -25,7 +25,6 @@ import org.support.project.web.dao.UsersDao;
 import org.support.project.web.entity.UsersEntity;
 import org.support.project.web.exception.AuthenticateException;
 import org.support.project.web.logic.AuthenticationLogic;
-import org.support.project.web.wrapper.HttpServletRequestWrapper;
 
 /**
  * 認証用のフィルタ
@@ -61,8 +60,6 @@ public class AuthenticationFilter implements Filter {
     private String ignoreRegularExpression = "^open|css$|js$|jpg$|jpeg$|gif$|png$|init$";
     private Pattern pattern = null;
 
-    /** 認証／認可ロジックのクラス名 */
-    private String authLogicClassName = "org.support.project.web.logic.impl.DBAuthenticationLogic";
     /** 認証／認可ロジックのインスタンス */
     private AuthenticationLogic<?> authenticationLogic = null;
 
@@ -116,17 +113,7 @@ public class AuthenticationFilter implements Filter {
             this.pattern = Pattern.compile(this.ignoreRegularExpression);
         }
 
-        String authLogicClassName = filterconfig.getInitParameter("auth-class-name");
-        if (StringUtils.isNotEmpty(authLogicClassName)) {
-            this.authLogicClassName = authLogicClassName;
-        }
-        try {
-            Class<AuthenticationLogic> class1;
-            class1 = (Class<AuthenticationLogic>) Class.forName(this.authLogicClassName);
-            this.authenticationLogic = org.support.project.di.Container.getComp(class1);
-        } catch (ClassNotFoundException e) {
-            throw new ServletException(e);
-        }
+        authenticationLogic = FilterInitUtility.readAuthenticationLogic(filterconfig);
 
         String cookieage = filterconfig.getInitParameter("cookie-max-age");
         if (StringUtils.isInteger(cookieage)) {
@@ -153,18 +140,14 @@ public class AuthenticationFilter implements Filter {
         this.initialPage = null;
         this.ignoreRegularExpression = null;
         this.pattern = null;
-        this.authLogicClassName = null;
         this.authenticationLogic = null;
     }
 
     @Override
     public void doFilter(ServletRequest servletrequest, ServletResponse servletresponse, FilterChain filterchain)
             throws IOException, ServletException {
-        HttpServletRequest req_origin = (HttpServletRequest) servletrequest;
-        HttpServletRequestWrapper req = new HttpServletRequestWrapper((HttpServletRequest) req_origin, authenticationLogic);
-
+        HttpServletRequest req = (HttpServletRequest) servletrequest;
         HttpServletResponse res = (HttpServletResponse) servletresponse;
-
         try {
 
             StringBuilder pathBuilder = new StringBuilder();
@@ -234,6 +217,7 @@ public class AuthenticationFilter implements Filter {
             } else if (path.equals(logoutProcess)) {
                 // ログアウト
                 authenticationLogic.clearSession(req);
+                req.changeSessionId();
                 // クッキー削除
                 removeCookie(req, res);
 
@@ -376,15 +360,8 @@ public class AuthenticationFilter implements Filter {
      * @param req request
      * @param res response
      */
-    private void removeCookie(HttpServletRequestWrapper req, HttpServletResponse res) {
-        // Cookie削除
-        Cookie[] cookies = req.getCookies();
-        if (cookies != null) {
-            Cookie cookie = new Cookie(CommonWebParameter.LOGIN_USER_KEY, "");
-            cookie.setPath(req.getContextPath() + "/");
-            cookie.setMaxAge(0);
-            res.addCookie(cookie);
-        }
+    private void removeCookie(HttpServletRequest req, HttpServletResponse res) {
+        authenticationLogic.removeCookie(req, res);
     }
 
     /**

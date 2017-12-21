@@ -84,5 +84,12 @@ public interface AuthenticationLogic<T extends LoginedUser> {
      * @throws AuthenticateException AuthenticateException
      */
     void initCookie(int cookieMaxAge, String cookieEncryptKey, boolean cookieSecure) throws AuthenticateException;
+    
+    /**
+     * ログアウト時のCookieのクリア
+     * @param req
+     * @param res
+     */
+    void removeCookie(HttpServletRequest req, HttpServletResponse res);
 
 }

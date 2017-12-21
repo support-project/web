@@ -3,8 +3,6 @@ package org.support.project.web.logic.invoke;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.support.project.common.log.Log;
-import org.support.project.common.log.LogFactory;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
@@ -17,15 +15,12 @@ import org.support.project.web.logic.impl.CallControlLogicImpl;
 
 @DI(instance = Instance.Singleton)
 public class CallControlExLogicImpl extends CallControlLogicImpl {
-    /** ログ */
-    private static final Log LOG = LogFactory.getLog(CallControlExLogicImpl.class);
-
     @Override
     protected InvokeSearch getInvokeSearch() {
         if (_invokeSearch == null) {
-            this._invokeSearch = Container.getComp(InvokeSearchEx.class);
+            _invokeSearch = Container.getComp(InvokeSearchEx.class);
         }
-        return this._invokeSearch;
+        return _invokeSearch;
     }
 
     @Override
