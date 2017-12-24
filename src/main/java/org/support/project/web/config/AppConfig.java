@@ -209,7 +209,7 @@ public class AppConfig extends org.support.project.common.config.AppConfig {
     }
 
     /**
-     * @param maintenanceMode the maintenanceMode to set
+     * @param mode the maintenanceMode to set
      */
     public void setMaintenanceMode(boolean mode) {
         maintenanceMode = mode;

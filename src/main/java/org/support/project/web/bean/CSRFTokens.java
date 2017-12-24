@@ -21,6 +21,7 @@ public class CSRFTokens implements Serializable {
      * 指定のキーに対するTokenを発行する
      * 
      * @param key key
+     * @return token
      * @throws NoSuchAlgorithmException NoSuchAlgorithmException
      */
     public String addToken(String key) throws NoSuchAlgorithmException {
