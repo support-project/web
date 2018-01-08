@@ -10,7 +10,6 @@ import org.support.project.web.bean.LabelValue;
 
 public class AppconfigTest {
 
-    @Test
     public void test() {
         assertEquals("web", AppConfig.get().getSystemName());
         

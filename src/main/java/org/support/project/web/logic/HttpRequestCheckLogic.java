@@ -171,7 +171,10 @@ public class HttpRequestCheckLogic {
                 tokens = new CSRFTokens();
                 session.setAttribute(CSRF_TOKENS, tokens);
             }
-            tokens.addToken(tokenkey);
+            String result = tokens.addToken(tokenkey);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Add token to CSRF_TOKENS. key:" + tokenkey + "  token:" + result);
+            }
             try {
                 HttpUtil.setCookie(request, response, CSRF_TOKENS, SerializeUtils.objectToBase64(tokens));
             } catch (SerializeException e) {
@@ -185,7 +188,7 @@ public class HttpRequestCheckLogic {
             }
             String reqid = reqids.addToken(tokenkey);
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Req Token : " + reqid);
+                LOG.debug("Add token to CSRF_REQIDS. key:" + tokenkey + "  token:" + reqid);
             }
             request.setAttribute(REQ_ID_KEY, reqid);
         }
@@ -230,6 +233,7 @@ public class HttpRequestCheckLogic {
             }
             
             if (isCheckReqToken(invokeTarget)) {
+                // HiddenパラメータにRequestTokenがセットされているかチェックする場合
                 String reqId = request.getParameter(REQ_ID_KEY);
                 CSRFTokens reqids = (CSRFTokens) session.getAttribute(CSRF_REQIDS);
                 if (reqids == null) {
