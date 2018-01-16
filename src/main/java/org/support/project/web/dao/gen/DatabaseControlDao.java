@@ -7,7 +7,7 @@ import org.support.project.di.DI;
 import org.support.project.di.Instance;
 
 /**
- * ユーザ
+ * CSRF_TOKENS
  * this class is auto generate and not edit.
  */
 @DI(instance = Instance.Singleton)
@@ -20,7 +20,7 @@ public class DatabaseControlDao extends AbstractDao {
 
     /** Drop all tables */
     public void dropAllTable() {
-        String[] sqls = new String[28];
+        String[] sqls = new String[29];
         sqls[0] = "DROP TABLE IF EXISTS HASH_CONFIGS CASCADE;";
         sqls[1] = "DROP TABLE IF EXISTS GROUPS CASCADE;";
         sqls[2] = "DROP TABLE IF EXISTS SYSTEM_CONFIGS CASCADE;";
@@ -49,6 +49,7 @@ public class DatabaseControlDao extends AbstractDao {
         sqls[25] = "DROP TABLE IF EXISTS READ_MARKS CASCADE;";
         sqls[26] = "DROP TABLE IF EXISTS SYSTEMS CASCADE;";
         sqls[27] = "DROP TABLE IF EXISTS USERS CASCADE;";
+        sqls[28] = "DROP TABLE IF EXISTS CSRF_TOKENS CASCADE;";
         for (String sql : sqls) {
             LOG.debug(sql);
             executeUpdate(sql);
@@ -56,7 +57,7 @@ public class DatabaseControlDao extends AbstractDao {
     }
     /** Delete all table data */
     public void dropAllData() {
-        String[] sqls = new String[28];
+        String[] sqls = new String[29];
         sqls[0] = "TRUNCATE TABLE HASH_CONFIGS;";
         sqls[1] = "TRUNCATE TABLE GROUPS;";
         sqls[2] = "TRUNCATE TABLE SYSTEM_CONFIGS;";
@@ -85,6 +86,7 @@ public class DatabaseControlDao extends AbstractDao {
         sqls[25] = "TRUNCATE TABLE READ_MARKS;";
         sqls[26] = "TRUNCATE TABLE SYSTEMS;";
         sqls[27] = "TRUNCATE TABLE USERS;";
+        sqls[28] = "TRUNCATE TABLE CSRF_TOKENS;";
         for (String sql : sqls) {
             LOG.debug(sql);
             executeUpdate(sql);

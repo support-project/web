@@ -5,7 +5,7 @@ import java.util.List;
 import java.sql.Timestamp;
 
 
-import org.support.project.web.entity.TokensEntity;
+import org.support.project.web.entity.CsrfTokensEntity;
 import org.support.project.ormapping.dao.AbstractDao;
 import org.support.project.ormapping.exception.ORMappingException;
 import org.support.project.ormapping.common.SQLManager;
@@ -23,12 +23,12 @@ import org.support.project.di.Instance;
 import org.support.project.aop.Aspect;
 
 /**
- * 認証トークン
+ * CSRF_TOKENS
  * this class is auto generate and not edit.
- * if modify dao method, you can edit TokensDao.
+ * if modify dao method, you can edit CsrfTokensDao.
  */
 @DI(instance = Instance.Singleton)
-public class GenTokensDao extends AbstractDao {
+public class GenCsrfTokensDao extends AbstractDao {
 
     /** SerialVersion */
     private static final long serialVersionUID = 1L;
@@ -37,8 +37,8 @@ public class GenTokensDao extends AbstractDao {
      * Get instance from DI container.
      * @return instance
      */
-    public static GenTokensDao get() {
-        return Container.getComp(GenTokensDao.class);
+    public static GenCsrfTokensDao get() {
+        return Container.getComp(GenCsrfTokensDao.class);
     }
 
     /**
@@ -46,7 +46,7 @@ public class GenTokensDao extends AbstractDao {
      * @return all data
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public List<TokensEntity> physicalSelectAll() { 
+    public List<CsrfTokensEntity> physicalSelectAll() { 
         return physicalSelectAll(Order.DESC);
     }
     /**
@@ -55,10 +55,10 @@ public class GenTokensDao extends AbstractDao {
      * @return all data
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public List<TokensEntity> physicalSelectAll(Order order) { 
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/TokensDao/TokensDao_physical_select_all.sql");
+    public List<CsrfTokensEntity> physicalSelectAll(Order order) { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/CsrfTokensDao/CsrfTokensDao_physical_select_all.sql");
         sql = String.format(sql, order.toString());
-        return executeQueryList(sql, TokensEntity.class);
+        return executeQueryList(sql, CsrfTokensEntity.class);
     }
     /**
      * Select all data with pager.
@@ -67,7 +67,7 @@ public class GenTokensDao extends AbstractDao {
      * @return all data on limit and offset
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public List<TokensEntity> physicalSelectAllWithPager(int limit, int offset) { 
+    public List<CsrfTokensEntity> physicalSelectAllWithPager(int limit, int offset) { 
         return physicalSelectAllWithPager(limit, offset, Order.DESC);
     }
     /**
@@ -78,27 +78,28 @@ public class GenTokensDao extends AbstractDao {
      * @return all data on limit and offset
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public List<TokensEntity> physicalSelectAllWithPager(int limit, int offset, Order order) { 
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/TokensDao/TokensDao_physical_select_all_with_pager.sql");
+    public List<CsrfTokensEntity> physicalSelectAllWithPager(int limit, int offset, Order order) { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/CsrfTokensDao/CsrfTokensDao_physical_select_all_with_pager.sql");
         sql = String.format(sql, order.toString());
-        return executeQueryList(sql, TokensEntity.class, limit, offset);
+        return executeQueryList(sql, CsrfTokensEntity.class, limit, offset);
     }
     /**
      * Select data on key.
-     * @param  token token
+     * @param  processName processName
+     * @param  userId userId
      * @return data
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public TokensEntity physicalSelectOnKey(String token) {
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/TokensDao/TokensDao_physical_select_on_key.sql");
-        return executeQuerySingle(sql, TokensEntity.class, token);
+    public CsrfTokensEntity physicalSelectOnKey(String processName, Integer userId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/CsrfTokensDao/CsrfTokensDao_physical_select_on_key.sql");
+        return executeQuerySingle(sql, CsrfTokensEntity.class, processName, userId);
     }
     /**
      * Select all data that not deleted.
      * @return all data
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public List<TokensEntity> selectAll() { 
+    public List<CsrfTokensEntity> selectAll() { 
         return selectAll(Order.DESC);
     }
     /**
@@ -107,10 +108,10 @@ public class GenTokensDao extends AbstractDao {
      * @return all data
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public List<TokensEntity> selectAll(Order order) { 
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/TokensDao/TokensDao_select_all.sql");
+    public List<CsrfTokensEntity> selectAll(Order order) { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/CsrfTokensDao/CsrfTokensDao_select_all.sql");
         sql = String.format(sql, order.toString());
-        return executeQueryList(sql, TokensEntity.class);
+        return executeQueryList(sql, CsrfTokensEntity.class);
     }
     /**
      * Select all data that not deleted with pager.
@@ -119,7 +120,7 @@ public class GenTokensDao extends AbstractDao {
      * @return all data
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public List<TokensEntity> selectAllWidthPager(int limit, int offset) { 
+    public List<CsrfTokensEntity> selectAllWidthPager(int limit, int offset) { 
         return selectAllWidthPager(limit, offset, Order.DESC);
     }
     /**
@@ -130,10 +131,10 @@ public class GenTokensDao extends AbstractDao {
      * @return all data
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public List<TokensEntity> selectAllWidthPager(int limit, int offset, Order order) { 
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/TokensDao/TokensDao_select_all_with_pager.sql");
+    public List<CsrfTokensEntity> selectAllWidthPager(int limit, int offset, Order order) { 
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/CsrfTokensDao/CsrfTokensDao_select_all_with_pager.sql");
         sql = String.format(sql, order.toString());
-        return executeQueryList(sql, TokensEntity.class, limit, offset);
+        return executeQueryList(sql, CsrfTokensEntity.class, limit, offset);
     }
     /**
      * Select count that not deleted.
@@ -141,18 +142,59 @@ public class GenTokensDao extends AbstractDao {
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public Integer selectCountAll() { 
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/TokensDao/TokensDao_select_count_all.sql");
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/CsrfTokensDao/CsrfTokensDao_select_count_all.sql");
         return executeQuerySingle(sql, Integer.class);
     }
     /**
      * Select data that not deleted on key.
-     * @param  token token
+     * @param  processName processName
+     * @param  userId userId
      * @return data
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public TokensEntity selectOnKey(String token) {
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/TokensDao/TokensDao_select_on_key.sql");
-        return executeQuerySingle(sql, TokensEntity.class, token);
+    public CsrfTokensEntity selectOnKey(String processName, Integer userId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/CsrfTokensDao/CsrfTokensDao_select_on_key.sql");
+        return executeQuerySingle(sql, CsrfTokensEntity.class, processName, userId);
+    }
+    /**
+     * Select data that not deleted on PROCESS_NAME column.
+     * @param processName processName
+     * @return list
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<CsrfTokensEntity> selectOnProcessName(String processName) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/CsrfTokensDao/CsrfTokensDao_select_on_process_name.sql");
+        return executeQueryList(sql, CsrfTokensEntity.class, processName);
+    }
+    /**
+     * Select data that not deleted on USER_ID column.
+     * @param userId userId
+     * @return list
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<CsrfTokensEntity> selectOnUserId(Integer userId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/CsrfTokensDao/CsrfTokensDao_select_on_user_id.sql");
+        return executeQueryList(sql, CsrfTokensEntity.class, userId);
+    }
+    /**
+     * Select data on PROCESS_NAME column.
+     * @param processName processName
+     * @return list
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<CsrfTokensEntity> physicalSelectOnProcessName(String processName) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/CsrfTokensDao/CsrfTokensDao_physical_select_on_process_name.sql");
+        return executeQueryList(sql, CsrfTokensEntity.class, processName);
+    }
+    /**
+     * Select data on USER_ID column.
+     * @param userId userId
+     * @return list
+     */
+    @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
+    public List<CsrfTokensEntity> physicalSelectOnUserId(Integer userId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/CsrfTokensDao/CsrfTokensDao_physical_select_on_user_id.sql");
+        return executeQueryList(sql, CsrfTokensEntity.class, userId);
     }
     /**
      * Count all data
@@ -160,7 +202,7 @@ public class GenTokensDao extends AbstractDao {
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
     public int physicalCountAll() {
-        String sql = "SELECT COUNT(*) FROM TOKENS";
+        String sql = "SELECT COUNT(*) FROM CSRF_TOKENS";
         return executeQuerySingle(sql, Integer.class);
     }
     /**
@@ -168,7 +210,7 @@ public class GenTokensDao extends AbstractDao {
      * @return row id
      */
     protected String createRowId() {
-        return IDGen.get().gen("TOKENS");
+        return IDGen.get().gen("CSRF_TOKENS");
     }
     /**
      * Physical Insert.
@@ -177,15 +219,13 @@ public class GenTokensDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public TokensEntity rawPhysicalInsert(TokensEntity entity) {
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/TokensDao/TokensDao_raw_insert.sql");
+    public CsrfTokensEntity rawPhysicalInsert(CsrfTokensEntity entity) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/CsrfTokensDao/CsrfTokensDao_raw_insert.sql");
         executeUpdate(sql, 
-            entity.getToken(), 
+            entity.getProcessName(), 
             entity.getUserId(), 
+            entity.getToken(), 
             entity.getExpires(), 
-            entity.getTokenType(), 
-            entity.getTokenName(), 
-            entity.getDescription(), 
             entity.getRowId(), 
             entity.getInsertUser(), 
             entity.getInsertDatetime(), 
@@ -201,15 +241,13 @@ public class GenTokensDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public TokensEntity physicalInsert(TokensEntity entity) {
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/TokensDao/TokensDao_insert.sql");
+    public CsrfTokensEntity physicalInsert(CsrfTokensEntity entity) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/CsrfTokensDao/CsrfTokensDao_insert.sql");
         executeUpdate(sql, 
-            entity.getToken(), 
+            entity.getProcessName(), 
             entity.getUserId(), 
+            entity.getToken(), 
             entity.getExpires(), 
-            entity.getTokenType(), 
-            entity.getTokenName(), 
-            entity.getDescription(), 
             entity.getRowId(), 
             entity.getInsertUser(), 
             entity.getInsertDatetime(), 
@@ -226,7 +264,7 @@ public class GenTokensDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public TokensEntity insert(Integer user, TokensEntity entity) {
+    public CsrfTokensEntity insert(Integer user, CsrfTokensEntity entity) {
         entity.setInsertUser(user);
         entity.setInsertDatetime(new Timestamp(DateUtils.now().getTime()));
         entity.setUpdateUser(user);
@@ -242,7 +280,7 @@ public class GenTokensDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public TokensEntity insert(TokensEntity entity) {
+    public CsrfTokensEntity insert(CsrfTokensEntity entity) {
         DBUserPool pool = Container.getComp(DBUserPool.class);
         Integer userId = (Integer) pool.getUser();
         return insert(userId, entity);
@@ -253,21 +291,19 @@ public class GenTokensDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public TokensEntity physicalUpdate(TokensEntity entity) {
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/TokensDao/TokensDao_update.sql");
+    public CsrfTokensEntity physicalUpdate(CsrfTokensEntity entity) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/CsrfTokensDao/CsrfTokensDao_update.sql");
         executeUpdate(sql, 
-            entity.getUserId(), 
+            entity.getToken(), 
             entity.getExpires(), 
-            entity.getTokenType(), 
-            entity.getTokenName(), 
-            entity.getDescription(), 
             entity.getRowId(), 
             entity.getInsertUser(), 
             entity.getInsertDatetime(), 
             entity.getUpdateUser(), 
             entity.getUpdateDatetime(), 
             entity.getDeleteFlag(), 
-            entity.getToken());
+            entity.getProcessName(), 
+            entity.getUserId());
         return entity;
     }
     /**
@@ -278,8 +314,8 @@ public class GenTokensDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public TokensEntity update(Integer user, TokensEntity entity) {
-        TokensEntity db = selectOnKey(entity.getToken());
+    public CsrfTokensEntity update(Integer user, CsrfTokensEntity entity) {
+        CsrfTokensEntity db = selectOnKey(entity.getProcessName(), entity.getUserId());
         entity.setInsertUser(db.getInsertUser());
         entity.setInsertDatetime(db.getInsertDatetime());
         entity.setDeleteFlag(db.getDeleteFlag());
@@ -294,7 +330,7 @@ public class GenTokensDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public TokensEntity update(TokensEntity entity) {
+    public CsrfTokensEntity update(CsrfTokensEntity entity) {
         DBUserPool pool = Container.getComp(DBUserPool.class);
         Integer userId = (Integer) pool.getUser();
         return update(userId, entity);
@@ -308,8 +344,8 @@ public class GenTokensDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public TokensEntity save(Integer user, TokensEntity entity) {
-        TokensEntity db = selectOnKey(entity.getToken());
+    public CsrfTokensEntity save(Integer user, CsrfTokensEntity entity) {
+        CsrfTokensEntity db = selectOnKey(entity.getProcessName(), entity.getUserId());
         if (db == null) {
             return insert(user, entity);
         } else {
@@ -323,8 +359,8 @@ public class GenTokensDao extends AbstractDao {
      * @return saved entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public TokensEntity save(TokensEntity entity) {
-        TokensEntity db = selectOnKey(entity.getToken());
+    public CsrfTokensEntity save(CsrfTokensEntity entity) {
+        CsrfTokensEntity db = selectOnKey(entity.getProcessName(), entity.getUserId());
         if (db == null) {
             return insert(entity);
         } else {
@@ -333,20 +369,21 @@ public class GenTokensDao extends AbstractDao {
     }
     /**
      * Physical Delete.
-     * @param  token token
+     * @param  processName processName
+     * @param  userId userId
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void physicalDelete(String token) {
-        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/TokensDao/TokensDao_delete.sql");
-        executeUpdate(sql, token);
+    public void physicalDelete(String processName, Integer userId) {
+        String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/CsrfTokensDao/CsrfTokensDao_delete.sql");
+        executeUpdate(sql, processName, userId);
     }
     /**
      * Physical Delete.
      * @param entity entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void physicalDelete(TokensEntity entity) {
-        physicalDelete(entity.getToken());
+    public void physicalDelete(CsrfTokensEntity entity) {
+        physicalDelete(entity.getProcessName(), entity.getUserId());
 
     }
     /**
@@ -354,11 +391,12 @@ public class GenTokensDao extends AbstractDao {
      * if delete flag is exists, the data is logical delete.
      * set saved user id.
      * @param user saved userid
-     * @param  token token
+     * @param  processName processName
+     * @param  userId userId
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void delete(Integer user, String token) {
-        TokensEntity db = selectOnKey(token);
+    public void delete(Integer user, String processName, Integer userId) {
+        CsrfTokensEntity db = selectOnKey(processName, userId);
         db.setDeleteFlag(1);
         db.setUpdateUser(user);
         db.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
@@ -367,13 +405,14 @@ public class GenTokensDao extends AbstractDao {
     /**
      * Delete.
      * if delete flag is exists, the data is logical delete.
-     * @param  token token
+     * @param  processName processName
+     * @param  userId userId
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void delete(String token) {
+    public void delete(String processName, Integer userId) {
         DBUserPool pool = Container.getComp(DBUserPool.class);
         Integer user = (Integer) pool.getUser();
-        delete(user, token);
+        delete(user, processName, userId);
     }
     /**
      * Delete.
@@ -383,8 +422,8 @@ public class GenTokensDao extends AbstractDao {
      * @param entity entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void delete(Integer user, TokensEntity entity) {
-        delete(user, entity.getToken());
+    public void delete(Integer user, CsrfTokensEntity entity) {
+        delete(user, entity.getProcessName(), entity.getUserId());
 
     }
     /**
@@ -394,8 +433,8 @@ public class GenTokensDao extends AbstractDao {
      * @param entity entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void delete(TokensEntity entity) {
-        delete(entity.getToken());
+    public void delete(CsrfTokensEntity entity) {
+        delete(entity.getProcessName(), entity.getUserId());
 
     }
     /**
@@ -403,11 +442,12 @@ public class GenTokensDao extends AbstractDao {
      * if delete flag is exists and delete flag is true, delete flug is false to activate.
      * set saved user id.
      * @param user saved userid
-     * @param  token token
+     * @param  processName processName
+     * @param  userId userId
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void activation(Integer user, String token) {
-        TokensEntity db = physicalSelectOnKey(token);
+    public void activation(Integer user, String processName, Integer userId) {
+        CsrfTokensEntity db = physicalSelectOnKey(processName, userId);
         db.setDeleteFlag(0);
         db.setUpdateUser(user);
         db.setUpdateDatetime(new Timestamp(DateUtils.now().getTime()));
@@ -416,13 +456,14 @@ public class GenTokensDao extends AbstractDao {
     /**
      * Ativation.
      * if delete flag is exists and delete flag is true, delete flug is false to activate.
-     * @param  token token
+     * @param  processName processName
+     * @param  userId userId
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void activation(String token) {
+    public void activation(String processName, Integer userId) {
         DBUserPool pool = Container.getComp(DBUserPool.class);
         Integer user = (Integer) pool.getUser();
-        activation(user, token);
+        activation(user, processName, userId);
     }
     /**
      * Ativation.
@@ -432,8 +473,8 @@ public class GenTokensDao extends AbstractDao {
      * @param entity entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void activation(Integer user, TokensEntity entity) {
-        activation(user, entity.getToken());
+    public void activation(Integer user, CsrfTokensEntity entity) {
+        activation(user, entity.getProcessName(), entity.getUserId());
 
     }
     /**
@@ -442,8 +483,8 @@ public class GenTokensDao extends AbstractDao {
      * @param entity entity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public void activation(TokensEntity entity) {
-        activation(entity.getToken());
+    public void activation(CsrfTokensEntity entity) {
+        activation(entity.getProcessName(), entity.getUserId());
 
     }
 

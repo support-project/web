@@ -4,6 +4,8 @@ TOKEN
  , USER_ID
  , EXPIRES
  , TOKEN_TYPE
+ , TOKEN_NAME
+ , DESCRIPTION
  , ROW_ID
  , INSERT_USER
  , INSERT_DATETIME
@@ -12,6 +14,8 @@ TOKEN
  , DELETE_FLAG
 ) VALUES (
 ?
+ , ?
+ , ?
  , ?
  , ?
  , ?

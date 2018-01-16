@@ -49,6 +49,45 @@ ShowCommonAttributes=0
 
 [Relation]
 Entity1=USERS
+Entity2=CSRF_TOKENS
+RelationType1=2
+RelationType2=3
+Fields1=USER_ID
+Fields2=USER_ID
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",3,2182,7818,5723,R,R
+Dependence=1
+Caption=
+PName=
+ModifiedDateTime=20180116201210
+LineMode=3
+Bar1=218
+Bar2=782
+Bar3=572
+TermPos1=R
+TermPos2=R
+
+[Entity]
+PName=CSRF_TOKENS
+LName=CSRF_TOKENS
+Comment=
+TableOption=
+Page=MAIN
+Left=150
+Top=1750
+Field="ユーザID","USER_ID","@INT","NOT NULL",0,"","",$FFFFFFFF,""
+Field="処理名","PROCESS_NAME","@VARCHAR(64)","NOT NULL",1,"","",$FFFFFFFF,""
+Field="TOKEN","TOKEN","@VARCHAR(128)","NOT NULL",,"","",$FFFFFFFF,""
+Field="有効期限","EXPIRES","@DATETIME","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20180116204453
+Position="MAIN",150,1750
+
+[Relation]
+Entity1=USERS
 Entity2=TOKENS
 RelationType1=2
 RelationType2=3
@@ -78,8 +117,8 @@ FontColor=$000000
 LineColor=$000000
 BkColor=$99FFFF
 Page=Main
-Left=250
-Top=1550
+Left=450
+Top=1650
 Width=320
 Height=59
 
@@ -90,18 +129,20 @@ Comment=
 TableOption=
 Page=MAIN
 Left=150
-Top=1450
+Top=1500
 Field="TOKEN","TOKEN","@VARCHAR(128)","NOT NULL",0,"","",$FFFFFFFF,""
 Field="ユーザID","USER_ID","@INT","NOT NULL",,"","",$FFFFFFFF,""
 Field="有効期限","EXPIRES","@DATETIME","NOT NULL",,"","",$FFFFFFFF,""
-Field="登録種類","TOKEN_TYPE","@INT","NOT NULL",,"1","1:公開API用、2:内部API用",$FFFFFFFF,""
+Field="登録種類","TOKEN_TYPE","@INT","NOT NULL",,"1","1:公開API用、2:OAuthで発行したToken",$FFFFFFFF,""
+Field="TOKEN名","TOKEN_NAME","@VARCHAR(64)",,,"","",$FFFFFFFF,""
+Field="メモ","DESCRIPTION","@VARCHAR(256)",,,"","",$FFFFFFFF,""
 Index==0,USER_ID
 Index==0,EXPIRES
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20171218095925
-Position="MAIN",150,1450
+ModifiedDateTime=20180116204440
+Position="MAIN",150,1500
 
 [Relation]
 Entity1=AUTH_CONFIGS
@@ -243,14 +284,14 @@ Fields1=NO
 Fields2=NO
 Cardinarity1=
 Cardinarity2=
-Position="MAIN",0,4171,5426,4370,R,R
+Position="MAIN",0,4171,5426,4210,R,R
 Dependence=1
 Caption=
 PName=
 LineMode=0
 Bar1=417
 Bar2=543
-Bar3=437
+Bar3=421
 TermPos1=R
 TermPos2=R
 
@@ -338,7 +379,7 @@ Fields1=NO
 Fields2=NO
 Cardinarity1=
 Cardinarity2=
-Position="MAIN",1,3693,3351,4497,R,R
+Position="MAIN",1,3693,3351,4381,R,R
 Dependence=1
 Caption=
 PName=
@@ -346,7 +387,7 @@ ModifiedDateTime=20160401004727
 LineMode=1
 Bar1=369
 Bar2=335
-Bar3=450
+Bar3=438
 TermPos1=R
 TermPos2=R
 

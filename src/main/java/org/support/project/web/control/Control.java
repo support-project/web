@@ -376,22 +376,7 @@ public abstract class Control {
         return boundary;
     }
 
-    /**
-     * リクエストのAttributeを取得(Stringで)
-     * 
-     * @param name name
-     * @return string
-     */
-    protected String getParameter(String name) {
-        Object val = request.getAttribute(name);
-        if (val == null) {
-            return "";
-        }
-        if (val instanceof String) {
-            return (String) val;
-        }
-        return val.toString();
-    }
+
 
     /**
      * リクエストのAttributeにセット
@@ -401,31 +386,6 @@ public abstract class Control {
      */
     protected void setAttribute(String key, Object value) {
         request.setAttribute(key, value);
-    }
-
-    /**
-     * リクエストのAttributeを取得
-     * 
-     * @param name name
-     * @return value
-     */
-    protected Object getAttribute(String name) {
-        return request.getAttribute(name);
-    }
-
-    /**
-     * リクエストのAttributeを取得
-     * 
-     * @param name name
-     * @param defaultValue defaultValue
-     * @return value
-     */
-    protected String getAttribute(String name, String defaultValue) {
-        Object obj = request.getAttribute(name);
-        if (obj == null) {
-            return defaultValue;
-        }
-        return obj.toString();
     }
 
     /**
@@ -713,6 +673,8 @@ public abstract class Control {
 
     /**
      * パラメータ取得
+     * RequestParameter → Reauest Attributes → Request Session の順に、指定の名前のパラメータがあるか検索し、取得した値を返す
+     * また、リクエストヘッダーのContent-Typeに「application/json」がある場合、parseRequestを使うようにメッセージ表示
      * 
      * @param paramName paramName
      * @return value
@@ -723,6 +685,8 @@ public abstract class Control {
 
     /**
      * パラメータ取得 パラメータがなければデフォルト値を取得
+     * RequestParameter → Reauest Attributes → Request Session の順に、指定の名前のパラメータがあるか検索し、取得した値を返す
+     * また、リクエストヘッダーのContent-Typeに「application/json」がある場合、parseRequestを使うようにメッセージ表示
      * 
      * @param paramName paramName
      * @param defaultval defaultval
@@ -739,6 +703,50 @@ public abstract class Control {
             throw new SystemException(e);
         }
     }
+    /**
+     * リクエストのAttributeを取得
+     * Reauest Attributesのみから値を取得する
+     * 
+     * @param name name
+     * @return value
+     */
+    protected Object getAttribute(String name) {
+        return request.getAttribute(name);
+    }
+    
+    /**
+     * リクエストのAttributeを取得(Stringで)
+     * Reauest Attributesのみから値を取得する
+     * 
+     * @param name name
+     * @return string
+     */
+    protected String getAttributeByString(String name) {
+        Object val = request.getAttribute(name);
+        if (val == null) {
+            return "";
+        }
+        if (val instanceof String) {
+            return (String) val;
+        }
+        return val.toString();
+    }
+    /**
+     * リクエストのAttributeを取得
+     * Reauest Attributesのみから値を取得する
+     * 
+     * @param name name
+     * @param defaultValue defaultValue
+     * @return value
+     */
+    protected String getAttributeByString(String name, String defaultValue) {
+        Object obj = request.getAttribute(name);
+        if (obj == null) {
+            return defaultValue;
+        }
+        return obj.toString();
+    }
+    
 
     /**
      * パラメータを取得

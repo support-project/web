@@ -25,7 +25,9 @@ import org.support.project.web.control.service.Delete;
 import org.support.project.web.control.service.Get;
 import org.support.project.web.control.service.Post;
 import org.support.project.web.control.service.Put;
+import org.support.project.web.dao.CsrfTokensDao;
 import org.support.project.web.dao.SystemConfigsDao;
+import org.support.project.web.entity.CsrfTokensEntity;
 import org.support.project.web.entity.SystemConfigsEntity;
 
 @DI(instance = Instance.Singleton)
@@ -38,6 +40,9 @@ public class HttpRequestCheckLogic {
     public static final String CSRF_REQIDS = "CSRFReqIds";
     /** リクエストIDのキー（リクエストスコープにセット） */
     public static final String REQ_ID_KEY = "__REQ_ID_KEY";
+    
+    /** Httpヘッダーにセットするリクエストトークンのキー */
+    private static final String REQUEST_TOKEN = "request-token";
     
     /**
      * Get instance
@@ -154,6 +159,46 @@ public class HttpRequestCheckLogic {
         }
         return false;
     }
+    private boolean isCheckCookieToken(InvokeTarget invokeTarget) {
+        Method method = invokeTarget.getTargetMethod();
+        Annotation[] annotations = method.getAnnotations();
+        for (Annotation annotation : annotations) {
+            if (annotation instanceof Get) {
+                Get config = (Get) annotation;
+                return config.checkCookieToken();
+            } else if (annotation instanceof Put) {
+                Put config = (Put) annotation;
+                return config.checkCookieToken();
+            } else if (annotation instanceof Post) {
+                Post config = (Post) annotation;
+                return config.checkCookieToken();
+            } else if (annotation instanceof Delete) {
+                Delete config = (Delete) annotation;
+                return config.checkCookieToken();
+            }
+        }
+        return false;
+    }
+    private boolean isCheckHeaderToken(InvokeTarget invokeTarget) {
+        Method method = invokeTarget.getTargetMethod();
+        Annotation[] annotations = method.getAnnotations();
+        for (Annotation annotation : annotations) {
+            if (annotation instanceof Get) {
+                Get config = (Get) annotation;
+                return config.checkHeaderToken();
+            } else if (annotation instanceof Put) {
+                Put config = (Put) annotation;
+                return config.checkHeaderToken();
+            } else if (annotation instanceof Post) {
+                Post config = (Post) annotation;
+                return config.checkHeaderToken();
+            } else if (annotation instanceof Delete) {
+                Delete config = (Delete) annotation;
+                return config.checkHeaderToken();
+            }
+        }
+        return false;
+    }
     
     /**
      * CSRF用のリクエストキーなど発行
@@ -162,12 +207,14 @@ public class HttpRequestCheckLogic {
      * @param response
      * @throws NoSuchAlgorithmException
      */
-    public void setCSRFTocken(InvokeTarget invokeTarget, HttpServletRequest request, HttpServletResponse response) throws NoSuchAlgorithmException {
+    public void setCSRFTocken(InvokeTarget invokeTarget, HttpServletRequest request, HttpServletResponse response, Integer userId) throws NoSuchAlgorithmException {
         String tokenkey = getPublishToken(invokeTarget);
         if (!StringUtils.isEmpty(tokenkey)) {
             HttpSession session = request.getSession();
+            // Cookie token
             CSRFTokens tokens = (CSRFTokens) session.getAttribute(CSRF_TOKENS);
             if (tokens == null) {
+                LOG.debug("Cookie tokens pool on session is null");
                 tokens = new CSRFTokens();
                 session.setAttribute(CSRF_TOKENS, tokens);
             }
@@ -178,19 +225,18 @@ public class HttpRequestCheckLogic {
             try {
                 HttpUtil.setCookie(request, response, CSRF_TOKENS, SerializeUtils.objectToBase64(tokens));
             } catch (SerializeException e) {
-                LOG.info("Error on set CSRF token to request. " + e.getClass().getSimpleName());
+                LOG.debug("Error on set CSRF token to request. " + e.getClass().getSimpleName());
             }
             
-            CSRFTokens reqids = (CSRFTokens) session.getAttribute(CSRF_REQIDS);
-            if (reqids == null) {
-                reqids = new CSRFTokens();
-                session.setAttribute(CSRF_REQIDS, reqids);
+            // Reauest token
+            if (userId != Integer.MIN_VALUE) { // ログインしていない場合、Integer.MIN_VALUEが入ってくる
+                String reqid = CsrfTokensDao.get().addToken(tokenkey, userId);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Add token to CSRF_REQIDS. key:" + tokenkey + "  token:" + reqid);
+                }
+                request.setAttribute(REQ_ID_KEY, reqid);
+                response.setHeader(REQUEST_TOKEN, reqid);
             }
-            String reqid = reqids.addToken(tokenkey);
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Add token to CSRF_REQIDS. key:" + tokenkey + "  token:" + reqid);
-            }
-            request.setAttribute(REQ_ID_KEY, reqid);
         }
     }
     
@@ -200,11 +246,12 @@ public class HttpRequestCheckLogic {
      * @param request
      * @return
      */
-    public boolean checkCSRF(InvokeTarget invokeTarget, HttpServletRequest request) {
+    public boolean checkCSRF(InvokeTarget invokeTarget, HttpServletRequest request, Integer userId) {
         if (isCheckReferer(invokeTarget)) {
             // CSRFの簡易対策で、Referrerをチェックする
             HttpRequestCheckLogic check = HttpRequestCheckLogic.get();
             if (!check.checkReferrer(request)) {
+                LOG.info("Invalid referrer header.");
                 return false;
             }
         }
@@ -214,43 +261,63 @@ public class HttpRequestCheckLogic {
             // token チェックの対象になっていない
             return true;
         }
-        
         HttpSession session = request.getSession();
-        CSRFTokens tokens = (CSRFTokens) session.getAttribute(CSRF_TOKENS);
-        if (tokens == null) {
-            return false;
-        }
-        String base64 = HttpUtil.getCookie(request, CSRF_TOKENS);
-        if (StringUtils.isEmpty(base64)) {
-            return false;
-        }
-        try {
-            CSRFTokens reqTokens = SerializeUtils.Base64ToObject(base64, CSRFTokens.class);
-            if (!tokens.checkToken(tokenkey, reqTokens)) {
-                // Cookieを使った簡易チェック
-                LOG.warn("Token NG : " + tokenkey);
+        
+        // Cookieを使った簡易チェック
+        if (isCheckCookieToken(invokeTarget)) {
+            CSRFTokens tokens = (CSRFTokens) session.getAttribute(CSRF_TOKENS);
+            if (tokens == null) {
+                LOG.info("request token is invalid. session token is null");
                 return false;
             }
-            
-            if (isCheckReqToken(invokeTarget)) {
-                // HiddenパラメータにRequestTokenがセットされているかチェックする場合
-                String reqId = request.getParameter(REQ_ID_KEY);
-                CSRFTokens reqids = (CSRFTokens) session.getAttribute(CSRF_REQIDS);
-                if (reqids == null) {
-                    return false;
-                }
-                if (!reqids.checkToken(reqId)) {
-                    LOG.warn("Req Token NG : " + reqId);
-                    return false;
-                }
+            String base64 = HttpUtil.getCookie(request, CSRF_TOKENS);
+            if (StringUtils.isEmpty(base64)) {
+                LOG.info("request token is invalid. coockie token is null");
+                return false;
             }
-
-            return true;
-        } catch (SerializeException e) {
-            LOG.trace("Failed to restore Token", e);
+            try {
+                CSRFTokens reqTokens = SerializeUtils.Base64ToObject(base64, CSRFTokens.class);
+                if (!tokens.checkToken(tokenkey, reqTokens)) {
+                    LOG.info("Token NG : " + tokenkey);
+                    return false;
+                }
+            } catch (SerializeException e) {
+                LOG.info("Failed to restore Token", e);
+                return false;
+            }
         }
-        return false;
+        
+        // HiddenパラメータにRequestTokenがセットされているかチェックする場合
+        if (isCheckReqToken(invokeTarget)) {
+            String reqId = request.getParameter(REQ_ID_KEY);
+            if (!checkReqId(reqId, tokenkey, userId)) {
+                return false;
+            }
+        }
+        // リクエストヘッダにRequestTokenがセットされているかチェックする場合
+        if (isCheckHeaderToken(invokeTarget)) {
+            String reqId = request.getHeader(REQUEST_TOKEN);
+            if (!checkReqId(reqId, tokenkey, userId)) {
+                return false;
+            }
+        }
+        LOG.debug("Request check : success ");
+        return true;
     }
-
-
+    
+    private boolean checkReqId(String reqId, String tokenkey, Integer userId) {
+        CsrfTokensEntity csrf = CsrfTokensDao.get().selectOnKey(tokenkey, userId);
+        if (csrf == null) {
+            return false;
+        }
+        if (!csrf.getToken().equals(reqId)) {
+            LOG.info("Req Token NG : " + reqId);
+            return false;
+        }
+        // 一度使った Request tokenは無効にする？
+        // 並列にPostやPutリクエストを送る場合は削除はしない方が良いので、いったんは、有効期限が切れるまで、何回でも使えるようにする
+        return true;
+    }
+    
+    
 }

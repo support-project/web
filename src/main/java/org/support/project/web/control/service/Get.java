@@ -12,5 +12,7 @@ public @interface Get {
     String subscribeToken() default "";
     String publishToken() default "csrf";
     boolean checkReferer() default false;
+    boolean checkCookieToken() default false;
     boolean checkReqToken() default false;
+    boolean checkHeaderToken() default false;
 }

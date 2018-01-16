@@ -1,3 +1,20 @@
+-- CSRF_TOKENS
+drop table if exists CSRF_TOKENS cascade;
+
+create table CSRF_TOKENS (
+  USER_ID integer not null
+  , PROCESS_NAME character varying(64) not null
+  , TOKEN character varying(128) not null
+  , EXPIRES timestamp not null
+  , ROW_ID character varying(64)
+  , INSERT_USER integer
+  , INSERT_DATETIME timestamp
+  , UPDATE_USER integer
+  , UPDATE_DATETIME timestamp
+  , DELETE_FLAG integer
+  , constraint CSRF_TOKENS_PKC primary key (USER_ID,PROCESS_NAME)
+) ;
+
 -- 認証トークン
 drop table if exists TOKENS cascade;
 
@@ -6,6 +23,8 @@ create table TOKENS (
   , USER_ID integer not null
   , EXPIRES timestamp not null
   , TOKEN_TYPE integer default 1 not null
+  , TOKEN_NAME character varying(64)
+  , DESCRIPTION character varying(256)
   , ROW_ID character varying(64)
   , INSERT_USER integer
   , INSERT_DATETIME timestamp
@@ -513,11 +532,25 @@ create table ROLE_FUNCTIONS (
   , constraint ROLE_FUNCTIONS_PKC primary key (ROLE_ID,FUNCTION_KEY)
 ) ;
 
+comment on table CSRF_TOKENS is 'CSRF_TOKENS';
+comment on column CSRF_TOKENS.USER_ID is 'ユーザID';
+comment on column CSRF_TOKENS.PROCESS_NAME is '処理名';
+comment on column CSRF_TOKENS.TOKEN is 'TOKEN';
+comment on column CSRF_TOKENS.EXPIRES is '有効期限';
+comment on column CSRF_TOKENS.ROW_ID is '行ID';
+comment on column CSRF_TOKENS.INSERT_USER is '登録ユーザ';
+comment on column CSRF_TOKENS.INSERT_DATETIME is '登録日時';
+comment on column CSRF_TOKENS.UPDATE_USER is '更新ユーザ';
+comment on column CSRF_TOKENS.UPDATE_DATETIME is '更新日時';
+comment on column CSRF_TOKENS.DELETE_FLAG is '削除フラグ';
+
 comment on table TOKENS is '認証トークン';
 comment on column TOKENS.TOKEN is 'TOKEN';
 comment on column TOKENS.USER_ID is 'ユーザID';
 comment on column TOKENS.EXPIRES is '有効期限';
-comment on column TOKENS.TOKEN_TYPE is '登録種類	 1:公開API用、2:内部API用';
+comment on column TOKENS.TOKEN_TYPE is '登録種類	 1:公開API用、2:OAuthで発行したToken';
+comment on column TOKENS.TOKEN_NAME is 'TOKEN名';
+comment on column TOKENS.DESCRIPTION is 'メモ';
 comment on column TOKENS.ROW_ID is '行ID';
 comment on column TOKENS.INSERT_USER is '登録ユーザ';
 comment on column TOKENS.INSERT_DATETIME is '登録日時';

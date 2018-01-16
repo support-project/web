@@ -17,10 +17,10 @@ import org.support.project.di.DI;
 import org.support.project.di.Instance;
 
 /**
- * 認証トークン
+ * CSRF_TOKENS
  */
 @DI(instance = Instance.Prototype)
-public class GenTokensEntity implements Serializable {
+public class GenCsrfTokensEntity implements Serializable {
 
     /** SerialVersion */
     private static final long serialVersionUID = 1L;
@@ -29,38 +29,36 @@ public class GenTokensEntity implements Serializable {
      * Get instance from DI container.
      * @return instance
      */
-    public static GenTokensEntity get() {
-        return Container.getComp(GenTokensEntity.class);
+    public static GenCsrfTokensEntity get() {
+        return Container.getComp(GenCsrfTokensEntity.class);
     }
 
     /**
      * Constructor.
      */
-    public GenTokensEntity() {
+    public GenCsrfTokensEntity() {
         super();
     }
 
     /**
      * Constructor
-     * @param token TOKEN
+     * @param processName 処理名
+     * @param userId ユーザID
      */
 
-    public GenTokensEntity(String token) {
+    public GenCsrfTokensEntity(String processName, Integer userId) {
         super();
-        this.token = token;
+        this.processName = processName;
+        this.userId = userId;
     }
-    /** TOKEN */
-    private String token;
     /** ユーザID */
     private Integer userId;
+    /** 処理名 */
+    private String processName;
+    /** TOKEN */
+    private String token;
     /** 有効期限 */
     private Timestamp expires;
-    /** 登録種類	 1:公開API用、2:OAuthで発行したToken */
-    private Integer tokenType;
-    /** TOKEN名 */
-    private String tokenName;
-    /** メモ */
-    private String description;
     /** 行ID */
     private String rowId;
     /** 登録ユーザ */
@@ -75,22 +73,6 @@ public class GenTokensEntity implements Serializable {
     private Integer deleteFlag;
 
     /**
-     * Get TOKEN.
-     * @return TOKEN
-     */
-    public String getToken() {
-        return this.token;
-    }
-    /**
-     * Set TOKEN.
-     * @param token TOKEN
-     * @return this object     */
-    public GenTokensEntity setToken(String token) {
-        this.token = token;
-        return this;
-    }
-
-    /**
      * Get ユーザID.
      * @return ユーザID
      */
@@ -101,8 +83,40 @@ public class GenTokensEntity implements Serializable {
      * Set ユーザID.
      * @param userId ユーザID
      * @return this object     */
-    public GenTokensEntity setUserId(Integer userId) {
+    public GenCsrfTokensEntity setUserId(Integer userId) {
         this.userId = userId;
+        return this;
+    }
+
+    /**
+     * Get 処理名.
+     * @return 処理名
+     */
+    public String getProcessName() {
+        return this.processName;
+    }
+    /**
+     * Set 処理名.
+     * @param processName 処理名
+     * @return this object     */
+    public GenCsrfTokensEntity setProcessName(String processName) {
+        this.processName = processName;
+        return this;
+    }
+
+    /**
+     * Get TOKEN.
+     * @return TOKEN
+     */
+    public String getToken() {
+        return this.token;
+    }
+    /**
+     * Set TOKEN.
+     * @param token TOKEN
+     * @return this object     */
+    public GenCsrfTokensEntity setToken(String token) {
+        this.token = token;
         return this;
     }
 
@@ -117,56 +131,8 @@ public class GenTokensEntity implements Serializable {
      * Set 有効期限.
      * @param expires 有効期限
      * @return this object     */
-    public GenTokensEntity setExpires(Timestamp expires) {
+    public GenCsrfTokensEntity setExpires(Timestamp expires) {
         this.expires = expires;
-        return this;
-    }
-
-    /**
-     * Get 登録種類	 1:公開API用、2:OAuthで発行したToken.
-     * @return 登録種類	 1:公開API用、2:OAuthで発行したToken
-     */
-    public Integer getTokenType() {
-        return this.tokenType;
-    }
-    /**
-     * Set 登録種類	 1:公開API用、2:OAuthで発行したToken.
-     * @param tokenType 登録種類	 1:公開API用、2:OAuthで発行したToken
-     * @return this object     */
-    public GenTokensEntity setTokenType(Integer tokenType) {
-        this.tokenType = tokenType;
-        return this;
-    }
-
-    /**
-     * Get TOKEN名.
-     * @return TOKEN名
-     */
-    public String getTokenName() {
-        return this.tokenName;
-    }
-    /**
-     * Set TOKEN名.
-     * @param tokenName TOKEN名
-     * @return this object     */
-    public GenTokensEntity setTokenName(String tokenName) {
-        this.tokenName = tokenName;
-        return this;
-    }
-
-    /**
-     * Get メモ.
-     * @return メモ
-     */
-    public String getDescription() {
-        return this.description;
-    }
-    /**
-     * Set メモ.
-     * @param description メモ
-     * @return this object     */
-    public GenTokensEntity setDescription(String description) {
-        this.description = description;
         return this;
     }
 
@@ -181,7 +147,7 @@ public class GenTokensEntity implements Serializable {
      * Set 行ID.
      * @param rowId 行ID
      * @return this object     */
-    public GenTokensEntity setRowId(String rowId) {
+    public GenCsrfTokensEntity setRowId(String rowId) {
         this.rowId = rowId;
         return this;
     }
@@ -197,7 +163,7 @@ public class GenTokensEntity implements Serializable {
      * Set 登録ユーザ.
      * @param insertUser 登録ユーザ
      * @return this object     */
-    public GenTokensEntity setInsertUser(Integer insertUser) {
+    public GenCsrfTokensEntity setInsertUser(Integer insertUser) {
         this.insertUser = insertUser;
         return this;
     }
@@ -213,7 +179,7 @@ public class GenTokensEntity implements Serializable {
      * Set 登録日時.
      * @param insertDatetime 登録日時
      * @return this object     */
-    public GenTokensEntity setInsertDatetime(Timestamp insertDatetime) {
+    public GenCsrfTokensEntity setInsertDatetime(Timestamp insertDatetime) {
         this.insertDatetime = insertDatetime;
         return this;
     }
@@ -229,7 +195,7 @@ public class GenTokensEntity implements Serializable {
      * Set 更新ユーザ.
      * @param updateUser 更新ユーザ
      * @return this object     */
-    public GenTokensEntity setUpdateUser(Integer updateUser) {
+    public GenCsrfTokensEntity setUpdateUser(Integer updateUser) {
         this.updateUser = updateUser;
         return this;
     }
@@ -245,7 +211,7 @@ public class GenTokensEntity implements Serializable {
      * Set 更新日時.
      * @param updateDatetime 更新日時
      * @return this object     */
-    public GenTokensEntity setUpdateDatetime(Timestamp updateDatetime) {
+    public GenCsrfTokensEntity setUpdateDatetime(Timestamp updateDatetime) {
         this.updateDatetime = updateDatetime;
         return this;
     }
@@ -261,7 +227,7 @@ public class GenTokensEntity implements Serializable {
      * Set 削除フラグ.
      * @param deleteFlag 削除フラグ
      * @return this object     */
-    public GenTokensEntity setDeleteFlag(Integer deleteFlag) {
+    public GenCsrfTokensEntity setDeleteFlag(Integer deleteFlag) {
         this.deleteFlag = deleteFlag;
         return this;
     }
@@ -271,23 +237,26 @@ public class GenTokensEntity implements Serializable {
      * @return values 
      */
     public Object[] getKeyValues() {
-        Object[] keyValues = new Object[1];
-        keyValues[0] = this.token;
+        Object[] keyValues = new Object[2];
+        keyValues[0] = this.processName;
+        keyValues[1] = this.userId;
         return keyValues;
     }
     /**
      * Set key values 
-     * @param token TOKEN
+     * @param processName 処理名
+     * @param userId ユーザID
      */
-    public void setKeyValues(String token) {
-        this.token = token;
+    public void setKeyValues(String processName, Integer userId) {
+        this.processName = processName;
+        this.userId = userId;
     }
     /**
      * compare on key 
      * @param entity entity 
      * @return result 
      */
-    public boolean equalsOnKey(GenTokensEntity entity) {
+    public boolean equalsOnKey(GenCsrfTokensEntity entity) {
         Object[] keyValues1 = getKeyValues();
         Object[] keyValues2 = entity.getKeyValues();
         for (int i = 0; i < keyValues1.length; i++) {
@@ -314,12 +283,10 @@ public class GenTokensEntity implements Serializable {
      */
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("token = ").append(token).append("\n");
+        builder.append("processName = ").append(processName).append("\n");
         builder.append("userId = ").append(userId).append("\n");
+        builder.append("token = ").append(token).append("\n");
         builder.append("expires = ").append(expires).append("\n");
-        builder.append("tokenType = ").append(tokenType).append("\n");
-        builder.append("tokenName = ").append(tokenName).append("\n");
-        builder.append("description = ").append(description).append("\n");
         builder.append("rowId = ").append(rowId).append("\n");
         builder.append("insertUser = ").append(insertUser).append("\n");
         builder.append("insertDatetime = ").append(insertDatetime).append("\n");
@@ -345,6 +312,26 @@ public class GenTokensEntity implements Serializable {
         Validator validator;
         ValidateError error;
         validator = ValidatorFactory.getInstance(Validator.REQUIRED);
+        error = validator.validate(this.userId, convLabelName("User Id"));
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.INTEGER);
+        error = validator.validate(this.userId, convLabelName("User Id"));
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
+        error = validator.validate(this.processName, convLabelName("Process Name"));
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+        error = validator.validate(this.processName, convLabelName("Process Name"), 64);
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
         error = validator.validate(this.token, convLabelName("Token"));
         if (error != null) {
             errors.add(error);
@@ -355,37 +342,7 @@ public class GenTokensEntity implements Serializable {
             errors.add(error);
         }
         validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-        error = validator.validate(this.userId, convLabelName("User Id"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.INTEGER);
-        error = validator.validate(this.userId, convLabelName("User Id"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
         error = validator.validate(this.expires, convLabelName("Expires"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-        error = validator.validate(this.tokenType, convLabelName("Token Type"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.INTEGER);
-        error = validator.validate(this.tokenType, convLabelName("Token Type"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(this.tokenName, convLabelName("Token Name"), 64);
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(this.description, convLabelName("Description"), 256);
         if (error != null) {
             errors.add(error);
         }
@@ -421,6 +378,26 @@ public class GenTokensEntity implements Serializable {
         Validator validator;
         ValidateError error;
         validator = ValidatorFactory.getInstance(Validator.REQUIRED);
+        error = validator.validate(values.get("userId"), convLabelName("User Id"));
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.INTEGER);
+        error = validator.validate(values.get("userId"), convLabelName("User Id"));
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
+        error = validator.validate(values.get("processName"), convLabelName("Process Name"));
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
+        error = validator.validate(values.get("processName"), convLabelName("Process Name"), 64);
+        if (error != null) {
+            errors.add(error);
+        }
+        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
         error = validator.validate(values.get("token"), convLabelName("Token"));
         if (error != null) {
             errors.add(error);
@@ -431,37 +408,7 @@ public class GenTokensEntity implements Serializable {
             errors.add(error);
         }
         validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-        error = validator.validate(values.get("userId"), convLabelName("User Id"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.INTEGER);
-        error = validator.validate(values.get("userId"), convLabelName("User Id"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
         error = validator.validate(values.get("expires"), convLabelName("Expires"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.REQUIRED);
-        error = validator.validate(values.get("tokenType"), convLabelName("Token Type"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.INTEGER);
-        error = validator.validate(values.get("tokenType"), convLabelName("Token Type"));
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(values.get("tokenName"), convLabelName("Token Name"), 64);
-        if (error != null) {
-            errors.add(error);
-        }
-        validator = ValidatorFactory.getInstance(Validator.MAX_LENGTH);
-        error = validator.validate(values.get("description"), convLabelName("Description"), 256);
         if (error != null) {
             errors.add(error);
         }

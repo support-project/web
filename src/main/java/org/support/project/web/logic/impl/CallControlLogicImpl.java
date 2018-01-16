@@ -138,13 +138,19 @@ public class CallControlLogicImpl implements CallControlLogic {
         InvokeSearch invokeSearch = getInvokeSearch();
         InvokeTarget invokeTarget = invokeSearch.getController(m, path, pathInfo);
         if (invokeTarget != null) {
+            LoginedUser loginedUser = HttpUtil.getLoginedUser(request);
+            Integer loginId = Integer.MIN_VALUE;
+            if (loginedUser != null) {
+                loginId = loginedUser.getUserId();
+            }
+            
             HttpRequestCheckLogic check = HttpRequestCheckLogic.get();
-            if (!check.checkCSRF(invokeTarget, request)) {
+            if (!check.checkCSRF(invokeTarget, request, loginId)) {
                 // CSRFチェック対象であればチェック実施
                 throw new CallControlException(HttpStatus.SC_403_FORBIDDEN, method, path, "CSRF check error.");
             }
             // CSRF用のリクエストキーなど発行
-            check.setCSRFTocken(invokeTarget, request, response);
+            check.setCSRFTocken(invokeTarget, request, response, loginId);
             
             // コントローラーで処理を呼び出す場合、パラメータは全てリクエストのアトリビュートにコピーする
             this.copyAttribute(request);

@@ -12,5 +12,7 @@ public @interface Delete {
     String subscribeToken() default "csrf";
     String publishToken() default "";
     boolean checkReferer() default true;
+    boolean checkCookieToken() default true;
     boolean checkReqToken() default false;
+    boolean checkHeaderToken() default false;
 }

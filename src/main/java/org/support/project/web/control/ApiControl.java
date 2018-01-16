@@ -1,6 +1,7 @@
 package org.support.project.web.control;
 
 import org.support.project.common.config.Resources;
+import org.support.project.web.bean.ApiParams;
 import org.support.project.web.bean.Msg;
 import org.support.project.web.boundary.Boundary;
 import org.support.project.web.common.HttpStatus;
@@ -30,5 +31,12 @@ public abstract class ApiControl extends Control {
         } else {
             return this.sendError(HttpStatus.SC_400_BAD_REQUEST);
         }
+    }
+    
+    protected ApiParams getCommonApiParams() {
+        ApiParams param = new ApiParams();
+        param.setLimit(getParamInt("limit", 10, 100));
+        param.setOffset(getParamInt("offset", 0, -1));
+        return param;
     }
 }
