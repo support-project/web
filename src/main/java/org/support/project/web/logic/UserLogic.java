@@ -1,5 +1,6 @@
 package org.support.project.web.logic;
 
+import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -39,7 +40,7 @@ import org.support.project.web.entity.UsersEntity;
 @DI(instance = Instance.Singleton)
 public class UserLogic {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(UserLogic.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     private UsersDao usersDao = UsersDao.get();
     private UserRolesDao userRolesDao = UserRolesDao.get();

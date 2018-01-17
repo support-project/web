@@ -1,5 +1,6 @@
 package org.support.project.web.dao;
 
+import java.lang.invoke.MethodHandles;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,7 +27,7 @@ public class ManageUserDao extends AbstractDao {
     private static final long serialVersionUID = 1L;
 
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(ManageUserDao.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     private String insertUserSql = null;
     private String updateUserSql = null;

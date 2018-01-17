@@ -1,5 +1,6 @@
 package org.support.project.web.boundary;
 
+import java.lang.invoke.MethodHandles;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -21,7 +22,7 @@ import net.arnx.jsonic.JSON;
 
 public class JsonBoundary extends AbstractBoundary {
     /** ログ */
-    private static Log log = LogFactory.getLog(JsonBoundary.class);
+    private static Log log = LogFactory.getLog(MethodHandles.lookup());
     /** 送信するオブジェクト */
     private Object obj;
 

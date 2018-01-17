@@ -1,6 +1,7 @@
 package org.support.project.web.logic;
 
 import java.lang.annotation.Annotation;
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Method;
 import java.security.NoSuchAlgorithmException;
 
@@ -33,7 +34,7 @@ import org.support.project.web.entity.SystemConfigsEntity;
 @DI(instance = Instance.Singleton)
 public class HttpRequestCheckLogic {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(HttpRequestCheckLogic.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
     /** セッション／Cookieに格納するキー */
     public static final String CSRF_TOKENS = "CSRFTokens";
     /** セッション／リクエストに格納するキー */

@@ -1,6 +1,7 @@
 package org.support.project.web.filter;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.net.SocketException;
 
 import javax.servlet.Filter;
@@ -29,7 +30,7 @@ import org.support.project.web.logic.CallControlLogic;
  */
 public class ControlManagerFilter implements Filter {
     /** ログ */
-    private static Log log = LogFactory.getLog(ControlManagerFilter.class);
+    private static Log log = LogFactory.getLog(MethodHandles.lookup());
     
     private CallControlLogic callControlLogic;
     

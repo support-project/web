@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 
 import org.support.project.common.config.ConfigLoader;
 import org.support.project.common.log.Log;
@@ -20,7 +21,7 @@ import org.support.project.web.config.AppConfig;
 @DI(instance = Instance.Singleton)
 public class DBConnenctionLogic {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(DBConnenctionLogic.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     private static final String CONNECTION_CONFIG = "custom_connection.xml";
 

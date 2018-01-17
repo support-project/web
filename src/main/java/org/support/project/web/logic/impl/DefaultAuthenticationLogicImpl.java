@@ -1,6 +1,7 @@
 package org.support.project.web.logic.impl;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ import net.arnx.jsonic.JSON;
 @DI(instance = Instance.Singleton)
 public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<LoginedUser> {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(DefaultAuthenticationLogicImpl.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
     
     private int cookieMaxAge = -1; // 日にち単位
     private String cookieEncryptKey = "";

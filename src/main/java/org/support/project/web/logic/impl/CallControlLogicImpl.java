@@ -1,6 +1,7 @@
 package org.support.project.web.logic.impl;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
 import java.util.List;
@@ -38,7 +39,7 @@ import net.arnx.jsonic.JSONException;
 @DI(instance = Instance.Singleton)
 public class CallControlLogicImpl implements CallControlLogic {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(CallControlLogicImpl.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
     
     /** 対象外のパスの正規表現のデフォルト */
     protected static final String IGNORE_REGULAR_EXPRESSION = "^open|css$|js$|jpg$|jpeg$|gif$|png$|init$";

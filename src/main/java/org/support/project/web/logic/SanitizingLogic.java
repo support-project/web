@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
+import java.lang.invoke.MethodHandles;
 import java.util.regex.Pattern;
 
 import javax.xml.transform.OutputKeys;
@@ -36,7 +37,7 @@ import com.google.common.base.Predicate;
 @DI(instance = Instance.Singleton)
 public class SanitizingLogic {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(SanitizingLogic.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     public static SanitizingLogic get() {
         return Container.getComp(SanitizingLogic.class);

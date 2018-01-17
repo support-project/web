@@ -1,6 +1,7 @@
 package org.support.project.web.listener;
 
 import java.io.File;
+import java.lang.invoke.MethodHandles;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -17,7 +18,7 @@ import org.support.project.web.config.AppConfig;
  */
 public class WebAppInitializationListener implements ServletContextListener {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(WebAppInitializationListener.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {

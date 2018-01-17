@@ -1,5 +1,6 @@
 package org.support.project.web.util;
 
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -51,7 +52,7 @@ public class JspUtil {
     public static final int SCOPE_ALL = SCOPE_PAGE_ATTRIBUTE | SCOPE_REQUEST_ATTRIBUTE | SCOPE_PARAMETER | SCOPE_SESSION;
 
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(JspUtil.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     private HttpServletRequest request;
     private PageContext pageContext;

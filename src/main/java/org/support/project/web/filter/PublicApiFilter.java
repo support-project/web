@@ -1,6 +1,7 @@
 package org.support.project.web.filter;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,7 +36,7 @@ import org.support.project.web.logic.invoke.CallControlExLogicImpl;
 
 public class PublicApiFilter extends ControlFilter {
     /** ログ */
-    private static Log LOG = LogFactory.getLog(PublicApiFilter.class);
+    private static Log LOG = LogFactory.getLog(MethodHandles.lookup());
     
     private boolean enableAuthParameter = false;
     

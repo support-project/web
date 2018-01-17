@@ -1,6 +1,7 @@
 package org.support.project.web.logic;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -32,7 +33,7 @@ import org.support.project.web.entity.LdapConfigsEntity;
 @DI(instance = Instance.Singleton)
 public class LdapLogic {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(LdapLogic.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     /**
      * Get instance

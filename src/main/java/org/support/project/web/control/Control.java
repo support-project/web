@@ -2,6 +2,7 @@ package org.support.project.web.control;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -54,7 +55,7 @@ import net.arnx.jsonic.JSONException;
 @DI(instance = Instance.Prototype)
 public abstract class Control {
     /** ログ */
-    private static Log log = LogFactory.getLog(Control.class);
+    private static Log log = LogFactory.getLog(MethodHandles.lookup());
 
     /** HttpServletRequest */
     private HttpServletRequest request;

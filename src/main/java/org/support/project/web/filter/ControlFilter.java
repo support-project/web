@@ -1,5 +1,6 @@
 package org.support.project.web.filter;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +23,7 @@ import org.support.project.web.exception.InvalidParamException;
 
 public class ControlFilter extends ControlManagerFilter {
     /** ログ */
-    private static Log log = LogFactory.getLog(ControlManagerFilter.class);
+    private static Log log = LogFactory.getLog(MethodHandles.lookup());
 
     @Override
     protected void invoke(InvokeTarget invokeTarget, HttpServletRequest request, HttpServletResponse response) throws Exception {

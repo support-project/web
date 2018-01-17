@@ -1,6 +1,7 @@
 package org.support.project.web.filter;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,7 +35,7 @@ import org.support.project.web.logic.AuthenticationLogic;
  */
 public class AuthenticationFilter implements Filter {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(AuthenticationFilter.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     /** ログインの処理を実施するサーブレットパス */
     private String loginProcess = "/signin";

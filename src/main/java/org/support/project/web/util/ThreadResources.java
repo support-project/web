@@ -1,5 +1,6 @@
 package org.support.project.web.util;
 
+import java.lang.invoke.MethodHandles;
 import java.util.Locale;
 
 import org.support.project.common.config.Resources;
@@ -19,7 +20,7 @@ import org.support.project.web.config.CommonWebParameter;
  */
 @DI(instance = Instance.Singleton)
 public class ThreadResources {
-    private static final Log LOG = LogFactory.getLog(ThreadResources.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     public static ThreadResources get() {
         return Container.getComp(ThreadResources.class);

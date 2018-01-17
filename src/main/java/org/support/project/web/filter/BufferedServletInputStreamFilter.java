@@ -3,6 +3,7 @@ package org.support.project.web.filter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.invoke.MethodHandles;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -23,7 +24,7 @@ import org.support.project.web.wrapper.BufferedServletRequestWrapper;
 @Deprecated
 public class BufferedServletInputStreamFilter implements Filter {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(BufferedServletInputStreamFilter.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     public void destroy() {
     }

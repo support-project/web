@@ -1,5 +1,6 @@
 package org.support.project.web.listener;
 
+import java.lang.invoke.MethodHandles;
 import java.util.TimeZone;
 
 import javax.servlet.ServletContextEvent;
@@ -23,7 +24,7 @@ import org.support.project.web.entity.SystemAttributesEntity;
  */
 public class DBMigrateListener implements ServletContextListener {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(DBMigrateListener.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     @Override
     public void contextDestroyed(ServletContextEvent contextEvent) {

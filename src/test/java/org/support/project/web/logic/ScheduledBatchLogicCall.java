@@ -1,6 +1,7 @@
 package org.support.project.web.logic;
 
 import java.io.File;
+import java.lang.invoke.MethodHandles;
 
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Logger;
@@ -14,7 +15,7 @@ import org.support.project.web.config.AppConfig;
  */
 public class ScheduledBatchLogicCall {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(ScheduledBatchLogicCall.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
     /**
      * テスト開始
      * @param args

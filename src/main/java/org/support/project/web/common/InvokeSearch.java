@@ -1,6 +1,7 @@
 package org.support.project.web.common;
 
 import java.lang.annotation.Annotation;
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import org.support.project.web.control.service.Put;
 @DI(instance = Instance.Singleton)
 public class InvokeSearch {
     /** ログ */
-    private static Log LOG = LogFactory.getLog(InvokeSearch.class);
+    private static Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     /** 文字列に対するターゲット */
     private Map<String, InvokeTarget> invokeGetTargets;

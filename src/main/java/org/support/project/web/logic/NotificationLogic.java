@@ -1,5 +1,6 @@
 package org.support.project.web.logic;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import org.support.project.web.entity.UsersEntity;
 @DI(instance = Instance.Singleton)
 public class NotificationLogic {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(NotificationLogic.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
     /** 通知ステータス : 未読 */
     public static final int STATUS_UNREAD = 0;
     /** 通知ステータス : 既読 */

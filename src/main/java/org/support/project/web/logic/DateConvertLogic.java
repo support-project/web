@@ -1,5 +1,6 @@
 package org.support.project.web.logic;
 
+import java.lang.invoke.MethodHandles;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -19,7 +20,7 @@ import org.support.project.web.util.JspUtil;
 
 public class DateConvertLogic {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(DateConvertLogic.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
     /**
      * Get instance
      * @return instance

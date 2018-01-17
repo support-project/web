@@ -1,6 +1,7 @@
 package org.support.project.web.websocket;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 import javax.websocket.OnClose;
@@ -16,7 +17,7 @@ import net.arnx.jsonic.JSON;
 
 public abstract class CallBatchEndpoint extends AbstractEndpoint implements JobOnWebsocket.Listener {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(CallBatchEndpoint.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     private String sendPlefix = "[SEND]";
     private Class<?> batch = null;

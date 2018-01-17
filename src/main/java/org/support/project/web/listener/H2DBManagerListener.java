@@ -1,5 +1,7 @@
 package org.support.project.web.listener;
 
+import java.lang.invoke.MethodHandles;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -15,7 +17,7 @@ import org.support.project.web.logic.DBConnenctionLogic;
  */
 public class H2DBManagerListener implements ServletContextListener {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(H2DBManagerListener.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {

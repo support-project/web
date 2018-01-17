@@ -2,6 +2,7 @@ package org.support.project.web.common;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.invoke.MethodHandles;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Enumeration;
@@ -44,7 +45,7 @@ import net.arnx.jsonic.JSONException;
  */
 public class HttpUtil {
     /** ログ */
-    private static Log log = LogFactory.getLog(HttpUtil.class);
+    private static Log log = LogFactory.getLog(MethodHandles.lookup());
 
     public static final int COOKIE_AGE = 60 * 60 * 24 * 31;
 

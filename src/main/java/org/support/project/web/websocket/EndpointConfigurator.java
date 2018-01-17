@@ -1,5 +1,6 @@
 package org.support.project.web.websocket;
 
+import java.lang.invoke.MethodHandles;
 import java.util.Locale;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ import org.support.project.web.config.CommonWebParameter;
 
 public class EndpointConfigurator extends Configurator {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(EndpointConfigurator.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     public static final String LOCALE_KEY = "LOCALE_KEY";
     public static final String LOGIN_USER_KEY = "LOGIN_USER_KEY";

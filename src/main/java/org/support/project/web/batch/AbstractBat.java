@@ -1,6 +1,7 @@
 package org.support.project.web.batch;
 
 import java.io.File;
+import java.lang.invoke.MethodHandles;
 
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Logger;
@@ -17,7 +18,7 @@ import org.support.project.web.logic.DBConnenctionLogic;
  */
 public abstract class AbstractBat {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(AbstractBat.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     /**
      * バッチが出力するログの名称をセットする

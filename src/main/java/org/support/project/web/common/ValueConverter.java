@@ -1,5 +1,6 @@
 package org.support.project.web.common;
 
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ import org.support.project.common.util.StringUtils;
 
 public class ValueConverter {
     /** ログ */
-    private static Log log = LogFactory.getLog(ValueConverter.class);
+    private static Log log = LogFactory.getLog(MethodHandles.lookup());
 
     public static <T> T conv(String[] value, Class<? extends T> type) {
         if (value == null) {

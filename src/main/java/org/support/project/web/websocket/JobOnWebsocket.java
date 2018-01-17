@@ -2,6 +2,7 @@ package org.support.project.web.websocket;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ import net.arnx.jsonic.JSONException;
 
 public class JobOnWebsocket {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(CallBatchEndpoint.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
     private List<Session> sessions = new ArrayList<>();
     private String sendPlefix = "[SEND]";
     private Thread thread;

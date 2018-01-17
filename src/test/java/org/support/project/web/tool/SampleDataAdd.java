@@ -1,6 +1,7 @@
 package org.support.project.web.tool;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -22,7 +23,7 @@ import org.xml.sax.SAXException;
 public class SampleDataAdd {
 
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(SampleDataAdd.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     public static void main(String[] args) throws Exception {
         DBUserPool.get().setUser(-99);

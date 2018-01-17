@@ -1,6 +1,7 @@
 package org.support.project.web.filter;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -18,7 +19,7 @@ import org.support.project.web.common.HttpUtil;
 
 public class PartialsFilter implements Filter {
     /** ログ */
-    private static Log log = LogFactory.getLog(PartialsFilter.class);
+    private static Log log = LogFactory.getLog(MethodHandles.lookup());
 
     @Override
     public void init(FilterConfig config) throws ServletException {

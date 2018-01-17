@@ -1,5 +1,6 @@
 package org.support.project.web.logic;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 import org.support.project.common.log.Log;
@@ -17,7 +18,7 @@ import org.support.project.web.entity.ReadMarksEntity;
 @DI(instance = Instance.Singleton)
 public class NoticesLogic {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(NoticesLogic.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
     /**
      * Get instance
      * @return instance

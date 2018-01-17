@@ -2,6 +2,7 @@ package org.support.project.web.filter;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,7 @@ import net.arnx.jsonic.JSON;
  */
 public class MultipartFilter implements Filter {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(MultipartFilter.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     private AppConfig appConfig;
 

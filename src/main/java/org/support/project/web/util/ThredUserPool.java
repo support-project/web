@@ -1,5 +1,6 @@
 package org.support.project.web.util;
 
+import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ import org.support.project.di.Instance;
  */
 @DI(instance = Instance.Singleton)
 public class ThredUserPool {
-    private static final Log LOG = LogFactory.getLog(ThredUserPool.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     private Map<Thread, Map<String, Object>> infoMap;
 

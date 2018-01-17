@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.invoke.MethodHandles;
 import java.nio.charset.Charset;
 
 import javax.servlet.ServletInputStream;
@@ -18,7 +19,7 @@ import org.support.project.common.log.LogFactory;
 @Deprecated
 public class BufferedServletRequestWrapper extends HttpServletRequestWrapper {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(BufferedServletRequestWrapper.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     private byte[] buffer;
 

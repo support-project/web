@@ -1,5 +1,7 @@
 package org.support.project.web.dao;
 
+import java.lang.invoke.MethodHandles;
+
 import org.support.project.aop.Aspect;
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
@@ -14,7 +16,7 @@ import org.support.project.web.dao.gen.GenUserConfigsDao;
 @DI(instance = Instance.Singleton)
 public class UserConfigsDao extends GenUserConfigsDao {
     /** LOG */
-    private static final Log LOG = LogFactory.getLog(UserConfigsDao.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     /** SerialVersion */
     private static final long serialVersionUID = 1L;

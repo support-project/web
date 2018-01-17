@@ -1,5 +1,7 @@
 package org.support.project.web.boundary;
 
+import java.lang.invoke.MethodHandles;
+
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
 import org.support.project.web.common.HttpUtil;
@@ -7,7 +9,7 @@ import org.support.project.web.common.HttpUtil;
 
 public class ForwardBoundary extends AbstractBoundary {
     /** ログ */
-    private static Log log = LogFactory.getLog(ForwardBoundary.class);
+    private static Log log = LogFactory.getLog(MethodHandles.lookup());
 
     /** フォワードするパス */
     private String path;

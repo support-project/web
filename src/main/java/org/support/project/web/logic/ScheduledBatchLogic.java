@@ -1,6 +1,7 @@
 package org.support.project.web.logic;
 
 import java.io.File;
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
@@ -27,7 +28,7 @@ import org.support.project.web.config.AppConfig;
 @DI(instance = Instance.Singleton)
 public class ScheduledBatchLogic {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(ScheduledBatchLogic.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     /**
      * インスタンス取得

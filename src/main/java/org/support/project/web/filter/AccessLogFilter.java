@@ -1,6 +1,7 @@
 package org.support.project.web.filter;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,7 +23,7 @@ import org.support.project.web.entity.AccessLogsEntity;
 
 public class AccessLogFilter implements Filter {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(AccessLogFilter.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     /** 対象外なパスの正規表現 */
     private String ignoreRegularExpression = "css$|js$|jpg$|jpeg$|gif$|png$|init$";

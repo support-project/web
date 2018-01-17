@@ -1,6 +1,7 @@
 package org.support.project.web.filter;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -21,7 +22,7 @@ import org.support.project.web.logic.invoke.CallControlExLogicImpl;
 
 public class InternalApiFilter extends PublicApiFilter {
     /** ログ */
-    private static Log LOG = LogFactory.getLog(InternalApiFilter.class);
+    private static Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     @Override
     public void doFilter(ServletRequest servletrequest, ServletResponse servletresponse, FilterChain filterchain)

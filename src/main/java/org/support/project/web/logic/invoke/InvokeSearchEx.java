@@ -1,5 +1,6 @@
 package org.support.project.web.logic.invoke;
 
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 
@@ -13,7 +14,7 @@ import org.support.project.web.common.InvokeTarget;
 @DI(instance = Instance.Singleton)
 public class InvokeSearchEx extends InvokeSearch {
     /** ログ */
-    private static Log LOG = LogFactory.getLog(InvokeSearch.class);
+    private static Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     @Override
     protected InvokeTarget createInvokeTarget(Class<?> class1, Method method, String targetPackageName, String classSuffix) {

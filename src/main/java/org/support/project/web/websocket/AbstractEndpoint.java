@@ -1,6 +1,7 @@
 package org.support.project.web.websocket;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 
 import javax.websocket.Session;
 
@@ -9,7 +10,7 @@ import org.support.project.common.log.LogFactory;
 import org.support.project.web.bean.LoginedUser;
 
 public abstract class AbstractEndpoint {
-    private static final Log LOG = LogFactory.getLog(AbstractEndpoint.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
 
     public abstract void onOpen(Session session) throws Exception;
 

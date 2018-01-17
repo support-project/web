@@ -1,5 +1,6 @@
 package org.support.project.web.control;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -32,7 +33,7 @@ import org.support.project.web.logic.NoticesLogic;
 @DI(instance = Instance.Prototype)
 public class NoticesControl extends Control {
     /** ログ */
-    private static final Log LOG = LogFactory.getLog(NoticesControl.class);
+    private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
     /** 既読情報をSessionに格納するキー */
     public static final String READ_NOTICES = "READ_NOTICES";
     
