@@ -29,7 +29,7 @@ import org.support.project.web.dao.TokensDao;
 import org.support.project.web.dao.UsersDao;
 import org.support.project.web.entity.TokensEntity;
 import org.support.project.web.entity.UsersEntity;
-import org.support.project.web.exception.CallControlException;
+import org.support.project.web.exception.SendErrorException;
 import org.support.project.web.logic.AuthenticationLogic;
 import org.support.project.web.logic.CallControlLogic;
 import org.support.project.web.logic.invoke.CallControlExLogicImpl;
@@ -175,7 +175,7 @@ public class PublicApiFilter extends ControlFilter {
             // リクエスト毎にセッションはクリアする
             LOG.info("clear session. sessionid:" + req.getSession().getId());
             authenticationLogic.clearSession(req);
-        } catch (CallControlException e) {
+        } catch (SendErrorException e) {
             LOG.warn(e.getMessage());
             sendError(req, res, e.getHttpStatus());
         } catch (Exception e) {

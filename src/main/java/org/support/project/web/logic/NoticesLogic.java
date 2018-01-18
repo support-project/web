@@ -8,7 +8,7 @@ import org.support.project.common.log.LogFactory;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
-import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.AccessUser;
 import org.support.project.web.bean.SendList;
 import org.support.project.web.dao.NoticesDao;
 import org.support.project.web.dao.ReadMarksDao;
@@ -92,7 +92,7 @@ public class NoticesLogic {
      * @param loginedUser loginedUser
      * @return notices
      */
-    public List<NoticesEntity> selectMyNotices(LoginedUser loginedUser) {
+    public List<NoticesEntity> selectMyNotices(AccessUser loginedUser) {
         if (loginedUser == null) {
             return NoticesDao.get().selectNowNotices();
         }

@@ -7,7 +7,7 @@ import javax.websocket.Session;
 
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
-import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.AccessUser;
 
 public abstract class AbstractEndpoint {
     private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
@@ -32,7 +32,7 @@ public abstract class AbstractEndpoint {
         }
         try {
             if (session.getUserProperties().containsKey(EndpointConfigurator.LOCALE_KEY)) {
-                LoginedUser loginuser = (LoginedUser) session.getUserProperties().get(EndpointConfigurator.LOGIN_USER_KEY);
+                AccessUser loginuser = (AccessUser) session.getUserProperties().get(EndpointConfigurator.LOGIN_USER_KEY);
                 if (loginuser.isAdmin()) {
                     return true;
                 }

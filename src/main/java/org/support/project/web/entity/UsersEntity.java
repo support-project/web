@@ -66,7 +66,7 @@ public class UsersEntity extends GenUsersEntity {
      * @return Locale
      */
     public Locale getLocale() {
-        Locale locale = Locale.JAPAN; // default
+        Locale locale = Locale.ENGLISH; // default
         LocalesDao localesDao = LocalesDao.get();
         LocalesEntity localesEntity = localesDao.selectOnKey(this.getLocaleKey());
         if (localesEntity != null) {

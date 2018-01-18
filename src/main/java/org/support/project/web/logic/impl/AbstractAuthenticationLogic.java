@@ -16,7 +16,7 @@ import org.support.project.common.util.PasswordUtil;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
 import org.support.project.ormapping.common.DBUserPool;
-import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.AccessUser;
 import org.support.project.web.common.HttpUtil;
 import org.support.project.web.config.AppConfig;
 import org.support.project.web.config.CommonWebParameter;
@@ -36,7 +36,7 @@ import org.support.project.web.logic.HttpRequestCheckLogic;
 import org.support.project.web.util.ThredUserPool;
 
 @DI(instance = Instance.Singleton)
-public abstract class AbstractAuthenticationLogic<T extends LoginedUser> implements AuthenticationLogic<T> {
+public abstract class AbstractAuthenticationLogic<T extends AccessUser> implements AuthenticationLogic<T> {
     /**
      * ロールが必要な機能のリスト
      */
@@ -111,8 +111,8 @@ public abstract class AbstractAuthenticationLogic<T extends LoginedUser> impleme
     @Override
     public boolean isLogined(HttpServletRequest request) throws AuthenticateException {
         if (getSession(request) != null) {
-            LoginedUser loginedUser = getSession(request);
-            if (loginedUser.getLoginUser() == null) {
+            AccessUser loginedUser = getSession(request);
+            if (loginedUser.getUserInfomation() == null) {
                 return false;
             }
             setUserInfo(request);
@@ -142,8 +142,8 @@ public abstract class AbstractAuthenticationLogic<T extends LoginedUser> impleme
             List<RolesEntity> rolesEntities = rolesDao.selectOnUserKey(userId);
             session.setAttribute(CommonWebParameter.LOGIN_ROLE_IDS_SESSION_KEY, rolesEntities);
 
-            LoginedUser loginedUser = new LoginedUser();
-            loginedUser.setLoginUser(usersEntity);
+            AccessUser loginedUser = new AccessUser();
+            loginedUser.setUserInfomation(usersEntity);
             loginedUser.setRoles(rolesEntities);
             loginedUser.setLocale(HttpUtil.getLocale(request));
 
@@ -179,7 +179,7 @@ public abstract class AbstractAuthenticationLogic<T extends LoginedUser> impleme
             String function = (String) iterator.next();
             if (path.startsWith(function)) {
                 HttpSession session = request.getSession();
-                LoginedUser loginedUser = (LoginedUser) session.getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
+                AccessUser loginedUser = (AccessUser) session.getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
 
                 if (loginedUser == null) {
                     return false;
@@ -234,7 +234,7 @@ public abstract class AbstractAuthenticationLogic<T extends LoginedUser> impleme
      *            request
      */
     protected void setUserInfo(HttpServletRequest request) {
-        LoginedUser loginedUser = getSession(request);
+        AccessUser loginedUser = getSession(request);
         DBUserPool.get().setUser(loginedUser.getUserId());
         ThredUserPool.get().setInfo(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY, loginedUser);
     }

@@ -9,7 +9,7 @@ import org.support.project.common.log.LogFactory;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
-import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.AccessUser;
 import org.support.project.web.config.CommonWebParameter;
 
 /**
@@ -27,7 +27,7 @@ public class ThreadResources {
     }
 
     public Resources getResources() {
-        LoginedUser loginedUser = (LoginedUser) ThredUserPool.get().getInfo(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
+        AccessUser loginedUser = (AccessUser) ThredUserPool.get().getInfo(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
         if (loginedUser != null && loginedUser.getLocale() != null) {
             return Resources.getInstance(loginedUser.getLocale());
         }

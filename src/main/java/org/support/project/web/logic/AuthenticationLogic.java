@@ -4,7 +4,7 @@ package org.support.project.web.logic;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.AccessUser;
 import org.support.project.web.exception.AuthenticateException;
 
 /**
@@ -13,7 +13,7 @@ import org.support.project.web.exception.AuthenticateException;
  * @param <T> type
  */
 //@DI(impl=org.support.project.transparent.base.logic.impl.DefaultAuthenticationLogicImpl.class)
-public interface AuthenticationLogic<T extends LoginedUser> {
+public interface AuthenticationLogic<T extends AccessUser> {
 	/**
 	 * 認証
 	 * @param userId userId

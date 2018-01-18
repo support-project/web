@@ -12,7 +12,7 @@ import javax.websocket.server.ServerEndpointConfig.Configurator;
 
 import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
-import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.AccessUser;
 import org.support.project.web.config.CommonWebParameter;
 
 public class EndpointConfigurator extends Configurator {
@@ -38,7 +38,7 @@ public class EndpointConfigurator extends Configurator {
                 HttpSession session = (HttpSession) request.getHttpSession();
                 if (session != null) {
                     locale = (Locale) session.getAttribute(CommonWebParameter.LOCALE_SESSION_KEY);
-                    LoginedUser loginuser = (LoginedUser) session.getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
+                    AccessUser loginuser = (AccessUser) session.getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
                     if (loginuser != null) {
                         prop.put(LOGIN_USER_KEY, loginuser);
                     }

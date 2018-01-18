@@ -11,7 +11,7 @@ import org.support.project.common.util.StringUtils;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
 import org.support.project.web.annotation.Auth;
-import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.AccessUser;
 import org.support.project.web.bean.MessageResult;
 import org.support.project.web.bean.SendList;
 import org.support.project.web.boundary.Boundary;
@@ -124,7 +124,7 @@ public class NoticesControl extends Control {
     @Put(path = "open.api/readmark", subscribeToken = "csrf")
     public Boundary readMark() throws InvalidParamException {
         LOG.trace("readMark");
-        LoginedUser loginedUser = getLoginedUser();
+        AccessUser loginedUser = getLoginedUser();
         if (loginedUser == null) {
             return send(HttpStatus.SC_403_FORBIDDEN);
         }

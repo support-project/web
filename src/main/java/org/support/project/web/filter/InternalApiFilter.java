@@ -16,7 +16,7 @@ import org.support.project.di.Container;
 import org.support.project.web.common.HttpStatus;
 import org.support.project.web.common.InvokeTarget;
 import org.support.project.web.config.AppConfig;
-import org.support.project.web.exception.CallControlException;
+import org.support.project.web.exception.SendErrorException;
 import org.support.project.web.logic.CallControlLogic;
 import org.support.project.web.logic.invoke.CallControlExLogicImpl;
 
@@ -60,7 +60,7 @@ public class InternalApiFilter extends PublicApiFilter {
                 LOG.info("clear session. sessionid:" + req.getSession().getId());
                 getAuthenticationLogic().clearSession(req);
             }
-        } catch (CallControlException e) {
+        } catch (SendErrorException e) {
             LOG.warn(e.getMessage());
             sendError(req, res, e.getHttpStatus());
         } catch (Exception e) {

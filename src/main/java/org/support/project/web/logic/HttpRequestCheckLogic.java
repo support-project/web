@@ -252,7 +252,7 @@ public class HttpRequestCheckLogic {
             // CSRFの簡易対策で、Referrerをチェックする
             HttpRequestCheckLogic check = HttpRequestCheckLogic.get();
             if (!check.checkReferrer(request)) {
-                LOG.info("Invalid referrer header.");
+                LOG.warn("Invalid referrer header.");
                 return false;
             }
         }
@@ -268,22 +268,22 @@ public class HttpRequestCheckLogic {
         if (isCheckCookieToken(invokeTarget)) {
             CSRFTokens tokens = (CSRFTokens) session.getAttribute(CSRF_TOKENS);
             if (tokens == null) {
-                LOG.info("request token is invalid. session token is null");
+                LOG.warn("request token is invalid. session token is null");
                 return false;
             }
             String base64 = HttpUtil.getCookie(request, CSRF_TOKENS);
             if (StringUtils.isEmpty(base64)) {
-                LOG.info("request token is invalid. coockie token is null");
+                LOG.warn("request token is invalid. coockie token is null");
                 return false;
             }
             try {
                 CSRFTokens reqTokens = SerializeUtils.Base64ToObject(base64, CSRFTokens.class);
                 if (!tokens.checkToken(tokenkey, reqTokens)) {
-                    LOG.info("Token NG : " + tokenkey);
+                    LOG.warn("Token NG : " + tokenkey);
                     return false;
                 }
             } catch (SerializeException e) {
-                LOG.info("Failed to restore Token", e);
+                LOG.warn("Failed to restore Token", e);
                 return false;
             }
         }
@@ -292,6 +292,7 @@ public class HttpRequestCheckLogic {
         if (isCheckReqToken(invokeTarget)) {
             String reqId = request.getParameter(REQ_ID_KEY);
             if (!checkReqId(reqId, tokenkey, userId)) {
+                LOG.warn("Request parameter's token is NG : " + tokenkey);
                 return false;
             }
         }
@@ -299,6 +300,7 @@ public class HttpRequestCheckLogic {
         if (isCheckHeaderToken(invokeTarget)) {
             String reqId = request.getHeader(REQUEST_TOKEN);
             if (!checkReqId(reqId, tokenkey, userId)) {
+                LOG.warn("Request header's token is NG : " + tokenkey);
                 return false;
             }
         }

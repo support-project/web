@@ -22,7 +22,7 @@ import org.support.project.common.log.Log;
 import org.support.project.common.log.LogFactory;
 import org.support.project.common.util.PropertyUtil;
 import org.support.project.common.util.StringUtils;
-import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.AccessUser;
 import org.support.project.web.bean.MessageResult;
 import org.support.project.web.config.AppConfig;
 import org.support.project.web.config.CommonWebParameter;
@@ -291,8 +291,8 @@ public class HttpUtil {
      * @param request request 
      * @return LoginedUser
      */
-    public static LoginedUser getLoginedUser(HttpServletRequest request) {
-        return (LoginedUser) request.getSession().getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
+    public static AccessUser getLoginedUser(HttpServletRequest request) {
+        return (AccessUser) request.getSession().getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
     }
     /**
      * mobileでアクセスしているか
@@ -587,7 +587,7 @@ public class HttpUtil {
         session.setAttribute(CommonWebParameter.LOCALE_SESSION_KEY, locale);
 
         // ログインユーザ情報があれば、自身の言語を設定
-        LoginedUser loginedUser = getLoginedUser(request);
+        AccessUser loginedUser = getLoginedUser(request);
         if (loginedUser != null) {
             if (loginedUser.getUserId() > Integer.MIN_VALUE) {
                 LocalesDao localesDao = LocalesDao.get();
@@ -615,7 +615,7 @@ public class HttpUtil {
         HttpSession session = request.getSession();
         Locale locale = (Locale) session.getAttribute(CommonWebParameter.LOCALE_SESSION_KEY);
         if (locale == null) {
-            LoginedUser loginedUser = getLoginedUser(request);
+            AccessUser loginedUser = getLoginedUser(request);
             if (loginedUser != null) {
                 // 前にまえに言語設定を登録してあった場合、それを復元
                 if (loginedUser.getUserId() > Integer.MIN_VALUE) {

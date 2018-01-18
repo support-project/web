@@ -7,13 +7,13 @@ import javax.servlet.http.Cookie;
 import org.support.project.common.util.StringUtils;
 import org.support.project.di.Container;
 import org.support.project.di.exception.DIException;
-import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.AccessUser;
 import org.support.project.web.config.CommonWebParameter;
 import org.support.project.web.control.Control;
 
 public class ControlContainer {
 
-    private LoginedUser loginedUser = null;
+    private AccessUser loginedUser = null;
     private String contextPath = null;
     private List<Cookie> cookies = null;
 
@@ -51,7 +51,7 @@ public class ControlContainer {
      * @param loginedUser
      *            the loginedUser to set
      */
-    public void setLoginedUser(LoginedUser loginedUser) {
+    public void setLoginedUser(AccessUser loginedUser) {
         this.loginedUser = loginedUser;
     }
 

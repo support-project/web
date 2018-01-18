@@ -22,7 +22,7 @@ import org.support.project.common.log.LogFactory;
 import org.support.project.common.util.HtmlUtils;
 import org.support.project.common.util.PropertyUtil;
 import org.support.project.common.util.StringUtils;
-import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.AccessUser;
 import org.support.project.web.common.HttpUtil;
 import org.support.project.web.config.CommonWebParameter;
 import org.support.project.web.logic.DateConvertLogic;
@@ -155,9 +155,9 @@ public class JspUtil {
      * 
      * @return LoginedUser
      */
-    public LoginedUser user() {
+    public AccessUser user() {
         HttpSession session = request.getSession();
-        LoginedUser loginedUser = (LoginedUser) session.getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
+        AccessUser loginedUser = (AccessUser) session.getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
         return loginedUser;
     }
 
@@ -167,9 +167,9 @@ public class JspUtil {
      * @return user name
      */
     public String name() {
-        LoginedUser loginedUser = user();
+        AccessUser loginedUser = user();
         if (loginedUser != null) {
-            return HtmlUtils.escapeHTML(loginedUser.getLoginUser().getUserName());
+            return HtmlUtils.escapeHTML(loginedUser.getUserInfomation().getUserName());
         }
         return "";
     }
@@ -180,7 +180,7 @@ public class JspUtil {
      * @return user id
      */
     public String id() {
-        LoginedUser loginedUser = user();
+        AccessUser loginedUser = user();
         if (loginedUser != null) {
             return String.valueOf(loginedUser.getUserId());
         }
@@ -202,7 +202,7 @@ public class JspUtil {
      * @return result
      */
     public boolean isAdmin() {
-        LoginedUser loginedUser = user();
+        AccessUser loginedUser = user();
         if (loginedUser != null) {
             return loginedUser.isAdmin();
         }
@@ -216,7 +216,7 @@ public class JspUtil {
      * @return result
      */
     public boolean haveRole(String... roles) {
-        LoginedUser loginedUser = user();
+        AccessUser loginedUser = user();
         if (loginedUser != null) {
             return loginedUser.haveRole(roles);
         }

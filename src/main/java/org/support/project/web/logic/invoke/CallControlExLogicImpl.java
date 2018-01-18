@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
-import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.AccessUser;
 import org.support.project.web.common.HttpUtil;
 import org.support.project.web.common.InvokeSearch;
 import org.support.project.web.common.InvokeTarget;
@@ -33,13 +33,13 @@ public class CallControlExLogicImpl extends CallControlLogicImpl {
             InvokeTargetEx ex = (InvokeTargetEx) invokeTarget;
             AccessType accessType = ex.getAccessType();
             if (AccessType.close == accessType) {
-                LoginedUser loginedUser = HttpUtil.getLoginedUser(request);
+                AccessUser loginedUser = HttpUtil.getLoginedUser(request);
                 if (loginedUser == null) {
                     return false;
                 }
             } else if (AccessType.closeAble == accessType) {
                 if (SystemConfigValue.get().isClose()) {
-                    LoginedUser loginedUser = HttpUtil.getLoginedUser(request);
+                    AccessUser loginedUser = HttpUtil.getLoginedUser(request);
                     if (loginedUser == null) {
                         return false;
                     }

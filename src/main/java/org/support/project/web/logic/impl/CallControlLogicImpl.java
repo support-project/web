@@ -21,7 +21,7 @@ import org.support.project.common.util.StringUtils;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
-import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.AccessUser;
 import org.support.project.web.common.HttpStatus;
 import org.support.project.web.common.HttpUtil;
 import org.support.project.web.common.InvokeSearch;
@@ -30,6 +30,7 @@ import org.support.project.web.config.HttpMethod;
 import org.support.project.web.control.Control;
 import org.support.project.web.exception.CallControlException;
 import org.support.project.web.exception.InvalidParamException;
+import org.support.project.web.exception.SendErrorException;
 import org.support.project.web.logic.CallControlLogic;
 import org.support.project.web.logic.HttpRequestCheckLogic;
 
@@ -83,7 +84,7 @@ public class CallControlLogicImpl implements CallControlLogic {
      */
     @Override
     public InvokeTarget searchInvokeTarget(HttpServletRequest request, HttpServletResponse response)
-            throws CallControlException, InstantiationException, IllegalAccessException, JSONException,
+            throws SendErrorException, InstantiationException, IllegalAccessException, JSONException,
             IOException, InvalidParamException, NoSuchAlgorithmException {
         StringBuilder pathBuilder = new StringBuilder();
         pathBuilder.append(request.getServletPath());
@@ -139,7 +140,7 @@ public class CallControlLogicImpl implements CallControlLogic {
         InvokeSearch invokeSearch = getInvokeSearch();
         InvokeTarget invokeTarget = invokeSearch.getController(m, path, pathInfo);
         if (invokeTarget != null) {
-            LoginedUser loginedUser = HttpUtil.getLoginedUser(request);
+            AccessUser loginedUser = HttpUtil.getLoginedUser(request);
             Integer loginId = Integer.MIN_VALUE;
             if (loginedUser != null) {
                 loginId = loginedUser.getUserId();
@@ -204,7 +205,7 @@ public class CallControlLogicImpl implements CallControlLogic {
     protected boolean auth(InvokeTarget invokeTarget, HttpServletRequest request, HttpServletResponse response, String path, String pathInfo) {
         List<String> roles = invokeTarget.getRoles();
         if (roles != null && !roles.isEmpty()) {
-            LoginedUser loginedUser = HttpUtil.getLoginedUser(request);
+            AccessUser loginedUser = HttpUtil.getLoginedUser(request);
             if (loginedUser == null) {
                 return false;
             }

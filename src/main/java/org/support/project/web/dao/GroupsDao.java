@@ -7,7 +7,7 @@ import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
 import org.support.project.ormapping.common.SQLManager;
-import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.AccessUser;
 import org.support.project.web.dao.gen.GenGroupsDao;
 import org.support.project.web.entity.GroupsEntity;
 
@@ -60,7 +60,7 @@ public class GroupsDao extends GenGroupsDao {
      * @return groups
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public List<GroupsEntity> selectMyGroup(LoginedUser loginedUser, int offset, int limit) {
+    public List<GroupsEntity> selectMyGroup(AccessUser loginedUser, int offset, int limit) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectMyGroup.sql");
         return executeQueryList(sql, GroupsEntity.class, loginedUser.getUserId(), limit, offset);
     }
@@ -73,7 +73,7 @@ public class GroupsDao extends GenGroupsDao {
      * @return groups
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public List<GroupsEntity> selectAccessAbleGroups(LoginedUser loginedUser, int offset, int limit) {
+    public List<GroupsEntity> selectAccessAbleGroups(AccessUser loginedUser, int offset, int limit) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectAccessAbleGroups.sql");
         return executeQueryList(sql, GroupsEntity.class, loginedUser.getUserId(), limit, offset);
     }
@@ -88,7 +88,7 @@ public class GroupsDao extends GenGroupsDao {
      * @return list
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public List<GroupsEntity> selectOnKeyword(String keyword, LoginedUser loginedUser, int offset, int limit) {
+    public List<GroupsEntity> selectOnKeyword(String keyword, AccessUser loginedUser, int offset, int limit) {
         if (loginedUser != null && loginedUser.isAdmin()) {
             String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectAdminOnKeyword.sql");
             return executeQueryList(sql, GroupsEntity.class, keyword, limit, offset);
@@ -112,7 +112,7 @@ public class GroupsDao extends GenGroupsDao {
      * @return group list
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public List<GroupsEntity> selectMyGroupOnKeyword(String keyword, LoginedUser loginedUser, int offset, int limit) {
+    public List<GroupsEntity> selectMyGroupOnKeyword(String keyword, AccessUser loginedUser, int offset, int limit) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectMyGroupOnKeyword.sql");
         return executeQueryList(sql, GroupsEntity.class, keyword, loginedUser.getUserId(), limit, offset);
     }
@@ -125,7 +125,7 @@ public class GroupsDao extends GenGroupsDao {
      * @return group
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public GroupsEntity selectAccessAbleGroup(Integer groupId, LoginedUser loginedUser) {
+    public GroupsEntity selectAccessAbleGroup(Integer groupId, AccessUser loginedUser) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectAccessAbleGroup.sql");
         return executeQuerySingle(sql, GroupsEntity.class, groupId, loginedUser.getUserId());
     }
@@ -138,7 +138,7 @@ public class GroupsDao extends GenGroupsDao {
      * @return group
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public GroupsEntity selectEditAbleGroup(Integer groupId, LoginedUser loginedUser) {
+    public GroupsEntity selectEditAbleGroup(Integer groupId, AccessUser loginedUser) {
         String sql = SQLManager.getInstance().getSql("/org/support/project/web/dao/sql/GroupsDao/GroupsDao_selectEditAbleGroup.sql");
         return executeQuerySingle(sql, GroupsEntity.class, groupId, loginedUser.getUserId());
     }

@@ -19,7 +19,7 @@ import org.support.project.di.Container;
 import org.support.project.web.boundary.Boundary;
 import org.support.project.web.common.HttpStatus;
 import org.support.project.web.common.InvokeTarget;
-import org.support.project.web.exception.CallControlException;
+import org.support.project.web.exception.SendErrorException;
 import org.support.project.web.logic.CallControlLogic;
 
 /**
@@ -81,7 +81,7 @@ public class ControlManagerFilter implements Filter {
                 return;
             }
             invoke(invokeTarget, request, response);
-        } catch (CallControlException e) {
+        } catch (SendErrorException e) {
             response.sendError(e.getHttpStatus());
         } catch (Exception e) {
             log.trace("any exception is thrown. [" + e.getClass().getName() + "]", e);

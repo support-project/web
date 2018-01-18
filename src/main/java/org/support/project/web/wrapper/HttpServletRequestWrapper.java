@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.AccessUser;
 import org.support.project.web.entity.RolesEntity;
 import org.support.project.web.logic.AuthenticationLogic;
 
@@ -22,7 +22,7 @@ public class HttpServletRequestWrapper extends javax.servlet.http.HttpServletReq
     /** ラップするHttpServletRequestオブジェクト */
     private HttpServletRequest request_;
 
-    private AuthenticationLogic<LoginedUser> authenticationLogic = null;
+    private AuthenticationLogic<AccessUser> authenticationLogic = null;
 
     /**
      * コンストラクタ
@@ -50,10 +50,10 @@ public class HttpServletRequestWrapper extends javax.servlet.http.HttpServletReq
         // String userId = (String) se.getAttribute(CommonWebParameter.LOGIN_USER_ID_SESSION_KEY);
         String userId = null;
         try {
-            LoginedUser loginedUser = authenticationLogic.getSession(request_);
+            AccessUser loginedUser = authenticationLogic.getSession(request_);
             if (loginedUser != null) {
                 // userId = loginedUser.getLoginUser().getUserKey();
-                userId = String.valueOf(loginedUser.getLoginUser().getUserId());
+                userId = String.valueOf(loginedUser.getUserInfomation().getUserId());
             }
         } catch (Exception e) {
         }
@@ -66,7 +66,7 @@ public class HttpServletRequestWrapper extends javax.servlet.http.HttpServletReq
         // HttpSession se = request_.getSession();
         // List<String> roles = (List<String>) se.getAttribute(CommonWebParameter.LOGIN_ROLE_IDS_SESSION_KEY);
         try {
-            LoginedUser loginedUser = authenticationLogic.getSession(request_);
+            AccessUser loginedUser = authenticationLogic.getSession(request_);
             if (loginedUser != null) {
                 List<RolesEntity> roles = loginedUser.getRoles();
                 if (roles == null) {

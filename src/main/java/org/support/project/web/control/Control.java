@@ -24,8 +24,8 @@ import org.support.project.common.util.StringUtils;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
+import org.support.project.web.bean.AccessUser;
 import org.support.project.web.bean.DownloadInfo;
-import org.support.project.web.bean.LoginedUser;
 import org.support.project.web.bean.MessageResult;
 import org.support.project.web.boundary.Boundary;
 import org.support.project.web.boundary.DownloadBoundary;
@@ -443,11 +443,22 @@ public abstract class Control {
 
     /**
      * ログインユーザを取得
-     * 
-     * @return LoginedUser
+     * @return AccessUser
      */
-    public LoginedUser getLoginedUser() {
-        return (LoginedUser) request.getSession().getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
+    public AccessUser getLoginedUser() {
+        return (AccessUser) request.getSession().getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
+    }
+    /**
+     * アクセスしているユーザの情報を取得
+     * ログインしていない場合、アノニマスユーザのオブジェクトを取得する(Nullにはならない）
+     * @return AccessUser
+     */
+    public AccessUser geAccessUser() {
+        AccessUser user = getLoginedUser();
+        if (user == null) {
+            user = new AccessUser();
+        }
+        return user;
     }
 
     /**
@@ -455,10 +466,10 @@ public abstract class Control {
      */
     public void updateLoginInfo() {
         DefaultAuthenticationLogicImpl authenticationLogic = Container.getComp(DefaultAuthenticationLogicImpl.class);
-        LoginedUser loginedUser = getLoginedUser();
+        AccessUser loginedUser = getLoginedUser();
         if (loginedUser != null) {
             authenticationLogic.clearSession(request);
-            authenticationLogic.setSession(loginedUser.getLoginUser().getUserKey(), request, response);
+            authenticationLogic.setSession(loginedUser.getUserInfomation().getUserKey(), request, response);
         }
     }
 
@@ -468,11 +479,11 @@ public abstract class Control {
      * @return userid
      */
     public Integer getLoginUserId() {
-        LoginedUser loginedUser = getLoginedUser();
+        AccessUser loginedUser = getLoginedUser();
         if (loginedUser == null) {
             return Integer.MIN_VALUE;
         }
-        return loginedUser.getLoginUser().getUserId();
+        return loginedUser.getUserInfomation().getUserId();
     }
 
     /**

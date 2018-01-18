@@ -1,9 +1,11 @@
 package org.support.project.web.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.support.project.common.config.Resources;
 import org.support.project.web.config.CommonWebParameter;
 import org.support.project.web.entity.GroupsEntity;
 import org.support.project.web.entity.RolesEntity;
@@ -15,30 +17,41 @@ import org.support.project.web.entity.UsersEntity;
  * @author koda
  *
  */
-public class LoginedUser implements Serializable {
+public class AccessUser implements Serializable {
     /** シリアルバージョン */
     private static final long serialVersionUID = 1L;
 
     /** ログインしたユーザの情報 */
-    private UsersEntity loginUser;
+    private UsersEntity userInfomation;
 
     /** ログインしたユーザが持つ権限 */
-    private List<RolesEntity> roles;
+    private List<RolesEntity> roles = new ArrayList<>();
 
     /** ログインしたユーザが所属するグループ */
-    private List<GroupsEntity> groups;
+    private List<GroupsEntity> groups = new ArrayList<>();;
 
     /** ログインしたユーザが利用しているロケール */
-    private Locale locale;
-
+    private Locale locale = Locale.ENGLISH;
+    
+    /**
+     * ログイン済かどうか
+     * @return
+     */
+    public boolean isLogined() {
+        if (getUserId() != Integer.MIN_VALUE) {
+            return true;
+        }
+        return false;
+    }
+    
     /**
      * ユーザIDを取得
      * 
      * @return user id
      */
     public Integer getUserId() {
-        if (loginUser != null) {
-            return loginUser.getUserId();
+        if (userInfomation != null) {
+            return userInfomation.getUserId();
         }
         return Integer.MIN_VALUE;
     }
@@ -83,11 +96,16 @@ public class LoginedUser implements Serializable {
      * 
      * @return loginUser loginUser
      */
-    public UsersEntity getLoginUser() {
-        if (loginUser != null) {
-            loginUser.setPassword(""); // セッションに持つ場合、パスワードはクリアすること
+    public UsersEntity getUserInfomation() {
+        if (userInfomation == null) {
+            userInfomation = new UsersEntity();
+            userInfomation.setUserId(Integer.MIN_VALUE);
+            userInfomation.setUserName("Anonymous");
+            userInfomation.setUserKey("AnonymousUserKey");
+        } else {
+            userInfomation.setPassword(""); // セッションに持つ場合、パスワードはクリアすること
         }
-        return loginUser;
+        return userInfomation;
     }
 
     /**
@@ -95,11 +113,11 @@ public class LoginedUser implements Serializable {
      * 
      * @param loginUser セットする loginUser
      */
-    public void setLoginUser(UsersEntity loginUser) {
+    public void setUserInfomation(UsersEntity loginUser) {
         if (loginUser != null) {
             loginUser.setPassword(""); // セッションに持つ場合、パスワードはクリアすること
         }
-        this.loginUser = loginUser;
+        this.userInfomation = loginUser;
     }
 
     /**
@@ -144,6 +162,9 @@ public class LoginedUser implements Serializable {
      * @return Locale
      */
     public Locale getLocale() {
+        if (locale == null) {
+            return userInfomation.getLocale();
+        }
         return locale;
     }
 
@@ -155,5 +176,17 @@ public class LoginedUser implements Serializable {
     public void setLocale(Locale locale) {
         this.locale = locale;
     }
-
+    
+    /**
+     * メッセージを取得
+     * @param key
+     * @param params
+     * @return
+     */
+    public String getMsg(String key, String... params) {
+        Resources resources = Resources.getInstance(getLocale());
+        return resources.getResource(key, params);
+    }
+    
+    
 }

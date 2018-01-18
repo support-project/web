@@ -29,7 +29,7 @@ import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
 import org.support.project.web.bean.LdapInfo;
-import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.AccessUser;
 import org.support.project.web.bean.UserSecret;
 import org.support.project.web.config.AppConfig;
 import org.support.project.web.config.CommonWebParameter;
@@ -48,7 +48,7 @@ import org.support.project.web.logic.UserLogic;
 import net.arnx.jsonic.JSON;
 
 @DI(instance = Instance.Singleton)
-public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<LoginedUser> {
+public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<AccessUser> {
     /** ログ */
     private static final Log LOG = LogFactory.getLog(MethodHandles.lookup());
     
@@ -81,12 +81,12 @@ public class DefaultAuthenticationLogicImpl extends AbstractAuthenticationLogic<
             // 認証情報保持の情報をセット(暗号化)
             Cookie[] cookies = req.getCookies();
             if (cookies != null && cookieMaxAge > 0 && StringUtils.isNotEmpty(cookieEncryptKey)) {
-                LoginedUser user = getSession(req);
+                AccessUser user = getSession(req);
                 
                 UserSecret secret = new UserSecret();
-                secret.setUserKey(user.getLoginUser().getUserKey());
-                secret.setUserName(user.getLoginUser().getUserName());
-                secret.setEmail(user.getLoginUser().getMailAddress());
+                secret.setUserKey(user.getUserInfomation().getUserKey());
+                secret.setUserName(user.getUserInfomation().getUserName());
+                secret.setEmail(user.getUserInfomation().getMailAddress());
                 
                 String json = JSON.encode(secret);
                 json = PasswordUtil.encrypt(json, cookieEncryptKey);

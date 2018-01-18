@@ -13,7 +13,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.AccessUser;
 import org.support.project.web.common.HttpUtil;
 import org.support.project.web.config.AppConfig;
 import org.support.project.web.config.CommonWebParameter;
@@ -55,7 +55,7 @@ public class MaintenanceModeFilter implements Filter {
             }
             
             // メンテナンスモード中にして、一般のユーザはアクセスできないようにする
-            LoginedUser user = (LoginedUser) req.getSession().getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
+            AccessUser user = (AccessUser) req.getSession().getAttribute(CommonWebParameter.LOGIN_USER_INFO_SESSION_KEY);
             if (user != null && user.isAdmin()) {
                 // 管理者
                 if (path.equals("/protect.migrate")) {

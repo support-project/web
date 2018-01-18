@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
 import org.support.project.web.common.InvokeTarget;
-import org.support.project.web.exception.CallControlException;
 import org.support.project.web.exception.InvalidParamException;
+import org.support.project.web.exception.SendErrorException;
 
 import net.arnx.jsonic.JSONException;
 
@@ -30,7 +30,7 @@ public interface CallControlLogic {
      * パスで取得されるControlクラスを呼び出す
      * @param request HttpServletRequest
      * @param response HttpServletResponse
-     * @throws CallControlException CallControlException
+     * @throws SendErrorException SendErrorException
      * @throws InvalidParamException 
      * @throws IOException 
      * @throws JSONException 
@@ -38,7 +38,7 @@ public interface CallControlLogic {
      * @throws InstantiationException 
      * @throws NoSuchAlgorithmException 
      */
-    InvokeTarget searchInvokeTarget(HttpServletRequest request, HttpServletResponse response) throws CallControlException, InstantiationException,
+    InvokeTarget searchInvokeTarget(HttpServletRequest request, HttpServletResponse response) throws SendErrorException, InstantiationException,
             IllegalAccessException, JSONException, IOException, InvalidParamException, NoSuchAlgorithmException;
 
 }

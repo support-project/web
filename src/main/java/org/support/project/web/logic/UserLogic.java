@@ -16,7 +16,7 @@ import org.support.project.common.util.StringUtils;
 import org.support.project.di.Container;
 import org.support.project.di.DI;
 import org.support.project.di.Instance;
-import org.support.project.web.bean.LoginedUser;
+import org.support.project.web.bean.AccessUser;
 import org.support.project.web.config.AppConfig;
 import org.support.project.web.config.CommonWebParameter;
 import org.support.project.web.config.WebConfig;
@@ -141,7 +141,7 @@ public class UserLogic {
      * @return UsersEntity
      */
     @Aspect(advice = org.support.project.ormapping.transaction.Transaction.class)
-    public UsersEntity update(UsersEntity user, String[] roles, LoginedUser loginedUser) {
+    public UsersEntity update(UsersEntity user, String[] roles, AccessUser loginedUser) {
         LOG.trace("update");
 
         if (StringUtils.isEmpty(user.getMailAddress())) {
